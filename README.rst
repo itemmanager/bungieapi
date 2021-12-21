@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Bungie Api Client
 -----------------
 
@@ -23,3 +24,13 @@ For basic use::
         ) as client:
             return await (client.destiny2.get_destiny_manifest()).response
 
+=======
+Bungie Api
+----
+
+Client for https://github.com/Bungie-net/api/blob/master/openapi-2.json
+
+Plan for future:
+ - autogenerate from swagger
+ - move radegast to correct place
+>>>>>>> 9f87fdc (before movce to generic)

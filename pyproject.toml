@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "bungieapi"
+version = "0.1.0"
+description = ""
+authors = ["Damian Świstowski <damian@swistowski.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+svarog = "^0.2.0"
+aiohttp = "^3.8.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+mypy = "^0.920"
+black = "^21.12b0"
+isort = "^5.10.1"
+docformatter = "^1.4"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
