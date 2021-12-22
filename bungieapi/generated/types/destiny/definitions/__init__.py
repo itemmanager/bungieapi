@@ -233,7 +233,7 @@ class DestinyProgressionMappingDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyItemInventoryBlockDefinition:
-    """'If the item can exist in an inventory - the overwhelming majority of them can and do - then this is the basic properties regarding the item's relationship with the inventory."""
+    """ 'If the item can exist in an inventory - the overwhelming majority of them can and do - then this is the basic properties regarding the item's relationship with the inventory."""
 
     stack_unique_label: str
     max_stack_size: int
@@ -1286,7 +1286,7 @@ class DestinyUnlockExpressionDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyDestinationBubbleSettingDefinition:
-    """'Human readable data about the bubble. Combine with DestinyBubbleDefinition - see DestinyDestinationDefinition.bubbleSettings for more information.
+    """ 'Human readable data about the bubble. Combine with DestinyBubbleDefinition - see DestinyDestinationDefinition.bubbleSettings for more information.
     DEPRECATED - Just use bubbles."""
 
     display_properties: "DestinyDisplayPropertiesDefinition"
@@ -1530,7 +1530,7 @@ class DestinyMaterialRequirementSetDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMaterialRequirement:
-    """'Many actions relating to items require you to expend materials: - Activating a talent node - Inserting a plug into a socket The items will refer to material requirements by a materialRequirementsHash in these cases, and this is the definition for those requirements in terms of the item required, how much of it is required and other interesting info. This is one of the rare/strange times where a single contract class is used both in definitions *and* in live data response contracts. I'm not sure yet whether I regret that."""
+    """ 'Many actions relating to items require you to expend materials: - Activating a talent node - Inserting a plug into a socket The items will refer to material requirements by a materialRequirementsHash in these cases, and this is the definition for those requirements in terms of the item required, how much of it is required and other interesting info. This is one of the rare/strange times where a single contract class is used both in definitions *and* in live data response contracts. I'm not sure yet whether I regret that."""
 
     item_hash: int
     delete_on_action: bool
@@ -1583,7 +1583,7 @@ class DestinyItemGearsetBlockDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyItemSackBlockDefinition:
-    """'Some items are "sacks" - they can be "opened" to produce other items. This is information related to its sack status, mostly UI strings. Engrams are an example of items that are considered to be "Sacks"."""
+    """ 'Some items are "sacks" - they can be "opened" to produce other items. This is information related to its sack status, mostly UI strings. Engrams are an example of items that are considered to be "Sacks"."""
 
     detail_action: str
     open_action: str
@@ -2034,11 +2034,23 @@ from bungieapi.generated.types.destiny import DestinyItemSortType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyItemSubType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyItemType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyObjectiveGrantStyle  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyProgressionRewardItemAcquisitionBehavior,
+)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyProgressionScope  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyProgressionStepDisplayEffect,
+)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyRace  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyStatAggregationType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyStatCategory  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyUnlockValueUIStyle  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyVendorInteractionRewardSelection,
+)  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyVendorItemRefundPolicy,
+)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyVendorProgressionType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyVendorReplyType  # noqa: E402
 from bungieapi.generated.types.destiny import DyeReference  # noqa: E402
@@ -2048,24 +2060,22 @@ from bungieapi.generated.types.destiny import ItemPerkVisibility  # noqa: E402
 from bungieapi.generated.types.destiny import SocketPlugSources  # noqa: E402
 from bungieapi.generated.types.destiny import SpecialItemType  # noqa: E402
 from bungieapi.generated.types.destiny import TierType  # noqa: E402
-from bungieapi.generated.types.destiny import VendorInteractionType  # noqa: E402
-from bungieapi.generated.types.destiny import (  # noqa: E402
-    DestinyProgressionRewardItemAcquisitionBehavior,
-    DestinyProgressionStepDisplayEffect,
-    DestinyVendorInteractionRewardSelection,
-    DestinyVendorItemRefundPolicy,
+from bungieapi.generated.types.destiny import (
     VendorDisplayCategorySortOrder,
-)
+)  # noqa: E402
+from bungieapi.generated.types.destiny import VendorInteractionType  # noqa: E402
 from bungieapi.generated.types.destiny.constants import (
     DestinyEnvironmentLocationMapping,
 )  # noqa: E402
 from bungieapi.generated.types.destiny.definitions.animations import (
     DestinyAnimationReference,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.definitions.common import (  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.common import (
     DestinyIconSequenceDefinition,
-)
+)  # noqa: E402
 from bungieapi.generated.types.destiny.definitions.items import (
     DestinyDerivedItemCategoryDefinition,
 )  # noqa: E402

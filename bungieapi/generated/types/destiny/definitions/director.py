@@ -154,10 +154,10 @@ class DestinyLinkedGraphEntryDefinition:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.types.destiny import DestinyGraphNodeState  # noqa: E402
 from bungieapi.generated.types.destiny import (
     ActivityGraphNodeHighlightType,
 )  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyGraphNodeState  # noqa: E402
 from bungieapi.generated.types.destiny.definitions import (
     DestinyUnlockExpressionDefinition,
 )  # noqa: E402

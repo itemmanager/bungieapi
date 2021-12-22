@@ -14,6 +14,24 @@ for line in sys.stdin:
 endef
 export PRINT_HELP_PYSCRIPT
 
+define BROWSER_PYSCRIPT
+import os, webbrowser, sys
+
+from urllib.request import pathname2url
+
+webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
+endef
+export BROWSER_PYSCRIPT
+
+BROWSER := python -c "$$BROWSER_PYSCRIPT"
+
+
+doc: ## generate documentation
+	sphinx-apidoc -o docs/ bungieapi
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html
+	$(BROWSER) docs/_build/html/index.html
+
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
@@ -30,7 +48,7 @@ reformat: ## reformat code
 	isort . && autoflake -i -r . && black .
 
 clean: ## delete all generated files
-	rm source/openapi-2.json
+	rm -f source/openapi-2.json
 	rm -rf bungieapi/generated/
 
 generate: clean ## refetch openapi schema and regenerate client
