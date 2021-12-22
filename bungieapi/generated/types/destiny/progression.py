@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (
-    DestinyProgressionResetEntry, DestinyProgressionRewardItemState)
-
 
 @dt.dataclass(frozen=True)
 class DestinyFactionProgression:
@@ -29,5 +26,12 @@ class DestinyFactionProgression:
     progress_to_next_level: int
     next_level_at: int
     current_reset_count: int
-    season_resets: t.Sequence[DestinyProgressionResetEntry]
-    reward_item_states: t.Sequence[DestinyProgressionRewardItemState]
+    season_resets: t.Sequence["DestinyProgressionResetEntry"]
+    reward_item_states: t.Sequence["DestinyProgressionRewardItemState"]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyProgressionResetEntry  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyProgressionRewardItemState,
+)  # noqa: E402

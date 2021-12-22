@@ -2,11 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.challenges import DestinyChallengeStatus
-from bungieapi.generated.types.destiny.definitions import \
-    DestinyMaterialRequirement
-from bungieapi.generated.types.exceptions import PlatformErrorCodes
-
 
 @dt.dataclass(frozen=True)
 class DestinyProgression:
@@ -150,7 +145,7 @@ class DestinyActivity:
     display_level: int
     recommended_light: int
     difficulty_tier: "DestinyActivityDifficultyTier"
-    challenges: t.Sequence[DestinyChallengeStatus]
+    challenges: t.Sequence["DestinyChallengeStatus"]
     modifier_hashes: t.Sequence[int]
     boolean_activity_options: t.Mapping[str, bool]
     loadout_requirement_index: int
@@ -203,7 +198,7 @@ class DestinyTalentNode:
     state: "DestinyTalentNodeState"
     is_activated: bool
     step_index: int
-    materials_to_upgrade: t.Sequence[DestinyMaterialRequirement]
+    materials_to_upgrade: t.Sequence["DestinyMaterialRequirement"]
     activation_grid_level: int
     progress_percent: float
     hidden: bool
@@ -260,4 +255,14 @@ class DestinyEquipItemResult:
     API."""
 
     item_instance_id: int
-    equip_status: PlatformErrorCodes
+    equip_status: "PlatformErrorCodes"
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.challenges import (
+    DestinyChallengeStatus,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions import (
+    DestinyMaterialRequirement,
+)  # noqa: E402
+from bungieapi.generated.types.exceptions import PlatformErrorCodes  # noqa: E402

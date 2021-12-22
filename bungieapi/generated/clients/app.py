@@ -10,8 +10,8 @@ from ...base import BaseClient
 
 @dt.dataclass(frozen=True)
 class GetApplicationApiUsageClientResponse:
-    response: ApiUsage
-    error_code: PlatformErrorCodes
+    response: "ApiUsage"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -21,8 +21,8 @@ class GetApplicationApiUsageClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetBungieApplicationsClientResponse:
-    response: t.Sequence[Application]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["Application"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

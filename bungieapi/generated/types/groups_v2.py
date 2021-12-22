@@ -2,23 +2,17 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-from bungieapi.generated.types.destiny import DestinyProgression
-from bungieapi.generated.types.ignores import IgnoreLength
-from bungieapi.generated.types.queries import PagedQuery
-from bungieapi.generated.types.user import UserInfoCard, UserMembership
-
 
 @dt.dataclass(frozen=True)
 class GroupUserInfoCard:
     last_seen_display_name: str
-    last_seen_display_name_type: BungieMembershipType
+    last_seen_display_name_type: "BungieMembershipType"
     supplemental_display_name: str
     icon_path: str
-    cross_save_override: BungieMembershipType
-    applicable_membership_types: t.Sequence[BungieMembershipType]
+    cross_save_override: "BungieMembershipType"
+    applicable_membership_types: t.Sequence["BungieMembershipType"]
     is_public: bool
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     membership_id: int
     display_name: str
     bungie_global_display_name: str
@@ -82,7 +76,7 @@ class GroupFeatures:
     maximum_members: int
     maximum_memberships_of_group_type: int
     capabilities: "Capabilities"
-    membership_types: t.Sequence[BungieMembershipType]
+    membership_types: t.Sequence["BungieMembershipType"]
     invite_permission_override: bool
     update_culture_permission_override: bool
     host_guided_game_permission_override: "HostGuidedGamesPermissionLevel"
@@ -121,7 +115,7 @@ class ClanBanner:
 class GroupV2ClanInfoAndInvestment:
     """'The same as GroupV2ClanInfo, but includes any investment data."""
 
-    d2_clan_progressions: t.Mapping[str, DestinyProgression]
+    d2_clan_progressions: t.Mapping[str, "DestinyProgression"]
     clan_callsign: str
     clan_banner_data: "ClanBanner"
 
@@ -130,7 +124,7 @@ class GroupV2ClanInfoAndInvestment:
 class GroupUserBase:
     group_id: int
     destiny_user_info: "GroupUserInfoCard"
-    bungie_net_user_info: UserInfoCard
+    bungie_net_user_info: "UserInfoCard"
     join_date: str
 
 
@@ -141,7 +135,7 @@ class GroupMember:
     last_online_status_change: int
     group_id: int
     destiny_user_info: "GroupUserInfoCard"
-    bungie_net_user_info: UserInfoCard
+    bungie_net_user_info: "UserInfoCard"
     join_date: str
 
 
@@ -153,7 +147,7 @@ class GroupPotentialMember:
     potential_status: "GroupPotentialMemberStatus"
     group_id: int
     destiny_user_info: "GroupUserInfoCard"
-    bungie_net_user_info: UserInfoCard
+    bungie_net_user_info: "UserInfoCard"
     join_date: str
 
 
@@ -186,7 +180,7 @@ class GroupSearchResponse:
     results: t.Sequence["GroupV2Card"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
@@ -281,18 +275,18 @@ class GroupMemberLeaveResult:
 @dt.dataclass(frozen=True)
 class GroupBanRequest:
     comment: str
-    length: IgnoreLength
+    length: "IgnoreLength"
 
 
 @dt.dataclass(frozen=True)
 class GroupBan:
     group_id: int
-    last_modified_by: UserInfoCard
-    created_by: UserInfoCard
+    last_modified_by: "UserInfoCard"
+    created_by: "UserInfoCard"
     date_banned: str
     date_expires: str
     comment: str
-    bungie_net_user_info: UserInfoCard
+    bungie_net_user_info: "UserInfoCard"
     destiny_user_info: "GroupUserInfoCard"
 
 
@@ -306,7 +300,7 @@ class GroupMemberApplication:
     request_message: str
     resolve_message: str
     destiny_user_info: "GroupUserInfoCard"
-    bungie_net_user_info: UserInfoCard
+    bungie_net_user_info: "UserInfoCard"
 
 
 GroupApplicationResolveState = t.Any
@@ -319,7 +313,7 @@ class GroupApplicationRequest:
 
 @dt.dataclass(frozen=True)
 class GroupApplicationListRequest:
-    memberships: t.Sequence[UserMembership]
+    memberships: t.Sequence["UserMembership"]
     message: str
 
 
@@ -342,7 +336,7 @@ class GroupMembershipSearchResponse:
     results: t.Sequence["GroupMembership"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
@@ -353,7 +347,7 @@ class GetGroupsForMemberResponse:
     results: t.Sequence["GroupMembership"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
@@ -369,7 +363,7 @@ class GroupPotentialMembershipSearchResponse:
     results: t.Sequence["GroupPotentialMembership"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
@@ -377,3 +371,12 @@ class GroupPotentialMembershipSearchResponse:
 @dt.dataclass(frozen=True)
 class GroupApplicationResponse:
     resolution: "GroupApplicationResolveState"
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyProgression  # noqa: E402
+from bungieapi.generated.types.ignores import IgnoreLength  # noqa: E402
+from bungieapi.generated.types.queries import PagedQuery  # noqa: E402
+from bungieapi.generated.types.user import UserInfoCard  # noqa: E402
+from bungieapi.generated.types.user import UserMembership  # noqa: E402

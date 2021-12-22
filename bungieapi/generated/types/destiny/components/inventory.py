@@ -2,13 +2,10 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.entities.items import \
-    DestinyItemComponent
-
 
 @dt.dataclass(frozen=True)
 class DestinyPlatformSilverComponent:
-    platform_silver: t.Mapping[str, DestinyItemComponent]
+    platform_silver: t.Mapping[str, "DestinyItemComponent"]
 
 
 @dt.dataclass(frozen=True)
@@ -28,3 +25,9 @@ class DestinyCurrenciesComponent:
     """
 
     item_quantities: t.Mapping[str, int]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.entities.items import (
+    DestinyItemComponent,
+)  # noqa: E402

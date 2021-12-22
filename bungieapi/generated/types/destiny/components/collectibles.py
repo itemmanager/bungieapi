@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyCollectibleState
-
 
 @dt.dataclass(frozen=True)
 class DestinyCollectiblesComponent:
@@ -14,7 +12,7 @@ class DestinyCollectiblesComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleComponent:
-    state: DestinyCollectibleState
+    state: "DestinyCollectibleState"
 
 
 @dt.dataclass(frozen=True)
@@ -24,3 +22,7 @@ class DestinyProfileCollectiblesComponent:
     collectibles: t.Mapping[str, "DestinyCollectibleComponent"]
     collection_categories_root_node_hash: int
     collection_badges_root_node_hash: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyCollectibleState  # noqa: E402

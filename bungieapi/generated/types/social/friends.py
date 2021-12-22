@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-from bungieapi.generated.types.user import GeneralUser
-
 
 @dt.dataclass(frozen=True)
 class BungieFriendListResponse:
@@ -14,13 +11,13 @@ class BungieFriendListResponse:
 @dt.dataclass(frozen=True)
 class BungieFriend:
     last_seen_as_membership_id: int
-    last_seen_as_bungie_membership_type: BungieMembershipType
+    last_seen_as_bungie_membership_type: "BungieMembershipType"
     bungie_global_display_name: str
     bungie_global_display_name_code: int
     online_status: "PresenceStatus"
     online_title: "PresenceOnlineStateFlags"
     relationship: "FriendRelationshipState"
-    bungie_net_user: GeneralUser
+    bungie_net_user: "GeneralUser"
 
 
 PresenceStatus = t.Any
@@ -54,3 +51,8 @@ class PlatformFriend:
     bungie_net_membership_id: int
     bungie_global_display_name: str
     bungie_global_display_name_code: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+from bungieapi.generated.types.user import GeneralUser  # noqa: E402

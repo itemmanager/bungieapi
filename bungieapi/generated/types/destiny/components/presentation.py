@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyPresentationNodeState
-
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodesComponent:
@@ -12,8 +10,12 @@ class DestinyPresentationNodesComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeComponent:
-    state: DestinyPresentationNodeState
+    state: "DestinyPresentationNodeState"
     objective: t.Any
     progress_value: int
     completion_value: int
     record_category_score: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyPresentationNodeState  # noqa: E402

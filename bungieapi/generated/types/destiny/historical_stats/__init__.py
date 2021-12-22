@@ -2,10 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-from bungieapi.generated.types.destiny.historical_stats.definitions import \
-    DestinyActivityModeType
-
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportData:
@@ -23,10 +19,10 @@ class DestinyHistoricalStatsActivity:
     reference_id: int
     director_activity_hash: int
     instance_id: int
-    mode: DestinyActivityModeType
-    modes: t.Sequence[DestinyActivityModeType]
+    mode: "DestinyActivityModeType"
+    modes: t.Sequence["DestinyActivityModeType"]
     is_private: bool
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
@@ -107,12 +103,12 @@ class DestinyLeaderboardEntry:
 class DestinyLeaderboardResults:
     focus_membership_id: int
     focus_character_id: int
-    additional: t.Mapping[str, t.Mapping[str, DestinyLeaderboard]]
+    additional: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]]
 
 
 @dt.dataclass(frozen=True)
 class DestinyClanAggregateStat:
-    mode: DestinyActivityModeType
+    mode: "DestinyActivityModeType"
     stat_id: str
     value: t.Any
 
@@ -136,7 +132,7 @@ class DestinyHistoricalStatsPeriodGroup:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsResults:
-    additional: t.Mapping[str, DestinyHistoricalStatsByPeriod]
+    additional: t.Mapping[str, "DestinyHistoricalStatsByPeriod"]
 
 
 @dt.dataclass(frozen=True)
@@ -179,3 +175,11 @@ class DestinyAggregateActivityResults:
 class DestinyAggregateActivityStats:
     activity_hash: int
     values: t.Mapping[str, "DestinyHistoricalStatsValue"]
+
+
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.historical_stats.definitions import (
+    DestinyActivityModeType,
+)  # noqa: E402

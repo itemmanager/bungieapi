@@ -2,8 +2,10 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import (SearchResultOfFireteamResponse,
-                                       SearchResultOfFireteamSummary)
+from bungieapi.generated.types import (
+    SearchResultOfFireteamResponse,
+    SearchResultOfFireteamSummary,
+)
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.fireteam import FireteamResponse
 
@@ -13,7 +15,7 @@ from ...base import BaseClient
 @dt.dataclass(frozen=True)
 class GetActivePrivateClanFireteamCountClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -23,8 +25,8 @@ class GetActivePrivateClanFireteamCountClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetAvailableClanFireteamsClientResponse:
-    response: SearchResultOfFireteamSummary
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfFireteamSummary"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -34,8 +36,8 @@ class GetAvailableClanFireteamsClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchPublicAvailableClanFireteamsClientResponse:
-    response: SearchResultOfFireteamSummary
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfFireteamSummary"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -45,8 +47,8 @@ class SearchPublicAvailableClanFireteamsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetMyClanFireteamsClientResponse:
-    response: SearchResultOfFireteamResponse
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfFireteamResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -56,8 +58,8 @@ class GetMyClanFireteamsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetClanFireteamClientResponse:
-    response: FireteamResponse
-    error_code: PlatformErrorCodes
+    response: "FireteamResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

@@ -1,4 +1,4 @@
-.PHONY: lint test all types clean generate
+.PHONY: lint test all types clean generate reformat
 
 all: lint types test
 
@@ -11,6 +11,8 @@ test:
 types:
 	mypy .
 
+reformat:
+	isort . && autoflake -i -r . && black .
 
 clean:
 	rm source/openapi-2.json

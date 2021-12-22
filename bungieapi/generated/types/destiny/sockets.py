@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.quests import DestinyObjectiveProgress
-
 
 @dt.dataclass(frozen=True)
 class DestinyItemPlugBase:
@@ -16,9 +14,15 @@ class DestinyItemPlugBase:
 
 @dt.dataclass(frozen=True)
 class DestinyItemPlug:
-    plug_objectives: t.Sequence[DestinyObjectiveProgress]
+    plug_objectives: t.Sequence["DestinyObjectiveProgress"]
     plug_item_hash: int
     can_insert: bool
     enabled: bool
     insert_fail_indexes: t.Sequence[int]
     enable_fail_indexes: t.Sequence[int]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402

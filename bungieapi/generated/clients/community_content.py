@@ -10,8 +10,8 @@ from ...base import BaseClient
 
 @dt.dataclass(frozen=True)
 class GetCommunityContentClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

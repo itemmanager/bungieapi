@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyGameVersions
-from bungieapi.generated.types.destiny.vendors import DestinyVendorReceipt
-
 
 @dt.dataclass(frozen=True)
 class DestinyVendorReceiptsComponent:
@@ -15,7 +12,7 @@ class DestinyVendorReceiptsComponent:
     the API. Wouldn't that be fun?
     """
 
-    receipts: t.Sequence[DestinyVendorReceipt]
+    receipts: t.Sequence["DestinyVendorReceipt"]
 
 
 @dt.dataclass(frozen=True)
@@ -25,8 +22,14 @@ class DestinyProfileComponent:
 
     user_info: t.Any
     date_last_played: str
-    versions_owned: DestinyGameVersions
+    versions_owned: "DestinyGameVersions"
     character_ids: t.Sequence[int]
     season_hashes: t.Sequence[int]
     current_season_hash: int
     current_season_reward_power_cap: int
+
+
+from bungieapi.generated.types.destiny import DestinyGameVersions  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.vendors import DestinyVendorReceipt  # noqa: E402

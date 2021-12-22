@@ -3,29 +3,50 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.generated.types.config.clan_banner import ClanBannerSource
-from bungieapi.generated.types.destiny import (DestinyComponentType,
-                                               DestinyEquipItemResults)
-from bungieapi.generated.types.destiny.advanced import (AwaAuthorizationResult,
-                                                        AwaInitializeResponse)
+from bungieapi.generated.types.destiny import (
+    DestinyComponentType,
+    DestinyEquipItemResults,
+)
+from bungieapi.generated.types.destiny.advanced import (
+    AwaAuthorizationResult,
+    AwaInitializeResponse,
+)
 from bungieapi.generated.types.destiny.config import DestinyManifest
 from bungieapi.generated.types.destiny.definitions import (
-    DestinyDefinition, DestinyEntitySearchResult)
+    DestinyDefinition,
+    DestinyEntitySearchResult,
+)
 from bungieapi.generated.types.destiny.historical_stats import (
-    DestinyActivityHistoryResults, DestinyAggregateActivityResults,
-    DestinyClanAggregateStat, DestinyHistoricalStatsAccountResult,
-    DestinyHistoricalStatsByPeriod, DestinyHistoricalWeaponStatsData,
-    DestinyLeaderboard, DestinyPostGameCarnageReportData)
+    DestinyActivityHistoryResults,
+    DestinyAggregateActivityResults,
+    DestinyClanAggregateStat,
+    DestinyHistoricalStatsAccountResult,
+    DestinyHistoricalStatsByPeriod,
+    DestinyHistoricalWeaponStatsData,
+    DestinyLeaderboard,
+    DestinyPostGameCarnageReportData,
+)
 from bungieapi.generated.types.destiny.historical_stats.definitions import (
-    DestinyActivityModeType, DestinyHistoricalStatsDefinition,
-    DestinyStatsGroupType)
+    DestinyActivityModeType,
+    DestinyHistoricalStatsDefinition,
+    DestinyStatsGroupType,
+)
 from bungieapi.generated.types.destiny.milestones import (
-    DestinyMilestone, DestinyMilestoneContent, DestinyPublicMilestone)
+    DestinyMilestone,
+    DestinyMilestoneContent,
+    DestinyPublicMilestone,
+)
 from bungieapi.generated.types.destiny.responses import (
-    DestinyCharacterResponse, DestinyCollectibleNodeDetailResponse,
-    DestinyItemChangeResponse, DestinyItemResponse,
-    DestinyLinkedProfilesResponse, DestinyProfileResponse,
-    DestinyPublicVendorsResponse, DestinyVendorResponse,
-    DestinyVendorsResponse)
+    DestinyCharacterResponse,
+    DestinyCollectibleNodeDetailResponse,
+    DestinyItemChangeResponse,
+    DestinyItemResponse,
+    DestinyLinkedProfilesResponse,
+    DestinyProfileResponse,
+    DestinyPublicVendorsResponse,
+    DestinyVendorResponse,
+    DestinyVendorsResponse,
+)
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.user import UserInfoCard
 
@@ -34,8 +55,8 @@ from ...base import BaseClient
 
 @dt.dataclass(frozen=True)
 class GetDestinyManifestClientResponse:
-    response: DestinyManifest
-    error_code: PlatformErrorCodes
+    response: "DestinyManifest"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -45,8 +66,8 @@ class GetDestinyManifestClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetDestinyEntityDefinitionClientResponse:
-    response: DestinyDefinition
-    error_code: PlatformErrorCodes
+    response: "DestinyDefinition"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -56,8 +77,8 @@ class GetDestinyEntityDefinitionClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchDestinyPlayerByBungieNameClientResponse:
-    response: t.Sequence[UserInfoCard]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["UserInfoCard"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -67,8 +88,8 @@ class SearchDestinyPlayerByBungieNameClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetLinkedProfilesClientResponse:
-    response: DestinyLinkedProfilesResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyLinkedProfilesResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -78,8 +99,8 @@ class GetLinkedProfilesClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetProfileClientResponse:
-    response: DestinyProfileResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyProfileResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -89,8 +110,8 @@ class GetProfileClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetCharacterClientResponse:
-    response: DestinyCharacterResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyCharacterResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -100,8 +121,8 @@ class GetCharacterClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetClanWeeklyRewardStateClientResponse:
-    response: DestinyMilestone
-    error_code: PlatformErrorCodes
+    response: "DestinyMilestone"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -111,8 +132,8 @@ class GetClanWeeklyRewardStateClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetClanBannerSourceClientResponse:
-    response: ClanBannerSource
-    error_code: PlatformErrorCodes
+    response: "ClanBannerSource"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -122,8 +143,8 @@ class GetClanBannerSourceClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetItemClientResponse:
-    response: DestinyItemResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyItemResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -133,8 +154,8 @@ class GetItemClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetVendorsClientResponse:
-    response: DestinyVendorsResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyVendorsResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -144,8 +165,8 @@ class GetVendorsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetVendorClientResponse:
-    response: DestinyVendorResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyVendorResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -155,8 +176,8 @@ class GetVendorClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPublicVendorsClientResponse:
-    response: DestinyPublicVendorsResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyPublicVendorsResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -166,8 +187,8 @@ class GetPublicVendorsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetCollectibleNodeDetailsClientResponse:
-    response: DestinyCollectibleNodeDetailResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyCollectibleNodeDetailResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -178,7 +199,7 @@ class GetCollectibleNodeDetailsClientResponse:
 @dt.dataclass(frozen=True)
 class TransferItemClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -189,7 +210,7 @@ class TransferItemClientResponse:
 @dt.dataclass(frozen=True)
 class PullFromPostmasterClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -200,7 +221,7 @@ class PullFromPostmasterClientResponse:
 @dt.dataclass(frozen=True)
 class EquipItemClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -210,8 +231,8 @@ class EquipItemClientResponse:
 
 @dt.dataclass(frozen=True)
 class EquipItemsClientResponse:
-    response: DestinyEquipItemResults
-    error_code: PlatformErrorCodes
+    response: "DestinyEquipItemResults"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -222,7 +243,7 @@ class EquipItemsClientResponse:
 @dt.dataclass(frozen=True)
 class SetItemLockStateClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -233,7 +254,7 @@ class SetItemLockStateClientResponse:
 @dt.dataclass(frozen=True)
 class SetQuestTrackedStateClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -243,8 +264,8 @@ class SetQuestTrackedStateClientResponse:
 
 @dt.dataclass(frozen=True)
 class InsertSocketPlugClientResponse:
-    response: DestinyItemChangeResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyItemChangeResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -254,8 +275,8 @@ class InsertSocketPlugClientResponse:
 
 @dt.dataclass(frozen=True)
 class InsertSocketPlugFreeClientResponse:
-    response: DestinyItemChangeResponse
-    error_code: PlatformErrorCodes
+    response: "DestinyItemChangeResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -265,8 +286,8 @@ class InsertSocketPlugFreeClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPostGameCarnageReportClientResponse:
-    response: DestinyPostGameCarnageReportData
-    error_code: PlatformErrorCodes
+    response: "DestinyPostGameCarnageReportData"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -277,7 +298,7 @@ class GetPostGameCarnageReportClientResponse:
 @dt.dataclass(frozen=True)
 class ReportOffensivePostGameCarnageReportPlayerClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -287,8 +308,8 @@ class ReportOffensivePostGameCarnageReportPlayerClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetHistoricalStatsDefinitionClientResponse:
-    response: t.Mapping[str, DestinyHistoricalStatsDefinition]
-    error_code: PlatformErrorCodes
+    response: t.Mapping[str, "DestinyHistoricalStatsDefinition"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -298,8 +319,8 @@ class GetHistoricalStatsDefinitionClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetClanLeaderboardsClientResponse:
-    response: t.Mapping[str, t.Mapping[str, DestinyLeaderboard]]
-    error_code: PlatformErrorCodes
+    response: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -309,8 +330,8 @@ class GetClanLeaderboardsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetClanAggregateStatsClientResponse:
-    response: t.Sequence[DestinyClanAggregateStat]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["DestinyClanAggregateStat"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -320,8 +341,8 @@ class GetClanAggregateStatsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetLeaderboardsClientResponse:
-    response: t.Mapping[str, t.Mapping[str, DestinyLeaderboard]]
-    error_code: PlatformErrorCodes
+    response: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -331,8 +352,8 @@ class GetLeaderboardsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetLeaderboardsForCharacterClientResponse:
-    response: t.Mapping[str, t.Mapping[str, DestinyLeaderboard]]
-    error_code: PlatformErrorCodes
+    response: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -342,8 +363,8 @@ class GetLeaderboardsForCharacterClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchDestinyEntitiesClientResponse:
-    response: DestinyEntitySearchResult
-    error_code: PlatformErrorCodes
+    response: "DestinyEntitySearchResult"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -353,8 +374,8 @@ class SearchDestinyEntitiesClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetHistoricalStatsClientResponse:
-    response: t.Mapping[str, DestinyHistoricalStatsByPeriod]
-    error_code: PlatformErrorCodes
+    response: t.Mapping[str, "DestinyHistoricalStatsByPeriod"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -364,8 +385,8 @@ class GetHistoricalStatsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetHistoricalStatsForAccountClientResponse:
-    response: DestinyHistoricalStatsAccountResult
-    error_code: PlatformErrorCodes
+    response: "DestinyHistoricalStatsAccountResult"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -375,8 +396,8 @@ class GetHistoricalStatsForAccountClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetActivityHistoryClientResponse:
-    response: DestinyActivityHistoryResults
-    error_code: PlatformErrorCodes
+    response: "DestinyActivityHistoryResults"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -386,8 +407,8 @@ class GetActivityHistoryClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetUniqueWeaponHistoryClientResponse:
-    response: DestinyHistoricalWeaponStatsData
-    error_code: PlatformErrorCodes
+    response: "DestinyHistoricalWeaponStatsData"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -397,8 +418,8 @@ class GetUniqueWeaponHistoryClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetDestinyAggregateActivityStatsClientResponse:
-    response: DestinyAggregateActivityResults
-    error_code: PlatformErrorCodes
+    response: "DestinyAggregateActivityResults"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -408,8 +429,8 @@ class GetDestinyAggregateActivityStatsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPublicMilestoneContentClientResponse:
-    response: DestinyMilestoneContent
-    error_code: PlatformErrorCodes
+    response: "DestinyMilestoneContent"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -419,8 +440,8 @@ class GetPublicMilestoneContentClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPublicMilestonesClientResponse:
-    response: t.Mapping[str, DestinyPublicMilestone]
-    error_code: PlatformErrorCodes
+    response: t.Mapping[str, "DestinyPublicMilestone"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -430,8 +451,8 @@ class GetPublicMilestonesClientResponse:
 
 @dt.dataclass(frozen=True)
 class AwaInitializeRequestClientResponse:
-    response: AwaInitializeResponse
-    error_code: PlatformErrorCodes
+    response: "AwaInitializeResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -442,7 +463,7 @@ class AwaInitializeRequestClientResponse:
 @dt.dataclass(frozen=True)
 class AwaProvideAuthorizationResultClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -452,8 +473,8 @@ class AwaProvideAuthorizationResultClientResponse:
 
 @dt.dataclass(frozen=True)
 class AwaGetActionTokenClientResponse:
-    response: AwaAuthorizationResult
-    error_code: PlatformErrorCodes
+    response: "AwaAuthorizationResult"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -520,7 +541,7 @@ class Client(BaseClient):
         self,
         destiny_membership_id: int,
         membership_type: int,
-        components: t.Optional[t.Sequence[DestinyComponentType]] = None,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetProfileClientResponse:
         """Returns Destiny Profile information for the supplied membership."""
         ...
@@ -530,7 +551,7 @@ class Client(BaseClient):
         character_id: int,
         destiny_membership_id: int,
         membership_type: int,
-        components: t.Optional[t.Sequence[DestinyComponentType]] = None,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetCharacterClientResponse:
         """Returns character information for the supplied character."""
         ...
@@ -557,7 +578,7 @@ class Client(BaseClient):
         destiny_membership_id: int,
         item_instance_id: int,
         membership_type: int,
-        components: t.Optional[t.Sequence[DestinyComponentType]] = None,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetItemClientResponse:
         """Retrieve the details of an instanced Destiny Item.
 
@@ -572,7 +593,7 @@ class Client(BaseClient):
         character_id: int,
         destiny_membership_id: int,
         membership_type: int,
-        components: t.Optional[t.Sequence[DestinyComponentType]] = None,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
         filter: t.Optional[int] = None,
     ) -> GetVendorsClientResponse:
         """Get currently available vendors from the list of vendors that can
@@ -590,14 +611,14 @@ class Client(BaseClient):
         destiny_membership_id: int,
         membership_type: int,
         vendor_hash: int,
-        components: t.Optional[t.Sequence[DestinyComponentType]] = None,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetVendorClientResponse:
         """Get the details of a specific Vendor."""
         ...
 
     async def get_public_vendors(
         self,
-        components: t.Optional[t.Sequence[DestinyComponentType]] = None,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetPublicVendorsClientResponse:
         """Get items available from vendors where the vendors have items for
         sale that are common for everyone.
@@ -615,7 +636,7 @@ class Client(BaseClient):
         collectible_presentation_node_hash: int,
         destiny_membership_id: int,
         membership_type: int,
-        components: t.Optional[t.Sequence[DestinyComponentType]] = None,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetCollectibleNodeDetailsClientResponse:
         """Given a Presentation Node that has Collectibles as direct
         descendants, this will return item details about those descendants in
@@ -813,8 +834,8 @@ class Client(BaseClient):
         membership_type: int,
         dayend: t.Optional[str] = None,
         daystart: t.Optional[str] = None,
-        groups: t.Optional[t.Sequence[DestinyStatsGroupType]] = None,
-        modes: t.Optional[t.Sequence[DestinyActivityModeType]] = None,
+        groups: t.Optional[t.Sequence["DestinyStatsGroupType"]] = None,
+        modes: t.Optional[t.Sequence["DestinyActivityModeType"]] = None,
         period_type: t.Optional[int] = None,
     ) -> GetHistoricalStatsClientResponse:
         """Gets historical stats for indicated character."""
@@ -824,7 +845,7 @@ class Client(BaseClient):
         self,
         destiny_membership_id: int,
         membership_type: int,
-        groups: t.Optional[t.Sequence[DestinyStatsGroupType]] = None,
+        groups: t.Optional[t.Sequence["DestinyStatsGroupType"]] = None,
     ) -> GetHistoricalStatsForAccountClientResponse:
         """Gets aggregate historical stats organized around each character for
         a given account."""

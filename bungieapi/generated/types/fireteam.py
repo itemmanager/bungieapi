@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-from bungieapi.generated.types.user import UserInfoCard
-
 FireteamDateRange = t.Any
 FireteamPlatform = t.Any
 FireteamPublicSearchOption = t.Any
@@ -44,7 +41,7 @@ class FireteamResponse:
 @dt.dataclass(frozen=True)
 class FireteamMember:
     destiny_user_info: "FireteamUserInfoCard"
-    bungie_net_user_info: UserInfoCard
+    bungie_net_user_info: "UserInfoCard"
     character_id: int
     date_joined: str
     has_microphone: bool
@@ -55,13 +52,13 @@ class FireteamMember:
 @dt.dataclass(frozen=True)
 class FireteamUserInfoCard:
     fireteam_display_name: str
-    fireteam_membership_type: BungieMembershipType
+    fireteam_membership_type: "BungieMembershipType"
     supplemental_display_name: str
     icon_path: str
-    cross_save_override: BungieMembershipType
-    applicable_membership_types: t.Sequence[BungieMembershipType]
+    cross_save_override: "BungieMembershipType"
+    applicable_membership_types: t.Sequence["BungieMembershipType"]
     is_public: bool
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     membership_id: int
     display_name: str
     bungie_global_display_name: str
@@ -69,3 +66,8 @@ class FireteamUserInfoCard:
 
 
 FireteamPlatformInviteResult = t.Any
+
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.user import UserInfoCard  # noqa: E402

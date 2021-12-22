@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.user import UserInfoCard
-
 ApplicationScopes = t.Any
 
 
@@ -48,7 +46,10 @@ ApplicationStatus = t.Any
 class ApplicationDeveloper:
     role: "DeveloperRole"
     api_eula_version: int
-    user: UserInfoCard
+    user: "UserInfoCard"
 
 
 DeveloperRole = t.Any
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.user import UserInfoCard  # noqa: E402

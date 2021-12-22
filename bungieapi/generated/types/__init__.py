@@ -2,83 +2,26 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.components import ComponentPrivacySetting
-from bungieapi.generated.types.content import ContentItemPublicContract
-from bungieapi.generated.types.destiny.components.collectibles import (
-    DestinyCollectiblesComponent, DestinyProfileCollectiblesComponent)
-from bungieapi.generated.types.destiny.components.inventory import (
-    DestinyCurrenciesComponent, DestinyPlatformSilverComponent)
-from bungieapi.generated.types.destiny.components.items import (
-    DestinyItemPlugComponent, DestinyItemPlugObjectivesComponent,
-    DestinyItemReusablePlugsComponent)
-from bungieapi.generated.types.destiny.components.kiosks import \
-    DestinyKiosksComponent
-from bungieapi.generated.types.destiny.components.metrics import \
-    DestinyMetricsComponent
-from bungieapi.generated.types.destiny.components.plug_sets import \
-    DestinyPlugSetsComponent
-from bungieapi.generated.types.destiny.components.presentation import \
-    DestinyPresentationNodesComponent
-from bungieapi.generated.types.destiny.components.profiles import (
-    DestinyProfileProgressionComponent, DestinyProfileTransitoryComponent)
-from bungieapi.generated.types.destiny.components.records import (
-    DestinyCharacterRecordsComponent, DestinyProfileRecordsComponent)
-from bungieapi.generated.types.destiny.components.string_variables import \
-    DestinyStringVariablesComponent
-from bungieapi.generated.types.destiny.components.vendors import (
-    DestinyPublicVendorComponent, DestinyPublicVendorSaleItemComponent,
-    DestinyVendorGroupComponent)
-from bungieapi.generated.types.destiny.definitions import \
-    DestinyEntitySearchResultItem
-from bungieapi.generated.types.destiny.entities.characters import (
-    DestinyCharacterActivitiesComponent, DestinyCharacterComponent,
-    DestinyCharacterProgressionComponent, DestinyCharacterRenderComponent)
-from bungieapi.generated.types.destiny.entities.inventory import \
-    DestinyInventoryComponent
-from bungieapi.generated.types.destiny.entities.items import (
-    DestinyItemComponent, DestinyItemInstanceComponent,
-    DestinyItemObjectivesComponent, DestinyItemPerksComponent,
-    DestinyItemRenderComponent, DestinyItemSocketsComponent,
-    DestinyItemStatsComponent, DestinyItemTalentGridComponent)
-from bungieapi.generated.types.destiny.entities.profiles import (
-    DestinyProfileComponent, DestinyVendorReceiptsComponent)
-from bungieapi.generated.types.destiny.entities.vendors import (
-    DestinyVendorCategoriesComponent, DestinyVendorComponent,
-    DestinyVendorSaleItemComponent)
-from bungieapi.generated.types.destiny.responses import (
-    PersonalDestinyVendorSaleItemSetComponent,
-    PublicDestinyVendorSaleItemSetComponent)
-from bungieapi.generated.types.fireteam import (FireteamResponse,
-                                                FireteamSummary)
-from bungieapi.generated.types.forum import PostResponse
-from bungieapi.generated.types.groups_v2 import (GroupBan, GroupMember,
-                                                 GroupMemberApplication,
-                                                 GroupMembership,
-                                                 GroupPotentialMembership,
-                                                 GroupV2Card)
-from bungieapi.generated.types.queries import PagedQuery
-from bungieapi.generated.types.trending import TrendingEntry
-
 BungieMembershipType = t.Any
 BungieCredentialType = t.Any
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfContentItemPublicContract:
-    results: t.Sequence[ContentItemPublicContract]
+    results: t.Sequence["ContentItemPublicContract"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfPostResponse:
-    results: t.Sequence[PostResponse]
+    results: t.Sequence["PostResponse"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
@@ -88,201 +31,201 @@ BungieMembershipTypeArray = t.Any
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupV2Card:
-    results: t.Sequence[GroupV2Card]
+    results: t.Sequence["GroupV2Card"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMember:
-    results: t.Sequence[GroupMember]
+    results: t.Sequence["GroupMember"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupBan:
-    results: t.Sequence[GroupBan]
+    results: t.Sequence["GroupBan"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMemberApplication:
-    results: t.Sequence[GroupMemberApplication]
+    results: t.Sequence["GroupMemberApplication"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMembership:
-    results: t.Sequence[GroupMembership]
+    results: t.Sequence["GroupMembership"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupPotentialMembership:
-    results: t.Sequence[GroupPotentialMembership]
+    results: t.Sequence["GroupPotentialMembership"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorReceiptsComponent:
-    data: DestinyVendorReceiptsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyVendorReceiptsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyInventoryComponent:
-    data: DestinyInventoryComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyInventoryComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileComponent:
-    data: DestinyProfileComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyProfileComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPlatformSilverComponent:
-    data: DestinyPlatformSilverComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyPlatformSilverComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyKiosksComponent:
-    data: DestinyKiosksComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyKiosksComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPlugSetsComponent:
-    data: DestinyPlugSetsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyPlugSetsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileProgressionComponent:
-    data: DestinyProfileProgressionComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyProfileProgressionComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPresentationNodesComponent:
-    data: DestinyPresentationNodesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyPresentationNodesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileRecordsComponent:
-    data: DestinyProfileRecordsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyProfileRecordsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileCollectiblesComponent:
-    data: DestinyProfileCollectiblesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyProfileCollectiblesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileTransitoryComponent:
-    data: DestinyProfileTransitoryComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyProfileTransitoryComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyMetricsComponent:
-    data: DestinyMetricsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyMetricsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyStringVariablesComponent:
-    data: DestinyStringVariablesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyStringVariablesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
-    data: t.Mapping[str, DestinyCharacterComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyCharacterComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyInventoryComponent:
-    data: t.Mapping[str, DestinyInventoryComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyInventoryComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent:
-    data: t.Mapping[str, DestinyCharacterProgressionComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyCharacterProgressionComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent:
-    data: t.Mapping[str, DestinyCharacterRenderComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyCharacterRenderComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent:
-    data: t.Mapping[str, DestinyCharacterActivitiesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyCharacterActivitiesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyKiosksComponent:
-    data: t.Mapping[str, DestinyKiosksComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyKiosksComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent:
-    data: t.Mapping[str, DestinyPlugSetsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyPlugSetsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
@@ -294,43 +237,43 @@ class DestinyBaseItemComponentSetOfuint32:
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent:
-    data: t.Mapping[str, DestinyItemObjectivesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemObjectivesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent:
-    data: t.Mapping[str, DestinyItemPerksComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemPerksComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent:
-    data: t.Mapping[str, DestinyPresentationNodesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyPresentationNodesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent:
-    data: t.Mapping[str, DestinyCharacterRecordsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyCharacterRecordsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent:
-    data: t.Mapping[str, DestinyCollectiblesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyCollectiblesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent:
-    data: t.Mapping[str, DestinyStringVariablesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyStringVariablesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
@@ -342,15 +285,15 @@ class DestinyBaseItemComponentSetOfint64:
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent:
-    data: t.Mapping[str, DestinyItemObjectivesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemObjectivesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemPerksComponent:
-    data: t.Mapping[str, DestinyItemPerksComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemPerksComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
@@ -370,216 +313,216 @@ class DestinyItemComponentSetOfint64:
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent:
-    data: t.Mapping[str, DestinyItemInstanceComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemInstanceComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemRenderComponent:
-    data: t.Mapping[str, DestinyItemRenderComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemRenderComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemStatsComponent:
-    data: t.Mapping[str, DestinyItemStatsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemStatsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent:
-    data: t.Mapping[str, DestinyItemSocketsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemSocketsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent:
-    data: t.Mapping[str, DestinyItemReusablePlugsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent:
-    data: t.Mapping[str, DestinyItemPlugObjectivesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent:
-    data: t.Mapping[str, DestinyItemTalentGridComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemTalentGridComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent:
-    data: t.Mapping[str, DestinyItemPlugComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemPlugComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent:
-    data: t.Mapping[str, DestinyCurrenciesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyCurrenciesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterComponent:
-    data: DestinyCharacterComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyCharacterComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterProgressionComponent:
-    data: DestinyCharacterProgressionComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyCharacterProgressionComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterRenderComponent:
-    data: DestinyCharacterRenderComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyCharacterRenderComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterActivitiesComponent:
-    data: DestinyCharacterActivitiesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyCharacterActivitiesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterRecordsComponent:
-    data: DestinyCharacterRecordsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyCharacterRecordsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCollectiblesComponent:
-    data: DestinyCollectiblesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyCollectiblesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCurrenciesComponent:
-    data: DestinyCurrenciesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyCurrenciesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemComponent:
-    data: DestinyItemComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemInstanceComponent:
-    data: DestinyItemInstanceComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemInstanceComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemObjectivesComponent:
-    data: DestinyItemObjectivesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemObjectivesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemPerksComponent:
-    data: DestinyItemPerksComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemPerksComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemRenderComponent:
-    data: DestinyItemRenderComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemRenderComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemStatsComponent:
-    data: DestinyItemStatsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemStatsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemTalentGridComponent:
-    data: DestinyItemTalentGridComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemTalentGridComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemSocketsComponent:
-    data: DestinyItemSocketsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemSocketsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemReusablePlugsComponent:
-    data: DestinyItemReusablePlugsComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemReusablePlugsComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemPlugObjectivesComponent:
-    data: DestinyItemPlugObjectivesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyItemPlugObjectivesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorGroupComponent:
-    data: DestinyVendorGroupComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyVendorGroupComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyVendorComponent:
-    data: t.Mapping[str, DestinyVendorComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyVendorComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent:
-    data: t.Mapping[str, DestinyVendorCategoriesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyVendorCategoriesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DestinyVendorSaleItemSetComponentOfDestinyVendorSaleItemComponent:
-    sale_items: t.Mapping[str, DestinyVendorSaleItemComponent]
+    sale_items: t.Mapping[str, "DestinyVendorSaleItemComponent"]
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent:
-    data: t.Mapping[str, PersonalDestinyVendorSaleItemSetComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "PersonalDestinyVendorSaleItemSetComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
@@ -591,15 +534,15 @@ class DestinyBaseItemComponentSetOfint32:
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent:
-    data: t.Mapping[str, DestinyItemObjectivesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemObjectivesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemPerksComponent:
-    data: t.Mapping[str, DestinyItemPerksComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemPerksComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
@@ -619,90 +562,90 @@ class DestinyItemComponentSetOfint32:
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent:
-    data: t.Mapping[str, DestinyItemInstanceComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemInstanceComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemRenderComponent:
-    data: t.Mapping[str, DestinyItemRenderComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemRenderComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemStatsComponent:
-    data: t.Mapping[str, DestinyItemStatsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemStatsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent:
-    data: t.Mapping[str, DestinyItemSocketsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemSocketsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent:
-    data: t.Mapping[str, DestinyItemReusablePlugsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent:
-    data: t.Mapping[str, DestinyItemPlugObjectivesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent:
-    data: t.Mapping[str, DestinyItemTalentGridComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemTalentGridComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorComponent:
-    data: DestinyVendorComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyVendorComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorCategoriesComponent:
-    data: DestinyVendorCategoriesComponent
-    privacy: ComponentPrivacySetting
+    data: "DestinyVendorCategoriesComponent"
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent:
-    data: t.Mapping[str, DestinyVendorSaleItemComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyVendorSaleItemComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent:
-    data: t.Mapping[str, DestinyPublicVendorComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyPublicVendorComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DestinyVendorSaleItemSetComponentOfDestinyPublicVendorSaleItemComponent:
-    sale_items: t.Mapping[str, DestinyPublicVendorSaleItemComponent]
+    sale_items: t.Mapping[str, "DestinyPublicVendorSaleItemComponent"]
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent:
-    data: t.Mapping[str, PublicDestinyVendorSaleItemSetComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "PublicDestinyVendorSaleItemSetComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
@@ -722,89 +665,89 @@ class DestinyItemComponentSetOfuint32:
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent:
-    data: t.Mapping[str, DestinyItemInstanceComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemInstanceComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent:
-    data: t.Mapping[str, DestinyItemRenderComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemRenderComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent:
-    data: t.Mapping[str, DestinyItemStatsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemStatsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent:
-    data: t.Mapping[str, DestinyItemSocketsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemSocketsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent:
-    data: t.Mapping[str, DestinyItemReusablePlugsComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent:
-    data: t.Mapping[str, DestinyItemPlugObjectivesComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemTalentGridComponent:
-    data: t.Mapping[str, DestinyItemTalentGridComponent]
-    privacy: ComponentPrivacySetting
+    data: t.Mapping[str, "DestinyItemTalentGridComponent"]
+    privacy: "ComponentPrivacySetting"
     disabled: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfDestinyEntitySearchResultItem:
-    results: t.Sequence[DestinyEntitySearchResultItem]
+    results: t.Sequence["DestinyEntitySearchResultItem"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfTrendingEntry:
-    results: t.Sequence[TrendingEntry]
+    results: t.Sequence["TrendingEntry"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfFireteamSummary:
-    results: t.Sequence[FireteamSummary]
+    results: t.Sequence["FireteamSummary"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfFireteamResponse:
-    results: t.Sequence[FireteamResponse]
+    results: t.Sequence["FireteamResponse"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
@@ -827,3 +770,96 @@ GlobalAlertType = t.Any
 @dt.dataclass(frozen=True)
 class StreamInfo:
     channel_name: str
+
+
+from bungieapi.generated.types.components import ComponentPrivacySetting  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.content import ContentItemPublicContract  # noqa: E402
+from bungieapi.generated.types.destiny.components.collectibles import (  # noqa: E402
+    DestinyCollectiblesComponent,
+    DestinyProfileCollectiblesComponent,
+)
+from bungieapi.generated.types.destiny.components.inventory import (  # noqa: E402
+    DestinyCurrenciesComponent,
+    DestinyPlatformSilverComponent,
+)
+from bungieapi.generated.types.destiny.components.items import (  # noqa: E402
+    DestinyItemPlugComponent,
+    DestinyItemPlugObjectivesComponent,
+    DestinyItemReusablePlugsComponent,
+)
+from bungieapi.generated.types.destiny.components.kiosks import (
+    DestinyKiosksComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.components.metrics import (
+    DestinyMetricsComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.components.plug_sets import (
+    DestinyPlugSetsComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.components.presentation import (
+    DestinyPresentationNodesComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.components.profiles import (  # noqa: E402
+    DestinyProfileProgressionComponent,
+    DestinyProfileTransitoryComponent,
+)
+from bungieapi.generated.types.destiny.components.records import (  # noqa: E402
+    DestinyCharacterRecordsComponent,
+    DestinyProfileRecordsComponent,
+)
+from bungieapi.generated.types.destiny.components.string_variables import (
+    DestinyStringVariablesComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.components.vendors import (  # noqa: E402
+    DestinyPublicVendorComponent,
+    DestinyPublicVendorSaleItemComponent,
+    DestinyVendorGroupComponent,
+)
+from bungieapi.generated.types.destiny.definitions import (
+    DestinyEntitySearchResultItem,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.entities.characters import (  # noqa: E402
+    DestinyCharacterActivitiesComponent,
+    DestinyCharacterComponent,
+    DestinyCharacterProgressionComponent,
+    DestinyCharacterRenderComponent,
+)
+from bungieapi.generated.types.destiny.entities.inventory import (
+    DestinyInventoryComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.entities.items import (  # noqa: E402
+    DestinyItemComponent,
+    DestinyItemInstanceComponent,
+    DestinyItemObjectivesComponent,
+    DestinyItemPerksComponent,
+    DestinyItemRenderComponent,
+    DestinyItemSocketsComponent,
+    DestinyItemStatsComponent,
+    DestinyItemTalentGridComponent,
+)
+from bungieapi.generated.types.destiny.entities.profiles import (  # noqa: E402
+    DestinyProfileComponent,
+    DestinyVendorReceiptsComponent,
+)
+from bungieapi.generated.types.destiny.entities.vendors import (  # noqa: E402
+    DestinyVendorCategoriesComponent,
+    DestinyVendorComponent,
+    DestinyVendorSaleItemComponent,
+)
+from bungieapi.generated.types.destiny.responses import (  # noqa: E402
+    PersonalDestinyVendorSaleItemSetComponent,
+    PublicDestinyVendorSaleItemSetComponent,
+)
+from bungieapi.generated.types.fireteam import FireteamResponse  # noqa: E402
+from bungieapi.generated.types.fireteam import FireteamSummary  # noqa: E402
+from bungieapi.generated.types.forum import PostResponse  # noqa: E402
+from bungieapi.generated.types.groups_v2 import GroupBan  # noqa: E402
+from bungieapi.generated.types.groups_v2 import GroupMember  # noqa: E402
+from bungieapi.generated.types.groups_v2 import GroupMemberApplication  # noqa: E402
+from bungieapi.generated.types.groups_v2 import GroupMembership  # noqa: E402
+from bungieapi.generated.types.groups_v2 import GroupPotentialMembership  # noqa: E402
+from bungieapi.generated.types.groups_v2 import GroupV2Card  # noqa: E402
+from bungieapi.generated.types.queries import PagedQuery  # noqa: E402
+from bungieapi.generated.types.trending import TrendingEntry  # noqa: E402

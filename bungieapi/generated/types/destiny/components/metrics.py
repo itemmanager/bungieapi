@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.quests import DestinyObjectiveProgress
-
 
 @dt.dataclass(frozen=True)
 class DestinyMetricsComponent:
@@ -14,4 +12,10 @@ class DestinyMetricsComponent:
 @dt.dataclass(frozen=True)
 class DestinyMetricComponent:
     invisible: bool
-    objective_progress: DestinyObjectiveProgress
+    objective_progress: "DestinyObjectiveProgress"
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402

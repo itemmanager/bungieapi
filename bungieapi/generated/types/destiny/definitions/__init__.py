@@ -2,39 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-from bungieapi.generated.types.dates import DateRange
-from bungieapi.generated.types.destiny import (
-    BucketCategory, BucketScope, DamageType, DestinyActivityModeCategory,
-    DestinyActivityNavPointType, DestinyAmmunitionType, DestinyBreakerType,
-    DestinyClass, DestinyGatingScope, DestinyGender, DestinyItemQuantity,
-    DestinyItemSortType, DestinyItemSubType, DestinyItemType,
-    DestinyObjectiveGrantStyle,
-    DestinyProgressionRewardItemAcquisitionBehavior, DestinyProgressionScope,
-    DestinyProgressionStepDisplayEffect, DestinyRace,
-    DestinyStatAggregationType, DestinyStatCategory, DestinyUnlockValueUIStyle,
-    DestinyVendorInteractionRewardSelection, DestinyVendorItemRefundPolicy,
-    DestinyVendorProgressionType, DestinyVendorReplyType, DyeReference,
-    EquippingItemBlockAttributes, ItemLocation, ItemPerkVisibility,
-    SocketPlugSources, SpecialItemType, TierType,
-    VendorDisplayCategorySortOrder, VendorInteractionType)
-from bungieapi.generated.types.destiny.constants import \
-    DestinyEnvironmentLocationMapping
-from bungieapi.generated.types.destiny.definitions.animations import \
-    DestinyAnimationReference
-from bungieapi.generated.types.destiny.definitions.common import (
-    DestinyDisplayPropertiesDefinition, DestinyIconSequenceDefinition)
-from bungieapi.generated.types.destiny.definitions.items import \
-    DestinyDerivedItemCategoryDefinition
-from bungieapi.generated.types.destiny.definitions.sources import \
-    DestinyItemSourceDefinition
-from bungieapi.generated.types.destiny.definitions.vendors import \
-    DestinyVendorLocationDefinition
-from bungieapi.generated.types.destiny.historical_stats.definitions import \
-    DestinyActivityModeType
-from bungieapi.generated.types.interpolation import InterpolationPoint
-from bungieapi.generated.types.links import HyperlinkReference
-
 
 @dt.dataclass(frozen=True)
 class DestinyDefinition:
@@ -72,7 +39,7 @@ class DestinyProgressionDefinition:
     """
 
     display_properties: "DestinyProgressionDisplayPropertiesDefinition"
-    scope: DestinyProgressionScope
+    scope: "DestinyProgressionScope"
     repeat_last_step: bool
     source: str
     steps: t.Sequence["DestinyProgressionStepDefinition"]
@@ -92,7 +59,7 @@ class DestinyProgressionDisplayPropertiesDefinition:
     description: str
     name: str
     icon: str
-    icon_sequences: t.Sequence[DestinyIconSequenceDefinition]
+    icon_sequences: t.Sequence["DestinyIconSequenceDefinition"]
     high_res_icon: str
     has_icon: bool
 
@@ -106,9 +73,9 @@ class DestinyProgressionStepDefinition:
     """
 
     step_name: str
-    display_effect_type: DestinyProgressionStepDisplayEffect
+    display_effect_type: "DestinyProgressionStepDisplayEffect"
     progress_total: int
-    reward_items: t.Sequence[DestinyItemQuantity]
+    reward_items: t.Sequence["DestinyItemQuantity"]
     icon: str
 
 
@@ -127,7 +94,7 @@ class DestinyInventoryItemDefinition:
     definitions.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     tooltip_notifications: t.Sequence["DestinyItemTooltipNotification"]
     collectible_hash: int
     icon_watermark: str
@@ -166,22 +133,22 @@ class DestinyInventoryItemDefinition:
     perks: t.Sequence["DestinyItemPerkEntryDefinition"]
     lore_hash: int
     summary_item_hash: int
-    animations: t.Sequence[DestinyAnimationReference]
+    animations: t.Sequence["DestinyAnimationReference"]
     allow_actions: bool
-    links: t.Sequence[HyperlinkReference]
+    links: t.Sequence["HyperlinkReference"]
     does_postmaster_pull_have_side_effects: bool
     non_transferrable: bool
     item_category_hashes: t.Sequence[int]
-    special_item_type: SpecialItemType
-    item_type: DestinyItemType
-    item_sub_type: DestinyItemSubType
-    class_type: DestinyClass
-    breaker_type: DestinyBreakerType
+    special_item_type: "SpecialItemType"
+    item_type: "DestinyItemType"
+    item_sub_type: "DestinyItemSubType"
+    class_type: "DestinyClass"
+    breaker_type: "DestinyBreakerType"
     breaker_type_hash: int
     equippable: bool
     damage_type_hashes: t.Sequence[int]
-    damage_types: t.Sequence[DamageType]
-    default_damage_type: DamageType
+    damage_types: t.Sequence["DamageType"]
+    default_damage_type: "DamageType"
     default_damage_type_hash: int
     season_hash: int
     is_wrapper: bool
@@ -266,7 +233,7 @@ class DestinyProgressionMappingDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyItemInventoryBlockDefinition:
-    """ 'If the item can exist in an inventory - the overwhelming majority of them can and do - then this is the basic properties regarding the item's relationship with the inventory."""
+    """'If the item can exist in an inventory - the overwhelming majority of them can and do - then this is the basic properties regarding the item's relationship with the inventory."""
 
     stack_unique_label: str
     max_stack_size: int
@@ -275,7 +242,7 @@ class DestinyItemInventoryBlockDefinition:
     tier_type_hash: int
     is_instance_item: bool
     tier_type_name: str
-    tier_type: TierType
+    tier_type: "TierType"
     expiration_tooltip: str
     expired_in_activity_message: str
     expired_in_orbit_message: str
@@ -292,12 +259,12 @@ class DestinyInventoryBucketDefinition:
     You cannot transfer an item to a bucket that is not its Default without going through a Vendor's "accepted items" (DestinyVendorDefinition.acceptedItems). This is how transfer functionality like the Vault is implemented, as a feature of a Vendor. See the vendor's acceptedItems property for more details.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
-    scope: BucketScope
-    category: BucketCategory
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    scope: "BucketScope"
+    category: "BucketCategory"
     bucket_order: int
     item_count: int
-    location: ItemLocation
+    location: "ItemLocation"
     has_transfer_destination: bool
     enabled: bool
     fifo: bool
@@ -404,10 +371,10 @@ class DestinyStatDefinition:
     4) Underlying in-game stat (the stat's actual value according to the game, after the game runs dynamic scripts based on the game and character's state. This is the final transformation that BNet does not have access to. For most stats, this is not actually displayed to the user, with the exception of Magazine Size which is then piped back to the UI for display in-game, but not to BNet.)
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
-    aggregation_type: DestinyStatAggregationType
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    aggregation_type: "DestinyStatAggregationType"
     has_computed_block: bool
-    stat_category: DestinyStatCategory
+    stat_category: "DestinyStatCategory"
     hash: int
     index: int
     redacted: bool
@@ -453,7 +420,7 @@ class DestinyStatDisplayDefinition:
     stat_hash: int
     maximum_value: int
     display_as_numeric: bool
-    display_interpolation: t.Sequence[InterpolationPoint]
+    display_interpolation: t.Sequence["InterpolationPoint"]
 
 
 @dt.dataclass(frozen=True)
@@ -490,8 +457,8 @@ class DestinyEquippingBlockDefinition:
     unique_label: str
     unique_label_hash: int
     equipment_slot_type_hash: int
-    attributes: EquippingItemBlockAttributes
-    ammo_type: DestinyAmmunitionType
+    attributes: "EquippingItemBlockAttributes"
+    ammo_type: "DestinyAmmunitionType"
     display_strings: t.Sequence[str]
 
 
@@ -510,7 +477,7 @@ class DestinyEquipmentSlotDefinition:
     inventory buckets must have Equipment Slots.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     equipment_category_hash: int
     bucket_type_hash: int
     apply_custom_art_dyes: bool
@@ -532,9 +499,9 @@ class DestinyItemTranslationBlockDefinition:
 
     weapon_pattern_identifier: str
     weapon_pattern_hash: int
-    default_dyes: t.Sequence[DyeReference]
-    locked_dyes: t.Sequence[DyeReference]
-    custom_dyes: t.Sequence[DyeReference]
+    default_dyes: t.Sequence["DyeReference"]
+    locked_dyes: t.Sequence["DyeReference"]
+    custom_dyes: t.Sequence["DyeReference"]
     arrangements: t.Sequence["DestinyGearArtArrangementReference"]
     has_geometry: bool
 
@@ -559,7 +526,7 @@ class DestinyItemPreviewBlockDefinition:
     preview_vendor_hash: int
     artifact_hash: int
     preview_action_string: str
-    derived_item_categories: t.Sequence[DestinyDerivedItemCategoryDefinition]
+    derived_item_categories: t.Sequence["DestinyDerivedItemCategoryDefinition"]
 
 
 @dt.dataclass(frozen=True)
@@ -577,7 +544,7 @@ class DestinyVendorDefinition:
     """
 
     display_properties: "DestinyVendorDisplayPropertiesDefinition"
-    vendor_progression_type: DestinyVendorProgressionType
+    vendor_progression_type: "DestinyVendorProgressionType"
     buy_string: str
     sell_string: str
     display_item_hash: int
@@ -587,7 +554,7 @@ class DestinyVendorDefinition:
     reset_interval_minutes: int
     reset_offset_minutes: int
     failure_strings: t.Sequence[str]
-    unlock_ranges: t.Sequence[DateRange]
+    unlock_ranges: t.Sequence["DateRange"]
     vendor_identifier: str
     vendor_portrait: str
     vendor_banner: str
@@ -605,7 +572,7 @@ class DestinyVendorDefinition:
     services: t.Sequence["DestinyVendorServiceDefinition"]
     accepted_items: t.Sequence["DestinyVendorAcceptedItemDefinition"]
     return_with_vendor_request: bool
-    locations: t.Sequence[DestinyVendorLocationDefinition]
+    locations: t.Sequence["DestinyVendorLocationDefinition"]
     groups: t.Sequence["DestinyVendorGroupReference"]
     ignore_sale_item_hashes: t.Sequence[int]
     hash: int
@@ -625,7 +592,7 @@ class DestinyVendorDisplayPropertiesDefinition:
     description: str
     name: str
     icon: str
-    icon_sequences: t.Sequence[DestinyIconSequenceDefinition]
+    icon_sequences: t.Sequence["DestinyIconSequenceDefinition"]
     high_res_icon: str
     has_icon: bool
 
@@ -714,10 +681,10 @@ class DestinyDisplayCategoryDefinition:
     index: int
     identifier: str
     display_category_hash: int
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     display_in_banner: bool
     progression_hash: int
-    sort_order: VendorDisplayCategorySortOrder
+    sort_order: "VendorDisplayCategorySortOrder"
     display_style_hash: int
     display_style_identifier: str
 
@@ -737,7 +704,7 @@ class DestinyVendorInteractionDefinition:
     questline_item_hash: int
     sack_interaction_list: t.Sequence["DestinyVendorInteractionSackEntryDefinition"]
     ui_interaction_type: int
-    interaction_type: VendorInteractionType
+    interaction_type: "VendorInteractionType"
     reward_block_label: str
     reward_vendor_category_index: int
     flavor_line_one: str
@@ -756,9 +723,9 @@ class DestinyVendorInteractionReplyDefinition:
     vendors.
     """
 
-    item_rewards_selection: DestinyVendorInteractionRewardSelection
+    item_rewards_selection: "DestinyVendorInteractionRewardSelection"
     reply: str
-    reply_type: DestinyVendorReplyType
+    reply_type: "DestinyVendorReplyType"
 
 
 @dt.dataclass(frozen=True)
@@ -793,7 +760,7 @@ class DestinyVendorInventoryFlyoutBucketDefinition:
 
     collapsible: bool
     inventory_bucket_hash: int
-    sort_items_by: DestinyItemSortType
+    sort_items_by: "DestinyItemSortType"
 
 
 @dt.dataclass(frozen=True)
@@ -805,7 +772,7 @@ class DestinyVendorItemDefinition:
     quantity: int
     failure_indexes: t.Sequence[int]
     currencies: t.Sequence["DestinyVendorItemQuantity"]
-    refund_policy: DestinyVendorItemRefundPolicy
+    refund_policy: "DestinyVendorItemRefundPolicy"
     refund_time_limit: int
     creation_levels: t.Sequence["DestinyItemCreationEntryLevelDefinition"]
     display_category_index: int
@@ -816,9 +783,9 @@ class DestinyVendorItemDefinition:
     action: t.Any
     display_category: str
     inventory_bucket_hash: int
-    visibility_scope: DestinyGatingScope
-    purchasable_scope: DestinyGatingScope
-    exclusivity: BungieMembershipType
+    visibility_scope: "DestinyGatingScope"
+    purchasable_scope: "DestinyGatingScope"
+    exclusivity: "BungieMembershipType"
     is_offer: bool
     is_crm: bool
     sort_value: int
@@ -907,7 +874,7 @@ class DestinyDestinationDefinition:
     pick a more interesting destination if you come to visit Earth).
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     place_hash: int
     default_freeroam_activity_hash: int
     activity_graph_entries: t.Sequence["DestinyActivityGraphListEntryDefinition"]
@@ -965,10 +932,10 @@ class DestinyActivityDefinition:
     direct_activity_mode_type: int
     loadouts: t.Sequence["DestinyActivityLoadoutRequirementSet"]
     activity_mode_hashes: t.Sequence[int]
-    activity_mode_types: t.Sequence[DestinyActivityModeType]
+    activity_mode_types: t.Sequence["DestinyActivityModeType"]
     is_pv_p: bool
     insertion_points: t.Sequence["DestinyActivityInsertionPointDefinition"]
-    activity_location_mappings: t.Sequence[DestinyEnvironmentLocationMapping]
+    activity_location_mappings: t.Sequence["DestinyEnvironmentLocationMapping"]
     hash: int
     index: int
     redacted: bool
@@ -983,7 +950,7 @@ class DestinyActivityRewardDefinition:
     """
 
     reward_text: str
-    reward_items: t.Sequence[DestinyItemQuantity]
+    reward_items: t.Sequence["DestinyItemQuantity"]
 
 
 @dt.dataclass(frozen=True)
@@ -1003,7 +970,7 @@ class DestinyActivityChallengeDefinition:
     Objective."""
 
     objective_hash: int
-    dummy_rewards: t.Sequence[DestinyItemQuantity]
+    dummy_rewards: t.Sequence["DestinyItemQuantity"]
 
 
 @dt.dataclass(frozen=True)
@@ -1020,20 +987,20 @@ class DestinyObjectiveDefinition:
 
     display_properties: t.Any
     completion_value: int
-    scope: DestinyGatingScope
+    scope: "DestinyGatingScope"
     location_hash: int
     allow_negative_value: bool
     allow_value_change_when_completed: bool
     is_counting_downward: bool
-    value_style: DestinyUnlockValueUIStyle
+    value_style: "DestinyUnlockValueUIStyle"
     progress_description: str
     perks: t.Any
     stats: t.Any
     minimum_visibility_threshold: int
     allow_overcompletion: bool
     show_value_on_complete: bool
-    completed_value_style: DestinyUnlockValueUIStyle
-    in_progress_value_style: DestinyUnlockValueUIStyle
+    completed_value_style: "DestinyUnlockValueUIStyle"
+    in_progress_value_style: "DestinyUnlockValueUIStyle"
     hash: int
     index: int
     redacted: bool
@@ -1049,7 +1016,7 @@ class DestinyObjectivePerkEntryDefinition:
     """
 
     perk_hash: int
-    style: DestinyObjectiveGrantStyle
+    style: "DestinyObjectiveGrantStyle"
 
 
 @dt.dataclass(frozen=True)
@@ -1067,7 +1034,7 @@ class DestinySandboxPerkDefinition:
     display_properties: t.Any
     perk_identifier: str
     is_displayable: bool
-    damage_type: DamageType
+    damage_type: "DamageType"
     damage_type_hash: int
     perk_groups: t.Any
     hash: int
@@ -1104,7 +1071,7 @@ class DestinyObjectiveStatEntryDefinition:
     to a Character while participating in an objective."""
 
     stat: t.Any
-    style: DestinyObjectiveGrantStyle
+    style: "DestinyObjectiveGrantStyle"
 
 
 @dt.dataclass(frozen=True)
@@ -1161,7 +1128,7 @@ class DestinyLocationReleaseDefinition:
     activity_bubble_name: int
     activity_path_bundle: int
     activity_path_destination: int
-    nav_point_type: DestinyActivityNavPointType
+    nav_point_type: "DestinyActivityNavPointType"
     world_position: t.Sequence[int]
 
 
@@ -1188,7 +1155,7 @@ class DestinyActivityPlaylistItemDefinition:
     direct_activity_mode_hash: int
     direct_activity_mode_type: int
     activity_mode_hashes: t.Sequence[int]
-    activity_mode_types: t.Sequence[DestinyActivityModeType]
+    activity_mode_types: t.Sequence["DestinyActivityModeType"]
 
 
 @dt.dataclass(frozen=True)
@@ -1203,15 +1170,15 @@ class DestinyActivityModeDefinition:
     Activity modes are nested under each other in a hierarchy, so that if you ask for - for example - "AllPvP", you will get any PVP activities that the user has played, regardless of what specific PVP mode was being played.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     pgcr_image: str
-    mode_type: DestinyActivityModeType
-    activity_mode_category: DestinyActivityModeCategory
+    mode_type: "DestinyActivityModeType"
+    activity_mode_category: "DestinyActivityModeCategory"
     is_team_based: bool
     is_aggregate_mode: bool
     parent_hashes: t.Sequence[int]
     friendly_name: str
-    activity_mode_mappings: t.Mapping[str, DestinyActivityModeType]
+    activity_mode_mappings: t.Mapping[str, "DestinyActivityModeType"]
     display: bool
     order: int
     hash: int
@@ -1248,7 +1215,7 @@ class DestinyActivityLoadoutRequirementSet:
 class DestinyActivityLoadoutRequirement:
     equipment_slot_hash: int
     allowed_equipped_item_hashes: t.Sequence[int]
-    allowed_weapon_sub_types: t.Sequence[DestinyItemSubType]
+    allowed_weapon_sub_types: t.Sequence["DestinyItemSubType"]
 
 
 @dt.dataclass(frozen=True)
@@ -1273,7 +1240,7 @@ class DestinyPlaceDefinition:
     planetary scale, like "Earth" and "Your Mom."
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int
     index: int
     redacted: bool
@@ -1296,7 +1263,7 @@ class DestinyActivityTypeDefinition:
     referred to in many places across our codebase.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int
     index: int
     redacted: bool
@@ -1314,15 +1281,15 @@ class DestinyUnlockExpressionDefinition:
     using an IUnlockContext parsed from Babel.
     """
 
-    scope: DestinyGatingScope
+    scope: "DestinyGatingScope"
 
 
 @dt.dataclass(frozen=True)
 class DestinyDestinationBubbleSettingDefinition:
-    """ 'Human readable data about the bubble. Combine with DestinyBubbleDefinition - see DestinyDestinationDefinition.bubbleSettings for more information.
+    """'Human readable data about the bubble. Combine with DestinyBubbleDefinition - see DestinyDestinationDefinition.bubbleSettings for more information.
     DEPRECATED - Just use bubbles."""
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
 
 
 @dt.dataclass(frozen=True)
@@ -1377,7 +1344,7 @@ class DestinyFactionDefinition:
     without the Vendor that provides rewards.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     progression_hash: int
     token_values: t.Mapping[str, int]
     reward_item_hash: int
@@ -1451,7 +1418,7 @@ class DestinyItemValueBlockDefinition:
     where they put arbitrary items and quantities into the item.
     """
 
-    item_value: t.Sequence[DestinyItemQuantity]
+    item_value: t.Sequence["DestinyItemQuantity"]
     value_description: str
 
 
@@ -1460,8 +1427,8 @@ class DestinyItemSourceBlockDefinition:
     """'Data about an item's "sources": ways that the item can be obtained."""
 
     source_hashes: t.Sequence[int]
-    sources: t.Sequence[DestinyItemSourceDefinition]
-    exclusive: BungieMembershipType
+    sources: t.Sequence["DestinyItemSourceDefinition"]
+    exclusive: "BungieMembershipType"
     vendor_sources: t.Sequence["DestinyItemVendorSourceReference"]
 
 
@@ -1484,7 +1451,7 @@ class DestinyRewardSourceDefinition:
     Nightfall, either during play or as an after-completion reward.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     category: "DestinyRewardSourceCategory"
     hash: int
     index: int
@@ -1563,7 +1530,7 @@ class DestinyMaterialRequirementSetDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMaterialRequirement:
-    """ 'Many actions relating to items require you to expend materials: - Activating a talent node - Inserting a plug into a socket The items will refer to material requirements by a materialRequirementsHash in these cases, and this is the definition for those requirements in terms of the item required, how much of it is required and other interesting info. This is one of the rare/strange times where a single contract class is used both in definitions *and* in live data response contracts. I'm not sure yet whether I regret that."""
+    """'Many actions relating to items require you to expend materials: - Activating a talent node - Inserting a plug into a socket The items will refer to material requirements by a materialRequirementsHash in these cases, and this is the definition for those requirements in terms of the item required, how much of it is required and other interesting info. This is one of the rare/strange times where a single contract class is used both in definitions *and* in live data response contracts. I'm not sure yet whether I regret that."""
 
     item_hash: int
     delete_on_action: bool
@@ -1596,8 +1563,8 @@ class DestinyGenderDefinition:
     future holds.
     """
 
-    gender_type: DestinyGender
-    display_properties: DestinyDisplayPropertiesDefinition
+    gender_type: "DestinyGender"
+    display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int
     index: int
     redacted: bool
@@ -1616,7 +1583,7 @@ class DestinyItemGearsetBlockDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyItemSackBlockDefinition:
-    """ 'Some items are "sacks" - they can be "opened" to produce other items. This is information related to its sack status, mostly UI strings. Engrams are an example of items that are considered to be "Sacks"."""
+    """'Some items are "sacks" - they can be "opened" to produce other items. This is information related to its sack status, mostly UI strings. Engrams are an example of items that are considered to be "Sacks"."""
 
     detail_action: str
     open_action: str
@@ -1647,7 +1614,7 @@ class DestinyItemSocketEntryDefinition:
     reusable_plug_items: t.Sequence["DestinyItemSocketEntryPlugItemDefinition"]
     prevent_initialization_on_vendor_purchase: bool
     hide_perks_in_item_tooltip: bool
-    plug_sources: SocketPlugSources
+    plug_sources: "SocketPlugSources"
     reusable_plug_set_hash: int
     randomized_plug_set_hash: int
     default_visible: bool
@@ -1716,7 +1683,7 @@ class DestinyItemTalentGridBlockDefinition:
     talent_grid_hash: int
     item_detail_string: str
     build_name: str
-    hud_damage_type: DamageType
+    hud_damage_type: "DamageType"
     hud_icon: str
 
 
@@ -1830,7 +1797,7 @@ class DestinyNodeStepDefinition:
     step_index: int
     node_step_hash: int
     interaction_description: str
-    damage_type: DamageType
+    damage_type: "DamageType"
     damage_type_hash: int
     activation_requirement: t.Any
     can_activate_next_step: bool
@@ -1867,7 +1834,7 @@ class DestinyDamageTypeDefinition:
     display_properties: t.Any
     transparent_icon_path: str
     show_icon: bool
-    enum_value: DamageType
+    enum_value: "DamageType"
     hash: int
     index: int
     redacted: bool
@@ -1924,7 +1891,7 @@ class DestinyItemPerkEntryDefinition:
 
     requirement_display_string: str
     perk_hash: int
-    perk_visibility: ItemPerkVisibility
+    perk_visibility: "ItemPerkVisibility"
 
 
 @dt.dataclass(frozen=True)
@@ -1944,18 +1911,18 @@ class DestinyItemCategoryDefinition:
     categories that you wish would be added!
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     visible: bool
     deprecated: bool
     short_title: str
     item_type_regex: str
-    grant_destiny_breaker_type: DestinyBreakerType
+    grant_destiny_breaker_type: "DestinyBreakerType"
     plug_category_identifier: str
     item_type_regex_not: str
     origin_bucket_identifier: str
-    grant_destiny_item_type: DestinyItemType
-    grant_destiny_sub_type: DestinyItemSubType
-    grant_destiny_class: DestinyClass
+    grant_destiny_item_type: "DestinyItemType"
+    grant_destiny_sub_type: "DestinyItemSubType"
+    grant_destiny_class: "DestinyClass"
     trait_id: str
     grouped_category_hashes: t.Sequence[int]
     parent_category_hashes: t.Sequence[int]
@@ -1968,7 +1935,7 @@ class DestinyItemCategoryDefinition:
 @dt.dataclass(frozen=True)
 class DestinyProgressionRewardItemQuantity:
     rewarded_at_progression_level: int
-    acquisition_behavior: DestinyProgressionRewardItemAcquisitionBehavior
+    acquisition_behavior: "DestinyProgressionRewardItemAcquisitionBehavior"
     ui_display_style: str
     claim_unlock_display_strings: t.Sequence[str]
     item_hash: int
@@ -1987,8 +1954,8 @@ class DestinyRaceDefinition:
     one for their character.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
-    race_type: DestinyRace
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    race_type: "DestinyRace"
     gendered_race_names: t.Mapping[str, str]
     gendered_race_names_by_gender_hash: t.Mapping[str, str]
     hash: int
@@ -2004,8 +1971,8 @@ class DestinyClassDefinition:
     Hunter.
     """
 
-    class_type: DestinyClass
-    display_properties: DestinyDisplayPropertiesDefinition
+    class_type: "DestinyClass"
+    display_properties: "DestinyDisplayPropertiesDefinition"
     gendered_class_names: t.Mapping[str, str]
     gendered_class_names_by_gender_hash: t.Mapping[str, str]
     mentor_vendor_hash: int
@@ -2046,3 +2013,70 @@ class DestinyEntitySearchResultItem:
     entity_type: str
     display_properties: t.Any
     weight: float
+
+
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+from bungieapi.generated.types.dates import DateRange  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import BucketCategory  # noqa: E402
+from bungieapi.generated.types.destiny import BucketScope  # noqa: E402
+from bungieapi.generated.types.destiny import DamageType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyActivityModeCategory  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyActivityNavPointType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyAmmunitionType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyBreakerType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyClass  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyGatingScope  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyGender  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyItemQuantity  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyItemSortType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyItemSubType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyItemType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyObjectiveGrantStyle  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyProgressionScope  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyRace  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyStatAggregationType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyStatCategory  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyUnlockValueUIStyle  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyVendorProgressionType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyVendorReplyType  # noqa: E402
+from bungieapi.generated.types.destiny import DyeReference  # noqa: E402
+from bungieapi.generated.types.destiny import EquippingItemBlockAttributes  # noqa: E402
+from bungieapi.generated.types.destiny import ItemLocation  # noqa: E402
+from bungieapi.generated.types.destiny import ItemPerkVisibility  # noqa: E402
+from bungieapi.generated.types.destiny import SocketPlugSources  # noqa: E402
+from bungieapi.generated.types.destiny import SpecialItemType  # noqa: E402
+from bungieapi.generated.types.destiny import TierType  # noqa: E402
+from bungieapi.generated.types.destiny import VendorInteractionType  # noqa: E402
+from bungieapi.generated.types.destiny import (  # noqa: E402
+    DestinyProgressionRewardItemAcquisitionBehavior,
+    DestinyProgressionStepDisplayEffect,
+    DestinyVendorInteractionRewardSelection,
+    DestinyVendorItemRefundPolicy,
+    VendorDisplayCategorySortOrder,
+)
+from bungieapi.generated.types.destiny.constants import (
+    DestinyEnvironmentLocationMapping,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.animations import (
+    DestinyAnimationReference,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.common import (  # noqa: E402
+    DestinyDisplayPropertiesDefinition,
+    DestinyIconSequenceDefinition,
+)
+from bungieapi.generated.types.destiny.definitions.items import (
+    DestinyDerivedItemCategoryDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.sources import (
+    DestinyItemSourceDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.vendors import (
+    DestinyVendorLocationDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.historical_stats.definitions import (
+    DestinyActivityModeType,
+)  # noqa: E402
+from bungieapi.generated.types.interpolation import InterpolationPoint  # noqa: E402
+from bungieapi.generated.types.links import HyperlinkReference  # noqa: E402

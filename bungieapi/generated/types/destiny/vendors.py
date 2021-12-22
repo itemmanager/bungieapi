@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DestinyItemQuantity,
-                                               DestinyVendorItemRefundPolicy)
-
 
 @dt.dataclass(frozen=True)
 class DestinyVendorReceipt:
@@ -16,11 +13,18 @@ class DestinyVendorReceipt:
     to refund a purchase *yet*, but you know.
     """
 
-    currency_paid: t.Sequence[DestinyItemQuantity]
+    currency_paid: t.Sequence["DestinyItemQuantity"]
     item_received: t.Any
     license_unlock_hash: int
     purchased_by_character_id: int
-    refund_policy: DestinyVendorItemRefundPolicy
+    refund_policy: "DestinyVendorItemRefundPolicy"
     sequence_number: int
     time_to_expiration: int
     expires_on: str
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyItemQuantity  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyVendorItemRefundPolicy,
+)  # noqa: E402

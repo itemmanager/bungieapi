@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DyeReference
-
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterCustomization:
@@ -47,4 +45,8 @@ class DestinyItemPeerView:
     rendering the item."""
 
     item_hash: int
-    dyes: t.Sequence[DyeReference]
+    dyes: t.Sequence["DyeReference"]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DyeReference  # noqa: E402

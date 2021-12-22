@@ -2,11 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import SearchResultOfTrendingEntry
-from bungieapi.generated.types.content import ContentItemPublicContract
-from bungieapi.generated.types.destiny.activities import \
-    DestinyPublicActivityStatus
-
 
 @dt.dataclass(frozen=True)
 class TrendingCategories:
@@ -16,7 +11,7 @@ class TrendingCategories:
 @dt.dataclass(frozen=True)
 class TrendingCategory:
     category_name: str
-    entries: SearchResultOfTrendingEntry
+    entries: "SearchResultOfTrendingEntry"
     category_id: str
 
 
@@ -61,12 +56,12 @@ class TrendingDetail:
 
 @dt.dataclass(frozen=True)
 class TrendingEntryNews:
-    article: ContentItemPublicContract
+    article: "ContentItemPublicContract"
 
 
 @dt.dataclass(frozen=True)
 class TrendingEntrySupportArticle:
-    article: ContentItemPublicContract
+    article: "ContentItemPublicContract"
 
 
 @dt.dataclass(frozen=True)
@@ -77,7 +72,7 @@ class TrendingEntryDestinyItem:
 @dt.dataclass(frozen=True)
 class TrendingEntryDestinyActivity:
     activity_hash: int
-    status: DestinyPublicActivityStatus
+    status: "DestinyPublicActivityStatus"
 
 
 @dt.dataclass(frozen=True)
@@ -101,3 +96,11 @@ class TrendingEntryCommunityCreation:
     post_id: int
     body: str
     upvotes: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import SearchResultOfTrendingEntry  # noqa: E402
+from bungieapi.generated.types.content import ContentItemPublicContract  # noqa: E402
+from bungieapi.generated.types.destiny.activities import (
+    DestinyPublicActivityStatus,
+)  # noqa: E402

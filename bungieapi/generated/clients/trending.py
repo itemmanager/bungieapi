@@ -4,16 +4,15 @@ import typing as t
 
 from bungieapi.generated.types import SearchResultOfTrendingEntry
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
-from bungieapi.generated.types.trending import (TrendingCategories,
-                                                TrendingDetail)
+from bungieapi.generated.types.trending import TrendingCategories, TrendingDetail
 
 from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
 class GetTrendingCategoriesClientResponse:
-    response: TrendingCategories
-    error_code: PlatformErrorCodes
+    response: "TrendingCategories"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -23,8 +22,8 @@ class GetTrendingCategoriesClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetTrendingCategoryClientResponse:
-    response: SearchResultOfTrendingEntry
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfTrendingEntry"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -34,8 +33,8 @@ class GetTrendingCategoryClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetTrendingEntryDetailClientResponse:
-    response: TrendingDetail
-    error_code: PlatformErrorCodes
+    response: "TrendingDetail"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.challenges import DestinyChallengeStatus
-
 
 @dt.dataclass(frozen=True)
 class DestinyMilestone:
@@ -36,7 +34,7 @@ class DestinyMilestoneQuest:
     quest_item_hash: int
     status: t.Any
     activity: t.Any
-    challenges: t.Sequence[DestinyChallengeStatus]
+    challenges: t.Sequence["DestinyChallengeStatus"]
 
 
 @dt.dataclass(frozen=True)
@@ -101,7 +99,7 @@ class DestinyMilestoneActivityPhase:
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeActivity:
     activity_hash: int
-    challenges: t.Sequence[DestinyChallengeStatus]
+    challenges: t.Sequence["DestinyChallengeStatus"]
     modifier_hashes: t.Sequence[int]
     boolean_activity_options: t.Mapping[str, bool]
     loadout_requirement_index: int
@@ -251,3 +249,9 @@ class DestinyPublicMilestoneChallengeActivity:
 class DestinyPublicMilestoneVendor:
     vendor_hash: int
     preview_item_hash: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.challenges import (
+    DestinyChallengeStatus,
+)  # noqa: E402

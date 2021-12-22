@@ -12,8 +12,8 @@ from ...base import BaseClient
 
 @dt.dataclass(frozen=True)
 class GetContentTypeClientResponse:
-    response: ContentTypeDescription
-    error_code: PlatformErrorCodes
+    response: "ContentTypeDescription"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -23,8 +23,8 @@ class GetContentTypeClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetContentByIdClientResponse:
-    response: ContentItemPublicContract
-    error_code: PlatformErrorCodes
+    response: "ContentItemPublicContract"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -34,8 +34,8 @@ class GetContentByIdClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetContentByTagAndTypeClientResponse:
-    response: ContentItemPublicContract
-    error_code: PlatformErrorCodes
+    response: "ContentItemPublicContract"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -45,8 +45,8 @@ class GetContentByTagAndTypeClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchContentWithTextClientResponse:
-    response: SearchResultOfContentItemPublicContract
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfContentItemPublicContract"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -56,8 +56,8 @@ class SearchContentWithTextClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchContentByTagAndTypeClientResponse:
-    response: SearchResultOfContentItemPublicContract
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfContentItemPublicContract"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -68,7 +68,7 @@ class SearchContentByTagAndTypeClientResponse:
 @dt.dataclass(frozen=True)
 class SearchHelpArticlesClientResponse:
     response: t.Any
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

@@ -1,6 +1,7 @@
-import aiohttp
-import typing as t
 import dataclasses as dt
+import typing as t
+
+import aiohttp
 
 from bungieapi.generated.clients.root import Client as RootClient
 

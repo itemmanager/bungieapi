@@ -2,10 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyItemQuantity
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneDefinition:
@@ -26,7 +22,7 @@ class DestinyMilestoneDefinition:
     This approach will let you avoid, whenever possible, the even less useful (and sometimes nonexistant) milestone-level names and descriptions.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     display_preference: "DestinyMilestoneDisplayPreference"
     image: str
     milestone_type: "DestinyMilestoneType"
@@ -78,7 +74,7 @@ class DestinyMilestoneQuestRewardsDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneQuestRewardItem:
-    """ 'A subclass of DestinyItemQuantity, that provides not just the item and its quantity but also information that BNet can - at some point - use internally to provide more robust runtime information about the item's qualities.
+    """'A subclass of DestinyItemQuantity, that provides not just the item and its quantity but also information that BNet can - at some point - use internally to provide more robust runtime information about the item's qualities.
     If you want it, please ask! We're just out of time to wire it up right now. Or a clever person just may do it with our existing endpoints."""
 
     vendor_hash: int
@@ -138,7 +134,7 @@ class DestinyMilestoneRewardEntryDefinition:
 
     reward_entry_hash: int
     reward_entry_identifier: str
-    items: t.Sequence[DestinyItemQuantity]
+    items: t.Sequence["DestinyItemQuantity"]
     vendor_hash: int
     display_properties: t.Any
     order: int
@@ -168,7 +164,7 @@ class DestinyMilestoneValueDefinition:
     """
 
     key: str
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
 
 
 @dt.dataclass(frozen=True)
@@ -193,3 +189,11 @@ class DestinyMilestoneChallengeActivityGraphNodeEntry:
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeActivityPhase:
     phase_hash: int
+
+
+from bungieapi.generated.types.destiny import DestinyItemQuantity  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

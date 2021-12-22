@@ -2,12 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.groups_v2 import GroupResponse
-from bungieapi.generated.types.ignores import IgnoreResponse
-from bungieapi.generated.types.queries import PagedQuery
-from bungieapi.generated.types.tags.models.contracts import TagResponse
-from bungieapi.generated.types.user import GeneralUser
-
 ForumTopicsCategoryFiltersEnum = t.Any
 ForumTopicsQuickDateEnum = t.Any
 ForumTopicsSortEnum = t.Any
@@ -27,7 +21,7 @@ class PostResponse:
     user_has_muted_post: bool
     latest_reply_post_id: int
     latest_reply_author_id: int
-    ignore_status: IgnoreResponse
+    ignore_status: "IgnoreResponse"
     locale: str
 
 
@@ -38,16 +32,16 @@ ForumPostPopularity = t.Any
 @dt.dataclass(frozen=True)
 class PostSearchResponse:
     related_posts: t.Sequence["PostResponse"]
-    authors: t.Sequence[GeneralUser]
-    groups: t.Sequence[GroupResponse]
-    searched_tags: t.Sequence[TagResponse]
+    authors: t.Sequence["GeneralUser"]
+    groups: t.Sequence["GroupResponse"]
+    searched_tags: t.Sequence["TagResponse"]
     polls: t.Sequence["PollResponse"]
     recruitment_details: t.Sequence["ForumRecruitmentDetail"]
     available_pages: int
     results: t.Sequence["PostResponse"]
     total_results: int
     has_more: bool
-    query: PagedQuery
+    query: "PagedQuery"
     replacement_continuation_token: str
     use_total_results: bool
 
@@ -78,7 +72,7 @@ class ForumRecruitmentDetail:
     conversation_id: int
     player_slots_total: int
     player_slots_remaining: int
-    fireteam: t.Sequence[GeneralUser]
+    fireteam: t.Sequence["GeneralUser"]
     kicked_player_ids: t.Sequence[int]
 
 
@@ -86,3 +80,11 @@ ForumRecruitmentIntensityLabel = t.Any
 ForumRecruitmentToneLabel = t.Any
 ForumPostSortEnum = t.Any
 CommunityContentSortMode = t.Any
+
+from bungieapi.generated.types.groups_v2 import GroupResponse  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.ignores import IgnoreResponse  # noqa: E402
+from bungieapi.generated.types.queries import PagedQuery  # noqa: E402
+from bungieapi.generated.types.tags.models.contracts import TagResponse  # noqa: E402
+from bungieapi.generated.types.user import GeneralUser  # noqa: E402

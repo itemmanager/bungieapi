@@ -4,16 +4,18 @@ import typing as t
 
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.social.friends import (
-    BungieFriendListResponse, BungieFriendRequestListResponse,
-    PlatformFriendResponse)
+    BungieFriendListResponse,
+    BungieFriendRequestListResponse,
+    PlatformFriendResponse,
+)
 
 from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
 class GetFriendListClientResponse:
-    response: BungieFriendListResponse
-    error_code: PlatformErrorCodes
+    response: "BungieFriendListResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -23,8 +25,8 @@ class GetFriendListClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetFriendRequestListClientResponse:
-    response: BungieFriendRequestListResponse
-    error_code: PlatformErrorCodes
+    response: "BungieFriendRequestListResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -35,7 +37,7 @@ class GetFriendRequestListClientResponse:
 @dt.dataclass(frozen=True)
 class IssueFriendRequestClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -46,7 +48,7 @@ class IssueFriendRequestClientResponse:
 @dt.dataclass(frozen=True)
 class AcceptFriendRequestClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -57,7 +59,7 @@ class AcceptFriendRequestClientResponse:
 @dt.dataclass(frozen=True)
 class DeclineFriendRequestClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -68,7 +70,7 @@ class DeclineFriendRequestClientResponse:
 @dt.dataclass(frozen=True)
 class RemoveFriendClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -79,7 +81,7 @@ class RemoveFriendClientResponse:
 @dt.dataclass(frozen=True)
 class RemoveFriendRequestClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -89,8 +91,8 @@ class RemoveFriendRequestClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPlatformFriendListClientResponse:
-    response: PlatformFriendResponse
-    error_code: PlatformErrorCodes
+    response: "PlatformFriendResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

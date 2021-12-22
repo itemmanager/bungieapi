@@ -2,12 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DestinyEnergyType,
-                                               PlugAvailabilityMode,
-                                               PlugUiStyles)
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyItemTierTypeDefinition:
@@ -18,7 +12,7 @@ class DestinyItemTierTypeDefinition:
     that could be useful.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     infusion_process: t.Any
     hash: int
     index: int
@@ -33,7 +27,7 @@ class DestinyItemTierTypeInfusionBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyDerivedItemCategoryDefinition:
-    """ 'A shortcut for the fact that some items have a "Preview Vendor" - See DestinyInventoryItemDefinition.preview.previewVendorHash - that is intended to be used to show what items you can get as a result of acquiring or using this item.
+    """'A shortcut for the fact that some items have a "Preview Vendor" - See DestinyInventoryItemDefinition.preview.previewVendorHash - that is intended to be used to show what items you can get as a result of acquiring or using this item.
     A common example of this in Destiny 1 was Eververse "Boxes," which could have many possible items. This "Preview Vendor" is not a vendor you can actually see in the game, but it defines categories and sale items for all of the possible items you could get from the Box so that the game can show them to you. We summarize that info here so that you don't have to do that Vendor lookup and aggregation manually."""
 
     category_description: str
@@ -77,10 +71,10 @@ class DestinyItemPlugDefinition:
     enabled_material_requirement_hash: int
     enabled_rules: t.Sequence["DestinyPlugRuleDefinition"]
     ui_plug_label: str
-    plug_style: PlugUiStyles
-    plug_availability: PlugAvailabilityMode
+    plug_style: "PlugUiStyles"
+    plug_availability: "PlugAvailabilityMode"
     alternate_ui_plug_label: str
-    alternate_plug_style: PlugUiStyles
+    alternate_plug_style: "PlugUiStyles"
     is_dummy_plug: bool
     parent_item_override: t.Any
     energy_capacity: t.Any
@@ -117,7 +111,7 @@ class DestinyEnergyCapacityEntry:
 
     capacity_value: int
     energy_type_hash: int
-    energy_type: DestinyEnergyType
+    energy_type: "DestinyEnergyType"
 
 
 @dt.dataclass(frozen=True)
@@ -131,4 +125,14 @@ class DestinyEnergyCostEntry:
 
     energy_cost: int
     energy_type_hash: int
-    energy_type: DestinyEnergyType
+    energy_type: "DestinyEnergyType"
+
+
+from bungieapi.generated.types.destiny import DestinyEnergyType  # noqa: E402
+from bungieapi.generated.types.destiny import PlugAvailabilityMode  # noqa: E402
+from bungieapi.generated.types.destiny import PlugUiStyles  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

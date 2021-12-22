@@ -2,20 +2,24 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyPresentationNodeType
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyMetricDefinition:
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     tracking_objective_hash: int
     lower_value_is_better: bool
-    presentation_node_type: DestinyPresentationNodeType
+    presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
     parent_node_hashes: t.Sequence[int]
     hash: int
     index: int
     redacted: bool
+
+
+from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

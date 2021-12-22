@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.user import GeneralUser
-
 
 @dt.dataclass(frozen=True)
 class ContentItemPublicContract:
@@ -16,7 +14,7 @@ class ContentItemPublicContract:
     has_age_gate: bool
     minimum_age: int
     rating_image_path: str
-    author: GeneralUser
+    author: "GeneralUser"
     auto_english_property_fallback: bool
     properties: t.Mapping[str, t.Any]
     representations: t.Sequence["ContentRepresentation"]
@@ -35,3 +33,7 @@ class ContentRepresentation:
 class CommentSummary:
     topic_id: int
     comment_count: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.user import GeneralUser  # noqa: E402

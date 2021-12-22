@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinySeasonDefinition:
@@ -12,7 +9,7 @@ class DestinySeasonDefinition:
     the game highlights certain challenges, provides new loot, has new Clan-
     related rewards and celebrates various seasonal events."""
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     background_image_path: str
     season_number: int
     start_date: str
@@ -50,9 +47,15 @@ class DestinySeasonPreviewImageDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinySeasonPassDefinition:
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     reward_progression_hash: int
     prestige_progression_hash: int
     hash: int
     index: int
     redacted: bool
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

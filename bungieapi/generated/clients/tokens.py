@@ -11,7 +11,7 @@ from ...base import BaseClient
 @dt.dataclass(frozen=True)
 class ClaimPartnerOfferClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -22,7 +22,7 @@ class ClaimPartnerOfferClientResponse:
 @dt.dataclass(frozen=True)
 class ApplyMissingPartnerOffersWithoutClaimClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -32,8 +32,8 @@ class ApplyMissingPartnerOffersWithoutClaimClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPartnerOfferSkuHistoryClientResponse:
-    response: t.Sequence[PartnerOfferSkuHistoryResponse]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["PartnerOfferSkuHistoryResponse"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

@@ -3,8 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
-from bungieapi.generated.types.forum import (ForumRecruitmentDetail,
-                                             PostSearchResponse)
+from bungieapi.generated.types.forum import ForumRecruitmentDetail, PostSearchResponse
 from bungieapi.generated.types.tags.models.contracts import TagResponse
 
 from ...base import BaseClient
@@ -12,8 +11,8 @@ from ...base import BaseClient
 
 @dt.dataclass(frozen=True)
 class GetTopicsPagedClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -23,8 +22,8 @@ class GetTopicsPagedClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetCoreTopicsPagedClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -34,8 +33,8 @@ class GetCoreTopicsPagedClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPostsThreadedPagedClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -45,8 +44,8 @@ class GetPostsThreadedPagedClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPostsThreadedPagedFromChildClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -56,8 +55,8 @@ class GetPostsThreadedPagedFromChildClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPostAndParentClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -67,8 +66,8 @@ class GetPostAndParentClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPostAndParentAwaitingApprovalClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -79,7 +78,7 @@ class GetPostAndParentAwaitingApprovalClientResponse:
 @dt.dataclass(frozen=True)
 class GetTopicForContentClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -89,8 +88,8 @@ class GetTopicForContentClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetForumTagSuggestionsClientResponse:
-    response: t.Sequence[TagResponse]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["TagResponse"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -100,8 +99,8 @@ class GetForumTagSuggestionsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPollClientResponse:
-    response: PostSearchResponse
-    error_code: PlatformErrorCodes
+    response: "PostSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -111,8 +110,8 @@ class GetPollClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetRecruitmentThreadSummariesClientResponse:
-    response: t.Sequence[ForumRecruitmentDetail]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["ForumRecruitmentDetail"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

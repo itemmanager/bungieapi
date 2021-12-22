@@ -2,27 +2,20 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DestinyPresentationNodeType,
-                                               DestinyScope)
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-from bungieapi.generated.types.destiny.definitions.presentation import (
-    DestinyPresentationChildBlock, DestinyPresentationNodeRequirementsBlock)
-
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleDefinition:
     """'Defines a."""
 
-    display_properties: DestinyDisplayPropertiesDefinition
-    scope: DestinyScope
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    scope: "DestinyScope"
     source_string: str
     source_hash: int
     item_hash: int
     acquisition_info: "DestinyCollectibleAcquisitionBlock"
     state_info: "DestinyCollectibleStateBlock"
-    presentation_info: DestinyPresentationChildBlock
-    presentation_node_type: DestinyPresentationNodeType
+    presentation_info: "DestinyPresentationChildBlock"
+    presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
     parent_node_hashes: t.Sequence[int]
@@ -40,4 +33,17 @@ class DestinyCollectibleAcquisitionBlock:
 @dt.dataclass(frozen=True)
 class DestinyCollectibleStateBlock:
     obscured_override_item_hash: int
-    requirements: DestinyPresentationNodeRequirementsBlock
+    requirements: "DestinyPresentationNodeRequirementsBlock"
+
+
+from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.presentation import (  # noqa: E402
+    DestinyPresentationChildBlock,
+    DestinyPresentationNodeRequirementsBlock,
+)

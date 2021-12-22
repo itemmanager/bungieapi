@@ -2,21 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-from bungieapi.generated.types.destiny import (DestinyActivity, DestinyClass,
-                                               DestinyGender,
-                                               DestinyProgression, DestinyRace,
-                                               DyeReference)
-from bungieapi.generated.types.destiny.entities.items import \
-    DestinyItemPerksComponent
-from bungieapi.generated.types.destiny.historical_stats.definitions import \
-    DestinyActivityModeType
-from bungieapi.generated.types.destiny.milestones import DestinyMilestone
-from bungieapi.generated.types.destiny.progression import \
-    DestinyFactionProgression
-from bungieapi.generated.types.destiny.quests import (DestinyObjectiveProgress,
-                                                      DestinyQuestStatus)
-
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterComponent:
@@ -27,7 +12,7 @@ class DestinyCharacterComponent:
     """
 
     membership_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     character_id: int
     date_last_played: str
     minutes_played_this_session: int
@@ -37,9 +22,9 @@ class DestinyCharacterComponent:
     race_hash: int
     gender_hash: int
     class_hash: int
-    race_type: DestinyRace
-    class_type: DestinyClass
-    gender_type: DestinyGender
+    race_type: "DestinyRace"
+    class_type: "DestinyClass"
+    gender_type: "DestinyGender"
     emblem_path: str
     emblem_background_path: str
     emblem_hash: int
@@ -56,12 +41,12 @@ class DestinyCharacterProgressionComponent:
     on a user: data where the user is gaining levels, reputation, completions,
     rewards, etc..."""
 
-    progressions: t.Mapping[str, DestinyProgression]
-    factions: t.Mapping[str, DestinyFactionProgression]
-    milestones: t.Mapping[str, DestinyMilestone]
-    quests: t.Sequence[DestinyQuestStatus]
-    uninstanced_item_objectives: t.Mapping[str, t.Sequence[DestinyObjectiveProgress]]
-    uninstanced_item_perks: t.Mapping[str, DestinyItemPerksComponent]
+    progressions: t.Mapping[str, "DestinyProgression"]
+    factions: t.Mapping[str, "DestinyFactionProgression"]
+    milestones: t.Mapping[str, "DestinyMilestone"]
+    quests: t.Sequence["DestinyQuestStatus"]
+    uninstanced_item_objectives: t.Mapping[str, t.Sequence["DestinyObjectiveProgress"]]
+    uninstanced_item_perks: t.Mapping[str, "DestinyItemPerksComponent"]
     checklists: t.Mapping[str, t.Mapping[str, bool]]
     seasonal_artifact: t.Any
 
@@ -78,7 +63,7 @@ class DestinyCharacterRenderComponent:
     but be warned: the rabbit hole goes pretty deep.
     """
 
-    custom_dyes: t.Sequence[DyeReference]
+    custom_dyes: t.Sequence["DyeReference"]
     customization: t.Any
     peer_view: t.Any
 
@@ -92,11 +77,35 @@ class DestinyCharacterActivitiesComponent:
     """
 
     date_activity_started: str
-    available_activities: t.Sequence[DestinyActivity]
+    available_activities: t.Sequence["DestinyActivity"]
     current_activity_hash: int
     current_activity_mode_hash: int
     current_activity_mode_type: int
     current_activity_mode_hashes: t.Sequence[int]
-    current_activity_mode_types: t.Sequence[DestinyActivityModeType]
+    current_activity_mode_types: t.Sequence["DestinyActivityModeType"]
     current_playlist_activity_hash: int
     last_completed_story_hash: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyActivity  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyClass  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyGender  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyProgression  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyRace  # noqa: E402
+from bungieapi.generated.types.destiny import DyeReference  # noqa: E402
+from bungieapi.generated.types.destiny.entities.items import (
+    DestinyItemPerksComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.historical_stats.definitions import (
+    DestinyActivityModeType,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.milestones import DestinyMilestone  # noqa: E402
+from bungieapi.generated.types.destiny.progression import (
+    DestinyFactionProgression,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402

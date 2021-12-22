@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyItemQuantity
-
 
 @dt.dataclass(frozen=True)
 class DestinyPublicActivityStatus:
@@ -13,4 +11,8 @@ class DestinyPublicActivityStatus:
 
     challenge_objective_hashes: t.Sequence[int]
     modifier_hashes: t.Sequence[int]
-    reward_tooltip_items: t.Sequence[DestinyItemQuantity]
+    reward_tooltip_items: t.Sequence["DestinyItemQuantity"]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyItemQuantity  # noqa: E402

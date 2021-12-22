@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyRecordState
-from bungieapi.generated.types.destiny.quests import DestinyObjectiveProgress
-
 
 @dt.dataclass(frozen=True)
 class DestinyRecordsComponent:
@@ -15,9 +12,9 @@ class DestinyRecordsComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordComponent:
-    state: DestinyRecordState
-    objectives: t.Sequence[DestinyObjectiveProgress]
-    interval_objectives: t.Sequence[DestinyObjectiveProgress]
+    state: "DestinyRecordState"
+    objectives: t.Sequence["DestinyObjectiveProgress"]
+    interval_objectives: t.Sequence["DestinyObjectiveProgress"]
     intervals_redeemed_count: int
     completed_count: int
     reward_visibilty: t.Sequence[bool]
@@ -41,3 +38,10 @@ class DestinyCharacterRecordsComponent:
     records: t.Mapping[str, "DestinyRecordComponent"]
     record_categories_root_node_hash: int
     record_seals_root_node_hash: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyRecordState  # noqa: E402
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402

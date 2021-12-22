@@ -2,11 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DestinyItemQuantity,
-                                               DestinyUnlockStatus,
-                                               DestinyVendorItemState,
-                                               VendorItemStatus)
-
 
 @dt.dataclass(frozen=True)
 class DestinyVendorComponent:
@@ -59,16 +54,23 @@ class DestinyVendorSaleItemComponent:
     "items" property.
     """
 
-    sale_status: VendorItemStatus
+    sale_status: "VendorItemStatus"
     required_unlocks: t.Sequence[int]
-    unlock_statuses: t.Sequence[DestinyUnlockStatus]
+    unlock_statuses: t.Sequence["DestinyUnlockStatus"]
     failure_indexes: t.Sequence[int]
-    augments: DestinyVendorItemState
+    augments: "DestinyVendorItemState"
     item_value_visibility: t.Sequence[bool]
     vendor_item_index: int
     item_hash: int
     override_style_item_hash: int
     quantity: int
-    costs: t.Sequence[DestinyItemQuantity]
+    costs: t.Sequence["DestinyItemQuantity"]
     override_next_refresh_date: str
     api_purchasable: bool
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyItemQuantity  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyUnlockStatus  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyVendorItemState  # noqa: E402
+from bungieapi.generated.types.destiny import VendorItemStatus  # noqa: E402

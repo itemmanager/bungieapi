@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyProgression
-
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactProfileScoped:
@@ -16,9 +14,9 @@ class DestinyArtifactProfileScoped:
     """
 
     artifact_hash: int
-    point_progression: DestinyProgression
+    point_progression: "DestinyProgression"
     points_acquired: int
-    power_bonus_progression: DestinyProgression
+    power_bonus_progression: "DestinyProgression"
     power_bonus: int
 
 
@@ -42,3 +40,7 @@ class DestinyArtifactTier:
 class DestinyArtifactTierItem:
     item_hash: int
     is_active: bool
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyProgression  # noqa: E402

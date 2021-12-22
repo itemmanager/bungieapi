@@ -2,16 +2,12 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-from bungieapi.generated.types.groups_v2 import GroupUserInfoCard
-from bungieapi.generated.types.ignores import IgnoreResponse
-
 
 @dt.dataclass(frozen=True)
 class UserMembership:
     """'Very basic info about a user as returned by the Account server."""
 
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     membership_id: int
     display_name: str
     bungie_global_display_name: str
@@ -26,10 +22,10 @@ class CrossSaveUserMembership:
     Do NOT use as a request contract.
     """
 
-    cross_save_override: BungieMembershipType
-    applicable_membership_types: t.Sequence[BungieMembershipType]
+    cross_save_override: "BungieMembershipType"
+    applicable_membership_types: t.Sequence["BungieMembershipType"]
     is_public: bool
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     membership_id: int
     display_name: str
     bungie_global_display_name: str
@@ -51,10 +47,10 @@ class UserInfoCard:
 
     supplemental_display_name: str
     icon_path: str
-    cross_save_override: BungieMembershipType
-    applicable_membership_types: t.Sequence[BungieMembershipType]
+    cross_save_override: "BungieMembershipType"
+    applicable_membership_types: t.Sequence["BungieMembershipType"]
     is_public: bool
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     membership_id: int
     display_name: str
     bungie_global_display_name: str
@@ -103,22 +99,22 @@ class GeneralUser:
 @dt.dataclass(frozen=True)
 class UserToUserContext:
     is_following: bool
-    ignore_status: IgnoreResponse
+    ignore_status: "IgnoreResponse"
     global_ignore_end_date: str
 
 
 @dt.dataclass(frozen=True)
 class UserMembershipData:
-    destiny_memberships: t.Sequence[GroupUserInfoCard]
+    destiny_memberships: t.Sequence["GroupUserInfoCard"]
     primary_membership_id: int
     bungie_net_user: "GeneralUser"
 
 
 @dt.dataclass(frozen=True)
 class HardLinkedUserMembership:
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     membership_id: int
-    cross_save_overridden_type: BungieMembershipType
+    cross_save_overridden_type: "BungieMembershipType"
     cross_save_overridden_membership_id: int
 
 
@@ -227,3 +223,9 @@ class EmailViewDefinitionSetting:
     set_by_default: bool
     opt_in_aggregate_value: "OptInFlags"
     subscriptions: t.Sequence["EmailSubscriptionDefinition"]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+from bungieapi.generated.types.groups_v2 import GroupUserInfoCard  # noqa: E402
+from bungieapi.generated.types.ignores import IgnoreResponse  # noqa: E402

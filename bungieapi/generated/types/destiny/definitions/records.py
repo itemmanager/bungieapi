@@ -2,34 +2,24 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DestinyItemQuantity,
-                                               DestinyPresentationNodeType,
-                                               DestinyRecordToastStyle,
-                                               DestinyRecordValueStyle,
-                                               DestinyScope)
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-from bungieapi.generated.types.destiny.definitions.presentation import (
-    DestinyPresentationChildBlock, DestinyPresentationNodeRequirementsBlock)
-
 
 @dt.dataclass(frozen=True)
 class DestinyRecordDefinition:
-    display_properties: DestinyDisplayPropertiesDefinition
-    scope: DestinyScope
-    presentation_info: DestinyPresentationChildBlock
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    scope: "DestinyScope"
+    presentation_info: "DestinyPresentationChildBlock"
     lore_hash: int
     objective_hashes: t.Sequence[int]
-    record_value_style: DestinyRecordValueStyle
+    record_value_style: "DestinyRecordValueStyle"
     for_title_gilding: bool
     title_info: "DestinyRecordTitleBlock"
     completion_info: "DestinyRecordCompletionBlock"
     state_info: "SchemaRecordStateBlock"
-    requirements: DestinyPresentationNodeRequirementsBlock
+    requirements: "DestinyPresentationNodeRequirementsBlock"
     expiration_info: "DestinyRecordExpirationBlock"
     interval_info: t.Any
-    reward_items: t.Sequence[DestinyItemQuantity]
-    presentation_node_type: DestinyPresentationNodeType
+    reward_items: t.Sequence["DestinyItemQuantity"]
+    presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
     parent_node_hashes: t.Sequence[int]
@@ -51,7 +41,7 @@ class DestinyRecordCompletionBlock:
     partial_completion_objective_count_threshold: int
     score_value: int
     should_fire_toast: bool
-    toast_style: DestinyRecordToastStyle
+    toast_style: "DestinyRecordToastStyle"
 
 
 @dt.dataclass(frozen=True)
@@ -85,4 +75,20 @@ class DestinyRecordIntervalObjective:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordIntervalRewards:
-    interval_reward_items: t.Sequence[DestinyItemQuantity]
+    interval_reward_items: t.Sequence["DestinyItemQuantity"]
+
+
+from bungieapi.generated.types.destiny import DestinyItemQuantity  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyRecordToastStyle  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyRecordValueStyle  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.presentation import (  # noqa: E402
+    DestinyPresentationChildBlock,
+    DestinyPresentationNodeRequirementsBlock,
+)

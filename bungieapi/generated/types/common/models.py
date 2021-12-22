@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.user import EmailSettings
-
 
 @dt.dataclass(frozen=True)
 class CoreSettingsConfiguration:
@@ -26,7 +24,7 @@ class CoreSettingsConfiguration:
     clan_banner_gonfalon_detail_colors: t.Sequence["CoreSetting"]
     clan_banner_standards: t.Sequence["CoreSetting"]
     destiny2_core_settings: "Destiny2CoreSettings"
-    email_settings: EmailSettings
+    email_settings: "EmailSettings"
     fireteam_activities: t.Sequence["CoreSetting"]
 
 
@@ -72,3 +70,7 @@ class Destiny2CoreSettings:
     seasonal_challenges_presentation_node_hash: int
     future_season_hashes: t.Sequence[int]
     past_season_hashes: t.Sequence[int]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.user import EmailSettings  # noqa: E402

@@ -2,17 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import (BungieMembershipType,
-                                       DestinyBaseItemComponentSetOfuint32,
-                                       DestinyItemComponentSetOfint32)
-from bungieapi.generated.types.destiny.components.vendors import \
-    DestinyPublicVendorSaleItemComponent
-from bungieapi.generated.types.destiny.entities.items import \
-    DestinyItemComponent
-from bungieapi.generated.types.destiny.entities.vendors import \
-    DestinyVendorSaleItemComponent
-from bungieapi.generated.types.exceptions import PlatformErrorCodes
-
 
 @dt.dataclass(frozen=True)
 class DestinyLinkedProfilesResponse:
@@ -38,10 +27,10 @@ class DestinyProfileUserInfoCard:
     unpaired_game_versions: int
     supplemental_display_name: str
     icon_path: str
-    cross_save_override: BungieMembershipType
-    applicable_membership_types: t.Sequence[BungieMembershipType]
+    cross_save_override: "BungieMembershipType"
+    applicable_membership_types: t.Sequence["BungieMembershipType"]
     is_public: bool
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     membership_id: int
     display_name: str
     bungie_global_display_name: str
@@ -58,7 +47,7 @@ class DestinyErrorProfile:
     Type and the Membership ID.
     """
 
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     info_card: t.Any
 
 
@@ -90,7 +79,7 @@ class DestinyProfileResponse:
     character_kiosks: t.Any
     character_plug_sets: t.Any
     character_uninstanced_item_components: t.Mapping[
-        str, DestinyBaseItemComponentSetOfuint32
+        str, "DestinyBaseItemComponentSetOfuint32"
     ]
     character_presentation_nodes: t.Any
     character_records: t.Any
@@ -152,14 +141,14 @@ class DestinyVendorsResponse:
     vendors: t.Any
     categories: t.Any
     sales: t.Any
-    item_components: t.Mapping[str, DestinyItemComponentSetOfint32]
+    item_components: t.Mapping[str, "DestinyItemComponentSetOfint32"]
     currency_lookups: t.Any
     string_variables: t.Any
 
 
 @dt.dataclass(frozen=True)
 class PersonalDestinyVendorSaleItemSetComponent:
-    sale_items: t.Mapping[str, DestinyVendorSaleItemComponent]
+    sale_items: t.Mapping[str, "DestinyVendorSaleItemComponent"]
 
 
 @dt.dataclass(frozen=True)
@@ -192,7 +181,7 @@ class DestinyPublicVendorsResponse:
 
 @dt.dataclass(frozen=True)
 class PublicDestinyVendorSaleItemSetComponent:
-    sale_items: t.Mapping[str, DestinyPublicVendorSaleItemComponent]
+    sale_items: t.Mapping[str, "DestinyPublicVendorSaleItemComponent"]
 
 
 @dt.dataclass(frozen=True)
@@ -209,12 +198,28 @@ class InventoryChangedResponse:
     """'A response containing all of the components for all requested
     vendors."""
 
-    added_inventory_items: t.Sequence[DestinyItemComponent]
-    removed_inventory_items: t.Sequence[DestinyItemComponent]
+    added_inventory_items: t.Sequence["DestinyItemComponent"]
+    removed_inventory_items: t.Sequence["DestinyItemComponent"]
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemChangeResponse:
     item: "DestinyItemResponse"
-    added_inventory_items: t.Sequence[DestinyItemComponent]
-    removed_inventory_items: t.Sequence[DestinyItemComponent]
+    added_inventory_items: t.Sequence["DestinyItemComponent"]
+    removed_inventory_items: t.Sequence["DestinyItemComponent"]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402
+from bungieapi.generated.types import DestinyBaseItemComponentSetOfuint32  # noqa: E402
+from bungieapi.generated.types import DestinyItemComponentSetOfint32  # noqa: E402
+from bungieapi.generated.types.destiny.components.vendors import (
+    DestinyPublicVendorSaleItemComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.entities.items import (
+    DestinyItemComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.entities.vendors import (
+    DestinyVendorSaleItemComponent,
+)  # noqa: E402
+from bungieapi.generated.types.exceptions import PlatformErrorCodes  # noqa: E402

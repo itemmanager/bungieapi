@@ -2,25 +2,23 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-
 
 @dt.dataclass(frozen=True)
 class DestinyActionRequest:
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterActionRequest:
     character_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemActionRequest:
     item_id: int
     character_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
@@ -29,14 +27,14 @@ class DestinyPostmasterTransferRequest:
     stack_size: int
     item_id: int
     character_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemSetActionRequest:
     item_ids: t.Sequence[int]
     character_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
@@ -44,7 +42,7 @@ class DestinyItemStateRequest:
     state: bool
     item_id: int
     character_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
@@ -53,7 +51,7 @@ class DestinyInsertPlugsActionRequest:
     item_instance_id: int
     plug: t.Any
     character_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
@@ -78,4 +76,8 @@ class DestinyInsertPlugsFreeActionRequest:
     plug: t.Any
     item_id: int
     character_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402

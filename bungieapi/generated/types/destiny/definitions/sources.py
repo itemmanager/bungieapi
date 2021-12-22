@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.definitions import \
-    DestinyInventoryItemStatDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyItemSourceDefinition:
@@ -22,5 +19,11 @@ class DestinyItemSourceDefinition:
     max_quality: int
     min_level_required: int
     max_level_required: int
-    computed_stats: t.Mapping[str, DestinyInventoryItemStatDefinition]
+    computed_stats: t.Mapping[str, "DestinyInventoryItemStatDefinition"]
     source_hashes: t.Sequence[int]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions import (
+    DestinyInventoryItemStatDefinition,
+)  # noqa: E402

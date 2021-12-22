@@ -2,14 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DestinySocketCategoryStyle,
-                                               DestinySocketVisibility,
-                                               SocketTypeActionType)
-from bungieapi.generated.types.destiny.definitions import \
-    DestinyItemSocketEntryPlugItemRandomizedDefinition
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinySocketTypeDefinition:
@@ -26,7 +18,7 @@ class DestinySocketTypeDefinition:
     insert_action: t.Any
     plug_whitelist: t.Sequence["DestinyPlugWhitelistEntryDefinition"]
     socket_category_hash: int
-    visibility: DestinySocketVisibility
+    visibility: "DestinySocketVisibility"
     always_randomize_sockets: bool
     is_preview_enabled: bool
     hide_duplicate_reusable_plugs: bool
@@ -44,7 +36,7 @@ class DestinyInsertPlugActionDefinition:
     UI purposes."""
 
     action_execute_seconds: int
-    action_type: SocketTypeActionType
+    action_type: "SocketTypeActionType"
 
 
 @dt.dataclass(frozen=True)
@@ -76,9 +68,9 @@ class DestinySocketCategoryDefinition:
     As a result, I will try to compile these rules into the individual sockets on items, and provide the best hint possible there through the plugSources property. In the future, I may attempt to use this information in conjunction with the item to provide a more usable UI hint on the socket layer, but for now improving the consistency of plugSources is the best I have time to provide. (See https://github.com/Bungie-net/api/issues/522 for more info)
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     ui_category_style: int
-    category_style: DestinySocketCategoryStyle
+    category_style: "DestinySocketCategoryStyle"
     hash: int
     index: int
     redacted: bool
@@ -99,8 +91,22 @@ class DestinyPlugSetDefinition:
     """
 
     display_properties: t.Any
-    reusable_plug_items: t.Sequence[DestinyItemSocketEntryPlugItemRandomizedDefinition]
+    reusable_plug_items: t.Sequence[
+        "DestinyItemSocketEntryPlugItemRandomizedDefinition"
+    ]
     is_fake_plug_set: bool
     hash: int
     index: int
     redacted: bool
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinySocketCategoryStyle  # noqa: E402
+from bungieapi.generated.types.destiny import DestinySocketVisibility  # noqa: E402
+from bungieapi.generated.types.destiny import SocketTypeActionType  # noqa: E402
+from bungieapi.generated.types.destiny.definitions import (
+    DestinyItemSocketEntryPlugItemRandomizedDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

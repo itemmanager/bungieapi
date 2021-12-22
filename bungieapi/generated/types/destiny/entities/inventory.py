@@ -2,9 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.entities.items import \
-    DestinyItemComponent
-
 
 @dt.dataclass(frozen=True)
 class DestinyInventoryComponent:
@@ -20,4 +17,10 @@ class DestinyInventoryComponent:
     for more info.
     """
 
-    items: t.Sequence[DestinyItemComponent]
+    items: t.Sequence["DestinyItemComponent"]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.entities.items import (
+    DestinyItemComponent,
+)  # noqa: E402

@@ -2,18 +2,15 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.quests import DestinyObjectiveProgress
-from bungieapi.generated.types.destiny.sockets import DestinyItemPlugBase
-
 
 @dt.dataclass(frozen=True)
 class DestinyItemReusablePlugsComponent:
-    plugs: t.Mapping[str, t.Sequence[DestinyItemPlugBase]]
+    plugs: t.Mapping[str, t.Sequence["DestinyItemPlugBase"]]
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemPlugObjectivesComponent:
-    objectives_per_plug: t.Mapping[str, t.Sequence[DestinyObjectiveProgress]]
+    objectives_per_plug: t.Mapping[str, t.Sequence["DestinyObjectiveProgress"]]
 
 
 @dt.dataclass(frozen=True)
@@ -27,9 +24,17 @@ class DestinyItemPlugComponent:
     specific Socket into which it could be inserted.
     """
 
-    plug_objectives: t.Sequence[DestinyObjectiveProgress]
+    plug_objectives: t.Sequence["DestinyObjectiveProgress"]
     plug_item_hash: int
     can_insert: bool
     enabled: bool
     insert_fail_indexes: t.Sequence[int]
     enable_fail_indexes: t.Sequence[int]
+
+
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.sockets import DestinyItemPlugBase  # noqa: E402

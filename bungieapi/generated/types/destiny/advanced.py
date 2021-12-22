@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import BungieMembershipType
-
 
 @dt.dataclass(frozen=True)
 class AwaInitializeResponse:
@@ -15,7 +13,7 @@ class AwaInitializeResponse:
 class AwaPermissionRequested:
     type: "AwaType"
     affected_item_id: int
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
     character_id: int
 
 
@@ -41,7 +39,10 @@ class AwaAuthorizationResult:
     maximum_number_of_uses: int
     valid_until: str
     type: "AwaType"
-    membership_type: BungieMembershipType
+    membership_type: "BungieMembershipType"
 
 
 AwaResponseReason = t.Any
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types import BungieMembershipType  # noqa: E402

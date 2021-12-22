@@ -3,8 +3,10 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.generated.types import GlobalAlert
-from bungieapi.generated.types.common.models import (CoreSettingsConfiguration,
-                                                     CoreSystem)
+from bungieapi.generated.types.common.models import (
+    CoreSettingsConfiguration,
+    CoreSystem,
+)
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 
 from ...base import BaseClient
@@ -14,7 +16,7 @@ from .. import clients
 @dt.dataclass(frozen=True)
 class GetAvailableLocalesClientResponse:
     response: t.Mapping[str, str]
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -24,8 +26,8 @@ class GetAvailableLocalesClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetCommonSettingsClientResponse:
-    response: CoreSettingsConfiguration
-    error_code: PlatformErrorCodes
+    response: "CoreSettingsConfiguration"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -35,8 +37,8 @@ class GetCommonSettingsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetUserSystemOverridesClientResponse:
-    response: t.Mapping[str, CoreSystem]
-    error_code: PlatformErrorCodes
+    response: t.Mapping[str, "CoreSystem"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -46,8 +48,8 @@ class GetUserSystemOverridesClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetGlobalAlertsClientResponse:
-    response: t.Sequence[GlobalAlert]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["GlobalAlert"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

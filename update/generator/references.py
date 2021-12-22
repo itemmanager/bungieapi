@@ -1,7 +1,8 @@
-import typing as t
 import functools as ft
-from .. import openapi as api
 import itertools as it
+import typing as t
+
+from .. import openapi as api
 
 
 @ft.singledispatch
@@ -16,7 +17,10 @@ def reference_reference(reference: api.Reference) -> t.Iterator[api.Reference]:
 
 @references.register
 def reference_object(object: api.Object) -> t.Iterator[api.Reference]:
-    for child in it.chain(object.properties.values() if object.properties else [], [object.additional_properties] if object.additional_properties else []):
+    for child in it.chain(
+        object.properties.values() if object.properties else [],
+        [object.additional_properties] if object.additional_properties else [],
+    ):
         yield from references(child)
 
 

@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.sockets import DestinyItemPlug
-
 
 @dt.dataclass(frozen=True)
 class DestinyPlugSetsComponent:
@@ -20,4 +18,8 @@ class DestinyPlugSetsComponent:
     reused)
     """
 
-    plugs: t.Mapping[str, t.Sequence[DestinyItemPlug]]
+    plugs: t.Mapping[str, t.Sequence["DestinyItemPlug"]]
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.sockets import DestinyItemPlug  # noqa: E402

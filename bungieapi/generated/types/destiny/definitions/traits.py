@@ -2,13 +2,10 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyTraitDefinition:
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     trait_category_id: str
     trait_category_hash: int
     hash: int
@@ -24,3 +21,9 @@ class DestinyTraitCategoryDefinition:
     hash: int
     index: int
     redacted: bool
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

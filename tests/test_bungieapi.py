@@ -1,7 +1,6 @@
 import pytest
 
-from bungieapi import __version__
-from bungieapi import Client
+from bungieapi import Client, __version__
 
 
 def test_version():

@@ -2,11 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (ActivityGraphNodeHighlightType,
-                                               DestinyGraphNodeState)
-from bungieapi.generated.types.destiny.definitions import \
-    DestinyUnlockExpressionDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyActivityGraphDefinition:
@@ -65,7 +60,7 @@ class DestinyActivityGraphNodeFeaturingStateDefinition:
     whether it should be set.
     """
 
-    highlight_type: ActivityGraphNodeHighlightType
+    highlight_type: "ActivityGraphNodeHighlightType"
 
 
 @dt.dataclass(frozen=True)
@@ -93,7 +88,7 @@ class DestinyActivityGraphNodeStateEntry:
     in different ways or even excluded from view entirely.
     """
 
-    state: DestinyGraphNodeState
+    state: "DestinyGraphNodeState"
 
 
 @dt.dataclass(frozen=True)
@@ -147,7 +142,7 @@ class DestinyLinkedGraphDefinition:
 
     description: str
     name: str
-    unlock_expression: DestinyUnlockExpressionDefinition
+    unlock_expression: "DestinyUnlockExpressionDefinition"
     linked_graph_id: int
     linked_graphs: t.Sequence["DestinyLinkedGraphEntryDefinition"]
     overview: str
@@ -156,3 +151,13 @@ class DestinyLinkedGraphDefinition:
 @dt.dataclass(frozen=True)
 class DestinyLinkedGraphEntryDefinition:
     activity_graph_hash: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyGraphNodeState  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    ActivityGraphNodeHighlightType,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions import (
+    DestinyUnlockExpressionDefinition,
+)  # noqa: E402

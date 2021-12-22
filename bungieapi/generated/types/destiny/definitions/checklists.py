@@ -2,10 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyScope
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyChecklistDefinition:
@@ -29,9 +25,9 @@ class DestinyChecklistDefinition:
     Forsaken.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     view_action_string: str
-    scope: DestinyScope
+    scope: "DestinyScope"
     entries: t.Sequence["DestinyChecklistEntryDefinition"]
     hash: int
     index: int
@@ -58,4 +54,12 @@ class DestinyChecklistEntryDefinition:
     item_hash: int
     vendor_hash: int
     vendor_interaction_index: int
-    scope: DestinyScope
+    scope: "DestinyScope"
+
+
+from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

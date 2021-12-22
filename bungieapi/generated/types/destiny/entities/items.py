@@ -2,14 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DamageType, DestinyEnergyType,
-                                               DestinyStat, DestinyTalentNode,
-                                               EquipFailureReason,
-                                               ItemBindStatus, ItemLocation,
-                                               ItemState, TransferStatuses)
-from bungieapi.generated.types.destiny.perks import DestinyPerkReference
-from bungieapi.generated.types.destiny.quests import DestinyObjectiveProgress
-
 
 @dt.dataclass(frozen=True)
 class DestinyItemComponent:
@@ -20,12 +12,12 @@ class DestinyItemComponent:
     item_hash: int
     item_instance_id: int
     quantity: int
-    bind_status: ItemBindStatus
-    location: ItemLocation
+    bind_status: "ItemBindStatus"
+    location: "ItemLocation"
     bucket_hash: int
-    transfer_status: TransferStatuses
+    transfer_status: "TransferStatuses"
     lockable: bool
-    state: ItemState
+    state: "ItemState"
     override_style_item_hash: int
     expiration_date: str
     is_wrapper: bool
@@ -44,7 +36,7 @@ class DestinyItemPerksComponent:
     Talent Grids, Sockets, and the item itself can apply Perks, which are then summarized here for your convenience.
     """
 
-    perks: t.Sequence[DestinyPerkReference]
+    perks: t.Sequence["DestinyPerkReference"]
 
 
 @dt.dataclass(frozen=True)
@@ -55,7 +47,7 @@ class DestinyItemObjectivesComponent:
     Objectives and progression tied to this item.
     """
 
-    objectives: t.Sequence[DestinyObjectiveProgress]
+    objectives: t.Sequence["DestinyObjectiveProgress"]
     flavor_objective: t.Any
     date_completed: str
 
@@ -76,7 +68,7 @@ class DestinyItemInstanceComponent:
     definition.inventory.isInstanceItem property.
     """
 
-    damage_type: DamageType
+    damage_type: "DamageType"
     damage_type_hash: int
     primary_stat: t.Any
     item_level: int
@@ -85,7 +77,7 @@ class DestinyItemInstanceComponent:
     can_equip: bool
     equip_required_level: int
     unlock_hashes_required_to_equip: t.Sequence[int]
-    cannot_equip_reason: EquipFailureReason
+    cannot_equip_reason: "EquipFailureReason"
     breaker_type: int
     breaker_type_hash: int
     energy: t.Any
@@ -94,7 +86,7 @@ class DestinyItemInstanceComponent:
 @dt.dataclass(frozen=True)
 class DestinyItemInstanceEnergy:
     energy_type_hash: int
-    energy_type: DestinyEnergyType
+    energy_type: "DestinyEnergyType"
     energy_capacity: int
     energy_used: int
     energy_unused: int
@@ -120,7 +112,7 @@ class DestinyItemStatsComponent:
     Note that some stats have additional computation in-game at runtime - for instance, Magazine Size - and thus these stats might not be 100% accurate compared to what you see in-game for some stats. I know, it sucks. I hate it too.
     """
 
-    stats: t.Mapping[str, DestinyStat]
+    stats: t.Mapping[str, "DestinyStat"]
 
 
 @dt.dataclass(frozen=True)
@@ -174,6 +166,22 @@ class DestinyItemTalentGridComponent:
     """
 
     talent_grid_hash: int
-    nodes: t.Sequence[DestinyTalentNode]
+    nodes: t.Sequence["DestinyTalentNode"]
     is_grid_complete: bool
     grid_progression: t.Any
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DamageType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyEnergyType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyStat  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyTalentNode  # noqa: E402
+from bungieapi.generated.types.destiny import EquipFailureReason  # noqa: E402
+from bungieapi.generated.types.destiny import ItemBindStatus  # noqa: E402
+from bungieapi.generated.types.destiny import ItemLocation  # noqa: E402
+from bungieapi.generated.types.destiny import ItemState  # noqa: E402
+from bungieapi.generated.types.destiny import TransferStatuses  # noqa: E402
+from bungieapi.generated.types.destiny.perks import DestinyPerkReference  # noqa: E402
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402

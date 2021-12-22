@@ -1,17 +1,14 @@
-import io
 import json
+import typing as t
 import urllib.request
 from pathlib import Path
 
-import typing as t
-
 import click
 
-from .generators import get
-from .openapi import OpenApi
 from .cleanup import reformat_file
+from .generator import generator
+from .openapi import OpenApi
 from .svarog import forge
-from .tools import find_all_refs
 
 T = t.TypeVar("T")
 
@@ -37,16 +34,6 @@ def generate(fetch: bool):
         download_url(OPEN_API_SPEC_URL, OPEN_API_SPEC_PATH)
 
     data = json.load(open(OPEN_API_SPEC_PATH))
-    generator = get("asyncio")
-
-    # all_refs = {
-    #     ref.split("/")[-1]
-    #     for ref in find_all_refs(data)
-    #     if ref.startswith("#/definitions/")
-    # }
-    # for k in list(data["definitions"]):
-    #     if k not in all_refs:
-    #         del data["definitions"][k]
 
     open_api = forge(OpenApi, data)
 

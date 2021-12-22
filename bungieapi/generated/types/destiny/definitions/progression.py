@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.interpolation import InterpolationPointFloat
-
 
 @dt.dataclass(frozen=True)
 class DestinyProgressionLevelRequirementDefinition:
@@ -14,8 +12,14 @@ class DestinyProgressionLevelRequirementDefinition:
     For instance, say a character receives a new Auto Rifle, and that Auto Rifle's DestinyInventoryItemDefinition.quality.progressionLevelRequirementHash property is pointing at one of these DestinyProgressionLevelRequirementDefinitions. Let's pretend also that the progressionHash it is pointing at is the Character Level progression. In that situation, the character's level will be used to interpolate a value in the requirementCurve property. The value picked up from that interpolation will be the required level for the item.
     """
 
-    requirement_curve: t.Sequence[InterpolationPointFloat]
+    requirement_curve: t.Sequence["InterpolationPointFloat"]
     progression_hash: int
     hash: int
     index: int
     redacted: bool
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.interpolation import (
+    InterpolationPointFloat,
+)  # noqa: E402

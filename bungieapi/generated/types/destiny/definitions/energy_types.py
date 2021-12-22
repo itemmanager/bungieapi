@@ -2,8 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import DestinyEnergyType
-
 
 @dt.dataclass(frozen=True)
 class DestinyEnergyTypeDefinition:
@@ -13,9 +11,13 @@ class DestinyEnergyTypeDefinition:
     display_properties: t.Any
     transparent_icon_path: str
     show_icon: bool
-    enum_value: DestinyEnergyType
+    enum_value: "DestinyEnergyType"
     capacity_stat_hash: int
     cost_stat_hash: int
     hash: int
     index: int
     redacted: bool
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyEnergyType  # noqa: E402

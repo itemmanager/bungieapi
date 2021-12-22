@@ -2,17 +2,25 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types import (SearchResultOfGroupBan,
-                                       SearchResultOfGroupMember,
-                                       SearchResultOfGroupMemberApplication)
+from bungieapi.generated.types import (
+    SearchResultOfGroupBan,
+    SearchResultOfGroupMember,
+    SearchResultOfGroupMemberApplication,
+)
 from bungieapi.generated.types.config import GroupTheme
 from bungieapi.generated.types.entities import EntityActionResult
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.groups_v2 import (
-    GetGroupsForMemberResponse, GroupApplicationResponse,
-    GroupMemberLeaveResult, GroupMembershipSearchResponse,
-    GroupOptionalConversation, GroupPotentialMembershipSearchResponse,
-    GroupResponse, GroupSearchResponse, GroupV2Card)
+    GetGroupsForMemberResponse,
+    GroupApplicationResponse,
+    GroupMemberLeaveResult,
+    GroupMembershipSearchResponse,
+    GroupOptionalConversation,
+    GroupPotentialMembershipSearchResponse,
+    GroupResponse,
+    GroupSearchResponse,
+    GroupV2Card,
+)
 
 from ...base import BaseClient
 
@@ -20,7 +28,7 @@ from ...base import BaseClient
 @dt.dataclass(frozen=True)
 class GetAvailableAvatarsClientResponse:
     response: t.Mapping[str, str]
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -30,8 +38,8 @@ class GetAvailableAvatarsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetAvailableThemesClientResponse:
-    response: t.Sequence[GroupTheme]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["GroupTheme"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -42,7 +50,7 @@ class GetAvailableThemesClientResponse:
 @dt.dataclass(frozen=True)
 class GetUserClanInviteSettingClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -52,8 +60,8 @@ class GetUserClanInviteSettingClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetRecommendedGroupsClientResponse:
-    response: t.Sequence[GroupV2Card]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["GroupV2Card"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -63,8 +71,8 @@ class GetRecommendedGroupsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GroupSearchClientResponse:
-    response: GroupSearchResponse
-    error_code: PlatformErrorCodes
+    response: "GroupSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -74,8 +82,8 @@ class GroupSearchClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupClientResponse:
-    response: GroupResponse
-    error_code: PlatformErrorCodes
+    response: "GroupResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -85,8 +93,8 @@ class GetGroupClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupByNameClientResponse:
-    response: GroupResponse
-    error_code: PlatformErrorCodes
+    response: "GroupResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -96,8 +104,8 @@ class GetGroupByNameClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupByNameV2ClientResponse:
-    response: GroupResponse
-    error_code: PlatformErrorCodes
+    response: "GroupResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -107,8 +115,8 @@ class GetGroupByNameV2ClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupOptionalConversationsClientResponse:
-    response: t.Sequence[GroupOptionalConversation]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["GroupOptionalConversation"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -119,7 +127,7 @@ class GetGroupOptionalConversationsClientResponse:
 @dt.dataclass(frozen=True)
 class EditGroupClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -130,7 +138,7 @@ class EditGroupClientResponse:
 @dt.dataclass(frozen=True)
 class EditClanBannerClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -141,7 +149,7 @@ class EditClanBannerClientResponse:
 @dt.dataclass(frozen=True)
 class EditFounderOptionsClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -152,7 +160,7 @@ class EditFounderOptionsClientResponse:
 @dt.dataclass(frozen=True)
 class AddOptionalConversationClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -163,7 +171,7 @@ class AddOptionalConversationClientResponse:
 @dt.dataclass(frozen=True)
 class EditOptionalConversationClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -173,8 +181,8 @@ class EditOptionalConversationClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetMembersOfGroupClientResponse:
-    response: SearchResultOfGroupMember
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfGroupMember"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -184,8 +192,8 @@ class GetMembersOfGroupClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetAdminsAndFounderOfGroupClientResponse:
-    response: SearchResultOfGroupMember
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfGroupMember"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -196,7 +204,7 @@ class GetAdminsAndFounderOfGroupClientResponse:
 @dt.dataclass(frozen=True)
 class EditGroupMembershipClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -206,8 +214,8 @@ class EditGroupMembershipClientResponse:
 
 @dt.dataclass(frozen=True)
 class KickMemberClientResponse:
-    response: GroupMemberLeaveResult
-    error_code: PlatformErrorCodes
+    response: "GroupMemberLeaveResult"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -218,7 +226,7 @@ class KickMemberClientResponse:
 @dt.dataclass(frozen=True)
 class BanMemberClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -229,7 +237,7 @@ class BanMemberClientResponse:
 @dt.dataclass(frozen=True)
 class UnbanMemberClientResponse:
     response: int
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -239,8 +247,8 @@ class UnbanMemberClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetBannedMembersOfGroupClientResponse:
-    response: SearchResultOfGroupBan
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfGroupBan"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -251,7 +259,7 @@ class GetBannedMembersOfGroupClientResponse:
 @dt.dataclass(frozen=True)
 class AbdicateFoundershipClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -261,8 +269,8 @@ class AbdicateFoundershipClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPendingMembershipsClientResponse:
-    response: SearchResultOfGroupMemberApplication
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfGroupMemberApplication"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -272,8 +280,8 @@ class GetPendingMembershipsClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetInvitedIndividualsClientResponse:
-    response: SearchResultOfGroupMemberApplication
-    error_code: PlatformErrorCodes
+    response: "SearchResultOfGroupMemberApplication"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -283,8 +291,8 @@ class GetInvitedIndividualsClientResponse:
 
 @dt.dataclass(frozen=True)
 class ApproveAllPendingClientResponse:
-    response: t.Sequence[EntityActionResult]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["EntityActionResult"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -294,8 +302,8 @@ class ApproveAllPendingClientResponse:
 
 @dt.dataclass(frozen=True)
 class DenyAllPendingClientResponse:
-    response: t.Sequence[EntityActionResult]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["EntityActionResult"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -305,8 +313,8 @@ class DenyAllPendingClientResponse:
 
 @dt.dataclass(frozen=True)
 class ApprovePendingForListClientResponse:
-    response: t.Sequence[EntityActionResult]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["EntityActionResult"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -317,7 +325,7 @@ class ApprovePendingForListClientResponse:
 @dt.dataclass(frozen=True)
 class ApprovePendingClientResponse:
     response: bool
-    error_code: PlatformErrorCodes
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -327,8 +335,8 @@ class ApprovePendingClientResponse:
 
 @dt.dataclass(frozen=True)
 class DenyPendingForListClientResponse:
-    response: t.Sequence[EntityActionResult]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["EntityActionResult"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -338,8 +346,8 @@ class DenyPendingForListClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupsForMemberClientResponse:
-    response: GetGroupsForMemberResponse
-    error_code: PlatformErrorCodes
+    response: "GetGroupsForMemberResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -349,8 +357,8 @@ class GetGroupsForMemberClientResponse:
 
 @dt.dataclass(frozen=True)
 class RecoverGroupForFounderClientResponse:
-    response: GroupMembershipSearchResponse
-    error_code: PlatformErrorCodes
+    response: "GroupMembershipSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -360,8 +368,8 @@ class RecoverGroupForFounderClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetPotentialGroupsForMemberClientResponse:
-    response: GroupPotentialMembershipSearchResponse
-    error_code: PlatformErrorCodes
+    response: "GroupPotentialMembershipSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -371,8 +379,8 @@ class GetPotentialGroupsForMemberClientResponse:
 
 @dt.dataclass(frozen=True)
 class IndividualGroupInviteClientResponse:
-    response: GroupApplicationResponse
-    error_code: PlatformErrorCodes
+    response: "GroupApplicationResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -382,8 +390,8 @@ class IndividualGroupInviteClientResponse:
 
 @dt.dataclass(frozen=True)
 class IndividualGroupInviteCancelClientResponse:
-    response: GroupApplicationResponse
-    error_code: PlatformErrorCodes
+    response: "GroupApplicationResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str

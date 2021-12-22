@@ -5,9 +5,9 @@ from enum import Enum
 
 from svarog.tools import camel_to_snake
 from svarog.types import Forge
+
 from .svarog import svarog
 from .tools import to_camel_case
-import functools as ft
 
 Method = t.Literal["get", "post"]
 
@@ -25,11 +25,10 @@ class Reference:
     @property
     def class_name(self) -> str:
         assert self.ref.startswith("#/")
-        *modules, name = self.ref.split('/')[-1].split('.')
-        return '.'.join((
-            'types', *(camel_to_snake(module) for module in modules),
-            name
-        ) )
+        *modules, name = self.ref.split("/")[-1].split(".")
+        return ".".join(
+            ("types", *(camel_to_snake(module) for module in modules), name)
+        )
 
     @staticmethod
     def filter(
@@ -38,12 +37,13 @@ class Reference:
         return fix(data, {"$ref": "ref"})
 
     def local(self, module: t.Sequence[str]) -> bool:
-        *ref_module, class_name = self.class_name.split('.')
+        *ref_module, class_name = self.class_name.split(".")
         return module == ref_module
 
     @property
     def name(self) -> str:
-        return self.class_name.split('.')[-1]
+        return self.class_name.split(".")[-1]
+
 
 class ApiType(Enum):
     INTEGER = "integer"
@@ -139,7 +139,6 @@ class Number(Schema, type=ApiType.NUMBER):
     format: t.Optional[NumberFormat] = None
 
 
-
 @dt.dataclass(frozen=True)
 class Object(Schema, type=ApiType.OBJECT):
     properties: t.Optional[t.Mapping[str, t.Union[Reference, Schema]]] = None
@@ -159,7 +158,7 @@ svarog.register_forge(t.Union[Reference, Schema, None], forge_regerence_or_schem
 
 
 def not_allowed():
-    raise RuntimeError('non null is not allowed')
+    raise RuntimeError("non null is not allowed")
 
 
 @dt.dataclass(frozen=True)
@@ -194,8 +193,6 @@ class Response:
     schema: Schema
 
 
-
-
 @dt.dataclass(frozen=True)
 class Operation:
     operation_id: str
@@ -227,7 +224,6 @@ class Info:
 class BindOperation(Operation):
     path: str = ""
     method: Method = "get"
-
 
     @classmethod
     def bind(cls, path: str, method: Method, operation: Operation) -> "BindOperation":

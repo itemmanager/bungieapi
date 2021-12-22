@@ -1,8 +1,8 @@
 import typing as t
 from pathlib import Path
 
-from .asyncio import asyncio_generator
 from ..openapi import OpenApi
+from .base import generator
 
 GeneratorType = t.Literal["asyncio"]
 
@@ -12,5 +12,4 @@ class Generator(t.Protocol):
         ...
 
 
-def get(type: GeneratorType) -> Generator:
-    return asyncio_generator
+__all__ = ["generator"]

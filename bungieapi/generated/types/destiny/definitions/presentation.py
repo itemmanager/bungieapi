@@ -2,13 +2,6 @@
 import dataclasses as dt
 import typing as t
 
-from bungieapi.generated.types.destiny import (DestinyPresentationDisplayStyle,
-                                               DestinyPresentationNodeType,
-                                               DestinyPresentationScreenStyle,
-                                               DestinyScope)
-from bungieapi.generated.types.destiny.definitions.common import \
-    DestinyDisplayPropertiesDefinition
-
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeBaseDefinition:
@@ -17,7 +10,7 @@ class DestinyPresentationNodeBaseDefinition:
     Presentation Nodes, Records, Collectibles, and Metrics.
     """
 
-    presentation_node_type: DestinyPresentationNodeType
+    presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
     parent_node_hashes: t.Sequence[int]
@@ -29,7 +22,7 @@ class DestinyPresentationNodeBaseDefinition:
 @dt.dataclass(frozen=True)
 class DestinyScoredPresentationNodeBaseDefinition:
     max_category_record_score: int
-    presentation_node_type: DestinyPresentationNodeType
+    presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
     parent_node_hashes: t.Sequence[int]
@@ -49,20 +42,20 @@ class DestinyPresentationNodeDefinition:
     We'll see if I come to regret this as well.
     """
 
-    display_properties: DestinyDisplayPropertiesDefinition
+    display_properties: "DestinyDisplayPropertiesDefinition"
     original_icon: str
     root_view_icon: str
-    node_type: DestinyPresentationNodeType
-    scope: DestinyScope
+    node_type: "DestinyPresentationNodeType"
+    scope: "DestinyScope"
     objective_hash: int
     completion_record_hash: int
     children: t.Any
-    display_style: DestinyPresentationDisplayStyle
-    screen_style: DestinyPresentationScreenStyle
+    display_style: "DestinyPresentationDisplayStyle"
+    screen_style: "DestinyPresentationScreenStyle"
     requirements: t.Any
     disable_child_subscreen_navigation: bool
     max_category_record_score: int
-    presentation_node_type: DestinyPresentationNodeType
+    presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
     parent_node_hashes: t.Sequence[int]
@@ -111,9 +104,9 @@ class DestinyPresentationNodeRequirementsBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationChildBlock:
-    presentation_node_type: DestinyPresentationNodeType
+    presentation_node_type: "DestinyPresentationNodeType"
     parent_presentation_node_hashes: t.Sequence[int]
-    display_style: DestinyPresentationDisplayStyle
+    display_style: "DestinyPresentationDisplayStyle"
 
 
 @dt.dataclass(frozen=True)
@@ -124,3 +117,15 @@ class DestinyPresentationNodeRecordChildEntry:
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeMetricChildEntry:
     metric_hash: int
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
+from bungieapi.generated.types.destiny import (  # noqa: E402
+    DestinyPresentationDisplayStyle,
+    DestinyPresentationScreenStyle,
+)
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

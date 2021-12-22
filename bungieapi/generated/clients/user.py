@@ -4,20 +4,21 @@ import typing as t
 
 from bungieapi.generated.types.config import UserTheme
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
-from bungieapi.generated.types.user import (GeneralUser,
-                                            HardLinkedUserMembership,
-                                            UserMembershipData,
-                                            UserSearchResponse)
-from bungieapi.generated.types.user.models import \
-    GetCredentialTypesForAccountResponse
+from bungieapi.generated.types.user import (
+    GeneralUser,
+    HardLinkedUserMembership,
+    UserMembershipData,
+    UserSearchResponse,
+)
+from bungieapi.generated.types.user.models import GetCredentialTypesForAccountResponse
 
 from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
 class GetBungieNetUserByIdClientResponse:
-    response: GeneralUser
-    error_code: PlatformErrorCodes
+    response: "GeneralUser"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -27,8 +28,8 @@ class GetBungieNetUserByIdClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetCredentialTypesForTargetAccountClientResponse:
-    response: t.Sequence[GetCredentialTypesForAccountResponse]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["GetCredentialTypesForAccountResponse"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -38,8 +39,8 @@ class GetCredentialTypesForTargetAccountClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetAvailableThemesClientResponse:
-    response: t.Sequence[UserTheme]
-    error_code: PlatformErrorCodes
+    response: t.Sequence["UserTheme"]
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -49,8 +50,8 @@ class GetAvailableThemesClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetMembershipDataByIdClientResponse:
-    response: UserMembershipData
-    error_code: PlatformErrorCodes
+    response: "UserMembershipData"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -60,8 +61,8 @@ class GetMembershipDataByIdClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetMembershipDataForCurrentUserClientResponse:
-    response: UserMembershipData
-    error_code: PlatformErrorCodes
+    response: "UserMembershipData"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -71,8 +72,8 @@ class GetMembershipDataForCurrentUserClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetMembershipFromHardLinkedCredentialClientResponse:
-    response: HardLinkedUserMembership
-    error_code: PlatformErrorCodes
+    response: "HardLinkedUserMembership"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -82,8 +83,8 @@ class GetMembershipFromHardLinkedCredentialClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchByGlobalNamePrefixClientResponse:
-    response: UserSearchResponse
-    error_code: PlatformErrorCodes
+    response: "UserSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
@@ -93,8 +94,8 @@ class SearchByGlobalNamePrefixClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchByGlobalNamePostClientResponse:
-    response: UserSearchResponse
-    error_code: PlatformErrorCodes
+    response: "UserSearchResponse"
+    error_code: "PlatformErrorCodes"
     throttle_seconds: int
     error_status: str
     message: str
