@@ -26,7 +26,7 @@ def client(operation_tree: OperationTree) -> t.Iterator[str]:
             operation.response.schema, response_type_name(operation), []
         )
 
-    yield f"class Client(BaseClient):"
+    yield "class Client(BaseClient):"
     if not operation_tree.children:
         yield "..."
 
@@ -53,7 +53,7 @@ def generate_client_method_operation(operation: BindOperation) -> t.Iterator[str
     yield f") -> {response_type_name(operation)}:"
     if operation.description:
         yield f'        """{operation.description}"""'
-    yield f"        ..."
+    yield "        ..."
 
 
 @client_method.register

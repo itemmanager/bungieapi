@@ -32,6 +32,7 @@ def download_url(source, dest: Path):
 def generate(fetch: bool):
     if fetch:
         download_url(OPEN_API_SPEC_URL, OPEN_API_SPEC_PATH)
+    assert Path(OPEN_API_SPEC_PATH).exists()
 
     data = json.load(open(OPEN_API_SPEC_PATH))
 

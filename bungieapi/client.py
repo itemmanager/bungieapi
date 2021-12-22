@@ -31,3 +31,7 @@ class Client:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         assert self._session
         await self._session.close()
+
+    @classmethod
+    def from_credentials(cls, api_key: str) -> "Client":
+        return cls(Credentials(api_key=api_key))

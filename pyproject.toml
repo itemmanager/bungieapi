@@ -17,6 +17,7 @@ isort = "^5.10.1"
 docformatter = "^1.4"
 click = "^8.0.3"
 pytest-asyncio = "^0.16.0"
+flake8 = "^4.0.1"
 
 
 [build-system]

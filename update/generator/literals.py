@@ -53,4 +53,4 @@ def literal_array(t: api.Array, module: t.Sequence[str]) -> str:
 
 @literal_bare.register
 def literal_number(t: api.Number, module: t.Sequence[str]) -> str:
-    return f"float"
+    return "float"

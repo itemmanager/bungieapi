@@ -19,7 +19,7 @@ def generate_object(
     object: api.Object, name: str, module: t.Sequence[str]
 ) -> t.Iterator[str]:
 
-    yield f"@dt.dataclass(frozen=True)"
+    yield "@dt.dataclass(frozen=True)"
     yield f"class {name}:"
     if object.description:
         yield f"    ''''{object.description}'''"
