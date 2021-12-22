@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactProfileScoped:
-    """'Represents a Seasonal Artifact and all data related to it for the
+    """Represents a Seasonal Artifact and all data related to it for the
     requested Account.
 
     It can be combined with Character-scoped data for a full picture of

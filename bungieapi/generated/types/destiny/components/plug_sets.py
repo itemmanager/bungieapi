@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyPlugSetsComponent:
-    """'Sockets may refer to a "Plug Set": a set of reusable plugs that may be
+    """Sockets may refer to a "Plug Set": a set of reusable plugs that may be
     shared across multiple sockets (or even, in theory, multiple sockets over
     multiple items).
 
@@ -18,7 +18,9 @@ class DestinyPlugSetsComponent:
     reused)
     """
 
-    plugs: t.Mapping[str, t.Sequence["DestinyItemPlug"]]
+    plugs: t.Mapping[
+        str, t.Sequence["DestinyItemPlug"]
+    ]  # The shared list of plugs for each relevant PlugSet, keyed by the hash identifier of the PlugSet (DestinyPlugSetDefinition).
 
 
 # imported at the end to do not case circular imports for type annotations

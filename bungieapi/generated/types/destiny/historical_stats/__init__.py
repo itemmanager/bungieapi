@@ -5,84 +5,98 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportData:
-    period: str
-    starting_phase_index: int
-    activity_details: "DestinyHistoricalStatsActivity"
-    entries: t.Sequence["DestinyPostGameCarnageReportEntry"]
-    teams: t.Sequence["DestinyPostGameCarnageReportTeamEntry"]
+    period: str  # Date and time for the activity.
+    starting_phase_index: int  # If this activity has "phases", this is the phase at which the activity was started.
+    activity_details: "DestinyHistoricalStatsActivity"  # Details about the activity.
+    entries: t.Sequence[
+        "DestinyPostGameCarnageReportEntry"
+    ]  # Collection of players and their data for this activity.
+    teams: t.Sequence[
+        "DestinyPostGameCarnageReportTeamEntry"
+    ]  # Collection of stats for the player in this activity.
 
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsActivity:
-    """'Summary information about the activity that was played."""
+    """Summary information about the activity that was played."""
 
-    reference_id: int
-    director_activity_hash: int
-    instance_id: int
-    mode: "DestinyActivityModeType"
-    modes: t.Sequence["DestinyActivityModeType"]
-    is_private: bool
-    membership_type: "BungieMembershipType"
+    reference_id: int  # The unique hash identifier of the DestinyActivityDefinition that was played. If I had this to do over, it'd be named activityHash. Too late now.
+    director_activity_hash: int  # The unique hash identifier of the DestinyActivityDefinition that was played.
+    instance_id: int  # The unique identifier for this *specific* match that was played. This value can be used to get additional data about this activity such as who else was playing via the GetPostGameCarnageReport endpoint.
+    mode: "DestinyActivityModeType"  # Indicates the most specific game mode of the activity that we could find.
+    modes: t.Sequence[
+        "DestinyActivityModeType"
+    ]  # The list of all Activity Modes to which this activity applies, including aggregates. This will let you see, for example, whether the activity was both Clash and part of the Trials of the Nine event.
+    is_private: bool  # Whether or not the match was a private match.
+    membership_type: "BungieMembershipType"  # The Membership Type indicating the platform on which this match was played.
 
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportEntry:
-    standing: int
-    score: "DestinyHistoricalStatsValue"
-    player: "DestinyPlayer"
-    character_id: int
-    values: t.Mapping[str, "DestinyHistoricalStatsValue"]
-    extended: "DestinyPostGameCarnageReportExtendedData"
+    standing: int  # Standing of the player
+    score: "DestinyHistoricalStatsValue"  # Score of the player if available
+    player: "DestinyPlayer"  # Identity details of the player
+    character_id: int  # ID of the player's character used in the activity.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the player in this activity.
+    extended: "DestinyPostGameCarnageReportExtendedData"  # Extended data extracted from the activity blob.
 
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValue:
-    stat_id: str
-    basic: "DestinyHistoricalStatsValuePair"
-    pga: "DestinyHistoricalStatsValuePair"
-    weighted: "DestinyHistoricalStatsValuePair"
-    activity_id: int
+    stat_id: str  # Unique ID for this stat
+    basic: "DestinyHistoricalStatsValuePair"  # Basic stat value.
+    pga: "DestinyHistoricalStatsValuePair"  # Per game average for the statistic, if applicable
+    weighted: "DestinyHistoricalStatsValuePair"  # Weighted value of the stat if a weight greater than 1 has been assigned.
+    activity_id: int  # When a stat represents the best, most, longest, fastest or some other personal best, the actual activity ID where that personal best was established is available on this property.
 
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValuePair:
-    value: float
-    display_value: str
+    value: float  # Raw value of the statistic
+    display_value: str  # Localized formated version of the value.
 
 
 @dt.dataclass(frozen=True)
 class DestinyPlayer:
-    destiny_user_info: "UserInfoCard"
-    character_class: str
+    destiny_user_info: "UserInfoCard"  # Details about the player as they are known in game (platform display name, Destiny emblem)
+    character_class: str  # Class of the character if applicable and available.
     class_hash: int
     race_hash: int
     gender_hash: int
-    character_level: int
-    light_level: int
-    bungie_net_user_info: "UserInfoCard"
-    clan_name: str
-    clan_tag: str
-    emblem_hash: int
+    character_level: int  # Level of the character if available. Zero if it is not available.
+    light_level: int  # Light Level of the character if available. Zero if it is not available.
+    bungie_net_user_info: "UserInfoCard"  # Details about the player as they are known on BungieNet. This will be undefined if the player has marked their credential private, or does not have a BungieNet account.
+    clan_name: str  # Current clan name for the player. This value may be null or an empty string if the user does not have a clan.
+    clan_tag: str  # Current clan tag for the player. This value may be null or an empty string if the user does not have a clan.
+    emblem_hash: int  # If we know the emblem's hash, this can be used to look up the player's emblem at the time of a match when receiving PGCR data, or otherwise their currently equipped emblem (if we are able to obtain it).
 
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportExtendedData:
-    weapons: t.Sequence["DestinyHistoricalWeaponStats"]
-    values: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    weapons: t.Sequence[
+        "DestinyHistoricalWeaponStats"
+    ]  # List of weapons and their perspective values.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the player in this activity.
 
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStats:
-    reference_id: int
-    values: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    reference_id: int  # The hash ID of the item definition that describes the weapon.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the period.
 
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportTeamEntry:
-    team_id: int
-    standing: "DestinyHistoricalStatsValue"
-    score: "DestinyHistoricalStatsValue"
-    team_name: str
+    team_id: int  # Integer ID for the team.
+    standing: "DestinyHistoricalStatsValue"  # Team's standing relative to other teams.
+    score: "DestinyHistoricalStatsValue"  # Score earned by the team
+    team_name: str  # Alpha or Bravo
 
 
 @dt.dataclass(frozen=True)
@@ -93,24 +107,24 @@ class DestinyLeaderboard:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardEntry:
-    rank: int
-    player: "DestinyPlayer"
-    character_id: int
-    value: "DestinyHistoricalStatsValue"
+    rank: int  # Where this player ranks on the leaderboard. A value of 1 is the top rank.
+    player: "DestinyPlayer"  # Identity details of the player
+    character_id: int  # ID of the player's best character for the reported stat.
+    value: "DestinyHistoricalStatsValue"  # Value of the stat for this player
 
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardResults:
-    focus_membership_id: int
-    focus_character_id: int
+    focus_membership_id: int  # Indicate the membership ID of the account that is the focal point of the provided leaderboards.
+    focus_character_id: int  # Indicate the character ID of the character that is the focal point of the provided leaderboards. May be null, in which case any character from the focus membership can appear in the provided leaderboards.
     additional: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]]
 
 
 @dt.dataclass(frozen=True)
 class DestinyClanAggregateStat:
-    mode: "DestinyActivityModeType"
-    stat_id: str
-    value: "DestinyHistoricalStatsValue"
+    mode: "DestinyActivityModeType"  # The id of the mode of stats (allPvp, allPvE, etc)
+    stat_id: str  # The id of the stat
+    value: "DestinyHistoricalStatsValue"  # Value of the stat for this player
 
 
 @dt.dataclass(frozen=True)
@@ -125,9 +139,11 @@ class DestinyHistoricalStatsByPeriod:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsPeriodGroup:
-    period: str
-    activity_details: "DestinyHistoricalStatsActivity"
-    values: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    period: str  # Period for the group. If the stat periodType is day, then this will have a specific day. If the type is monthly, then this value will be the first day of the applicable month. This value is not set when the periodType is 'all time'.
+    activity_details: "DestinyHistoricalStatsActivity"  # If the period group is for a specific activity, this property will be set.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the period.
 
 
 @dt.dataclass(frozen=True)
@@ -158,23 +174,31 @@ class DestinyHistoricalStatsPerCharacter:
 
 @dt.dataclass(frozen=True)
 class DestinyActivityHistoryResults:
-    activities: t.Sequence["DestinyHistoricalStatsPeriodGroup"]
+    activities: t.Sequence[
+        "DestinyHistoricalStatsPeriodGroup"
+    ]  # List of activities, the most recent activity first.
 
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStatsData:
-    weapons: t.Sequence["DestinyHistoricalWeaponStats"]
+    weapons: t.Sequence[
+        "DestinyHistoricalWeaponStats"
+    ]  # List of weapons and their perspective values.
 
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityResults:
-    activities: t.Sequence["DestinyAggregateActivityStats"]
+    activities: t.Sequence[
+        "DestinyAggregateActivityStats"
+    ]  # List of all activities the player has participated in.
 
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityStats:
-    activity_hash: int
-    values: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    activity_hash: int  # Hash ID that can be looked up in the DestinyActivityTable.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the player in this activity.
 
 
 from bungieapi.generated.types import BungieMembershipType  # noqa: E402

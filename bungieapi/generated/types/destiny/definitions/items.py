@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyItemTierTypeDefinition:
-    """'Defines the tier type of an item.
+    """Defines the tier type of an item.
 
     Mostly this provides human readable properties for types like
     Common, Rare, etc... It also provides some base data for infusion
@@ -13,46 +13,48 @@ class DestinyItemTierTypeDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    infusion_process: "DestinyItemTierTypeInfusionBlock"
-    hash: int
-    index: int
-    redacted: bool
+    infusion_process: "DestinyItemTierTypeInfusionBlock"  # If this tier defines infusion properties, they will be contained here.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemTierTypeInfusionBlock:
-    base_quality_transfer_ratio: float
-    minimum_quality_increment: int
+    base_quality_transfer_ratio: float  # The default portion of quality that will transfer from the infuser to the infusee item. (InfuserQuality - InfuseeQuality) * baseQualityTransferRatio = base quality transferred.
+    minimum_quality_increment: int  # As long as InfuserQuality > InfuseeQuality, the amount of quality bestowed is guaranteed to be at least this value, even if the transferRatio would dictate that it should be less. The total amount of quality that ends up in the Infusee cannot exceed the Infuser's quality however (for instance, if you infuse a 300 item with a 301 item and the minimum quality increment is 10, the infused item will not end up with 310 quality)
 
 
 @dt.dataclass(frozen=True)
 class DestinyDerivedItemCategoryDefinition:
-    """ 'A shortcut for the fact that some items have a "Preview Vendor" - See DestinyInventoryItemDefinition.preview.previewVendorHash - that is intended to be used to show what items you can get as a result of acquiring or using this item.
+    """A shortcut for the fact that some items have a "Preview Vendor" - See DestinyInventoryItemDefinition.preview.previewVendorHash - that is intended to be used to show what items you can get as a result of acquiring or using this item.
     A common example of this in Destiny 1 was Eververse "Boxes," which could have many possible items. This "Preview Vendor" is not a vendor you can actually see in the game, but it defines categories and sale items for all of the possible items you could get from the Box so that the game can show them to you. We summarize that info here so that you don't have to do that Vendor lookup and aggregation manually."""
 
-    category_description: str
-    items: t.Sequence["DestinyDerivedItemDefinition"]
+    category_description: str  # The localized string for the category title. This will be something describing the items you can get as a group, or your likelihood/the quantity you'll get.
+    items: t.Sequence[
+        "DestinyDerivedItemDefinition"
+    ]  # This is the list of all of the items for this category and the basic properties we'll know about them.
 
 
 @dt.dataclass(frozen=True)
 class DestinyDerivedItemDefinition:
-    """'This is a reference to, and summary data for, a specific item that you
+    """This is a reference to, and summary data for, a specific item that you
     can get as a result of Using or Acquiring some other Item (For example,
     this could be summary information for an Emote that you can get by opening
     an an Eververse Box) See DestinyDerivedItemCategoryDefinition for more
     information."""
 
-    item_hash: int
-    item_name: str
-    item_detail: str
-    item_description: str
-    icon_path: str
-    vendor_item_index: int
+    item_hash: int  # The hash for the DestinyInventoryItemDefinition of this derived item, if there is one. Sometimes we are given this information as a manual override, in which case there won't be an actual DestinyInventoryItemDefinition for what we display, but you can still show the strings from this object itself.
+    item_name: str  # The name of the derived item.
+    item_detail: str  # Additional details about the derived item, in addition to the description.
+    item_description: str  # A brief description of the item.
+    icon_path: str  # An icon for the item.
+    vendor_item_index: int  # If the item was derived from a "Preview Vendor", this will be an index into the DestinyVendorDefinition's itemList property. Otherwise, -1.
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemPlugDefinition:
-    """'If an item is a Plug, its DestinyInventoryItemDefinition.plug property
+    """If an item is a Plug, its DestinyInventoryItemDefinition.plug property
     will be populated with an instance of one of these bad boys.
 
     This gives information about when it can be inserted, what the
@@ -62,28 +64,32 @@ class DestinyItemPlugDefinition:
     other Plug info.
     """
 
-    insertion_rules: t.Sequence["DestinyPlugRuleDefinition"]
-    plug_category_identifier: str
-    plug_category_hash: int
-    on_action_recreate_self: bool
-    insertion_material_requirement_hash: int
-    preview_item_override_hash: int
-    enabled_material_requirement_hash: int
-    enabled_rules: t.Sequence["DestinyPlugRuleDefinition"]
-    ui_plug_label: str
+    insertion_rules: t.Sequence[
+        "DestinyPlugRuleDefinition"
+    ]  # The rules around when this plug can be inserted into a socket, aside from the socket's individual restrictions. The live data DestinyItemPlugComponent.insertFailIndexes will be an index into this array, so you can pull out the failure strings appropriate for the user.
+    plug_category_identifier: str  # The string identifier for the plug's category. Use the socket's DestinySocketTypeDefinition.plugWhitelist to determine whether this plug can be inserted into the socket.
+    plug_category_hash: int  # The hash for the plugCategoryIdentifier. You can use this instead if you wish: I put both in the definition for debugging purposes.
+    on_action_recreate_self: bool  # If you successfully socket the item, this will determine whether or not you get "refunded" on the plug.
+    insertion_material_requirement_hash: int  # If inserting this plug requires materials, this is the hash identifier for looking up the DestinyMaterialRequirementSetDefinition for those requirements.
+    preview_item_override_hash: int  # In the game, if you're inspecting a plug item directly, this will be the item shown with the plug attached. Look up the DestinyInventoryItemDefinition for this hash for the item.
+    enabled_material_requirement_hash: int  # It's not enough for the plug to be inserted. It has to be enabled as well. For it to be enabled, it may require materials. This is the hash identifier for the DestinyMaterialRequirementSetDefinition for those requirements, if there is one.
+    enabled_rules: t.Sequence[
+        "DestinyPlugRuleDefinition"
+    ]  # The rules around whether the plug, once inserted, is enabled and providing its benefits. The live data DestinyItemPlugComponent.enableFailIndexes will be an index into this array, so you can pull out the failure strings appropriate for the user.
+    ui_plug_label: str  # Plugs can have arbitrary, UI-defined identifiers that the UI designers use to determine the style applied to plugs. Unfortunately, we have neither a definitive list of these labels nor advance warning of when new labels might be applied or how that relates to how they get rendered. If you want to, you can refer to known labels to change your own styles: but know that new ones can be created arbitrarily, and we have no way of associating the labels with any specific UI style guidance... you'll have to piece that together on your end. Or do what we do, and just show plugs more generically, without specialized styles.
     plug_style: "PlugUiStyles"
-    plug_availability: "PlugAvailabilityMode"
-    alternate_ui_plug_label: str
-    alternate_plug_style: "PlugUiStyles"
-    is_dummy_plug: bool
-    parent_item_override: "DestinyParentItemOverride"
-    energy_capacity: "DestinyEnergyCapacityEntry"
-    energy_cost: "DestinyEnergyCostEntry"
+    plug_availability: "PlugAvailabilityMode"  # Indicates the rules about when this plug can be used. See the PlugAvailabilityMode enumeration for more information!
+    alternate_ui_plug_label: str  # If the plug meets certain state requirements, it may have an alternative label applied to it. This is the alternative label that will be applied in such a situation.
+    alternate_plug_style: "PlugUiStyles"  # The alternate plug of the plug: only applies when the item is in states that only the server can know about and control, unfortunately. See AlternateUiPlugLabel for the related label info.
+    is_dummy_plug: bool  # If TRUE, this plug is used for UI display purposes only, and doesn't have any interesting effects of its own.
+    parent_item_override: "DestinyParentItemOverride"  # Do you ever get the feeling that a system has become so overburdened by edge cases that it probably should have become some other system entirely? So do I! In totally unrelated news, Plugs can now override properties of their parent items. This is some of the relevant definition data for those overrides. If this is populated, it will have the override data to be applied when this plug is applied to an item.
+    energy_capacity: "DestinyEnergyCapacityEntry"  # IF not null, this plug provides Energy capacity to the item in which it is socketed. In Armor 2.0 for example, is implemented in a similar way to Masterworks, where visually it's a single area of the UI being clicked on to "Upgrade" to higher energy levels, but it's actually socketing new plugs.
+    energy_cost: "DestinyEnergyCostEntry"  # IF not null, this plug has an energy cost. This contains the details of that cost.
 
 
 @dt.dataclass(frozen=True)
 class DestinyPlugRuleDefinition:
-    """'Dictates a rule around whether the plug is enabled or insertable.
+    """Dictates a rule around whether the plug is enabled or insertable.
 
     In practice, the live Destiny data will refer to these entries by
     index. You can then look up that index in the appropriate property
@@ -91,7 +97,7 @@ class DestinyPlugRuleDefinition:
     failure message if it failed.
     """
 
-    failure_message: str
+    failure_message: str  # The localized string to show if this rule fails.
 
 
 @dt.dataclass(frozen=True)
@@ -102,30 +108,30 @@ class DestinyParentItemOverride:
 
 @dt.dataclass(frozen=True)
 class DestinyEnergyCapacityEntry:
-    """'Items can have Energy Capacity, and plugs can provide that capacity
-    such as on a piece of Armor in Armor 2.0.
+    """Items can have Energy Capacity, and plugs can provide that capacity such
+    as on a piece of Armor in Armor 2.0.
 
     This is how much "Energy" can be spent on activating plugs for this
     item.
     """
 
-    capacity_value: int
-    energy_type_hash: int
-    energy_type: "DestinyEnergyType"
+    capacity_value: int  # How much energy capacity this plug provides.
+    energy_type_hash: int  # Energy provided by a plug is always of a specific type - this is the hash identifier for the energy type for which it provides Capacity.
+    energy_type: "DestinyEnergyType"  # The Energy Type for this energy capacity, in enum form for easy use.
 
 
 @dt.dataclass(frozen=True)
 class DestinyEnergyCostEntry:
-    """'Some plugs cost Energy, which is a stat on the item that can be
+    """Some plugs cost Energy, which is a stat on the item that can be
     increased by other plugs (that, at least in Armor 2.0, have a "masterworks-
     like" mechanic for upgrading).
 
     If a plug has costs, the details of that cost are defined here.
     """
 
-    energy_cost: int
-    energy_type_hash: int
-    energy_type: "DestinyEnergyType"
+    energy_cost: int  # The Energy cost for inserting this plug.
+    energy_type_hash: int  # The type of energy that this plug costs, as a reference to the DestinyEnergyTypeDefinition of the energy type.
+    energy_type: "DestinyEnergyType"  # The type of energy that this plug costs, in enum form.
 
 
 from bungieapi.generated.types.destiny import DestinyEnergyType  # noqa: E402

@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyInventoryComponent:
-    """'A list of minimal information for items in an inventory: be it a
+    """A list of minimal information for items in an inventory: be it a
     character's inventory, or a Profile's inventory.
 
     (Note that the Vault is a collection of inventory buckets in the
@@ -17,7 +17,9 @@ class DestinyInventoryComponent:
     for more info.
     """
 
-    items: t.Sequence["DestinyItemComponent"]
+    items: t.Sequence[
+        "DestinyItemComponent"
+    ]  # The items in this inventory. If you care to bucket them, use the item's bucketHash property to group them.
 
 
 # imported at the end to do not case circular imports for type annotations

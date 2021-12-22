@@ -8,9 +8,9 @@ class DestinyTraitDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
     trait_category_id: str
     trait_category_hash: int
-    hash: int
-    index: int
-    redacted: bool
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
@@ -18,9 +18,9 @@ class DestinyTraitCategoryDefinition:
     trait_category_id: str
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
-    hash: int
-    index: int
-    redacted: bool
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 # imported at the end to do not case circular imports for type annotations

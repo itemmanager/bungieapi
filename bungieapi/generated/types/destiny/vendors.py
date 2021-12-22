@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyVendorReceipt:
-    """'If a character purchased an item that is refundable, a Vendor Receipt
+    """If a character purchased an item that is refundable, a Vendor Receipt
     will be created on the user's Destiny Profile.
 
     These expire after a configurable period of time, but until then can
@@ -13,14 +13,16 @@ class DestinyVendorReceipt:
     to refund a purchase *yet*, but you know.
     """
 
-    currency_paid: t.Sequence["DestinyItemQuantity"]
-    item_received: "DestinyItemQuantity"
-    license_unlock_hash: int
-    purchased_by_character_id: int
-    refund_policy: "DestinyVendorItemRefundPolicy"
-    sequence_number: int
-    time_to_expiration: int
-    expires_on: str
+    currency_paid: t.Sequence[
+        "DestinyItemQuantity"
+    ]  # The amount paid for the item, in terms of items that were consumed in the purchase and their quantity.
+    item_received: "DestinyItemQuantity"  # The item that was received, and its quantity.
+    license_unlock_hash: int  # The unlock flag used to determine whether you still have the purchased item.
+    purchased_by_character_id: int  # The ID of the character who made the purchase.
+    refund_policy: "DestinyVendorItemRefundPolicy"  # Whether you can get a refund, and what happens in order for the refund to be received. See the DestinyVendorItemRefundPolicy enum for details.
+    sequence_number: int  # The identifier of this receipt.
+    time_to_expiration: int  # The seconds since epoch at which this receipt is rendered invalid.
+    expires_on: str  # The date at which this receipt is rendered invalid.
 
 
 # imported at the end to do not case circular imports for type annotations

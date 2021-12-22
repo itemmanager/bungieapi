@@ -22,7 +22,7 @@ class DestinyActivityModeType(Enum):
     RESERVED9 = 9
     CONTROL = 10
     RESERVED11 = 11
-    CLASH = 12
+    CLASH = 12  # Clash -> Destiny's name for Team Deathmatch. 4v4 combat, the team with the highest kills at the end of time wins.
     RESERVED13 = 13
     CRIMSON_DOUBLES = 15
     NIGHTFALL = 16
@@ -94,20 +94,22 @@ class DestinyActivityModeType(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsDefinition:
-    stat_id: str
-    group: "DestinyStatsGroupType"
-    period_types: t.Sequence["PeriodType"]
-    modes: t.Sequence["DestinyActivityModeType"]
-    category: "DestinyStatsCategoryType"
-    stat_name: str
-    stat_name_abbr: str
-    stat_description: str
-    unit_type: "UnitType"
-    icon_image: str
-    merge_method: int
-    unit_label: str
-    weight: int
-    medal_tier_hash: int
+    stat_id: str  # Unique programmer friendly ID for this stat
+    group: "DestinyStatsGroupType"  # Statistic group
+    period_types: t.Sequence["PeriodType"]  # Time periods the statistic covers
+    modes: t.Sequence[
+        "DestinyActivityModeType"
+    ]  # Game modes where this statistic can be reported.
+    category: "DestinyStatsCategoryType"  # Category for the stat.
+    stat_name: str  # Display name
+    stat_name_abbr: str  # Display name abbreviated
+    stat_description: str  # Description of a stat if applicable.
+    unit_type: "UnitType"  # Unit, if any, for the statistic
+    icon_image: str  # Optional URI to an icon for the statistic
+    merge_method: int  # Optional icon for the statistic
+    unit_label: str  # Localized Unit Name for the stat.
+    weight: int  # Weight assigned to this stat indicating its relative impressiveness.
+    medal_tier_hash: int  # The tier associated with this medal - be it implicitly or explicitly.
 
 
 class DestinyStatsGroupType(Enum):
@@ -119,10 +121,12 @@ class DestinyStatsGroupType(Enum):
     GENERAL = 1
     WEAPONS = 2
     MEDALS = 3
-    RESERVED_GROUPS = 100
-    LEADERBOARD = 101
-    ACTIVITY = 102
-    UNIQUE_WEAPON = 103
+    RESERVED_GROUPS = 100  # This is purely to serve as the dividing line between filterable and un-filterable groups. Below this number is a group you can pass as a filter. Above it are groups used in very specific circumstances and not relevant for filtering.
+    LEADERBOARD = 101  # Only applicable while generating leaderboards.
+    ACTIVITY = 102  # These will *only* be consumed by GetAggregateStatsByActivity
+    UNIQUE_WEAPON = (
+        103  # These are only consumed and returned by GetUniqueWeaponHistory
+    )
     INTERNAL = 104
 
 
@@ -151,25 +155,25 @@ class DestinyStatsCategoryType(Enum):
 
 class UnitType(Enum):
     NONE = 0
-    COUNT = 1
-    PER_GAME = 2
-    SECONDS = 3
-    POINTS = 4
-    TEAM = 5
-    DISTANCE = 6
-    PERCENT = 7
-    RATIO = 8
-    BOOLEAN = 9
-    WEAPON_TYPE = 10
-    STANDING = 11
-    MILLISECONDS = 12
-    COMPLETION_REASON = 13
+    COUNT = 1  # Indicates the statistic is a simple count of something.
+    PER_GAME = 2  # Indicates the statistic is a per game average.
+    SECONDS = 3  # Indicates the number of seconds
+    POINTS = 4  # Indicates the number of points earned
+    TEAM = 5  # Values represents a team ID
+    DISTANCE = 6  # Values represents a distance (units to-be-determined)
+    PERCENT = 7  # Ratio represented as a whole value from 0 to 100.
+    RATIO = 8  # Ratio of something, shown with decimal places
+    BOOLEAN = 9  # True or false
+    WEAPON_TYPE = 10  # The stat is actually a weapon type.
+    STANDING = 11  # Indicates victory, defeat, or something in between.
+    MILLISECONDS = 12  # Number of milliseconds some event spanned. For example, race time, or lap time.
+    COMPLETION_REASON = 13  # The value is a enumeration of the Completion Reason type.
 
 
 class DestinyStatsMergeMethod(Enum):
-    ADD = 0
-    MIN = 1
-    MAX = 2
+    ADD = 0  # When collapsing multiple instances of the stat together, add the values.
+    MIN = 1  # When collapsing multiple instances of the stat together, take the lower value.
+    MAX = 2  # When collapsing multiple instances of the stat together, take the higher value.
 
 
 class PeriodType(Enum):

@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyKiosksComponent:
-    """'A Kiosk is a Vendor (DestinyVendorDefinition) that sells items based on
+    """A Kiosk is a Vendor (DestinyVendorDefinition) that sells items based on
     whether you have already acquired that item before.
 
     This component returns information about what Kiosk items are
@@ -19,15 +19,19 @@ class DestinyKiosksComponent:
     content manifest databases before using this data.
     """
 
-    kiosk_items: t.Mapping[str, t.Sequence["DestinyKioskItem"]]
+    kiosk_items: t.Mapping[
+        str, t.Sequence["DestinyKioskItem"]
+    ]  # A dictionary keyed by the Kiosk Vendor's hash identifier (use it to look up the DestinyVendorDefinition for the relevant kiosk vendor), and whose value is a list of all the items that the user can "see" in the Kiosk, and any other interesting metadata.
 
 
 @dt.dataclass(frozen=True)
 class DestinyKioskItem:
-    index: int
-    can_acquire: bool
-    failure_indexes: t.Sequence[int]
-    flavor_objective: "DestinyObjectiveProgress"
+    index: int  # The index of the item in the related DestinyVendorDefintion's itemList property, representing the sale.
+    can_acquire: bool  # If true, the user can not only see the item, but they can acquire it. It is possible that a user can see a kiosk item and not be able to acquire it.
+    failure_indexes: t.Sequence[
+        int
+    ]  # Indexes into failureStrings for the Vendor, indicating the reasons why it failed if any.
+    flavor_objective: "DestinyObjectiveProgress"  # I may regret naming it this way - but this represents when an item has an objective that doesn't serve a beneficial purpose, but rather is used for "flavor" or additional information. For instance, when Emblems track specific stats, those stats are represented as Objectives on the item.
 
 
 # imported at the end to do not case circular imports for type annotations

@@ -5,31 +5,35 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactDefinition:
-    """'Represents known info about a Destiny Artifact.
+    """Represents known info about a Destiny Artifact.
 
     We cannot guarantee that artifact definitions will be immutable between seasons - in fact, we've been told that they will be replaced between seasons. But this definition is built both to minimize the amount of lookups for related data that have to occur, and is built in hope that, if this plan changes, we will be able to accommodate it more easily.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    translation_block: "DestinyItemTranslationBlockDefinition"
-    tiers: t.Sequence["DestinyArtifactTierDefinition"]
-    hash: int
-    index: int
-    redacted: bool
+    display_properties: "DestinyDisplayPropertiesDefinition"  # Any basic display info we know about the Artifact. Currently sourced from a related inventory item, but the source of this data is subject to change.
+    translation_block: "DestinyItemTranslationBlockDefinition"  # Any Geometry/3D info we know about the Artifact. Currently sourced from a related inventory item's gearset information, but the source of this data is subject to change.
+    tiers: t.Sequence[
+        "DestinyArtifactTierDefinition"
+    ]  # Any Tier/Rank data related to this artifact, listed in display order.  Currently sourced from a Vendor, but this source is subject to change.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierDefinition:
-    tier_hash: int
-    display_title: str
-    progress_requirement_message: str
-    items: t.Sequence["DestinyArtifactTierItemDefinition"]
-    minimum_unlock_points_used_requirement: int
+    tier_hash: int  # An identifier, unique within the Artifact, for this specific tier.
+    display_title: str  # The human readable title of this tier, if any.
+    progress_requirement_message: str  # A string representing the localized minimum requirement text for this Tier, if any.
+    items: t.Sequence[
+        "DestinyArtifactTierItemDefinition"
+    ]  # The items that can be earned within this tier.
+    minimum_unlock_points_used_requirement: int  # The minimum number of "unlock points" that you must have used before you can unlock items from this tier.
 
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierItemDefinition:
-    item_hash: int
+    item_hash: int  # The identifier of the Plug Item unlocked by activating this item in the Artifact.
 
 
 from bungieapi.generated.types.destiny.definitions import (

@@ -7,7 +7,7 @@ class DestinyItemTransferRequest:
     item_reference_hash: int
     stack_size: int
     transfer_to_vault: bool
-    item_id: int
+    item_id: int  # The instance ID of the item for this action request.
     character_id: int
     membership_type: "BungieMembershipType"
 

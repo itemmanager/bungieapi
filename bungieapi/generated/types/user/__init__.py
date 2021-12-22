@@ -6,36 +6,38 @@ from enum import Enum
 
 @dt.dataclass(frozen=True)
 class UserMembership:
-    """'Very basic info about a user as returned by the Account server."""
+    """Very basic info about a user as returned by the Account server."""
 
-    membership_type: "BungieMembershipType"
-    membership_id: int
-    display_name: str
-    bungie_global_display_name: str
-    bungie_global_display_name_code: int
+    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    membership_id: int  # Membership ID as they user is known in the Accounts service
+    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    bungie_global_display_name: str  # The bungie global display name, if set.
+    bungie_global_display_name_code: int  # The bungie global display name code, if set.
 
 
 @dt.dataclass(frozen=True)
 class CrossSaveUserMembership:
-    """'Very basic info about a user as returned by the Account server, but
+    """Very basic info about a user as returned by the Account server, but
     including CrossSave information.
 
     Do NOT use as a request contract.
     """
 
-    cross_save_override: "BungieMembershipType"
-    applicable_membership_types: t.Sequence["BungieMembershipType"]
-    is_public: bool
-    membership_type: "BungieMembershipType"
-    membership_id: int
-    display_name: str
-    bungie_global_display_name: str
-    bungie_global_display_name_code: int
+    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    applicable_membership_types: t.Sequence[
+        "BungieMembershipType"
+    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    is_public: bool  # If True, this is a public user membership.
+    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    membership_id: int  # Membership ID as they user is known in the Accounts service
+    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    bungie_global_display_name: str  # The bungie global display name, if set.
+    bungie_global_display_name_code: int  # The bungie global display name code, if set.
 
 
 @dt.dataclass(frozen=True)
 class UserInfoCard:
-    """'This contract supplies basic information commonly used to display a
+    """This contract supplies basic information commonly used to display a
     minimal amount of information about a user.
 
     Take care to not add more properties here unless the property
@@ -46,16 +48,18 @@ class UserInfoCard:
     other contracts.
     """
 
-    supplemental_display_name: str
-    icon_path: str
-    cross_save_override: "BungieMembershipType"
-    applicable_membership_types: t.Sequence["BungieMembershipType"]
-    is_public: bool
-    membership_type: "BungieMembershipType"
-    membership_id: int
-    display_name: str
-    bungie_global_display_name: str
-    bungie_global_display_name_code: int
+    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    icon_path: str  # URL the Icon if available.
+    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    applicable_membership_types: t.Sequence[
+        "BungieMembershipType"
+    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    is_public: bool  # If True, this is a public user membership.
+    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    membership_id: int  # Membership ID as they user is known in the Accounts service
+    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    bungie_global_display_name: str  # The bungie global display name, if set.
+    bungie_global_display_name_code: int  # The bungie global display name code, if set.
 
 
 @dt.dataclass(frozen=True)
@@ -106,8 +110,10 @@ class UserToUserContext:
 
 @dt.dataclass(frozen=True)
 class UserMembershipData:
-    destiny_memberships: t.Sequence["GroupUserInfoCard"]
-    primary_membership_id: int
+    destiny_memberships: t.Sequence[
+        "GroupUserInfoCard"
+    ]  # this allows you to see destiny memberships that are visible and linked to this account (regardless of whether or not they have characters on the world server)
+    primary_membership_id: int  # If this property is populated, it will have the membership ID of the account considered to be "primary" in this user's cross save relationship.  If null, this user has no cross save relationship, nor primary account.
     bungie_net_user: "GeneralUser"
 
 
@@ -147,22 +153,30 @@ class ExactSearchRequest:
 
 @dt.dataclass(frozen=True)
 class EmailSettings:
-    """'The set of all email subscription/opt-in settings and definitions."""
+    """The set of all email subscription/opt-in settings and definitions."""
 
-    opt_in_definitions: t.Mapping[str, "EmailOptInDefinition"]
-    subscription_definitions: t.Mapping[str, "EmailSubscriptionDefinition"]
-    views: t.Mapping[str, "EmailViewDefinition"]
+    opt_in_definitions: t.Mapping[
+        str, "EmailOptInDefinition"
+    ]  # Keyed by the name identifier of the opt-in definition.
+    subscription_definitions: t.Mapping[
+        str, "EmailSubscriptionDefinition"
+    ]  # Keyed by the name identifier of the Subscription definition.
+    views: t.Mapping[
+        str, "EmailViewDefinition"
+    ]  # Keyed by the name identifier of the View definition.
 
 
 @dt.dataclass(frozen=True)
 class EmailOptInDefinition:
-    """'Defines a single opt-in category: a wide-scoped permission to send
+    """Defines a single opt-in category: a wide-scoped permission to send
     emails for the subject related to the opt-in."""
 
-    name: str
-    value: "OptInFlags"
-    set_by_default: bool
-    dependent_subscriptions: t.Sequence["EmailSubscriptionDefinition"]
+    name: str  # The unique identifier for this opt-in category.
+    value: "OptInFlags"  # The flag value for this opt-in category. For historical reasons, this is defined as a flags enum.
+    set_by_default: bool  # If true, this opt-in setting should be set by default in situations where accounts are created without explicit choices about what they're opting into.
+    dependent_subscriptions: t.Sequence[
+        "EmailSubscriptionDefinition"
+    ]  # Information about the dependent subscriptions for this opt-in.
 
 
 class OptInFlags(Enum):
@@ -180,18 +194,20 @@ class OptInFlags(Enum):
 
 @dt.dataclass(frozen=True)
 class EmailSubscriptionDefinition:
-    """'Defines a single subscription: permission to send emails for a
-    specific, focused subject (generally timeboxed, such as for a specific
-    release of a product or feature)."""
+    """Defines a single subscription: permission to send emails for a specific,
+    focused subject (generally timeboxed, such as for a specific release of a
+    product or feature)."""
 
-    name: str
-    localization: t.Mapping[str, "EMailSettingSubscriptionLocalization"]
-    value: int
+    name: str  # The unique identifier for this subscription.
+    localization: t.Mapping[
+        str, "EMailSettingSubscriptionLocalization"
+    ]  # A dictionary of localized text for the EMail Opt-in setting, keyed by the locale.
+    value: int  # The bitflag value for this subscription. Should be a unique power of two value.
 
 
 @dt.dataclass(frozen=True)
 class EMailSettingLocalization:
-    """'Localized text relevant to a given EMail setting in a given
+    """Localized text relevant to a given EMail setting in a given
     localization."""
 
     title: str
@@ -200,7 +216,7 @@ class EMailSettingLocalization:
 
 @dt.dataclass(frozen=True)
 class EMailSettingSubscriptionLocalization:
-    """'Localized text relevant to a given EMail setting in a given
+    """Localized text relevant to a given EMail setting in a given
     localization.
 
     Extra settings specifically for subscriptions.
@@ -217,23 +233,29 @@ class EMailSettingSubscriptionLocalization:
 
 @dt.dataclass(frozen=True)
 class EmailViewDefinition:
-    """'Represents a data-driven view for Email settings.
+    """Represents a data-driven view for Email settings.
 
     Web/Mobile UI can use this data to show new EMail settings
     consistently without further manual work.
     """
 
-    name: str
-    view_settings: t.Sequence["EmailViewDefinitionSetting"]
+    name: str  # The identifier for this view.
+    view_settings: t.Sequence[
+        "EmailViewDefinitionSetting"
+    ]  # The ordered list of settings to show in this view.
 
 
 @dt.dataclass(frozen=True)
 class EmailViewDefinitionSetting:
-    name: str
-    localization: t.Mapping[str, "EMailSettingLocalization"]
-    set_by_default: bool
-    opt_in_aggregate_value: "OptInFlags"
-    subscriptions: t.Sequence["EmailSubscriptionDefinition"]
+    name: str  # The identifier for this UI Setting, which can be used to relate it to custom strings or other data as desired.
+    localization: t.Mapping[
+        str, "EMailSettingLocalization"
+    ]  # A dictionary of localized text for the EMail setting, keyed by the locale.
+    set_by_default: bool  # If true, this setting should be set by default if the user hasn't chosen whether it's set or cleared yet.
+    opt_in_aggregate_value: "OptInFlags"  # The OptInFlags value to set or clear if this setting is set or cleared in the UI. It is the aggregate of all underlying opt-in flags related to this setting.
+    subscriptions: t.Sequence[
+        "EmailSubscriptionDefinition"
+    ]  # The subscriptions to show as children of this setting, if any.
 
 
 # imported at the end to do not case circular imports for type annotations

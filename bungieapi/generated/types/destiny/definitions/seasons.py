@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinySeasonDefinition:
-    """'Defines a canonical "Season" of Destiny: a range of a few months where
+    """Defines a canonical "Season" of Destiny: a range of a few months where
     the game highlights certain challenges, provides new loot, has new Clan-
     related rewards and celebrates various seasonal events."""
 
@@ -19,40 +19,42 @@ class DestinySeasonDefinition:
     artifact_item_hash: int
     seal_presentation_node_hash: int
     seasonal_challenges_presentation_node_hash: int
-    preview: "DestinySeasonPreviewDefinition"
-    hash: int
-    index: int
-    redacted: bool
+    preview: "DestinySeasonPreviewDefinition"  # Optional - Defines the promotional text, images, and links to preview this season.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
 class DestinySeasonPreviewDefinition:
-    """'Defines the promotional text, images, and links to preview this
+    """Defines the promotional text, images, and links to preview this
     season."""
 
-    description: str
-    link_path: str
-    video_link: str
-    images: t.Sequence["DestinySeasonPreviewImageDefinition"]
+    description: str  # A localized description of the season.
+    link_path: str  # A relative path to learn more about the season. Web browsers should be automatically redirected to the user's Bungie.net locale. For example: "/SeasonOfTheChosen" will redirect to "/7/en/Seasons/SeasonOfTheChosen" for English users.
+    video_link: str  # An optional link to a localized video, probably YouTube.
+    images: t.Sequence[
+        "DestinySeasonPreviewImageDefinition"
+    ]  # A list of images to preview the seasonal content. Should have at least three to show.
 
 
 @dt.dataclass(frozen=True)
 class DestinySeasonPreviewImageDefinition:
-    """'Defines the thumbnail icon, high-res image, and video link for
+    """Defines the thumbnail icon, high-res image, and video link for
     promotional images."""
 
-    thumbnail_image: str
-    high_res_image: str
+    thumbnail_image: str  # A thumbnail icon path to preview seasonal content, probably 480x270.
+    high_res_image: str  # An optional path to a high-resolution image, probably 1920x1080.
 
 
 @dt.dataclass(frozen=True)
 class DestinySeasonPassDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
-    reward_progression_hash: int
-    prestige_progression_hash: int
-    hash: int
-    index: int
-    redacted: bool
+    reward_progression_hash: int  # This is the progression definition related to the progression for the initial levels 1-100 that provide item rewards for the Season pass. Further experience after you reach the limit is provided in the "Prestige" progression referred to by prestigeProgressionHash.
+    prestige_progression_hash: int  # I know what you're thinking, but I promise we're not going to duplicate and drown you. Instead, we're giving you sweet, sweet power bonuses.  Prestige progression is further progression that you can make on the Season pass after you gain max ranks, that will ultimately increase your power/light level over the theoretical limit.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 # imported at the end to do not case circular imports for type annotations

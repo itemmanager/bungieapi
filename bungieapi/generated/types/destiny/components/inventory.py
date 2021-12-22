@@ -5,12 +5,14 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyPlatformSilverComponent:
-    platform_silver: t.Mapping[str, "DestinyItemComponent"]
+    platform_silver: t.Mapping[
+        str, "DestinyItemComponent"
+    ]  # If a Profile is played on multiple platforms, this is the silver they have for each platform, keyed by Membership Type.
 
 
 @dt.dataclass(frozen=True)
 class DestinyCurrenciesComponent:
-    """'This component provides a quick lookup of every item the requested
+    """This component provides a quick lookup of every item the requested
     character has and how much of that item they have.
 
     Requesting this component will allow you to circumvent manually
@@ -24,7 +26,9 @@ class DestinyCurrenciesComponent:
     GetCharacter/GetProfile calls.
     """
 
-    item_quantities: t.Mapping[str, int]
+    item_quantities: t.Mapping[
+        str, int
+    ]  # A dictionary - keyed by the item's hash identifier (DestinyInventoryItemDefinition), and whose value is the amount of that item you have across all available inventory buckets for purchasing. This allows you to see whether the requesting character can afford any given purchase/action without having to re-create this list itself.
 
 
 # imported at the end to do not case circular imports for type annotations

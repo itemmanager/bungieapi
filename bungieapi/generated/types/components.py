@@ -5,11 +5,11 @@ from enum import Enum
 
 @dt.dataclass(frozen=True)
 class ComponentResponse:
-    """'The base class for any component-returning object that may need to
+    """The base class for any component-returning object that may need to
     indicate information about the state of the component being returned."""
 
     privacy: "ComponentPrivacySetting"
-    disabled: bool
+    disabled: bool  # If true, this component is disabled.
 
 
 class ComponentPrivacySetting(Enum):

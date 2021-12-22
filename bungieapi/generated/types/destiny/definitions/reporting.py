@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyReportReasonCategoryDefinition:
-    """'If you're going to report someone for a Terms of Service violation, you
+    """If you're going to report someone for a Terms of Service violation, you
     need to choose a category and reason for the report.
 
     This definition holds both the categories and the reasons within
@@ -16,15 +16,17 @@ class DestinyReportReasonCategoryDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    reasons: t.Mapping[str, "DestinyReportReasonDefinition"]
-    hash: int
-    index: int
-    redacted: bool
+    reasons: t.Mapping[
+        str, "DestinyReportReasonDefinition"
+    ]  # The specific reasons for the report under this category.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
 class DestinyReportReasonDefinition:
-    """'A specific reason for being banned.
+    """A specific reason for being banned.
 
     Only accessible under the related category
     (DestinyReportReasonCategoryDefinition) under which it is shown.
@@ -33,7 +35,7 @@ class DestinyReportReasonDefinition:
     most categories for example.
     """
 
-    reason_hash: int
+    reason_hash: int  # The identifier for the reason: they are only guaranteed unique under the Category in which they are found.
     display_properties: "DestinyDisplayPropertiesDefinition"
 
 

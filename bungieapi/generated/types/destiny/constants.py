@@ -4,8 +4,8 @@ import dataclasses as dt
 
 @dt.dataclass(frozen=True)
 class DestinyEnvironmentLocationMapping:
-    location_hash: int
-    activation_source: str
-    item_hash: int
-    objective_hash: int
-    activity_hash: int
+    location_hash: int  # The location that is revealed on the director by this mapping.
+    activation_source: str  # A hint that the UI uses to figure out how this location is activated by the player.
+    item_hash: int  # If this is populated, it is the item that you must possess for this location to be active because of this mapping. (theoretically, a location can have multiple mappings, and some might require an item while others don't)
+    objective_hash: int  # If this is populated, this is an objective related to the location.
+    activity_hash: int  # If this is populated, this is the activity you have to be playing in order to see this location appear because of this mapping. (theoretically, a location can have multiple mappings, and some might require you to be in a specific activity when others don't)

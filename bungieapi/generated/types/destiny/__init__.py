@@ -6,7 +6,7 @@ from enum import Enum
 
 @dt.dataclass(frozen=True)
 class DestinyProgression:
-    """'Information about a current character's status with a Progression.
+    """Information about a current character's status with a Progression.
 
     A progression is a value that can increase with activity and has
     levels. Think Character Level and Reputation Levels. Combine this
@@ -14,25 +14,29 @@ class DestinyProgression:
     picture of the Progression.
     """
 
-    progression_hash: int
-    daily_progress: int
-    daily_limit: int
-    weekly_progress: int
-    weekly_limit: int
-    current_progress: int
-    level: int
-    level_cap: int
-    step_index: int
-    progress_to_next_level: int
-    next_level_at: int
-    current_reset_count: int
-    season_resets: t.Sequence["DestinyProgressionResetEntry"]
-    reward_item_states: t.Sequence["DestinyProgressionRewardItemState"]
+    progression_hash: int  # The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data.
+    daily_progress: int  # The amount of progress earned today for this progression.
+    daily_limit: int  # If this progression has a daily limit, this is that limit.
+    weekly_progress: int  # The amount of progress earned toward this progression in the current week.
+    weekly_limit: int  # If this progression has a weekly limit, this is that limit.
+    current_progress: int  # This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)
+    level: int  # This is the level of the progression (for instance, the Character Level).
+    level_cap: int  # This is the maximum possible level you can achieve for this progression (for example, the maximum character level obtainable)
+    step_index: int  # Progressions define their levels in "steps". Since the last step may be repeatable, the user may be at a higher level than the actual Step achieved in the progression. Not necessarily useful, but potentially interesting for those cruising the API. Relate this to the "steps" property of the DestinyProgression to see which step the user is on, if you care about that. (Note that this is Content Version dependent since it refers to indexes.)
+    progress_to_next_level: int  # The amount of progression (i.e. "Experience") needed to reach the next level of this Progression. Jeez, progression is such an overloaded word.
+    next_level_at: int  # The total amount of progression (i.e. "Experience") needed in order to reach the next level.
+    current_reset_count: int  # The number of resets of this progression you've executed this season, if applicable to this progression.
+    season_resets: t.Sequence[
+        "DestinyProgressionResetEntry"
+    ]  # Information about historical resets of this progression, if there is any data for it.
+    reward_item_states: t.Sequence[
+        "DestinyProgressionRewardItemState"
+    ]  # Information about historical rewards for this progression, if there is any data for it.
 
 
 @dt.dataclass(frozen=True)
 class DestinyProgressionResetEntry:
-    """'Represents a season and the number of resets you had in that season.
+    """Represents a season and the number of resets you had in that season.
 
     We do not necessarily - even for progressions with resets - track it over all seasons. So be careful and check the season numbers being returned.
     """
@@ -45,10 +49,10 @@ class DestinyProgressionRewardItemState(Enum):
     """Represents the different states a progression reward item can be in."""
 
     NONE = 0
-    INVISIBLE = 1
-    EARNED = 2
-    CLAIMED = 4
-    CLAIM_ALLOWED = 8
+    INVISIBLE = 1  # If this is set, the reward should be hidden.
+    EARNED = 2  # If this is set, the reward has been earned.
+    CLAIMED = 4  # If this is set, the reward has been claimed.
+    CLAIM_ALLOWED = 8  # If this is set, the reward is allowed to be claimed by this Character. An item can be earned but still can't be claimed in certain circumstances, like if it's only allowed for certain subclasses. It also might not be able to be claimed if you already claimed it!
 
 
 class DestinyProgressionScope(Enum):
@@ -79,16 +83,16 @@ class DestinyProgressionStepDisplayEffect(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyItemQuantity:
-    """'Used in a number of Destiny contracts to return data about an item
-    stack and its quantity.
+    """Used in a number of Destiny contracts to return data about an item stack
+    and its quantity.
 
     Can optionally return an itemInstanceId if the item is instanced - in which case, the quantity returned will be 1. If it's not... uh, let me know okay? Thanks.
     """
 
-    item_hash: int
-    item_instance_id: int
-    quantity: int
-    has_conditional_visibility: bool
+    item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
+    item_instance_id: int  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
+    quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
+    has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
 
 
 class TierType(Enum):
@@ -168,9 +172,9 @@ class DyeReference:
 class DestinyVendorProgressionType(Enum):
     """Describes the type of progression that a vendor has."""
 
-    DEFAULT = 0
-    RITUAL = 1
-    NO_SEASONAL_REFRESH = 2
+    DEFAULT = 0  # The original rank progression from token redemption.
+    RITUAL = 1  # Progression from ranks in ritual content. For example: Crucible (Shaxx), Gambit (Drifter), and Season 13 Battlegrounds (War Table).
+    NO_SEASONAL_REFRESH = 2  # A vendor progression with no seasonal refresh. For example: Xur in the Eternity destination for the 30th Anniversary.
 
 
 class VendorDisplayCategorySortOrder(Enum):
@@ -208,16 +212,20 @@ class VendorInteractionType(Enum):
     """An enumeration of the known UI interactions for Vendors."""
 
     UNKNOWN = 0
-    UNDEFINED = 1
-    QUEST_COMPLETE = 2
-    QUEST_CONTINUE = 3
-    REPUTATION_PREVIEW = 4
-    RANK_UP_REWARD = 5
-    TOKEN_TURN_IN = 6
-    QUEST_ACCEPT = 7
-    PROGRESS_TAB = 8
-    END = 9
-    START = 10
+    UNDEFINED = 1  # An empty interaction. If this ends up in content, it is probably a game bug.
+    QUEST_COMPLETE = (
+        2  # An interaction shown when you complete a quest and receive a reward.
+    )
+    QUEST_CONTINUE = 3  # An interaction shown when you talk to a Vendor as an intermediary step of a quest.
+    REPUTATION_PREVIEW = 4  # An interaction shown when you are previewing the vendor's reputation rewards.
+    RANK_UP_REWARD = 5  # An interaction shown when you rank up with the vendor.
+    TOKEN_TURN_IN = (
+        6  # An interaction shown when you have tokens to turn in for the vendor.
+    )
+    QUEST_ACCEPT = 7  # An interaction shown when you're accepting a new quest.
+    PROGRESS_TAB = 8  # Honestly, this doesn't seem consistent to me. It is used to give you choices in the Cryptarch as well as some reward prompts by the Eververse vendor. I'll have to look into that further at some point.
+    END = 9  # These seem even less consistent. I don't know what these are.
+    START = 10  # Also seem inconsistent. I also don't know what these are offhand.
 
 
 class DestinyItemSortType(Enum):
@@ -313,20 +321,22 @@ class DestinyUnlockValueUIStyle(Enum):
     determine how best to render these options.
     """
 
-    AUTOMATIC = 0
-    FRACTION = 1
-    CHECKBOX = 2
-    PERCENTAGE = 3
-    DATE_TIME = 4
-    FRACTION_FLOAT = 5
-    INTEGER = 6
-    TIME_DURATION = 7
-    HIDDEN = 8
-    MULTIPLIER = 9
-    GREEN_PIPS = 10
-    RED_PIPS = 11
-    EXPLICIT_PERCENTAGE = 12
-    RAW_FLOAT = 13
+    AUTOMATIC = 0  # Generally, Automatic means "Just show the number"
+    FRACTION = 1  # Show the number as a fractional value. For this to make sense, the value being displayed should have a comparable upper bound, like the progress to the next level of a Progression.
+    CHECKBOX = 2  # Show the number as a checkbox. 0 Will mean unchecked, any other value will mean checked.
+    PERCENTAGE = 3  # Show the number as a percentage. For this to make sense, the value being displayed should have a comparable upper bound, like the progress to the next level of a Progression.
+    DATE_TIME = 4  # Show the number as a date and time. The number will be the number of seconds since the Unix Epoch (January 1st, 1970 at midnight UTC). It'll be up to you to convert this into a date and time format understandable to the user in their time zone.
+    FRACTION_FLOAT = 5  # Show the number as a floating point value that represents a fraction, where 0 is min and 1 is max. For this to make sense, the value being displayed should have a comparable upper bound, like the progress to the next level of a Progression.
+    INTEGER = 6  # Show the number as a straight-up integer.
+    TIME_DURATION = (
+        7  # Show the number as a time duration. The value will be returned as seconds.
+    )
+    HIDDEN = 8  # Don't bother showing the value at all, it's not easily human-interpretable, and used for some internal purpose.
+    MULTIPLIER = 9  # Example: "1.5x"
+    GREEN_PIPS = 10  # Show the value as a series of green pips, like the wins in a Trials of Osiris score card.
+    RED_PIPS = 11  # Show the value as a series of red pips, like the losses in a Trials of Osiris score card.
+    EXPLICIT_PERCENTAGE = 12  # Show the value as a percentage. For example: "51%" - Does no division, only appends '%'
+    RAW_FLOAT = 13  # Show the value as a floating-point number. For example: "4.52" NOTE: Passed along from Investment as whole number with last two digits as decimal values (452 -> 4.52)
 
 
 class DestinyObjectiveGrantStyle(Enum):
@@ -374,10 +384,10 @@ class DestinyActivityNavPointType(Enum):
 class DestinyActivityModeCategory(Enum):
     """Activity Modes are grouped into a few possible broad categories."""
 
-    NONE = 0
-    PV_E = 1
-    PV_P = 2
-    PV_E_COMPETITIVE = 3
+    NONE = 0  # Activities that are neither PVP nor PVE, such as social activities.
+    PV_E = 1  # PvE activities, where you shoot aliens in the face.
+    PV_P = 2  # PvP activities, where you shoot your "friends".
+    PV_E_COMPETITIVE = 3  # PVE competitive activities, where you shoot whoever you want whenever you want. Or run around collecting small glowing triangles.
 
 
 class DestinyItemSubType(Enum):
@@ -390,9 +400,11 @@ class DestinyItemSubType(Enum):
     """
 
     NONE = 0
-    CRUCIBLE = 1
-    VANGUARD = 2
-    EXOTIC = 5
+    CRUCIBLE = (
+        1  # DEPRECATED. Items can be both "Crucible" and something else interesting.
+    )
+    VANGUARD = 2  # DEPRECATED. An item can both be "Vanguard" and something else.
+    EXOTIC = 5  # DEPRECATED. An item can both be Exotic and something else.
     AUTO_RIFLE = 6
     SHOTGUN = 7
     MACHINEGUN = 8
@@ -402,7 +414,7 @@ class DestinyItemSubType(Enum):
     SNIPER_RIFLE = 12
     PULSE_RIFLE = 13
     SCOUT_RIFLE = 14
-    CRM = 16
+    CRM = 16  # DEPRECATED. An item can both be CRM and something else.
     SIDEARM = 17
     SWORD = 18
     MASK = 19
@@ -457,7 +469,9 @@ class DestinyPresentationDisplayStyle(Enum):
     How you use this is your UI is up to you.
     """
 
-    CATEGORY = 0
+    CATEGORY = (
+        0  # Display the item as a category, through which sub-items are filtered.
+    )
     BADGE = 1
     MEDALS = 2
     COLLECTIBLE = 3
@@ -496,9 +510,9 @@ class DestinyPresentationScreenStyle(Enum):
     How you use this is your UI is up to you.
     """
 
-    DEFAULT = 0
-    CATEGORY_SETS = 1
-    BADGE = 2
+    DEFAULT = 0  # Use the "default" view for the presentation nodes.
+    CATEGORY_SETS = 1  # Show sub-items as "category sets". In-game, you'd see these as a vertical list of child presentation nodes - armor sets for example - and the icons of items within those sets displayed horizontally.
+    BADGE = 2  # Show sub-items as Badges. (I know, I know. We don't need no stinkin' badges har har har)
 
 
 class PlugUiStyles(Enum):
@@ -549,11 +563,11 @@ class SocketPlugSources(Enum):
     for a socket.
     """
 
-    NONE = 0
-    INVENTORY_SOURCED = 1
-    REUSABLE_PLUG_ITEMS = 2
-    PROFILE_PLUG_SET = 4
-    CHARACTER_PLUG_SET = 8
+    NONE = 0  # If there's no way we can detect to insert new plugs.
+    INVENTORY_SOURCED = 1  # Use plugs found in the player's inventory, based on the socket type rules (see DestinySocketTypeDefinition for more info) Note that a socket - like Shaders - can have *both* reusable plugs and inventory items inserted theoretically.
+    REUSABLE_PLUG_ITEMS = 2  # Use the DestinyItemSocketsComponent.sockets.reusablePlugs property to determine which plugs are valid for this socket. This may have to be combined with other sources, such as plug sets, if those flags are set.  Note that "Reusable" plugs may not necessarily come from a plug set, nor from the "reusablePlugItems" in the socket's Definition data. They can sometimes be "randomized" in which case the only source of truth at the moment is still the runtime DestinyItemSocketsComponent.sockets.reusablePlugs property.
+    PROFILE_PLUG_SET = 4  # Use the ProfilePlugSets (DestinyProfileResponse.profilePlugSets) component data to determine which plugs are valid for this socket.
+    CHARACTER_PLUG_SET = 8  # Use the CharacterPlugSets (DestinyProfileResponse.characterPlugSets) component data to determine which plugs are valid for this socket.
 
 
 class ItemPerkVisibility(Enum):
@@ -666,10 +680,12 @@ class ItemBindStatus(Enum):
 class TransferStatuses(Enum):
     """Whether you can transfer an item, and why not if you can't."""
 
-    CAN_TRANSFER = 0
-    ITEM_IS_EQUIPPED = 1
-    NOT_TRANSFERRABLE = 2
-    NO_ROOM_IN_DESTINATION = 4
+    CAN_TRANSFER = 0  # The item can be transferred.
+    ITEM_IS_EQUIPPED = (
+        1  # You can't transfer the item because it is equipped on a character.
+    )
+    NOT_TRANSFERRABLE = 2  # The item is defined as not transferrable in its DestinyInventoryItemDefinition.nonTransferrable property.
+    NO_ROOM_IN_DESTINATION = 4  # You could transfer the item, but the place you're trying to put it has run out of room! Check your remaining Vault and/or character space.
 
 
 class ItemState(Enum):
@@ -678,9 +694,9 @@ class ItemState(Enum):
     displayed to the user and what actions can be performed against it."""
 
     NONE = 0
-    LOCKED = 1
-    TRACKED = 2
-    MASTERWORK = 4
+    LOCKED = 1  # If this bit is set, the item has been "locked" by the user and cannot be deleted. You may want to represent this visually with a "lock" icon.
+    TRACKED = 2  # If this bit is set, the item is a quest that's being tracked by the user. You may want a visual indicator to show that this is a tracked quest.
+    MASTERWORK = 4  # If this bit is set, the item has a Masterwork plug inserted. This usually coincides with having a special "glowing" effect applied to the item's icon.
 
 
 class DestinyGameVersions(Enum):
@@ -707,40 +723,40 @@ class DestinyComponentType(Enum):
     """
 
     NONE = 0
-    PROFILES = 100
-    VENDOR_RECEIPTS = 101
-    PROFILE_INVENTORIES = 102
-    PROFILE_CURRENCIES = 103
-    PROFILE_PROGRESSION = 104
-    PLATFORM_SILVER = 105
-    CHARACTERS = 200
-    CHARACTER_INVENTORIES = 201
-    CHARACTER_PROGRESSIONS = 202
-    CHARACTER_RENDER_DATA = 203
-    CHARACTER_ACTIVITIES = 204
-    CHARACTER_EQUIPMENT = 205
-    ITEM_INSTANCES = 300
-    ITEM_OBJECTIVES = 301
-    ITEM_PERKS = 302
-    ITEM_RENDER_DATA = 303
-    ITEM_STATS = 304
-    ITEM_SOCKETS = 305
-    ITEM_TALENT_GRIDS = 306
-    ITEM_COMMON_DATA = 307
-    ITEM_PLUG_STATES = 308
-    ITEM_PLUG_OBJECTIVES = 309
-    ITEM_REUSABLE_PLUGS = 310
-    VENDORS = 400
-    VENDOR_CATEGORIES = 401
-    VENDOR_SALES = 402
-    KIOSKS = 500
-    CURRENCY_LOOKUPS = 600
-    PRESENTATION_NODES = 700
-    COLLECTIBLES = 800
-    RECORDS = 900
-    TRANSITORY = 1000
-    METRICS = 1100
-    STRING_VARIABLES = 1200
+    PROFILES = 100  # Profiles is the most basic component, only relevant when calling GetProfile. This returns basic information about the profile, which is almost nothing: a list of characterIds, some information about the last time you logged in, and that most sobering statistic: how long you've played.
+    VENDOR_RECEIPTS = 101  # Only applicable for GetProfile, this will return information about receipts for refundable vendor items.
+    PROFILE_INVENTORIES = 102  # Asking for this will get you the profile-level inventories, such as your Vault buckets (yeah, the Vault is really inventory buckets located on your Profile)
+    PROFILE_CURRENCIES = 103  # This will get you a summary of items on your Profile that we consider to be "currencies", such as Glimmer. I mean, if there's Glimmer in Destiny 2. I didn't say there was Glimmer.
+    PROFILE_PROGRESSION = 104  # This will get you any progression-related information that exists on a Profile-wide level, across all characters.
+    PLATFORM_SILVER = 105  # This will get you information about the silver that this profile has on every platform on which it plays.  You may only request this component for the logged in user's Profile, and will not recieve it if you request it for another Profile.
+    CHARACTERS = 200  # This will get you summary info about each of the characters in the profile.
+    CHARACTER_INVENTORIES = 201  # This will get you information about any non-equipped items on the character or character(s) in question, if you're allowed to see it. You have to either be authenticated as that user, or that user must allow anonymous viewing of their non-equipped items in Bungie.Net settings to actually get results.
+    CHARACTER_PROGRESSIONS = 202  # This will get you information about the progression (faction, experience, etc... "levels") relevant to each character, if you are the currently authenticated user or the user has elected to allow anonymous viewing of its progression info.
+    CHARACTER_RENDER_DATA = 203  # This will get you just enough information to be able to render the character in 3D if you have written a 3D rendering library for Destiny Characters, or "borrowed" ours. It's okay, I won't tell anyone if you're using it. I'm no snitch. (actually, we don't care if you use it - go to town)
+    CHARACTER_ACTIVITIES = 204  # This will return info about activities that a user can see and gating on it, if you are the currently authenticated user or the user has elected to allow anonymous viewing of its progression info. Note that the data returned by this can be unfortunately problematic and relatively unreliable in some cases. We'll eventually work on making it more consistently reliable.
+    CHARACTER_EQUIPMENT = 205  # This will return info about the equipped items on the character(s). Everyone can see this.
+    ITEM_INSTANCES = 300  # This will return basic info about instanced items - whether they can be equipped, their tracked status, and some info commonly needed in many places (current damage type, primary stat value, etc)
+    ITEM_OBJECTIVES = 301  # Items can have Objectives (DestinyObjectiveDefinition) bound to them. If they do, this will return info for items that have such bound objectives.
+    ITEM_PERKS = 302  # Items can have perks (DestinyPerkDefinition). If they do, this will return info for what perks are active on items.
+    ITEM_RENDER_DATA = 303  # If you just want to render the weapon, this is just enough info to do that rendering.
+    ITEM_STATS = 304  # Items can have stats, like rate of fire. Asking for this component will return requested item's stats if they have stats.
+    ITEM_SOCKETS = 305  # Items can have sockets, where plugs can be inserted. Asking for this component will return all info relevant to the sockets on items that have them.
+    ITEM_TALENT_GRIDS = 306  # Items can have talent grids, though that matters a lot less frequently than it used to. Asking for this component will return all relevant info about activated Nodes and Steps on this talent grid, like the good ol' days.
+    ITEM_COMMON_DATA = 307  # Items that *aren't* instanced still have important information you need to know: how much of it you have, the itemHash so you can look up their DestinyInventoryItemDefinition, whether they're locked, etc... Both instanced and non-instanced items will have these properties. You will get this automatically with Inventory components - you only need to pass this when calling GetItem on a specific item.
+    ITEM_PLUG_STATES = 308  # Items that are "Plugs" can be inserted into sockets. This returns statuses about those plugs and why they can/can't be inserted. I hear you giggling, there's nothing funny about inserting plugs. Get your head out of the gutter and pay attention!
+    ITEM_PLUG_OBJECTIVES = 309  # Sometimes, plugs have objectives on them. This data can get really large, so we split it into its own component. Please, don't grab it unless you need it.
+    ITEM_REUSABLE_PLUGS = 310  # Sometimes, designers create thousands of reusable plugs and suddenly your response sizes are almost 3MB, and something has to give.  Reusable Plugs were split off as their own component, away from ItemSockets, as a result of the Plug changes in Shadowkeep that made plug data infeasibly large for the most common use cases.  Request this component if and only if you need to know what plugs *could* be inserted into a socket, and need to know it before "drilling" into the details of an item in your application (for instance, if you're doing some sort of interesting sorting or aggregation based on available plugs.  When you get this, you will also need to combine it with "Plug Sets" data if you want a full picture of all of the available plugs: this component will only return plugs that have state data that is per-item. See Plug Sets for available plugs that have Character, Profile, or no state-specific restrictions.
+    VENDORS = 400  # When obtaining vendor information, this will return summary information about the Vendor or Vendors being returned.
+    VENDOR_CATEGORIES = 401  # When obtaining vendor information, this will return information about the categories of items provided by the Vendor.
+    VENDOR_SALES = 402  # When obtaining vendor information, this will return the information about items being sold by the Vendor.
+    KIOSKS = 500  # Asking for this component will return you the account's Kiosk statuses: that is, what items have been filled out/acquired. But only if you are the currently authenticated user or the user has elected to allow anonymous viewing of its progression info.
+    CURRENCY_LOOKUPS = 600  # A "shortcut" component that will give you all of the item hashes/quantities of items that the requested character can use to determine if an action (purchasing, socket insertion) has the required currency. (recall that all currencies are just items, and that some vendor purchases require items that you might not traditionally consider to be a "currency", like plugs/mods!)
+    PRESENTATION_NODES = 700  # Returns summary status information about all "Presentation Nodes". See DestinyPresentationNodeDefinition for more details, but the gist is that these are entities used by the game UI to bucket Collectibles and Records into a hierarchy of categories. You may ask for and use this data if you want to perform similar bucketing in your own UI: or you can skip it and roll your own.
+    COLLECTIBLES = 800  # Returns summary status information about all "Collectibles". These are records of what items you've discovered while playing Destiny, and some other basic information. For detailed information, you will have to call a separate endpoint devoted to the purpose.
+    RECORDS = 900  # Returns summary status information about all "Records" (also known in the game as "Triumphs". I know, it's confusing because there's also "Moments of Triumph" that will themselves be represented as "Triumphs.")
+    TRANSITORY = 1000  # Returns information that Bungie considers to be "Transitory": data that may change too frequently or come from a non-authoritative source such that we don't consider the data to be fully trustworthy, but that might prove useful for some limited use cases. We can provide no guarantee of timeliness nor consistency for this data: buyer beware with the Transitory component.
+    METRICS = 1100  # Returns summary status information about all "Metrics" (also known in the game as "Stat Trackers").
+    STRING_VARIABLES = 1200  # Returns a mapping of localized string variable hashes to values, on a per-account or per-character basis.
 
 
 class DestinyPresentationNodeState(Enum):
@@ -753,22 +769,24 @@ class DestinyPresentationNodeState(Enum):
     """
 
     NONE = 0
-    INVISIBLE = 1
-    OBSCURED = 2
+    INVISIBLE = 1  # If this is set, the game recommends that you not show this node. But you know your life, do what you've got to do.
+    OBSCURED = 2  # Turns out Presentation Nodes can also be obscured. If they are, this is set.
 
 
 class DestinyRecordState(Enum):
     """A Flags enumeration/bitmask where each bit represents a possible state
     that a Record/Triumph can be in."""
 
-    NONE = 0
-    RECORD_REDEEMED = 1
-    REWARD_UNAVAILABLE = 2
-    OBJECTIVE_NOT_COMPLETED = 4
-    OBSCURED = 8
-    INVISIBLE = 16
-    ENTITLEMENT_UNOWNED = 32
-    CAN_EQUIP_TITLE = 64
+    NONE = 0  # If there are no flags set, the record is in a state where it *could* be redeemed, but it has not been yet.
+    RECORD_REDEEMED = 1  # If this is set, the completed record has been redeemed.
+    REWARD_UNAVAILABLE = 2  # If this is set, there's a reward available from this Record but it's unavailable for redemption.
+    OBJECTIVE_NOT_COMPLETED = (
+        4  # If this is set, the objective for this Record has not yet been completed.
+    )
+    OBSCURED = 8  # If this is set, the game recommends that you replace the display text of this Record with DestinyRecordDefinition.stateInfo.obscuredString.
+    INVISIBLE = 16  # If this is set, the game recommends that you not show this record. Do what you will with this recommendation.
+    ENTITLEMENT_UNOWNED = 32  # If this is set, you can't complete this record because you lack some permission that's required to complete it.
+    CAN_EQUIP_TITLE = 64  # If this is set, the record has a title (check DestinyRecordDefinition for title info) and you can equip it.
 
 
 class DestinyCollectibleState(Enum):
@@ -790,23 +808,25 @@ class DestinyCollectibleState(Enum):
     """
 
     NONE = 0
-    NOT_ACQUIRED = 1
-    OBSCURED = 2
-    INVISIBLE = 4
-    CANNOT_AFFORD_MATERIAL_REQUIREMENTS = 8
-    INVENTORY_SPACE_UNAVAILABLE = 16
-    UNIQUENESS_VIOLATION = 32
-    PURCHASE_DISABLED = 64
+    NOT_ACQUIRED = 1  # If this flag is set, you have not yet obtained this collectible.
+    OBSCURED = 2  # If this flag is set, the item is "obscured" to you: you can/should use the alternate item hash found in DestinyCollectibleDefinition.stateInfo.obscuredOverrideItemHash when displaying this collectible instead of the default display info.
+    INVISIBLE = 4  # If this flag is set, the collectible should not be shown to the user. Please do consider honoring this flag. It is used - for example - to hide items that a person didn't get from the Eververse. I can't prevent these from being returned in definitions, because some people may have acquired them and thus they should show up: but I would hate for people to start feeling some variant of a Collector's Remorse about these items, and thus increasing their purchasing based on that compulsion. That would be a very unfortunate outcome, and one that I wouldn't like to see happen. So please, whether or not I'm your mom, consider honoring this flag and don't show people invisible collectibles.
+    CANNOT_AFFORD_MATERIAL_REQUIREMENTS = 8  # If this flag is set, the collectible requires payment for creating an instance of the item, and you are lacking in currency. Bring the benjamins next time. Or spinmetal. Whatever.
+    INVENTORY_SPACE_UNAVAILABLE = 16  # If this flag is set, you can't pull this item out of your collection because there's no room left in your inventory.
+    UNIQUENESS_VIOLATION = 32  # If this flag is set, you already have one of these items and can't have a second one.
+    PURCHASE_DISABLED = 64  # If this flag is set, the ability to pull this item out of your collection has been disabled.
 
 
 class DestinyPartyMemberStates(Enum):
     """A flags enumeration that represents a Fireteam Member's status."""
 
     NONE = 0
-    FIRETEAM_MEMBER = 1
-    POSSE_MEMBER = 2
-    GROUP_MEMBER = 4
-    PARTY_LEADER = 8
+    FIRETEAM_MEMBER = 1  # This one's pretty obvious - they're on your Fireteam.
+    POSSE_MEMBER = (
+        2  # I don't know what it means to be in a 'Posse', but apparently this is it.
+    )
+    GROUP_MEMBER = 4  # Nor do I understand the difference between them being in a 'Group' vs. a 'Fireteam'. I'll update these docs once I get more info. If I get more info. If you're reading this, I never got more info. You're on your own, kid.
+    PARTY_LEADER = 8  # This person is the party leader.
 
 
 class DestinyGamePrivacySetting(Enum):
@@ -828,12 +848,12 @@ class DestinyJoinClosedReasons(Enum):
     this user's fireteam."""
 
     NONE = 0
-    IN_MATCHMAKING = 1
-    LOADING = 2
-    SOLO_MODE = 4
-    INTERNAL_REASONS = 8
-    DISALLOWED_BY_GAME_STATE = 16
-    OFFLINE = 32768
+    IN_MATCHMAKING = 1  # The user is currently in matchmaking.
+    LOADING = 2  # The user is currently in a loading screen.
+    SOLO_MODE = 4  # The user is in an activity that requires solo play.
+    INTERNAL_REASONS = 8  # The user can't be joined for one of a variety of internal reasons. Basically, the game can't let you join at this time, but for reasons that aren't under the control of this user.
+    DISALLOWED_BY_GAME_STATE = 16  # The user's current activity/quest/other transitory game state is preventing joining.
+    OFFLINE = 32768  # The user appears to be offline.
 
 
 class DestinyRace(Enum):
@@ -845,8 +865,8 @@ class DestinyRace(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyActivity:
-    """'Represents the "Live" data that we can obtain about a Character's
-    status with a specific Activity.
+    """Represents the "Live" data that we can obtain about a Character's status
+    with a specific Activity.
 
     This will tell you whether the character can participate in the
     activity, as well as some other basic mutable information. Meant to
@@ -854,19 +874,23 @@ class DestinyActivity:
     picture of the Activity.
     """
 
-    activity_hash: int
-    is_new: bool
-    can_lead: bool
-    can_join: bool
-    is_completed: bool
-    is_visible: bool
-    display_level: int
-    recommended_light: int
-    difficulty_tier: "DestinyActivityDifficultyTier"
+    activity_hash: int  # The hash identifier of the Activity. Use this to look up the DestinyActivityDefinition of the activity.
+    is_new: bool  # If true, then the activity should have a "new" indicator in the Director UI.
+    can_lead: bool  # If true, the user is allowed to lead a Fireteam into this activity.
+    can_join: bool  # If true, the user is allowed to join with another Fireteam in this activity.
+    is_completed: bool  # If true, we both have the ability to know that the user has completed this activity and they have completed it. Unfortunately, we can't necessarily know this for all activities. As such, this should probably only be used if you already know in advance which specific activities you wish to check.
+    is_visible: bool  # If true, the user should be able to see this activity.
+    display_level: int  # The difficulty level of the activity, if applicable.
+    recommended_light: int  # The recommended light level for the activity, if applicable.
+    difficulty_tier: "DestinyActivityDifficultyTier"  # A DestinyActivityDifficultyTier enum value indicating the difficulty of the activity.
     challenges: t.Sequence["DestinyChallengeStatus"]
-    modifier_hashes: t.Sequence[int]
-    boolean_activity_options: t.Mapping[str, bool]
-    loadout_requirement_index: int
+    modifier_hashes: t.Sequence[
+        int
+    ]  # If the activity has modifiers, this will be the list of modifiers that all variants have in common. Perform lookups against DestinyActivityModifierDefinition which defines the modifier being applied to get at the modifier data. Note that, in the DestiyActivityDefinition, you will see many more modifiers than this being referred to: those are all *possible* modifiers for the activity, not the active ones. Use only the active ones to match what's really live.
+    boolean_activity_options: t.Mapping[
+        str, bool
+    ]  # The set of activity options for this activity, keyed by an identifier that's unique for this activity (not guaranteed to be unique between or across all activities, though should be unique for every *variant* of a given *conceptual* activity: for instance, the original D2 Raid has many variant DestinyActivityDefinitions. While other activities could potentially have the same option hashes, for any given D2 base Raid variant the hash will be unique). As a concrete example of this data, the hashes you get for Raids will correspond to the currently active "Challenge Mode". We don't have any human readable information for these, but saavy 3rd party app users could manually associate the key (a hash identifier for the "option" that is enabled/disabled) and the value (whether it's enabled or disabled presently) On our side, we don't necessarily even know what these are used for (the game designers know, but we don't), and we have no human readable data for them. In order to use them, you will have to do some experimentation.
+    loadout_requirement_index: int  # If returned, this is the index into the DestinyActivityDefinition's "loadouts" property, indicating the currently active loadout requirements.
 
 
 class DestinyActivityDifficultyTier(Enum):
@@ -888,11 +912,11 @@ class DestinyActivityDifficultyTier(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyStat:
-    """'Represents a stat on an item *or* Character (NOT a Historical Stat, but
+    """Represents a stat on an item *or* Character (NOT a Historical Stat, but
     a physical attribute stat like Attack, Defense etc...)"""
 
-    stat_hash: int
-    value: int
+    stat_hash: int  # The hash identifier for the Stat. Use it to look up the DestinyStatDefinition for static data about the stat.
+    value: int  # The current value of the Stat.
 
 
 class EquipFailureReason(Enum):
@@ -901,17 +925,17 @@ class EquipFailureReason(Enum):
     Many flags can be set, or "None" if
     """
 
-    NONE = 0
-    ITEM_UNEQUIPPABLE = 1
-    ITEM_UNIQUE_EQUIP_RESTRICTED = 2
-    ITEM_FAILED_UNLOCK_CHECK = 4
-    ITEM_FAILED_LEVEL_CHECK = 8
-    ITEM_NOT_ON_CHARACTER = 16
+    NONE = 0  # The item is/was able to be equipped.
+    ITEM_UNEQUIPPABLE = 1  # This is not the kind of item that can be equipped. Did you try equipping Glimmer or something?
+    ITEM_UNIQUE_EQUIP_RESTRICTED = 2  # This item is part of a "unique set", and you can't have more than one item of that same set type equipped at once. For instance, if you already have an Exotic Weapon equipped, you can't equip a second one in another weapon slot.
+    ITEM_FAILED_UNLOCK_CHECK = 4  # This item has state-based gating that prevents it from being equipped in certain circumstances. For instance, an item might be for Warlocks only and you're a Titan, or it might require you to have beaten some special quest that you haven't beaten yet. Use the additional failure data passed on the item itself to get more information about what the specific failure case was (See DestinyInventoryItemDefinition and DestinyItemInstanceComponent)
+    ITEM_FAILED_LEVEL_CHECK = 8  # This item requires you to have reached a specific character level in order to equip it, and you haven't reached that level yet.
+    ITEM_NOT_ON_CHARACTER = 16  # This item can't be equipped on the character requested, because it must be in that character's inventory first. Transfer the item to the character you want to equip it before you attempt to equip it.
 
 
 @dt.dataclass(frozen=True)
 class DestinyTalentNode:
-    """'I see you've come to find out more about Talent Nodes.
+    """I see you've come to find out more about Talent Nodes.
 
     I'm so sorry. Talent Nodes are the conceptual, visual nodes that
     appear on Talent Grids. Talent Grids, in Destiny 1, were found on
@@ -936,16 +960,18 @@ class DestinyTalentNode:
     based on talent grid data.
     """
 
-    node_index: int
-    node_hash: int
-    state: "DestinyTalentNodeState"
-    is_activated: bool
-    step_index: int
-    materials_to_upgrade: t.Sequence["DestinyMaterialRequirement"]
-    activation_grid_level: int
-    progress_percent: float
-    hidden: bool
-    node_stats_block: "DestinyTalentNodeStatBlock"
+    node_index: int  # The index of the Talent Node being referred to (an index into DestinyTalentGridDefinition.nodes[]). CONTENT VERSION DEPENDENT.
+    node_hash: int  # The hash of the Talent Node being referred to (in DestinyTalentGridDefinition.nodes). Deceptively CONTENT VERSION DEPENDENT. We have no guarantee of the hash's immutability between content versions.
+    state: "DestinyTalentNodeState"  # An DestinyTalentNodeState enum value indicating the node's state: whether it can be activated or swapped, and why not if neither can be performed.
+    is_activated: bool  # If true, the node is activated: it's current step then provides its benefits.
+    step_index: int  # The currently relevant Step for the node. It is this step that has rendering data for the node and the benefits that are provided if the node is activated. (the actual rules for benefits provided are extremely complicated in theory, but with how Talent Grids are being used in Destiny 2 you don't have to worry about a lot of those old Destiny 1 rules.) This is an index into: DestinyTalentGridDefinition.nodes[nodeIndex].steps[stepIndex]
+    materials_to_upgrade: t.Sequence[
+        "DestinyMaterialRequirement"
+    ]  # If the node has material requirements to be activated, this is the list of those requirements.
+    activation_grid_level: int  # The progression level required on the Talent Grid in order to be able to activate this talent node. Talent Grids have their own Progression - similar to Character Level, but in this case it is experience related to the item itself.
+    progress_percent: float  # If you want to show a progress bar or circle for how close this talent node is to being activate-able, this is the percentage to show. It follows the node's underlying rules about when the progress bar should first show up, and when it should be filled.
+    hidden: bool  # Whether or not the talent node is actually visible in the game's UI. Whether you want to show it in your own UI is up to you! I'm not gonna tell you who to sock it to.
+    node_stats_block: "DestinyTalentNodeStatBlock"  # This property has some history. A talent grid can provide stats on both the item it's related to and the character equipping the item. This returns data about those stat bonuses.
 
 
 class DestinyTalentNodeState(Enum):
@@ -967,15 +993,19 @@ class DestinyTalentNodeState(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyTalentNodeStatBlock:
-    """'This property has some history.
+    """This property has some history.
 
     A talent grid can provide stats on both the item it's related to and
     the character equipping the item. This returns data about those stat
     bonuses.
     """
 
-    current_step_stats: t.Sequence["DestinyStat"]
-    next_step_stats: t.Sequence["DestinyStat"]
+    current_step_stats: t.Sequence[
+        "DestinyStat"
+    ]  # The stat benefits conferred when this talent node is activated for the current Step that is active on the node.
+    next_step_stats: t.Sequence[
+        "DestinyStat"
+    ]  # This is a holdover from the old days of Destiny 1, when a node could be activated multiple times, conferring multiple steps worth of benefits: you would use this property to show what activating the "next" step on the node would provide vs. what the current step is providing. While Nodes are currently not being used this way, the underlying system for this functionality still exists. I hesitate to remove this property while the ability for designers to make such a talent grid still exists. Whether you want to show it is up to you.
 
 
 class DestinyVendorFilter(Enum):
@@ -1005,15 +1035,15 @@ class VendorItemStatus(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyUnlockStatus:
-    """'Indicates the status of an "Unlock Flag" on a Character or Profile.
+    """Indicates the status of an "Unlock Flag" on a Character or Profile.
 
     These are individual bits of state that can be either set or not
     set, and sometimes provide interesting human-readable information in
     their related DestinyUnlockDefinition.
     """
 
-    unlock_hash: int
-    is_set: bool
+    unlock_hash: int  # The hash identifier for the Unlock Flag. Use to lookup DestinyUnlockDefinition for static data. Not all unlocks have human readable data - in fact, most don't. But when they do, it can be very useful to show. Even if they don't have human readable data, you might be able to infer the meaning of an unlock flag with a bit of experimentation...
+    is_set: bool  # Whether the unlock flag is set.
 
 
 class DestinyVendorItemState(Enum):
@@ -1022,30 +1052,36 @@ class DestinyVendorItemState(Enum):
     IMPORTANT: Any given item can theoretically have many of these states simultaneously: as a result, this was altered to be a flags enumeration/bitmask for v3.2.0.
     """
 
-    NONE = 0
-    INCOMPLETE = 1
-    REWARD_AVAILABLE = 2
-    COMPLETE = 4
-    NEW = 8
-    FEATURED = 16
-    ENDING = 32
-    ON_SALE = 64
-    OWNED = 128
-    WIDE_VIEW = 256
-    NEXUS_ATTENTION = 512
-    SET_DISCOUNT = 1024
-    PRICE_DROP = 2048
-    DAILY_OFFER = 4096
-    CHARITY = 8192
-    SEASONAL_REWARD_EXPIRATION = 16384
-    BEST_DEAL = 32768
-    POPULAR = 65536
-    FREE = 131072
+    NONE = 0  # There are no augments on the item.
+    INCOMPLETE = 1  # Deprecated forever (probably). There was a time when Records were going to be implemented through Vendors, and this field was relevant. Now they're implemented through Presentation Nodes, and this field doesn't matter anymore.
+    REWARD_AVAILABLE = 2  # Deprecated forever (probably). See the description of the "Incomplete" value for the juicy scoop.
+    COMPLETE = 4  # Deprecated forever (probably). See the description of the "Incomplete" value for the juicy scoop.
+    NEW = 8  # This item is considered to be "newly available", and should have some UI showing how shiny it is.
+    FEATURED = 16  # This item is being "featured", and should be shiny in a different way from items that are merely new.
+    ENDING = 32  # This item is only available for a limited time, and that time is approaching.
+    ON_SALE = 64  # This item is "on sale". Get it while it's hot.
+    OWNED = 128  # This item is already owned.
+    WIDE_VIEW = (
+        256  # This item should be shown with a "wide view" instead of normal icon view.
+    )
+    NEXUS_ATTENTION = 512  # This indicates that you should show some kind of attention-requesting indicator on the item, in a similar manner to items in the nexus that have such notifications.
+    SET_DISCOUNT = (
+        1024  # This indicates that the item has some sort of a 'set' discount.
+    )
+    PRICE_DROP = 2048  # This indicates that the item has a price drop.
+    DAILY_OFFER = 4096  # This indicates that the item is a daily offer.
+    CHARITY = 8192  # This indicates that the item is for charity.
+    SEASONAL_REWARD_EXPIRATION = (
+        16384  # This indicates that the item has a seasonal reward expiration.
+    )
+    BEST_DEAL = 32768  # This indicates that the sale item is the best deal among different choices.
+    POPULAR = 65536  # This indicates that the sale item is popular.
+    FREE = 131072  # This indicates that the sale item is free.
 
 
 @dt.dataclass(frozen=True)
 class DestinyEquipItemResults:
-    """'The results of a bulk Equipping operation performed through the Destiny
+    """The results of a bulk Equipping operation performed through the Destiny
     API."""
 
     equip_results: t.Sequence["DestinyEquipItemResult"]
@@ -1053,11 +1089,11 @@ class DestinyEquipItemResults:
 
 @dt.dataclass(frozen=True)
 class DestinyEquipItemResult:
-    """'The results of an Equipping operation performed through the Destiny
+    """The results of an Equipping operation performed through the Destiny
     API."""
 
-    item_instance_id: int
-    equip_status: "PlatformErrorCodes"
+    item_instance_id: int  # The instance ID of the item in question (all items that can be equipped must, but definition, be Instanced and thus have an Instance ID that you can use to refer to them)
+    equip_status: "PlatformErrorCodes"  # A PlatformErrorCodes enum indicating whether it succeeded, and if it failed why.
 
 
 # imported at the end to do not case circular imports for type annotations

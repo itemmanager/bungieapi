@@ -78,16 +78,18 @@ class FireteamMember:
 class FireteamUserInfoCard:
     fireteam_display_name: str
     fireteam_membership_type: "BungieMembershipType"
-    supplemental_display_name: str
-    icon_path: str
-    cross_save_override: "BungieMembershipType"
-    applicable_membership_types: t.Sequence["BungieMembershipType"]
-    is_public: bool
-    membership_type: "BungieMembershipType"
-    membership_id: int
-    display_name: str
-    bungie_global_display_name: str
-    bungie_global_display_name_code: int
+    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    icon_path: str  # URL the Icon if available.
+    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    applicable_membership_types: t.Sequence[
+        "BungieMembershipType"
+    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    is_public: bool  # If True, this is a public user membership.
+    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    membership_id: int  # Membership ID as they user is known in the Accounts service
+    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    bungie_global_display_name: str  # The bungie global display name, if set.
+    bungie_global_display_name_code: int  # The bungie global display name code, if set.
 
 
 class FireteamPlatformInviteResult(Enum):

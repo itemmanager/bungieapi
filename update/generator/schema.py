@@ -15,6 +15,14 @@ def generate_schema(
     # yield f"{name} = t.Any"
 
 
+def linear_comment(something: t.Any) -> str:
+    description = getattr(something, "description", "")
+    if description:
+        description = description.replace("\n", " ").replace("\r", "")
+        return f" # {description}"
+    return ""
+
+
 @generate_schema.register
 def generate_object(
     object: api.Object, name: str, module: t.Sequence[str]
@@ -23,12 +31,12 @@ def generate_object(
     yield "@dt.dataclass(frozen=True)"
     yield f"class {name}:"
     if object.description:
-        yield f"    ''''{object.description}'''"
+        yield f"    '''{object.description}'''"
     if not object.properties and not object.additional_properties:
         yield "    ..."
     if object.properties:
         for name, property in object.properties.items():
-            yield f"    {camel_to_snake(name)}: {literal_bare(property, module)}"
+            yield f"    {camel_to_snake(name)}: {literal_bare(property, module)} {linear_comment(property)}"
     if object.additional_properties:
         yield f"    additional: t.Mapping[str, {literal_bare(object.additional_properties, [])}]"
     if object.all_of:
@@ -44,7 +52,7 @@ def generate_integer(
         if integer.description:
             yield f'    """{integer.description}"""'
         for value in integer.enum_values:
-            yield f"    {camel_to_snake(value.identifier).upper()} = {value.numeric_value}"
+            yield f"    {camel_to_snake(value.identifier).upper()} = {value.numeric_value}  {linear_comment(value)}"
     else:
         yield f"{name} = int"
 

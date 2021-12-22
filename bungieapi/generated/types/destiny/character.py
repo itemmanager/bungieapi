@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterCustomization:
-    """'Raw data about the customization options chosen for a character's face
+    """Raw data about the customization options chosen for a character's face
     and appearance.
 
     You can look up the relevant class/race/gender combo in
@@ -33,7 +33,7 @@ class DestinyCharacterCustomization:
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterPeerView:
-    """'A minimal view of a character's equipped items, for the purpose of
+    """A minimal view of a character's equipped items, for the purpose of
     rendering a summary screen or showing the character in 3D."""
 
     equipment: t.Sequence["DestinyItemPeerView"]
@@ -41,11 +41,13 @@ class DestinyCharacterPeerView:
 
 @dt.dataclass(frozen=True)
 class DestinyItemPeerView:
-    """'Bare minimum summary information for an item, for the sake of 3D
+    """Bare minimum summary information for an item, for the sake of 3D
     rendering the item."""
 
-    item_hash: int
-    dyes: t.Sequence["DyeReference"]
+    item_hash: int  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
+    dyes: t.Sequence[
+        "DyeReference"
+    ]  # The list of dyes that have been applied to this item.
 
 
 # imported at the end to do not case circular imports for type annotations

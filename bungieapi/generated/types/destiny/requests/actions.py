@@ -17,7 +17,7 @@ class DestinyCharacterActionRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyItemActionRequest:
-    item_id: int
+    item_id: int  # The instance ID of the item for this action request.
     character_id: int
     membership_type: "BungieMembershipType"
 
@@ -26,7 +26,7 @@ class DestinyItemActionRequest:
 class DestinyPostmasterTransferRequest:
     item_reference_hash: int
     stack_size: int
-    item_id: int
+    item_id: int  # The instance ID of the item for this action request.
     character_id: int
     membership_type: "BungieMembershipType"
 
@@ -41,32 +41,32 @@ class DestinyItemSetActionRequest:
 @dt.dataclass(frozen=True)
 class DestinyItemStateRequest:
     state: bool
-    item_id: int
+    item_id: int  # The instance ID of the item for this action request.
     character_id: int
     membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsActionRequest:
-    action_token: str
-    item_instance_id: int
-    plug: "DestinyInsertPlugsRequestEntry"
+    action_token: str  # Action token provided by the AwaGetActionToken API call.
+    item_instance_id: int  # The instance ID of the item having a plug inserted. Only instanced items can have sockets.
+    plug: "DestinyInsertPlugsRequestEntry"  # The plugs being inserted.
     character_id: int
     membership_type: "BungieMembershipType"
 
 
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsRequestEntry:
-    """'Represents all of the data related to a single plug to be inserted.
+    """Represents all of the data related to a single plug to be inserted.
 
     Note that, while you *can* point to a socket that represents
     infusion, you will receive an error if you attempt to do so. Come on
     guys, let's play nice.
     """
 
-    socket_index: int
-    socket_array_type: "DestinySocketArrayType"
-    plug_item_hash: int
+    socket_index: int  # The index into the socket array, which identifies the specific socket being operated on. We also need to know the socketArrayType in order to uniquely identify the socket. Don't point to or try to insert a plug into an infusion socket. It won't work.
+    socket_array_type: "DestinySocketArrayType"  # This property, combined with the socketIndex, tells us which socket we are referring to (since operations can be performed on both Intrinsic and "default" sockets, and they occupy different arrays in the Inventory Item Definition). I know, I know. Don't give me that look.
+    plug_item_hash: int  # Plugs are never instanced (except in infusion). So with the hash alone, we should be able to: 1) Infer whether the player actually needs to have the item, or if it's a reusable plug 2) Perform any operation needed to use the Plug, including removing the plug item and running reward sheets.
 
 
 class DestinySocketArrayType(Enum):
@@ -86,8 +86,8 @@ class DestinySocketArrayType(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsFreeActionRequest:
-    plug: "DestinyInsertPlugsRequestEntry"
-    item_id: int
+    plug: "DestinyInsertPlugsRequestEntry"  # The plugs being inserted.
+    item_id: int  # The instance ID of the item for this action request.
     character_id: int
     membership_type: "BungieMembershipType"
 

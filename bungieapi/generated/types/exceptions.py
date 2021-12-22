@@ -17,7 +17,7 @@ class PlatformErrorCodes(Enum):
     DATA_NOT_FOUND = 11
     INSUFFICIENT_PRIVILEGES = 12
     DUPLICATE = 13
-    UNKNOWN_SQL_RESULT = 14
+    UNKNOWN_SQL_RESULT = 14  # Deprecated, please do not check for this value anywhere.
     VALIDATION_ERROR = 15
     VALIDATION_MISSING_FIELD_ERROR = 16
     VALIDATION_INVALID_INPUT_ERROR = 17
@@ -509,7 +509,7 @@ class PlatformErrorCodes(Enum):
     DESTINY_VERSION_INCOMPATIBILITY = 1631
     DESTINY_ITEM_ALREADY_IN_INVENTORY = 1632
     DESTINY_BUCKET_NOT_FOUND = 1633
-    DESTINY_CHARACTER_NOT_IN_TOWER = 1634
+    DESTINY_CHARACTER_NOT_IN_TOWER = 1634  # Note: This is one of those holdovers from Destiny 1. We didn't change the enum because I am lazy, but in Destiny 2 this would read "DestinyCharacterNotInSocialSpace"
     DESTINY_CHARACTER_NOT_LOGGED_IN = 1635
     DESTINY_DEFINITIONS_NOT_LOADED = 1636
     DESTINY_INVENTORY_FULL = 1637

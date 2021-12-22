@@ -121,6 +121,7 @@ def fix(
 class EnumValue:
     numeric_value: int
     identifier: str
+    description: t.Optional[str] = None
 
 
 @dt.dataclass(frozen=True)
@@ -300,7 +301,7 @@ class OperationTree:
     @classmethod
     def from_mapping(
         cls, name: str, by_id: t.Mapping[str, t.Union[BindOperation, "OperationTree"]]
-    ) -> 'OperationTree':
+    ) -> "OperationTree":
         children: t.Dict[str, t.Any] = defaultdict(dict)
         my = []
         for operation_id, operation in by_id.items():

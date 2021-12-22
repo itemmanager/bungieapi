@@ -11,10 +11,10 @@ class DestinyPresentationNodesComponent:
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeComponent:
     state: "DestinyPresentationNodeState"
-    objective: "DestinyObjectiveProgress"
-    progress_value: int
-    completion_value: int
-    record_category_score: int
+    objective: "DestinyObjectiveProgress"  # An optional property: presentation nodes MAY have objectives, which can be used to infer more human readable data about the progress. However, progressValue and completionValue ought to be considered the canonical values for progress on Progression Nodes.
+    progress_value: int  # How much of the presentation node is considered to be completed so far by the given character/profile.
+    completion_value: int  # The value at which the presentation node is considered to be completed.
+    record_category_score: int  # If available, this is the current score for the record category that this node represents.
 
 
 # imported at the end to do not case circular imports for type annotations

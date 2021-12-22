@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeBaseDefinition:
-    """'This is the base class for all presentation system children.
+    """This is the base class for all presentation system children.
 
     Presentation Nodes, Records, Collectibles, and Metrics.
     """
@@ -13,10 +13,12 @@ class DestinyPresentationNodeBaseDefinition:
     presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
-    parent_node_hashes: t.Sequence[int]
-    hash: int
-    index: int
-    redacted: bool
+    parent_node_hashes: t.Sequence[
+        int
+    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
@@ -25,15 +27,17 @@ class DestinyScoredPresentationNodeBaseDefinition:
     presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
-    parent_node_hashes: t.Sequence[int]
-    hash: int
-    index: int
-    redacted: bool
+    parent_node_hashes: t.Sequence[
+        int
+    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeDefinition:
-    """'A PresentationNode is an entity that represents a logical grouping of
+    """A PresentationNode is an entity that represents a logical grouping of
     other entities visually/organizationally. For now, Presentation Nodes may
     contain the following... but it may be used for more in the future:
 
@@ -43,30 +47,32 @@ class DestinyPresentationNodeDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    original_icon: str
-    root_view_icon: str
+    original_icon: str  # The original icon for this presentation node, before we futzed with it.
+    root_view_icon: str  # Some presentation nodes are meant to be explicitly shown on the "root" or "entry" screens for the feature to which they are related. You should use this icon when showing them on such a view, if you have a similar "entry point" view in your UI. If you don't have a UI, then I guess it doesn't matter either way does it?
     node_type: "DestinyPresentationNodeType"
-    scope: "DestinyScope"
-    objective_hash: int
-    completion_record_hash: int
-    children: "DestinyPresentationNodeChildrenBlock"
-    display_style: "DestinyPresentationDisplayStyle"
-    screen_style: "DestinyPresentationScreenStyle"
-    requirements: "DestinyPresentationNodeRequirementsBlock"
-    disable_child_subscreen_navigation: bool
+    scope: "DestinyScope"  # Indicates whether this presentation node's state is determined on a per-character or on an account-wide basis.
+    objective_hash: int  # If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here.
+    completion_record_hash: int  # If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.
+    children: "DestinyPresentationNodeChildrenBlock"  # The child entities contained by this presentation node.
+    display_style: "DestinyPresentationDisplayStyle"  # A hint for how to display this presentation node when it's shown in a list.
+    screen_style: "DestinyPresentationScreenStyle"  # A hint for how to display this presentation node when it's shown in its own detail screen.
+    requirements: "DestinyPresentationNodeRequirementsBlock"  # The requirements for being able to interact with this presentation node and its children.
+    disable_child_subscreen_navigation: bool  # If this presentation node has children, but the game doesn't let you inspect the details of those children, that is indicated here.
     max_category_record_score: int
     presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
-    parent_node_hashes: t.Sequence[int]
-    hash: int
-    index: int
-    redacted: bool
+    parent_node_hashes: t.Sequence[
+        int
+    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeChildrenBlock:
-    """'As/if presentation nodes begin to host more entities as children, these
+    """As/if presentation nodes begin to host more entities as children, these
     lists will be added to.
 
     One list property exists per type of entity that can be treated as a
@@ -93,13 +99,13 @@ class DestinyPresentationNodeCollectibleChildEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeRequirementsBlock:
-    """'Presentation nodes can be restricted by various requirements.
+    """Presentation nodes can be restricted by various requirements.
 
     This defines the rules of those requirements, and the message(s) to
     be shown if these requirements aren't met.
     """
 
-    entitlement_unavailable_message: str
+    entitlement_unavailable_message: str  # If this node is not accessible due to Entitlements (for instance, you don't own the required game expansion), this is the message to show.
 
 
 @dt.dataclass(frozen=True)
@@ -120,14 +126,12 @@ class DestinyPresentationNodeMetricChildEntry:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.types.destiny import (
-    DestinyPresentationDisplayStyle,
-)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402
-from bungieapi.generated.types.destiny import (
-    DestinyPresentationScreenStyle,
-)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
+from bungieapi.generated.types.destiny import (  # noqa: E402
+    DestinyPresentationDisplayStyle,
+    DestinyPresentationScreenStyle,
+)
 from bungieapi.generated.types.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402

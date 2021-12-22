@@ -5,7 +5,7 @@ import typing as t
 
 @dt.dataclass(frozen=True)
 class DestinyChecklistDefinition:
-    """'By public demand, Checklists are loose sets of "things to do/things you
+    """By public demand, Checklists are loose sets of "things to do/things you
     have done" in Destiny that we were actually able to track.
 
     They include easter eggs you find in the world, unique chests you
@@ -26,17 +26,19 @@ class DestinyChecklistDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    view_action_string: str
-    scope: "DestinyScope"
-    entries: t.Sequence["DestinyChecklistEntryDefinition"]
-    hash: int
-    index: int
-    redacted: bool
+    view_action_string: str  # A localized string prompting you to view the checklist.
+    scope: "DestinyScope"  # Indicates whether you will find this checklist on the Profile or Character components.
+    entries: t.Sequence[
+        "DestinyChecklistEntryDefinition"
+    ]  # The individual checklist items. Gotta catch 'em all.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 @dt.dataclass(frozen=True)
 class DestinyChecklistEntryDefinition:
-    """'The properties of an individual checklist item.
+    """The properties of an individual checklist item.
 
     Note that almost everything is optional: it is *highly* variable
     what kind of data we'll actually be able to return: at times we may
@@ -45,16 +47,16 @@ class DestinyChecklistEntryDefinition:
     actually be able to be associated with some other Destiny entity.
     """
 
-    hash: int
-    display_properties: "DestinyDisplayPropertiesDefinition"
+    hash: int  # The identifier for this Checklist entry. Guaranteed unique only within this Checklist Definition, and not globally/for all checklists.
+    display_properties: "DestinyDisplayPropertiesDefinition"  # Even if no other associations exist, we will give you *something* for display properties. In cases where we have no associated entities, it may be as simple as a numerical identifier.
     destination_hash: int
     location_hash: int
-    bubble_hash: int
+    bubble_hash: int  # Note that a Bubble's hash doesn't uniquely identify a "top level" entity in Destiny. Only the combination of location and bubble can uniquely identify a place in the world of Destiny: so if bubbleHash is populated, locationHash must too be populated for it to have any meaning. You can use this property if it is populated to look up the DestinyLocationDefinition's associated .locationReleases[].activityBubbleName property.
     activity_hash: int
     item_hash: int
     vendor_hash: int
     vendor_interaction_index: int
-    scope: "DestinyScope"
+    scope: "DestinyScope"  # The scope at which this specific entry can be computed.
 
 
 from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402

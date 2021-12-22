@@ -11,10 +11,12 @@ class DestinyMetricDefinition:
     presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
     trait_hashes: t.Sequence[int]
-    parent_node_hashes: t.Sequence[int]
-    hash: int
-    index: int
-    redacted: bool
+    parent_node_hashes: t.Sequence[
+        int
+    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
 
 from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402

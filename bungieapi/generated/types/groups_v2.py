@@ -6,18 +6,20 @@ from enum import Enum
 
 @dt.dataclass(frozen=True)
 class GroupUserInfoCard:
-    last_seen_display_name: str
-    last_seen_display_name_type: "BungieMembershipType"
-    supplemental_display_name: str
-    icon_path: str
-    cross_save_override: "BungieMembershipType"
-    applicable_membership_types: t.Sequence["BungieMembershipType"]
-    is_public: bool
-    membership_type: "BungieMembershipType"
-    membership_id: int
-    display_name: str
-    bungie_global_display_name: str
-    bungie_global_display_name_code: int
+    last_seen_display_name: str  # This will be the display name the clan server last saw the user as. If the account is an active cross save override, this will be the display name to use. Otherwise, this will match the displayName property.
+    last_seen_display_name_type: "BungieMembershipType"  # The platform of the LastSeenDisplayName
+    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    icon_path: str  # URL the Icon if available.
+    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    applicable_membership_types: t.Sequence[
+        "BungieMembershipType"
+    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    is_public: bool  # If True, this is a public user membership.
+    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    membership_id: int  # Membership ID as they user is known in the Accounts service
+    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    bungie_global_display_name: str  # The bungie global display name, if set.
+    bungie_global_display_name_code: int  # The bungie global display name code, if set.
 
 
 @dt.dataclass(frozen=True)
@@ -28,9 +30,13 @@ class GroupResponse:
     parent_group: "GroupV2"
     alliance_status: "GroupAllianceStatus"
     group_join_invite_count: int
-    current_user_memberships_inactive_for_destiny: bool
-    current_user_member_map: t.Mapping[str, "GroupMember"]
-    current_user_potential_member_map: t.Mapping[str, "GroupPotentialMember"]
+    current_user_memberships_inactive_for_destiny: bool  # A convenience property that indicates if every membership you (the current user) have that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.
+    current_user_member_map: t.Mapping[
+        str, "GroupMember"
+    ]  # This property will be populated if the authenticated user is a member of the group. Note that because of account linking, a user can sometimes be part of a clan more than once. As such, this returns the highest member type available.
+    current_user_potential_member_map: t.Mapping[
+        str, "GroupPotentialMember"
+    ]  # This property will be populated if the authenticated user is an applicant or has an outstanding invitation to join. Note that because of account linking, a user can sometimes be part of a clan more than once.
 
 
 @dt.dataclass(frozen=True)
@@ -96,14 +102,14 @@ class GroupPostPublicity(Enum):
 @dt.dataclass(frozen=True)
 class GroupFeatures:
     maximum_members: int
-    maximum_memberships_of_group_type: int
+    maximum_memberships_of_group_type: int  # Maximum number of groups of this type a typical membership may join. For example, a user may join about 50 General groups with their Bungie.net account. They may join one clan per Destiny membership.
     capabilities: "Capabilities"
     membership_types: t.Sequence["BungieMembershipType"]
-    invite_permission_override: bool
-    update_culture_permission_override: bool
-    host_guided_game_permission_override: "HostGuidedGamesPermissionLevel"
-    update_banner_permission_override: bool
-    join_level: "RuntimeGroupMemberType"
+    invite_permission_override: bool  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    update_culture_permission_override: bool  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    host_guided_game_permission_override: "HostGuidedGamesPermissionLevel"  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
+    update_banner_permission_override: bool  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    join_level: "RuntimeGroupMemberType"  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
 
 
 class Capabilities(Enum):
@@ -146,7 +152,7 @@ class RuntimeGroupMemberType(Enum):
 
 @dt.dataclass(frozen=True)
 class GroupV2ClanInfo:
-    """'This contract contains clan-specific group information.
+    """This contract contains clan-specific group information.
 
     It does not include any investment data.
     """
@@ -168,7 +174,7 @@ class ClanBanner:
 
 @dt.dataclass(frozen=True)
 class GroupV2ClanInfoAndInvestment:
-    """'The same as GroupV2ClanInfo, but includes any investment data."""
+    """The same as GroupV2ClanInfo, but includes any investment data."""
 
     d2_clan_progressions: t.Mapping[str, "DestinyProgression"]
     clan_callsign: str
@@ -225,7 +231,7 @@ class GroupDateRange(Enum):
 
 @dt.dataclass(frozen=True)
 class GroupV2Card:
-    """'A small infocard of group information, usually used for when a list of
+    """A small infocard of group information, usually used for when a list of
     groups are returned."""
 
     group_id: int
@@ -250,12 +256,12 @@ class GroupSearchResponse:
     has_more: bool
     query: "PagedQuery"
     replacement_continuation_token: str
-    use_total_results: bool
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
 
 @dt.dataclass(frozen=True)
 class GroupQuery:
-    """ 'NOTE: GroupQuery, as of Destiny 2, has essentially two totally different and incompatible "modes".
+    """NOTE: GroupQuery, as of Destiny 2, has essentially two totally different and incompatible "modes".
     If you are querying for a group, you can pass any of the properties below.
     If you are querying for a Clan, you MUST NOT pass any of the following properties (they must be null or undefined in your request, not just empty string/default values):
     - groupMemberCountFilter - localeFilter - tagText
@@ -324,11 +330,11 @@ class GroupEditAction:
 
 @dt.dataclass(frozen=True)
 class GroupOptionsEditAction:
-    invite_permission_override: bool
-    update_culture_permission_override: bool
-    host_guided_game_permission_override: int
-    update_banner_permission_override: bool
-    join_level: int
+    invite_permission_override: bool  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    update_culture_permission_override: bool  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    host_guided_game_permission_override: int  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
+    update_banner_permission_override: bool  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    join_level: int  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
 
 
 @dt.dataclass(frozen=True)
@@ -423,18 +429,20 @@ class GroupMembershipSearchResponse:
     has_more: bool
     query: "PagedQuery"
     replacement_continuation_token: str
-    use_total_results: bool
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
 
 @dt.dataclass(frozen=True)
 class GetGroupsForMemberResponse:
-    are_all_memberships_inactive: t.Mapping[str, bool]
+    are_all_memberships_inactive: t.Mapping[
+        str, bool
+    ]  # A convenience property that indicates if every membership this user has that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.  The key is the Group ID for the group being checked, and the value is true if the users' memberships for that group are all inactive.
     results: t.Sequence["GroupMembership"]
     total_results: int
     has_more: bool
     query: "PagedQuery"
     replacement_continuation_token: str
-    use_total_results: bool
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
 
 @dt.dataclass(frozen=True)
@@ -450,7 +458,7 @@ class GroupPotentialMembershipSearchResponse:
     has_more: bool
     query: "PagedQuery"
     replacement_continuation_token: str
-    use_total_results: bool
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
 
 @dt.dataclass(frozen=True)
