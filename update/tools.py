@@ -1,4 +1,5 @@
 import functools as ft
+import re
 import typing as t
 
 
@@ -25,3 +26,12 @@ def find_all_refs_sequence(in_: list) -> t.Iterator[str]:
 def to_camel_case(snake_str: str) -> str:
     components = snake_str.split("_")
     return "".join(x.title() for x in components)
+
+
+CAMEL_RE_PRE = re.compile("(.)([A-Z][a-z]+)")
+CAMEL_RE_POST = re.compile("([a-z0-9])([A-Z])")
+
+
+def camel_to_snake(name: str) -> str:
+    name = CAMEL_RE_PRE.sub(r"\1_\2", name)
+    return CAMEL_RE_POST.sub(r"\1_\2", name).lower()

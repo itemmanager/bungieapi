@@ -11,6 +11,7 @@ from .literals import literal_bare
 def generate_schema(
     schema: api.Schema, name: str, module: t.Sequence[str]
 ) -> t.Iterator[str]:
+    # raise Exception(f"cannot generate type: {type(schema)} ({name})")
     yield f"{name} = t.Any"
 
 
@@ -30,3 +31,18 @@ def generate_object(
             yield f"    {camel_to_snake(name)}: {literal_bare(property, module)}"
     if object.additional_properties:
         yield f"    additional: t.Mapping[str, {literal_bare(object.additional_properties, [])}]"
+
+
+@generate_schema.register
+def generate_integer(
+    integer: api.Integer, name: str, module: t.Sequence[str]
+) -> t.Iterator[str]:
+    if integer.enum_values:
+        yield f"class {name}(Enum):"
+        if integer.description:
+            yield f'    """{integer.description}"""'
+        for value in integer.enum_values:
+            yield f"    {camel_to_snake(value.identifier).upper()} = {value.numeric_value}"
+        # raise NotImplementedError()
+    else:
+        yield f"{name} = int"

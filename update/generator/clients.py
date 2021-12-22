@@ -4,8 +4,8 @@ from functools import singledispatch
 from update.generator.imports import generate_imports
 from update.generator.literals import literal
 from update.generator.schema import generate_schema
-from update.generator.tools import camel_to_snake
 from update.openapi import BindOperation, OperationTree
+from update.tools import camel_to_snake
 
 from .. import openapi as api
 

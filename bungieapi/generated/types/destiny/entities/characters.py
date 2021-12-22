@@ -105,7 +105,7 @@ from bungieapi.generated.types.destiny.milestones import DestinyMilestone  # noq
 from bungieapi.generated.types.destiny.progression import (
     DestinyFactionProgression,
 )  # noqa: E402
+from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402
 from bungieapi.generated.types.destiny.quests import (
     DestinyObjectiveProgress,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402

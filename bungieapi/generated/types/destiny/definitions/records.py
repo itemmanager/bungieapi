@@ -88,9 +88,7 @@ from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
 from bungieapi.generated.types.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.definitions.presentation import (
+from bungieapi.generated.types.destiny.definitions.presentation import (  # noqa: E402
     DestinyPresentationChildBlock,
-)  # noqa: E402
-from bungieapi.generated.types.destiny.definitions.presentation import (
     DestinyPresentationNodeRequirementsBlock,
-)  # noqa: E402
+)

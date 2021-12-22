@@ -14,6 +14,7 @@ from update.openapi import OpenApi, TypeTree
 def type_module_generator(types: TypeTree, module: t.Sequence[str]) -> t.Iterator[str]:
     yield "import typing as t"
     yield "import dataclasses as dt"
+    yield "from enum import Enum"
 
     for schema in types.child_schema():
         yield from generate_schema(schema.schema, schema.schema_name, module)

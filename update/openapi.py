@@ -118,15 +118,25 @@ def fix(
 
 
 @dt.dataclass(frozen=True)
+class EnumValue:
+    numeric_value: int
+    identifier: str
+
+
+@dt.dataclass(frozen=True)
 class Integer(Schema, type=ApiType.INTEGER):
     format: t.Optional[IntegerFormat] = None
     enum_reference: t.Optional[Reference] = None
+    enum: t.Optional[t.Sequence[int]] = None
+    enum_values: t.Optional[t.Sequence[EnumValue]] = None
 
     @staticmethod
     def filter(
         t: t.Type["Integer"], data: t.Mapping, forge: Forge
     ) -> t.Mapping[str, t.Any]:
-        return fix(data, {"x-enum-reference": "enum_reference"})
+        return fix(
+            data, {"x-enum-reference": "enum_reference", "x-enum-values": "enum_values"}
+        )
 
 
 class NumberFormat(Enum):
