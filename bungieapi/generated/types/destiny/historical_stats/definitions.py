@@ -126,8 +126,8 @@ class DestinyStatsGroupType(Enum):
     INTERNAL = 104
 
 
-PeriodTypeArray = t.Any
-DestinyActivityModeTypeArray = t.Any
+PeriodTypeArray = t.Sequence["PeriodType"]
+DestinyActivityModeTypeArray = t.Sequence["DestinyActivityModeType"]
 
 
 class DestinyStatsCategoryType(Enum):

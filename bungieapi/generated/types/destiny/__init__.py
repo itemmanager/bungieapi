@@ -945,7 +945,7 @@ class DestinyTalentNode:
     activation_grid_level: int
     progress_percent: float
     hidden: bool
-    node_stats_block: t.Any
+    node_stats_block: "DestinyTalentNodeStatBlock"
 
 
 class DestinyTalentNodeState(Enum):

@@ -83,9 +83,9 @@ class DestinyMilestoneQuestDefinition:
     """
 
     quest_item_hash: int
-    display_properties: t.Any
+    display_properties: "DestinyDisplayPropertiesDefinition"
     override_image: str
-    quest_rewards: t.Any
+    quest_rewards: "DestinyMilestoneQuestRewardsDefinition"
     activities: t.Mapping[str, "DestinyMilestoneActivityDefinition"]
     destination_hash: int
 
@@ -99,7 +99,7 @@ class DestinyMilestoneQuestRewardsDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneQuestRewardItem:
-    """'A subclass of DestinyItemQuantity, that provides not just the item and its quantity but also information that BNet can - at some point - use internally to provide more robust runtime information about the item's qualities.
+    """ 'A subclass of DestinyItemQuantity, that provides not just the item and its quantity but also information that BNet can - at some point - use internally to provide more robust runtime information about the item's qualities.
     If you want it, please ask! We're just out of time to wire it up right now. Or a clever person just may do it with our existing endpoints."""
 
     vendor_hash: int
@@ -146,7 +146,7 @@ class DestinyMilestoneRewardCategoryDefinition:
 
     category_hash: int
     category_identifier: str
-    display_properties: t.Any
+    display_properties: "DestinyDisplayPropertiesDefinition"
     reward_entries: t.Mapping[str, "DestinyMilestoneRewardEntryDefinition"]
     order: int
 
@@ -161,7 +161,7 @@ class DestinyMilestoneRewardEntryDefinition:
     reward_entry_identifier: str
     items: t.Sequence["DestinyItemQuantity"]
     vendor_hash: int
-    display_properties: t.Any
+    display_properties: "DestinyDisplayPropertiesDefinition"
     order: int
 
 

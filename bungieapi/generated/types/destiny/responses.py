@@ -14,7 +14,7 @@ class DestinyLinkedProfilesResponse:
     """
 
     profiles: t.Sequence["DestinyProfileUserInfoCard"]
-    bnet_membership: t.Any
+    bnet_membership: "UserInfoCard"
     profiles_with_errors: t.Sequence["DestinyErrorProfile"]
 
 
@@ -23,7 +23,7 @@ class DestinyProfileUserInfoCard:
     date_last_played: str
     is_overridden: bool
     is_cross_save_primary: bool
-    platform_silver: t.Any
+    platform_silver: "DestinyPlatformSilverComponent"
     unpaired_game_versions: int
     supplemental_display_name: str
     icon_path: str
@@ -48,7 +48,7 @@ class DestinyErrorProfile:
     """
 
     error_code: "PlatformErrorCodes"
-    info_card: t.Any
+    info_card: "UserInfoCard"
 
 
 @dt.dataclass(frozen=True)
@@ -56,37 +56,37 @@ class DestinyProfileResponse:
     """'The response for GetDestinyProfile, with components for character and
     item-level data."""
 
-    vendor_receipts: t.Any
-    profile_inventory: t.Any
-    profile_currencies: t.Any
-    profile: t.Any
-    platform_silver: t.Any
-    profile_kiosks: t.Any
-    profile_plug_sets: t.Any
-    profile_progression: t.Any
-    profile_presentation_nodes: t.Any
-    profile_records: t.Any
-    profile_collectibles: t.Any
-    profile_transitory_data: t.Any
-    metrics: t.Any
-    profile_string_variables: t.Any
-    characters: t.Any
-    character_inventories: t.Any
-    character_progressions: t.Any
-    character_render_data: t.Any
-    character_activities: t.Any
-    character_equipment: t.Any
-    character_kiosks: t.Any
-    character_plug_sets: t.Any
+    vendor_receipts: "SingleComponentResponseOfDestinyVendorReceiptsComponent"
+    profile_inventory: "SingleComponentResponseOfDestinyInventoryComponent"
+    profile_currencies: "SingleComponentResponseOfDestinyInventoryComponent"
+    profile: "SingleComponentResponseOfDestinyProfileComponent"
+    platform_silver: "SingleComponentResponseOfDestinyPlatformSilverComponent"
+    profile_kiosks: "SingleComponentResponseOfDestinyKiosksComponent"
+    profile_plug_sets: "SingleComponentResponseOfDestinyPlugSetsComponent"
+    profile_progression: "SingleComponentResponseOfDestinyProfileProgressionComponent"
+    profile_presentation_nodes: "SingleComponentResponseOfDestinyPresentationNodesComponent"
+    profile_records: "SingleComponentResponseOfDestinyProfileRecordsComponent"
+    profile_collectibles: "SingleComponentResponseOfDestinyProfileCollectiblesComponent"
+    profile_transitory_data: "SingleComponentResponseOfDestinyProfileTransitoryComponent"
+    metrics: "SingleComponentResponseOfDestinyMetricsComponent"
+    profile_string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"
+    characters: "DictionaryComponentResponseOfint64AndDestinyCharacterComponent"
+    character_inventories: "DictionaryComponentResponseOfint64AndDestinyInventoryComponent"
+    character_progressions: "DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent"
+    character_render_data: "DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent"
+    character_activities: "DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent"
+    character_equipment: "DictionaryComponentResponseOfint64AndDestinyInventoryComponent"
+    character_kiosks: "DictionaryComponentResponseOfint64AndDestinyKiosksComponent"
+    character_plug_sets: "DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent"
     character_uninstanced_item_components: t.Mapping[
         str, "DestinyBaseItemComponentSetOfuint32"
     ]
-    character_presentation_nodes: t.Any
-    character_records: t.Any
-    character_collectibles: t.Any
-    character_string_variables: t.Any
-    item_components: t.Any
-    character_currency_lookups: t.Any
+    character_presentation_nodes: "DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent"
+    character_records: "DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent"
+    character_collectibles: "DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent"
+    character_string_variables: "DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent"
+    item_components: "DestinyItemComponentSetOfint64"
+    character_currency_lookups: "DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent"
 
 
 @dt.dataclass(frozen=True)
@@ -94,20 +94,20 @@ class DestinyCharacterResponse:
     """'The response contract for GetDestinyCharacter, with components that can
     be returned for character and item-level data."""
 
-    inventory: t.Any
-    character: t.Any
-    progressions: t.Any
-    render_data: t.Any
-    activities: t.Any
-    equipment: t.Any
-    kiosks: t.Any
-    plug_sets: t.Any
-    presentation_nodes: t.Any
-    records: t.Any
-    collectibles: t.Any
-    item_components: t.Any
-    uninstanced_item_components: t.Any
-    currency_lookups: t.Any
+    inventory: "SingleComponentResponseOfDestinyInventoryComponent"
+    character: "SingleComponentResponseOfDestinyCharacterComponent"
+    progressions: "SingleComponentResponseOfDestinyCharacterProgressionComponent"
+    render_data: "SingleComponentResponseOfDestinyCharacterRenderComponent"
+    activities: "SingleComponentResponseOfDestinyCharacterActivitiesComponent"
+    equipment: "SingleComponentResponseOfDestinyInventoryComponent"
+    kiosks: "SingleComponentResponseOfDestinyKiosksComponent"
+    plug_sets: "SingleComponentResponseOfDestinyPlugSetsComponent"
+    presentation_nodes: "SingleComponentResponseOfDestinyPresentationNodesComponent"
+    records: "SingleComponentResponseOfDestinyCharacterRecordsComponent"
+    collectibles: "SingleComponentResponseOfDestinyCollectiblesComponent"
+    item_components: "DestinyItemComponentSetOfint64"
+    uninstanced_item_components: "DestinyBaseItemComponentSetOfuint32"
+    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent"
 
 
 @dt.dataclass(frozen=True)
@@ -120,16 +120,16 @@ class DestinyItemResponse:
     """
 
     character_id: int
-    item: t.Any
-    instance: t.Any
-    objectives: t.Any
-    perks: t.Any
-    render_data: t.Any
-    stats: t.Any
-    talent_grid: t.Any
-    sockets: t.Any
-    reusable_plugs: t.Any
-    plug_objectives: t.Any
+    item: "SingleComponentResponseOfDestinyItemComponent"
+    instance: "SingleComponentResponseOfDestinyItemInstanceComponent"
+    objectives: "SingleComponentResponseOfDestinyItemObjectivesComponent"
+    perks: "SingleComponentResponseOfDestinyItemPerksComponent"
+    render_data: "SingleComponentResponseOfDestinyItemRenderComponent"
+    stats: "SingleComponentResponseOfDestinyItemStatsComponent"
+    talent_grid: "SingleComponentResponseOfDestinyItemTalentGridComponent"
+    sockets: "SingleComponentResponseOfDestinyItemSocketsComponent"
+    reusable_plugs: "SingleComponentResponseOfDestinyItemReusablePlugsComponent"
+    plug_objectives: "SingleComponentResponseOfDestinyItemPlugObjectivesComponent"
 
 
 @dt.dataclass(frozen=True)
@@ -137,13 +137,13 @@ class DestinyVendorsResponse:
     """'A response containing all of the components for all requested
     vendors."""
 
-    vendor_groups: t.Any
-    vendors: t.Any
-    categories: t.Any
-    sales: t.Any
+    vendor_groups: "SingleComponentResponseOfDestinyVendorGroupComponent"
+    vendors: "DictionaryComponentResponseOfuint32AndDestinyVendorComponent"
+    categories: "DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent"
+    sales: "DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent"
     item_components: t.Mapping[str, "DestinyItemComponentSetOfint32"]
-    currency_lookups: t.Any
-    string_variables: t.Any
+    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent"
+    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"
 
 
 @dt.dataclass(frozen=True)
@@ -155,12 +155,12 @@ class PersonalDestinyVendorSaleItemSetComponent:
 class DestinyVendorResponse:
     """'A response containing all of the components for a vendor."""
 
-    vendor: t.Any
-    categories: t.Any
-    sales: t.Any
-    item_components: t.Any
-    currency_lookups: t.Any
-    string_variables: t.Any
+    vendor: "SingleComponentResponseOfDestinyVendorComponent"
+    categories: "SingleComponentResponseOfDestinyVendorCategoriesComponent"
+    sales: "DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent"
+    item_components: "DestinyItemComponentSetOfint32"
+    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent"
+    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"
 
 
 @dt.dataclass(frozen=True)
@@ -172,11 +172,11 @@ class DestinyPublicVendorsResponse:
     If you want any of the other data - item details, whether or not you can buy it, etc... you'll have to call in the context of a character. I know, sad but true.
     """
 
-    vendor_groups: t.Any
-    vendors: t.Any
-    categories: t.Any
-    sales: t.Any
-    string_variables: t.Any
+    vendor_groups: "SingleComponentResponseOfDestinyVendorGroupComponent"
+    vendors: "DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent"
+    categories: "DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent"
+    sales: "DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent"
+    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"
 
 
 @dt.dataclass(frozen=True)
@@ -189,8 +189,8 @@ class DestinyCollectibleNodeDetailResponse:
     """'Returns the detailed information about a Collectible Presentation Node
     and any Collectibles that are direct descendants."""
 
-    collectibles: t.Any
-    collectible_item_components: t.Any
+    collectibles: "SingleComponentResponseOfDestinyCollectiblesComponent"
+    collectible_item_components: "DestinyItemComponentSetOfuint32"
 
 
 @dt.dataclass(frozen=True)
@@ -209,10 +209,167 @@ class DestinyItemChangeResponse:
     removed_inventory_items: t.Sequence["DestinyItemComponent"]
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types import BungieMembershipType  # noqa: E402
 from bungieapi.generated.types import DestinyBaseItemComponentSetOfuint32  # noqa: E402
 from bungieapi.generated.types import DestinyItemComponentSetOfint32  # noqa: E402
+from bungieapi.generated.types import DestinyItemComponentSetOfint64  # noqa: E402
+from bungieapi.generated.types import DestinyItemComponentSetOfuint32  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyCharacterComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyInventoryComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyKiosksComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfuint32AndDestinyVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyCharacterActivitiesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyCharacterComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyCharacterProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyCharacterRecordsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyCharacterRenderComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyCollectiblesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyCurrenciesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyInventoryComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemInstanceComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemObjectivesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemPerksComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemPlugObjectivesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemRenderComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemReusablePlugsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemSocketsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemStatsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyItemTalentGridComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyKiosksComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyMetricsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyPlatformSilverComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyPlugSetsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyPresentationNodesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyProfileCollectiblesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyProfileComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyProfileProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyProfileRecordsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyProfileTransitoryComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyStringVariablesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyVendorCategoriesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyVendorGroupComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
+    SingleComponentResponseOfDestinyVendorReceiptsComponent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.components.inventory import (
+    DestinyPlatformSilverComponent,
+)  # noqa: E402
 from bungieapi.generated.types.destiny.components.vendors import (
     DestinyPublicVendorSaleItemComponent,
 )  # noqa: E402
@@ -223,3 +380,6 @@ from bungieapi.generated.types.destiny.entities.vendors import (
     DestinyVendorSaleItemComponent,
 )  # noqa: E402
 from bungieapi.generated.types.exceptions import PlatformErrorCodes  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.user import UserInfoCard  # noqa: E402

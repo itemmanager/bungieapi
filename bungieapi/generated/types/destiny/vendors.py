@@ -14,7 +14,7 @@ class DestinyVendorReceipt:
     """
 
     currency_paid: t.Sequence["DestinyItemQuantity"]
-    item_received: t.Any
+    item_received: "DestinyItemQuantity"
     license_unlock_hash: int
     purchased_by_character_id: int
     refund_policy: "DestinyVendorItemRefundPolicy"

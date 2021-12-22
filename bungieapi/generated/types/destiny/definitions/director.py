@@ -44,8 +44,8 @@ class DestinyActivityGraphNodeDefinition:
     """
 
     node_id: int
-    override_display: t.Any
-    position: t.Any
+    override_display: "DestinyDisplayPropertiesDefinition"
+    position: "DestinyPositionDefinition"
     featuring_states: t.Sequence["DestinyActivityGraphNodeFeaturingStateDefinition"]
     activities: t.Sequence["DestinyActivityGraphNodeActivityDefinition"]
     states: t.Sequence["DestinyActivityGraphNodeStateEntry"]
@@ -101,7 +101,7 @@ class DestinyActivityGraphArtElementDefinition:
     pipeline exists (if it ever will)
     """
 
-    position: t.Any
+    position: "DestinyPositionDefinition"
 
 
 @dt.dataclass(frozen=True)
@@ -153,11 +153,18 @@ class DestinyLinkedGraphEntryDefinition:
     activity_graph_hash: int
 
 
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.types.destiny import DestinyGraphNodeState  # noqa: E402
 from bungieapi.generated.types.destiny import (
     ActivityGraphNodeHighlightType,
 )  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyGraphNodeState  # noqa: E402
 from bungieapi.generated.types.destiny.definitions import (
     DestinyUnlockExpressionDefinition,
+)  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyPositionDefinition,
 )  # noqa: E402

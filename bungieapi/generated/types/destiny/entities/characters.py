@@ -28,8 +28,8 @@ class DestinyCharacterComponent:
     emblem_path: str
     emblem_background_path: str
     emblem_hash: int
-    emblem_color: t.Any
-    level_progression: t.Any
+    emblem_color: "DestinyColor"
+    level_progression: "DestinyProgression"
     base_character_level: int
     percent_to_next_level: float
     title_record_hash: int
@@ -48,7 +48,7 @@ class DestinyCharacterProgressionComponent:
     uninstanced_item_objectives: t.Mapping[str, t.Sequence["DestinyObjectiveProgress"]]
     uninstanced_item_perks: t.Mapping[str, "DestinyItemPerksComponent"]
     checklists: t.Mapping[str, t.Mapping[str, bool]]
-    seasonal_artifact: t.Any
+    seasonal_artifact: "DestinyArtifactCharacterScoped"
 
 
 @dt.dataclass(frozen=True)
@@ -64,8 +64,8 @@ class DestinyCharacterRenderComponent:
     """
 
     custom_dyes: t.Sequence["DyeReference"]
-    customization: t.Any
-    peer_view: t.Any
+    customization: "DestinyCharacterCustomization"
+    peer_view: "DestinyCharacterPeerView"
 
 
 @dt.dataclass(frozen=True)
@@ -95,6 +95,15 @@ from bungieapi.generated.types.destiny import DestinyGender  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyProgression  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyRace  # noqa: E402
 from bungieapi.generated.types.destiny import DyeReference  # noqa: E402
+from bungieapi.generated.types.destiny.artifacts import (
+    DestinyArtifactCharacterScoped,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.character import (
+    DestinyCharacterCustomization,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.character import (
+    DestinyCharacterPeerView,
+)  # noqa: E402
 from bungieapi.generated.types.destiny.entities.items import (
     DestinyItemPerksComponent,
 )  # noqa: E402
@@ -102,10 +111,11 @@ from bungieapi.generated.types.destiny.historical_stats.definitions import (
     DestinyActivityModeType,
 )  # noqa: E402
 from bungieapi.generated.types.destiny.milestones import DestinyMilestone  # noqa: E402
+from bungieapi.generated.types.destiny.misc import DestinyColor  # noqa: E402
 from bungieapi.generated.types.destiny.progression import (
     DestinyFactionProgression,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402
 from bungieapi.generated.types.destiny.quests import (
     DestinyObjectiveProgress,
 )  # noqa: E402
+from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402

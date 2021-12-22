@@ -17,7 +17,7 @@ class Credentials:
 class Client:
     _session = t.Optional[aiohttp.ClientSession]
 
-    def __init__(self, credentials: Credentials, base_url=BASE_URL) -> None:
+    def __init__(self, credentials: Credentials, base_url: str=BASE_URL) -> None:
         self._base_url = base_url
         self._session = None
         self._credentials = credentials
@@ -29,8 +29,8 @@ class Client:
         return RootClient(self._session, BASE_PATH)
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        assert self._session
-        await self._session.close()
+        assert self._session  # type: ignore
+        await self._session.close()   # type: ignore
 
     @classmethod
     def from_credentials(cls, api_key: str) -> "Client":

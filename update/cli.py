@@ -21,7 +21,7 @@ OPEN_API_SPEC_PATH = PROJECT_ROOT / "source" / "openapi-2.json"
 DEST_DIR = PROJECT_ROOT / "bungieapi" / "generated"
 
 
-def download_url(source, dest: Path):
+def download_url(source: str, dest: Path) -> None:
     with urllib.request.urlopen(urllib.request.Request(source)) as response:
         with open(dest, "wb") as f:
             f.write(response.read())
@@ -29,7 +29,7 @@ def download_url(source, dest: Path):
 
 @click.command()
 @click.option("--fetch/--no-fetch", type=click.BOOL, default=False)
-def generate(fetch: bool):
+def generate(fetch: bool) -> None:
     if fetch:
         download_url(OPEN_API_SPEC_URL, OPEN_API_SPEC_PATH)
     assert Path(OPEN_API_SPEC_PATH).exists()

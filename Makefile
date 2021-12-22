@@ -42,7 +42,7 @@ test: ## run tests
 	pytest tests
 
 types: ## run typecheck
-	mypy .
+	mypy update bungieapi
 
 reformat: ## reformat code
 	isort . && autoflake -i -r . && black .

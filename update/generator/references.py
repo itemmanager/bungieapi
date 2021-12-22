@@ -20,6 +20,7 @@ def reference_object(object: api.Object) -> t.Iterator[api.Reference]:
     for child in it.chain(
         object.properties.values() if object.properties else [],
         [object.additional_properties] if object.additional_properties else [],
+        object.all_of if object.all_of else [],
     ):
         yield from references(child)
 

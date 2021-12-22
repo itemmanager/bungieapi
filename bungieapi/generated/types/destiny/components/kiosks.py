@@ -27,4 +27,10 @@ class DestinyKioskItem:
     index: int
     can_acquire: bool
     failure_indexes: t.Sequence[int]
-    flavor_objective: t.Any
+    flavor_objective: "DestinyObjectiveProgress"
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402

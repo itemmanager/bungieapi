@@ -9,7 +9,7 @@ class DestinyVendorComponent:
     vendor."""
 
     can_purchase: bool
-    progression: t.Any
+    progression: "DestinyProgression"
     vendor_location_index: int
     seasonal_rank: int
     vendor_hash: int
@@ -71,6 +71,7 @@ class DestinyVendorSaleItemComponent:
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types.destiny import DestinyItemQuantity  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyProgression  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyUnlockStatus  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyVendorItemState  # noqa: E402
 from bungieapi.generated.types.destiny import VendorItemStatus  # noqa: E402

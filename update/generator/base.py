@@ -31,7 +31,7 @@ def type_module_generator(types: TypeTree, module: t.Sequence[str]) -> t.Iterato
     if imports:
         yield "# imported at the end to do not case circular imports for type annotations"
 
-        yield from suffix(imports, "  # noqa: E402")
+        yield from suffix(imports.__iter__(), "  # noqa: E402")
 
 
 def types_generator(

@@ -13,7 +13,7 @@ class DestinyItemTierTypeDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    infusion_process: t.Any
+    infusion_process: "DestinyItemTierTypeInfusionBlock"
     hash: int
     index: int
     redacted: bool
@@ -27,7 +27,7 @@ class DestinyItemTierTypeInfusionBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyDerivedItemCategoryDefinition:
-    """'A shortcut for the fact that some items have a "Preview Vendor" - See DestinyInventoryItemDefinition.preview.previewVendorHash - that is intended to be used to show what items you can get as a result of acquiring or using this item.
+    """ 'A shortcut for the fact that some items have a "Preview Vendor" - See DestinyInventoryItemDefinition.preview.previewVendorHash - that is intended to be used to show what items you can get as a result of acquiring or using this item.
     A common example of this in Destiny 1 was Eververse "Boxes," which could have many possible items. This "Preview Vendor" is not a vendor you can actually see in the game, but it defines categories and sale items for all of the possible items you could get from the Box so that the game can show them to you. We summarize that info here so that you don't have to do that Vendor lookup and aggregation manually."""
 
     category_description: str
@@ -76,9 +76,9 @@ class DestinyItemPlugDefinition:
     alternate_ui_plug_label: str
     alternate_plug_style: "PlugUiStyles"
     is_dummy_plug: bool
-    parent_item_override: t.Any
-    energy_capacity: t.Any
-    energy_cost: t.Any
+    parent_item_override: "DestinyParentItemOverride"
+    energy_capacity: "DestinyEnergyCapacityEntry"
+    energy_cost: "DestinyEnergyCostEntry"
 
 
 @dt.dataclass(frozen=True)

@@ -46,7 +46,7 @@ class DestinyChecklistEntryDefinition:
     """
 
     hash: int
-    display_properties: t.Any
+    display_properties: "DestinyDisplayPropertiesDefinition"
     destination_hash: int
     location_hash: int
     bubble_hash: int

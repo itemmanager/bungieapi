@@ -32,8 +32,8 @@ class DestinyMilestoneQuest:
     information for the character's status with one of those quests."""
 
     quest_item_hash: int
-    status: t.Any
-    activity: t.Any
+    status: "DestinyQuestStatus"
+    activity: "DestinyMilestoneActivity"
     challenges: t.Sequence["DestinyChallengeStatus"]
 
 
@@ -60,7 +60,7 @@ class DestinyMilestoneActivityVariant:
     activity."""
 
     activity_hash: int
-    completion_status: t.Any
+    completion_status: "DestinyMilestoneActivityCompletionStatus"
     activity_mode_hash: int
     activity_mode_type: int
 
@@ -191,7 +191,7 @@ class DestinyPublicMilestone:
 @dt.dataclass(frozen=True)
 class DestinyPublicMilestoneQuest:
     quest_item_hash: int
-    activity: t.Any
+    activity: "DestinyPublicMilestoneActivity"
     challenges: t.Sequence["DestinyPublicMilestoneChallenge"]
 
 
@@ -251,7 +251,9 @@ class DestinyPublicMilestoneVendor:
     preview_item_hash: int
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types.destiny.challenges import (
     DestinyChallengeStatus,
 )  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402

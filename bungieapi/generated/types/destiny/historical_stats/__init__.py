@@ -7,7 +7,7 @@ import typing as t
 class DestinyPostGameCarnageReportData:
     period: str
     starting_phase_index: int
-    activity_details: t.Any
+    activity_details: "DestinyHistoricalStatsActivity"
     entries: t.Sequence["DestinyPostGameCarnageReportEntry"]
     teams: t.Sequence["DestinyPostGameCarnageReportTeamEntry"]
 
@@ -28,19 +28,19 @@ class DestinyHistoricalStatsActivity:
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportEntry:
     standing: int
-    score: t.Any
-    player: t.Any
+    score: "DestinyHistoricalStatsValue"
+    player: "DestinyPlayer"
     character_id: int
     values: t.Mapping[str, "DestinyHistoricalStatsValue"]
-    extended: t.Any
+    extended: "DestinyPostGameCarnageReportExtendedData"
 
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValue:
     stat_id: str
-    basic: t.Any
-    pga: t.Any
-    weighted: t.Any
+    basic: "DestinyHistoricalStatsValuePair"
+    pga: "DestinyHistoricalStatsValuePair"
+    weighted: "DestinyHistoricalStatsValuePair"
     activity_id: int
 
 
@@ -52,14 +52,14 @@ class DestinyHistoricalStatsValuePair:
 
 @dt.dataclass(frozen=True)
 class DestinyPlayer:
-    destiny_user_info: t.Any
+    destiny_user_info: "UserInfoCard"
     character_class: str
     class_hash: int
     race_hash: int
     gender_hash: int
     character_level: int
     light_level: int
-    bungie_net_user_info: t.Any
+    bungie_net_user_info: "UserInfoCard"
     clan_name: str
     clan_tag: str
     emblem_hash: int
@@ -80,8 +80,8 @@ class DestinyHistoricalWeaponStats:
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportTeamEntry:
     team_id: int
-    standing: t.Any
-    score: t.Any
+    standing: "DestinyHistoricalStatsValue"
+    score: "DestinyHistoricalStatsValue"
     team_name: str
 
 
@@ -94,9 +94,9 @@ class DestinyLeaderboard:
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardEntry:
     rank: int
-    player: t.Any
+    player: "DestinyPlayer"
     character_id: int
-    value: t.Any
+    value: "DestinyHistoricalStatsValue"
 
 
 @dt.dataclass(frozen=True)
@@ -110,7 +110,7 @@ class DestinyLeaderboardResults:
 class DestinyClanAggregateStat:
     mode: "DestinyActivityModeType"
     stat_id: str
-    value: t.Any
+    value: "DestinyHistoricalStatsValue"
 
 
 @dt.dataclass(frozen=True)
@@ -126,7 +126,7 @@ class DestinyHistoricalStatsByPeriod:
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsPeriodGroup:
     period: str
-    activity_details: t.Any
+    activity_details: "DestinyHistoricalStatsActivity"
     values: t.Mapping[str, "DestinyHistoricalStatsValue"]
 
 
@@ -183,3 +183,4 @@ from bungieapi.generated.types import BungieMembershipType  # noqa: E402
 from bungieapi.generated.types.destiny.historical_stats.definitions import (
     DestinyActivityModeType,
 )  # noqa: E402
+from bungieapi.generated.types.user import UserInfoCard  # noqa: E402

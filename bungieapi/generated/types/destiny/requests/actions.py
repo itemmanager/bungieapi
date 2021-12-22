@@ -50,7 +50,7 @@ class DestinyItemStateRequest:
 class DestinyInsertPlugsActionRequest:
     action_token: str
     item_instance_id: int
-    plug: t.Any
+    plug: "DestinyInsertPlugsRequestEntry"
     character_id: int
     membership_type: "BungieMembershipType"
 
@@ -86,7 +86,7 @@ class DestinySocketArrayType(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsFreeActionRequest:
-    plug: t.Any
+    plug: "DestinyInsertPlugsRequestEntry"
     item_id: int
     character_id: int
     membership_type: "BungieMembershipType"

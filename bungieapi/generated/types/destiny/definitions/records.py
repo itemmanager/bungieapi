@@ -17,7 +17,7 @@ class DestinyRecordDefinition:
     state_info: "SchemaRecordStateBlock"
     requirements: "DestinyPresentationNodeRequirementsBlock"
     expiration_info: "DestinyRecordExpirationBlock"
-    interval_info: t.Any
+    interval_info: "DestinyRecordIntervalBlock"
     reward_items: t.Sequence["DestinyItemQuantity"]
     presentation_node_type: "DestinyPresentationNodeType"
     trait_ids: t.Sequence[str]
@@ -88,7 +88,9 @@ from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
 from bungieapi.generated.types.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.definitions.presentation import (  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.presentation import (
     DestinyPresentationChildBlock,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.presentation import (
     DestinyPresentationNodeRequirementsBlock,
-)
+)  # noqa: E402

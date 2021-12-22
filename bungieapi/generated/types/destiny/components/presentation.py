@@ -11,7 +11,7 @@ class DestinyPresentationNodesComponent:
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeComponent:
     state: "DestinyPresentationNodeState"
-    objective: t.Any
+    objective: "DestinyObjectiveProgress"
     progress_value: int
     completion_value: int
     record_category_score: int
@@ -19,3 +19,6 @@ class DestinyPresentationNodeComponent:
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types.destiny import DestinyPresentationNodeState  # noqa: E402
+from bungieapi.generated.types.destiny.quests import (
+    DestinyObjectiveProgress,
+)  # noqa: E402

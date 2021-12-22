@@ -10,8 +10,8 @@ class DestinyArtifactDefinition:
     We cannot guarantee that artifact definitions will be immutable between seasons - in fact, we've been told that they will be replaced between seasons. But this definition is built both to minimize the amount of lookups for related data that have to occur, and is built in hope that, if this plan changes, we will be able to accommodate it more easily.
     """
 
-    display_properties: t.Any
-    translation_block: t.Any
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    translation_block: "DestinyItemTranslationBlockDefinition"
     tiers: t.Sequence["DestinyArtifactTierDefinition"]
     hash: int
     index: int
@@ -30,3 +30,13 @@ class DestinyArtifactTierDefinition:
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierItemDefinition:
     item_hash: int
+
+
+from bungieapi.generated.types.destiny.definitions import (
+    DestinyItemTranslationBlockDefinition,
+)  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.types.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402

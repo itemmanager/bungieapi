@@ -61,7 +61,7 @@ class Schema:
     description: t.Optional[str] = None
     required: bool = False
 
-    def __init_subclass__(cls, type: ApiType, **kwargs):
+    def __init_subclass__(cls, type: ApiType, **kwargs: t.Any) -> None:
         super().__init_subclass__(**kwargs)
         cls.types[type] = cls
         cls.type = type
@@ -153,6 +153,7 @@ class Number(Schema, type=ApiType.NUMBER):
 class Object(Schema, type=ApiType.OBJECT):
     properties: t.Optional[t.Mapping[str, t.Union[Reference, Schema]]] = None
     additional_properties: t.Union[Reference, Schema, None] = None
+    all_of: t.Optional[t.Sequence[Reference]] = None
 
 
 def forge_regerence_or_schema(
@@ -299,7 +300,7 @@ class OperationTree:
     @classmethod
     def from_mapping(
         cls, name: str, by_id: t.Mapping[str, t.Union[BindOperation, "OperationTree"]]
-    ):
+    ) -> 'OperationTree':
         children: t.Dict[str, t.Any] = defaultdict(dict)
         my = []
         for operation_id, operation in by_id.items():
@@ -331,7 +332,7 @@ class OpenApi:
     definitions: t.Mapping[str, Schema]
 
     def operations_tree(self) -> OperationTree:
-        def fix_operation_id(operation_id) -> str:
+        def fix_operation_id(operation_id: str) -> str:
             if operation_id.startswith("."):
                 return operation_id[1:]
             return operation_id

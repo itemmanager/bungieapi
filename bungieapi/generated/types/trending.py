@@ -98,8 +98,8 @@ class TrendingEntryDestinyRitual:
     subtitle: str
     date_start: str
     date_end: str
-    milestone_details: t.Any
-    event_content: t.Any
+    milestone_details: "DestinyPublicMilestone"
+    event_content: "DestinyMilestoneContent"
 
 
 @dt.dataclass(frozen=True)
@@ -118,4 +118,10 @@ from bungieapi.generated.types import SearchResultOfTrendingEntry  # noqa: E402
 from bungieapi.generated.types.content import ContentItemPublicContract  # noqa: E402
 from bungieapi.generated.types.destiny.activities import (
     DestinyPublicActivityStatus,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.milestones import (
+    DestinyMilestoneContent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.milestones import (
+    DestinyPublicMilestone,
 )  # noqa: E402

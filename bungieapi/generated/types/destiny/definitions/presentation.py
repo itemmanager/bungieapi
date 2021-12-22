@@ -49,10 +49,10 @@ class DestinyPresentationNodeDefinition:
     scope: "DestinyScope"
     objective_hash: int
     completion_record_hash: int
-    children: t.Any
+    children: "DestinyPresentationNodeChildrenBlock"
     display_style: "DestinyPresentationDisplayStyle"
     screen_style: "DestinyPresentationScreenStyle"
-    requirements: t.Any
+    requirements: "DestinyPresentationNodeRequirementsBlock"
     disable_child_subscreen_navigation: bool
     max_category_record_score: int
     presentation_node_type: "DestinyPresentationNodeType"
@@ -120,12 +120,14 @@ class DestinyPresentationNodeMetricChildEntry:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402
-from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
-from bungieapi.generated.types.destiny import (  # noqa: E402
+from bungieapi.generated.types.destiny import (
     DestinyPresentationDisplayStyle,
+)  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyPresentationNodeType  # noqa: E402
+from bungieapi.generated.types.destiny import (
     DestinyPresentationScreenStyle,
-)
+)  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyScope  # noqa: E402
 from bungieapi.generated.types.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402

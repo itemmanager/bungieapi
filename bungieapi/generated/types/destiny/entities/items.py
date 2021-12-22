@@ -23,7 +23,7 @@ class DestinyItemComponent:
     is_wrapper: bool
     tooltip_notification_indexes: t.Sequence[int]
     metric_hash: int
-    metric_objective: t.Any
+    metric_objective: "DestinyObjectiveProgress"
     version_number: int
     item_value_visibility: t.Sequence[bool]
 
@@ -48,7 +48,7 @@ class DestinyItemObjectivesComponent:
     """
 
     objectives: t.Sequence["DestinyObjectiveProgress"]
-    flavor_objective: t.Any
+    flavor_objective: "DestinyObjectiveProgress"
     date_completed: str
 
 
@@ -70,7 +70,7 @@ class DestinyItemInstanceComponent:
 
     damage_type: "DamageType"
     damage_type_hash: int
-    primary_stat: t.Any
+    primary_stat: "DestinyStat"
     item_level: int
     quality: int
     is_equipped: bool
@@ -80,7 +80,7 @@ class DestinyItemInstanceComponent:
     cannot_equip_reason: "EquipFailureReason"
     breaker_type: int
     breaker_type_hash: int
-    energy: t.Any
+    energy: "DestinyItemInstanceEnergy"
 
 
 @dt.dataclass(frozen=True)
@@ -168,12 +168,13 @@ class DestinyItemTalentGridComponent:
     talent_grid_hash: int
     nodes: t.Sequence["DestinyTalentNode"]
     is_grid_complete: bool
-    grid_progression: t.Any
+    grid_progression: "DestinyProgression"
 
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types.destiny import DamageType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyEnergyType  # noqa: E402
+from bungieapi.generated.types.destiny import DestinyProgression  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyStat  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyTalentNode  # noqa: E402
 from bungieapi.generated.types.destiny import EquipFailureReason  # noqa: E402

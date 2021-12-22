@@ -4,7 +4,7 @@ import dataclasses as dt
 
 @dt.dataclass(frozen=True)
 class DestinyActivityModifierDefinition:
-    """'Modifiers - in Destiny 1, these were referred to as "Skulls" - are changes that can be applied to an Activity."""
+    """ 'Modifiers - in Destiny 1, these were referred to as "Skulls" - are changes that can be applied to an Activity."""
 
     display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int

@@ -19,7 +19,7 @@ class DestinySeasonDefinition:
     artifact_item_hash: int
     seal_presentation_node_hash: int
     seasonal_challenges_presentation_node_hash: int
-    preview: t.Any
+    preview: "DestinySeasonPreviewDefinition"
     hash: int
     index: int
     redacted: bool

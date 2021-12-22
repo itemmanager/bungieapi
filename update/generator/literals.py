@@ -19,6 +19,9 @@ def literal_bare(t: t.Union[api.Reference, api.Schema], module: t.Sequence[str])
 def literal_object(t: api.Object, module: t.Sequence[str]) -> str:
     if t.properties:
         raise RuntimeError("Cannot generate inline object")
+    if t.all_of:
+        assert len(t.all_of) == 1
+        return literal_bare(t.all_of[0], module)
     if not t.additional_properties:
         return "t.Any"
     return f"t.Mapping[str, {literal_bare(t.additional_properties, module)}]"

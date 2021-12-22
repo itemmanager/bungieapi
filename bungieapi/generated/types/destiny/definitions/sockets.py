@@ -14,8 +14,8 @@ class DestinySocketTypeDefinition:
     Socketed items and Plugs.
     """
 
-    display_properties: t.Any
-    insert_action: t.Any
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    insert_action: "DestinyInsertPlugActionDefinition"
     plug_whitelist: t.Sequence["DestinyPlugWhitelistEntryDefinition"]
     socket_category_hash: int
     visibility: "DestinySocketVisibility"
@@ -90,7 +90,7 @@ class DestinyPlugSetDefinition:
     DisplayProperties, in particular, will no longer be guaranteed to contain valid information. We will make a best effort to guess what ought to be populated there where possible, but it will be invalid for many/most plug sets.
     """
 
-    display_properties: t.Any
+    display_properties: "DestinyDisplayPropertiesDefinition"
     reusable_plug_items: t.Sequence[
         "DestinyItemSocketEntryPlugItemRandomizedDefinition"
     ]
@@ -100,13 +100,14 @@ class DestinyPlugSetDefinition:
     redacted: bool
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types.destiny import DestinySocketCategoryStyle  # noqa: E402
 from bungieapi.generated.types.destiny import DestinySocketVisibility  # noqa: E402
 from bungieapi.generated.types.destiny import SocketTypeActionType  # noqa: E402
 from bungieapi.generated.types.destiny.definitions import (
     DestinyItemSocketEntryPlugItemRandomizedDefinition,
 )  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402

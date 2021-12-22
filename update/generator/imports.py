@@ -9,7 +9,7 @@ from .references import references
 @ft.singledispatch
 def generate_imports(
     input: t.Union[api.Operation, api.Schema], module: t.Sequence[str]
-):
+) -> t.Iterator[str]:
     raise NotImplementedError(f"generate_imports not defined for {type(input)}")
 
 

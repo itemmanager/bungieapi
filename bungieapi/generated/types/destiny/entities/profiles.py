@@ -20,7 +20,7 @@ class DestinyProfileComponent:
     """'The most essential summary information about a Profile (in Destiny 1,
     we called these "Accounts")."""
 
-    user_info: t.Any
+    user_info: "UserInfoCard"
     date_last_played: str
     versions_owned: "DestinyGameVersions"
     character_ids: t.Sequence[int]
@@ -33,3 +33,4 @@ from bungieapi.generated.types.destiny import DestinyGameVersions  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.types.destiny.vendors import DestinyVendorReceipt  # noqa: E402
+from bungieapi.generated.types.user import UserInfoCard  # noqa: E402
