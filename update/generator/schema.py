@@ -4,7 +4,7 @@ import typing as t
 from svarog.tools import camel_to_snake
 
 from .. import openapi as api
-from .literals import literal_bare
+from .literals import literal_bare, literal
 
 
 @ft.singledispatch
@@ -35,10 +35,16 @@ def generate_object(
     if not object.properties and not object.additional_properties:
         yield "    ..."
     if object.properties:
-        for name, property in object.properties.items():
+        required = [(name, property) for name, property in object.properties.items() if property.required]
+        not_required =  [(name, property) for name, property in object.properties.items() if not property.required]
+
+        for name, property in sorted(required):
             yield f"    {camel_to_snake(name)}: {literal_bare(property, module)} {linear_comment(property)}"
+        for name, property in sorted(not_required):
+            yield f"    {camel_to_snake(name)}: {literal(property, module)} = None {linear_comment(property)}"
+
     if object.additional_properties:
-        yield f"    additional: t.Mapping[str, {literal_bare(object.additional_properties, [])}]"
+        yield f"    additional: t.Mapping[str, {literal_bare(object.additional_properties, [])}]  = dt.field(default_factory=dict)"
     if object.all_of:
         raise NotImplementedError("cannot generate dataclass with parent")
 

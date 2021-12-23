@@ -1,6 +1,7 @@
 import pytest
 
 from bungieapi import Client, __version__
+from bungieapi.generated.types.destiny.config import DestinyManifest
 
 
 def test_version():
@@ -10,5 +11,12 @@ def test_version():
 @pytest.mark.asyncio
 async def test_can_get_manifest(client: Client):
     async with client as root:
-        manifest = await root.destiny2.get_destiny_manifest()
-        assert manifest
+        response = await root.destiny2.get_destiny_manifest()
+        assert isinstance(response.response, DestinyManifest)
+
+
+@pytest.mark.asyncio
+async def test_can_search_by_player_name(client: Client):
+    async with client as root:
+        result = await root.destiny2.search_destiny_player_by_bungie_name(-1)
+        assert result

@@ -20,7 +20,7 @@ class ParameterSource(Enum):
 @dt.dataclass(frozen=True)
 class Reference:
     ref: str
-    required: bool = False
+    required: bool = True
 
     @property
     def class_name(self) -> str:
@@ -59,7 +59,7 @@ class Schema:
     types: t.ClassVar[t.Dict[ApiType, t.Type["Schema"]]] = {}
     type: t.ClassVar[ApiType]
     description: t.Optional[str] = None
-    required: bool = False
+    required: bool = True
 
     def __init_subclass__(cls, type: ApiType, **kwargs: t.Any) -> None:
         super().__init_subclass__(**kwargs)
@@ -202,7 +202,10 @@ class Parameter:
 @dt.dataclass(frozen=True)
 class Response:
     description: str
-    schema: Schema
+    schema: Object
+
+    def __post_init__(self):
+        self.schema.properties['DetailedErrorTrace'] = dt.replace(self.schema.properties['DetailedErrorTrace'], required=False)
 
 
 @dt.dataclass(frozen=True)
