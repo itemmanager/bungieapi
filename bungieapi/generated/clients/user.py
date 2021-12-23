@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types.config import UserTheme
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.user import (
@@ -11,8 +13,6 @@ from bungieapi.generated.types.user import (
     UserSearchResponse,
 )
 from bungieapi.generated.types.user.models import GetCredentialTypesForAccountResponse
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -108,22 +108,36 @@ class Client(BaseClient):
         self,
         id: int,
     ) -> GetBungieNetUserByIdClientResponse:
-        """Loads a bungienet user by membership id."""
-        ...
+        """Loads a bungienet user by membership id.
+
+        Parameters:
+            id: The requested Bungie.net membership id.
+        """
+        query = None
+        result = await self.get(path=f"/User/GetBungieNetUserById/{id}/", query=query)
+        return forge(GetBungieNetUserByIdClientResponse, result)
 
     async def get_credential_types_for_target_account(
         self,
         membership_id: int,
     ) -> GetCredentialTypesForTargetAccountClientResponse:
-        """Returns a list of credential types attached to the requested
-        account."""
-        ...
+        """Returns a list of credential types attached to the requested account
+        Parameters:
+            membership_id: The user's membership id"""
+        query = None
+        result = await self.get(
+            path=f"/User/GetCredentialTypesForTargetAccount/{membership_id}/",
+            query=query,
+        )
+        return forge(GetCredentialTypesForTargetAccountClientResponse, result)
 
     async def get_available_themes(
         self,
     ) -> GetAvailableThemesClientResponse:
         """Returns a list of all available user themes."""
-        ...
+        query = None
+        result = await self.get(path="/User/GetAvailableThemes/", query=query)
+        return forge(GetAvailableThemesClientResponse, result)
 
     async def get_membership_data_by_id(
         self,
@@ -133,10 +147,17 @@ class Client(BaseClient):
         """Returns a list of accounts associated with the supplied membership
         ID and membership type.
 
-        This will include all linked accounts (even when hidden) if
-        supplied credentials permit it.
+        This will include all linked accounts (even when hidden) if supplied credentials permit it.
+        Parameters:
+            membership_id: The membership ID of the target user.
+            membership_type: Type of the supplied membership ID.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/User/GetMembershipsById/{membership_id}/{membership_type}/",
+            query=query,
+        )
+        return forge(GetMembershipDataByIdClientResponse, result)
 
     async def get_membership_data_for_current_user(
         self,
@@ -146,7 +167,9 @@ class Client(BaseClient):
         This is useful for OAuth implementations that do not give you
         access to the token response.
         """
-        ...
+        query = None
+        result = await self.get(path="/User/GetMembershipsForCurrentUser/", query=query)
+        return forge(GetMembershipDataForCurrentUserClientResponse, result)
 
     async def get_membership_from_hard_linked_credential(
         self,
@@ -155,10 +178,17 @@ class Client(BaseClient):
     ) -> GetMembershipFromHardLinkedCredentialClientResponse:
         """Gets any hard linked membership given a credential.
 
-        Only works for credentials that are public (just SteamID64 right
-        now). Cross Save aware.
+        Only works for credentials that are public (just SteamID64 right now). Cross Save aware.
+        Parameters:
+            credential: The credential to look up. Must be a valid SteamID64.
+            cr_type: The credential type. 'SteamId' is the only valid value at present.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/User/GetMembershipFromHardLinkedCredential/{cr_type}/{credential}/",
+            query=query,
+        )
+        return forge(GetMembershipFromHardLinkedCredentialClientResponse, result)
 
     async def search_by_global_name_prefix(
         self,
@@ -166,13 +196,28 @@ class Client(BaseClient):
         page: int,
     ) -> SearchByGlobalNamePrefixClientResponse:
         """[OBSOLETE] Do not use this to search users, use
-        SearchByGlobalNamePost instead."""
-        ...
+        SearchByGlobalNamePost instead.
+
+        Parameters:
+            display_name_prefix: The display name prefix you're looking for.
+            page: The zero-based page of results you desire.
+        """
+        query = None
+        result = await self.get(
+            path=f"/User/Search/Prefix/{display_name_prefix}/{page}/", query=query
+        )
+        return forge(SearchByGlobalNamePrefixClientResponse, result)
 
     async def search_by_global_name_post(
         self,
         page: int,
     ) -> SearchByGlobalNamePostClientResponse:
         """Given the prefix of a global display name, returns all users who
-        share that name."""
-        ...
+        share that name.
+
+        Parameters:
+            page: The zero-based page of results you desire.
+        """
+        query = None
+        result = await self.post(path=f"/User/Search/GlobalName/{page}/", query=query)
+        return forge(SearchByGlobalNamePostClientResponse, result)

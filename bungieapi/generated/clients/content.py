@@ -2,12 +2,12 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types import SearchResultOfContentItemPublicContract
 from bungieapi.generated.types.content import ContentItemPublicContract
 from bungieapi.generated.types.content.models import ContentTypeDescription
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -82,7 +82,9 @@ class Client(BaseClient):
         type: str,
     ) -> GetContentTypeClientResponse:
         """Gets an object describing a particular variant of content."""
-        ...
+        query = None
+        result = await self.get(path=f"/Content/GetContentType/{type}/", query=query)
+        return forge(GetContentTypeClientResponse, result)
 
     async def get_content_by_id(
         self,
@@ -90,8 +92,14 @@ class Client(BaseClient):
         locale: str,
         head: t.Optional[bool] = None,
     ) -> GetContentByIdClientResponse:
-        """Returns a content item referenced by id."""
-        ...
+        """Returns a content item referenced by id
+        Parameters:
+            head: false"""
+        query = {"head": head}
+        result = await self.get(
+            path=f"/Content/GetContentById/{id}/{locale}/", query=query
+        )
+        return forge(GetContentByIdClientResponse, result)
 
     async def get_content_by_tag_and_type(
         self,
@@ -100,9 +108,16 @@ class Client(BaseClient):
         type: str,
         head: t.Optional[bool] = None,
     ) -> GetContentByTagAndTypeClientResponse:
-        """Returns the newest item that matches a given tag and Content
-        Type."""
-        ...
+        """Returns the newest item that matches a given tag and Content Type.
+
+        Parameters:
+            head: Not used.
+        """
+        query = {"head": head}
+        result = await self.get(
+            path=f"/Content/GetContentByTagAndType/{tag}/{type}/{locale}/", query=query
+        )
+        return forge(GetContentByTagAndTypeClientResponse, result)
 
     async def search_content_with_text(
         self,
@@ -117,8 +132,24 @@ class Client(BaseClient):
         """Gets content based on querystring information passed in.
 
         Provides basic search and text search capabilities.
+        Parameters:
+            ctype: Content type tag: Help, News, etc. Supply multiple ctypes separated by space.
+            currentpage: Page number for the search results, starting with page 1.
+            head: Not used.
+            searchtext: Word or phrase for the search.
+            source: For analytics, hint at the part of the app that triggered the search. Optional.
+            tag: Tag used on the content to be searched.
         """
-        ...
+        query = {
+            "ctype": ctype,
+            "currentpage": currentpage,
+            "head": head,
+            "searchtext": searchtext,
+            "source": source,
+            "tag": tag,
+        }
+        result = await self.get(path=f"/Content/Search/{locale}/", query=query)
+        return forge(SearchContentWithTextClientResponse, result)
 
     async def search_content_by_tag_and_type(
         self,
@@ -130,8 +161,19 @@ class Client(BaseClient):
         itemsperpage: t.Optional[int] = None,
     ) -> SearchContentByTagAndTypeClientResponse:
         """Searches for Content Items that match the given Tag and Content
-        Type."""
-        ...
+        Type.
+
+        Parameters:
+            currentpage: Page number for the search results starting with page 1.
+            head: Not used.
+            itemsperpage: Not used.
+        """
+        query = {"currentpage": currentpage, "head": head, "itemsperpage": itemsperpage}
+        result = await self.get(
+            path=f"/Content/SearchContentByTagAndType/{tag}/{type}/{locale}/",
+            query=query,
+        )
+        return forge(SearchContentByTagAndTypeClientResponse, result)
 
     async def search_help_articles(
         self,
@@ -139,4 +181,8 @@ class Client(BaseClient):
         size: str,
     ) -> SearchHelpArticlesClientResponse:
         """Search for Help Articles."""
-        ...
+        query = None
+        result = await self.get(
+            path=f"/Content/SearchHelpArticles/{searchtext}/{size}/", query=query
+        )
+        return forge(SearchHelpArticlesClientResponse, result)

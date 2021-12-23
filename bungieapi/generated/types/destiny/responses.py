@@ -230,59 +230,159 @@ from bungieapi.generated.types import DestinyBaseItemComponentSetOfuint32  # noq
 from bungieapi.generated.types import DestinyItemComponentSetOfint32  # noqa: E402
 from bungieapi.generated.types import DestinyItemComponentSetOfint64  # noqa: E402
 from bungieapi.generated.types import DestinyItemComponentSetOfuint32  # noqa: E402
-from bungieapi.generated.types import (  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyCharacterComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyInventoryComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyKiosksComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfuint32AndDestinyVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyCharacterActivitiesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyCharacterComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyCharacterProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyCharacterRecordsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyCharacterRenderComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyCollectiblesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyCurrenciesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyInventoryComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemInstanceComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemObjectivesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemPerksComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemPlugObjectivesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemRenderComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemReusablePlugsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemSocketsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemStatsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyItemTalentGridComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyKiosksComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyMetricsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyPlatformSilverComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyPlugSetsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyPresentationNodesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyProfileCollectiblesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyProfileComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyProfileProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyProfileRecordsComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyProfileTransitoryComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyStringVariablesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyVendorCategoriesComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyVendorGroupComponent,
+)  # noqa: E402
+from bungieapi.generated.types import (
     SingleComponentResponseOfDestinyVendorReceiptsComponent,
-)
+)  # noqa: E402
 from bungieapi.generated.types.destiny.components.inventory import (
     DestinyPlatformSilverComponent,
 )  # noqa: E402

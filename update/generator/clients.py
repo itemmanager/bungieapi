@@ -1,3 +1,4 @@
+import re
 import typing as t
 from functools import singledispatch
 
@@ -11,10 +12,11 @@ from .. import openapi as api
 
 
 def client(operation_tree: OperationTree) -> t.Iterator[str]:
-    yield "from .. import clients"
     yield "import dataclasses as dt"
     yield "import typing as t"
-    yield "from ...base import BaseClient"
+    yield "from bungieapi.generated import clients"
+    yield "from bungieapi.base import BaseClient"
+    yield "from bungieapi.forge import forge"
 
     for operation in operation_tree.child_operations():
         yield from generate_imports(operation, [])
@@ -43,6 +45,13 @@ def client_method(node: t.Union[OperationTree, BindOperation]) -> t.Iterator[str
     raise RuntimeError(f"Not defined for type {type(node)}")
 
 
+PATH_QUERY_PARAM_RE = re.compile(r"\{(?P<name>[^\}]+)}")
+
+
+def query_param_to_snake(match: re.Match) -> str:
+    return f"{{{camel_to_snake(match.group('name'))}}}"
+
+
 @client_method.register
 def generate_client_method_operation(operation: BindOperation) -> t.Iterator[str]:
     yield f"    async def {operation.python_name}(self,"
@@ -50,10 +59,37 @@ def generate_client_method_operation(operation: BindOperation) -> t.Iterator[str
         operation.parameters, key=lambda param: not param.type.required
     ):
         yield f"{parameter.python_name}: {literal(parameter.type, []) }{ ' = None' if not parameter.type.required  else ''},"
-    yield f") -> {response_type_name(operation)}:"
-    if operation.description:
-        yield f'        """{operation.description}"""'
-    yield "        ..."
+    return_type = response_type_name(operation)
+    yield f") -> {return_type}:"
+    yield f'        """{operation.description}'
+    parameter_descriptions = [p for p in operation.parameters if p.description]
+    if parameter_descriptions:
+        yield "Parameters:"
+        for p in parameter_descriptions:
+            yield f"    {p.python_name}: {p.description}"
+
+    yield f'"""'
+    path_parameters = [
+        p for p in operation.parameters if p.in_ == api.ParameterSource.PATH
+    ]
+    query_parameters = [
+        p for p in operation.parameters if p.in_ == api.ParameterSource.QUERY
+    ]
+    if path_parameters:
+        path = PATH_QUERY_PARAM_RE.sub(query_param_to_snake, operation.path)
+        path = f'f"{path}"'
+    else:
+        path = f'"{operation.path}"'
+    if query_parameters:
+        dict_inside = ", ".join(
+            (f'"{p.name}": {p.python_name}' for p in query_parameters)
+        )
+        query_dict = f"{{{dict_inside}}}"
+        yield f"        query = {query_dict}"
+    else:
+        yield "        query = None"
+    yield f"        result = await self.{operation.method}(path={path}, query=query)"
+    yield f"        return forge({return_type}, result)"
 
 
 @client_method.register

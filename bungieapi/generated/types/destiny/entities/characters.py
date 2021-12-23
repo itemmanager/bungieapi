@@ -122,10 +122,12 @@ from bungieapi.generated.types.destiny import DyeReference  # noqa: E402
 from bungieapi.generated.types.destiny.artifacts import (
     DestinyArtifactCharacterScoped,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.character import (  # noqa: E402
+from bungieapi.generated.types.destiny.character import (
     DestinyCharacterCustomization,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.character import (
     DestinyCharacterPeerView,
-)
+)  # noqa: E402
 from bungieapi.generated.types.destiny.entities.items import (
     DestinyItemPerksComponent,
 )  # noqa: E402
@@ -137,7 +139,7 @@ from bungieapi.generated.types.destiny.misc import DestinyColor  # noqa: E402
 from bungieapi.generated.types.destiny.progression import (
     DestinyFactionProgression,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402
 from bungieapi.generated.types.destiny.quests import (
     DestinyObjectiveProgress,
 )  # noqa: E402
+from bungieapi.generated.types.destiny.quests import DestinyQuestStatus  # noqa: E402

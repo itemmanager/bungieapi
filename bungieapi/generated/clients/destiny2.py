@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types.config.clan_banner import ClanBannerSource
 from bungieapi.generated.types.destiny import (
     DestinyComponentType,
@@ -49,8 +51,6 @@ from bungieapi.generated.types.destiny.responses import (
 )
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.user import UserInfoCard
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -487,7 +487,9 @@ class Client(BaseClient):
         self,
     ) -> GetDestinyManifestClientResponse:
         """Returns the current version of the manifest as a json object."""
-        ...
+        query = None
+        result = await self.get(path="/Destiny2/Manifest/", query=query)
+        return forge(GetDestinyManifestClientResponse, result)
 
     async def get_destiny_entity_definition(
         self,
@@ -497,15 +499,16 @@ class Client(BaseClient):
         """Returns the static definition of an entity of the given Type and
         hash identifier.
 
-        Examine the API Documentation for the Type Names of entities
-        that have their own definitions. Note that the return type will
-        always *inherit from* DestinyDefinition, but the specific type
-        returned will be the requested entity type if it can be found.
-        Please don't use this as a chatty alternative to the Manifest
-        database if you require large sets of data, but for simple and
-        one-off accesses this should be handy.
+        Examine the API Documentation for the Type Names of entities that have their own definitions. Note that the return type will always *inherit from* DestinyDefinition, but the specific type returned will be the requested entity type if it can be found. Please don't use this as a chatty alternative to the Manifest database if you require large sets of data, but for simple and one-off accesses this should be handy.
+        Parameters:
+            entity_type: The type of entity for whom you would like results. These correspond to the entity's definition contract name. For instance, if you are looking for items, this property should be 'DestinyInventoryItemDefinition'. PREVIEW: This endpoint is still in beta, and may experience rough edges. The schema is tentatively in final form, but there may be bugs that prevent desirable operation.
+            hash_identifier: The hash identifier for the specific Entity you want returned.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/Destiny2/Manifest/{entity_type}/{hash_identifier}/", query=query
+        )
+        return forge(GetDestinyEntityDefinitionClientResponse, result)
 
     async def search_destiny_player_by_bungie_name(
         self,
@@ -515,8 +518,15 @@ class Client(BaseClient):
         Name.
 
         This method will hide overridden memberships due to cross save.
+        Parameters:
+            membership_type: A valid non-BungieNet membership type, or All. Indicates which memberships to return. You probably want this set to All.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/Destiny2/SearchDestinyPlayerByBungieName/{membership_type}/",
+            query=query,
+        )
+        return forge(SearchDestinyPlayerByBungieNameClientResponse, result)
 
     async def get_linked_profiles(
         self,
@@ -528,14 +538,18 @@ class Client(BaseClient):
         requesting membership type/membership ID that have valid Destiny
         information.
 
-        The passed-in Membership Type/Membership ID may be a Bungie.Net
-        membership or a Destiny membership. It only returns the minimal
-        amount of data to begin making more substantive requests, but
-        will hopefully serve as a useful alternative to UserServices for
-        people who just care about Destiny data. Note that it will only
-        return linked accounts whose linkages you are allowed to view.
+        The passed-in Membership Type/Membership ID may be a Bungie.Net membership or a Destiny membership. It only returns the minimal amount of data to begin making more substantive requests, but will hopefully serve as a useful alternative to UserServices for people who just care about Destiny data. Note that it will only return linked accounts whose linkages you are allowed to view.
+        Parameters:
+            get_all_memberships: (optional) if set to 'true', all memberships regardless of whether they're obscured by overrides will be returned. Normal privacy restrictions on account linking will still apply no matter what.
+            membership_id: The ID of the membership whose linked Destiny accounts you want returned. Make sure your membership ID matches its Membership Type: don't pass us a PSN membership ID and the XBox membership type, it's not going to work!
+            membership_type: The type for the membership whose linked Destiny accounts you want returned.
         """
-        ...
+        query = {"getAllMemberships": get_all_memberships}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Profile/{membership_id}/LinkedProfiles/",
+            query=query,
+        )
+        return forge(GetLinkedProfilesClientResponse, result)
 
     async def get_profile(
         self,
@@ -543,8 +557,19 @@ class Client(BaseClient):
         membership_type: int,
         components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetProfileClientResponse:
-        """Returns Destiny Profile information for the supplied membership."""
-        ...
+        """Returns Destiny Profile information for the supplied membership.
+
+        Parameters:
+            components: A comma separated list of components to return (as strings or numeric values). See the DestinyComponentType enum for valid components to request. You must request at least one component to receive results.
+            destiny_membership_id: Destiny membership ID.
+            membership_type: A valid non-BungieNet membership type.
+        """
+        query = {"components": components}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Profile/{destiny_membership_id}/",
+            query=query,
+        )
+        return forge(GetProfileClientResponse, result)
 
     async def get_character(
         self,
@@ -553,8 +578,20 @@ class Client(BaseClient):
         membership_type: int,
         components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetCharacterClientResponse:
-        """Returns character information for the supplied character."""
-        ...
+        """Returns character information for the supplied character.
+
+        Parameters:
+            character_id: ID of the character.
+            components: A comma separated list of components to return (as strings or numeric values). See the DestinyComponentType enum for valid components to request. You must request at least one component to receive results.
+            destiny_membership_id: Destiny membership ID.
+            membership_type: A valid non-BungieNet membership type.
+        """
+        query = {"components": components}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/",
+            query=query,
+        )
+        return forge(GetCharacterClientResponse, result)
 
     async def get_clan_weekly_reward_state(
         self,
@@ -564,14 +601,24 @@ class Client(BaseClient):
         earned them or not.
 
         Note that this will always report rewards as not redeemed.
+        Parameters:
+            group_id: A valid group id of clan.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/Destiny2/Clan/{group_id}/WeeklyRewardState/", query=query
+        )
+        return forge(GetClanWeeklyRewardStateClientResponse, result)
 
     async def get_clan_banner_source(
         self,
     ) -> GetClanBannerSourceClientResponse:
         """Returns the dictionary of values for the Clan Banner."""
-        ...
+        query = None
+        result = await self.get(
+            path="/Destiny2/Clan/ClanBannerDictionary/", query=query
+        )
+        return forge(GetClanBannerSourceClientResponse, result)
 
     async def get_item(
         self,
@@ -582,11 +629,19 @@ class Client(BaseClient):
     ) -> GetItemClientResponse:
         """Retrieve the details of an instanced Destiny Item.
 
-        An instanced Destiny item is one with an ItemInstanceId. Non-
-        instanced items, such as materials, have no useful instance-
-        specific details and thus are not queryable here.
+        An instanced Destiny item is one with an ItemInstanceId. Non-instanced items, such as materials, have no useful instance-specific details and thus are not queryable here.
+        Parameters:
+            components: A comma separated list of components to return (as strings or numeric values). See the DestinyComponentType enum for valid components to request. You must request at least one component to receive results.
+            destiny_membership_id: The membership ID of the destiny profile.
+            item_instance_id: The Instance ID of the destiny item.
+            membership_type: A valid non-BungieNet membership type.
         """
-        ...
+        query = {"components": components}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Item/{item_instance_id}/",
+            query=query,
+        )
+        return forge(GetItemClientResponse, result)
 
     async def get_vendors(
         self,
@@ -599,11 +654,20 @@ class Client(BaseClient):
         """Get currently available vendors from the list of vendors that can
         possibly have rotating inventory.
 
-        Note that this does not include things like preview vendors and
-        vendors-as-kiosks, neither of whom have rotating/dynamic
-        inventories. Use their definitions as-is for those.
+        Note that this does not include things like preview vendors and vendors-as-kiosks, neither of whom have rotating/dynamic inventories. Use their definitions as-is for those.
+        Parameters:
+            character_id: The Destiny Character ID of the character for whom we're getting vendor info.
+            components: A comma separated list of components to return (as strings or numeric values). See the DestinyComponentType enum for valid components to request. You must request at least one component to receive results.
+            destiny_membership_id: Destiny membership ID of another user. You may be denied.
+            filter: The filter of what vendors and items to return, if any.
+            membership_type: A valid non-BungieNet membership type.
         """
-        ...
+        query = {"components": components, "filter": filter}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/",
+            query=query,
+        )
+        return forge(GetVendorsClientResponse, result)
 
     async def get_vendor(
         self,
@@ -613,8 +677,21 @@ class Client(BaseClient):
         vendor_hash: int,
         components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> GetVendorClientResponse:
-        """Get the details of a specific Vendor."""
-        ...
+        """Get the details of a specific Vendor.
+
+        Parameters:
+            character_id: The Destiny Character ID of the character for whom we're getting vendor info.
+            components: A comma separated list of components to return (as strings or numeric values). See the DestinyComponentType enum for valid components to request. You must request at least one component to receive results.
+            destiny_membership_id: Destiny membership ID of another user. You may be denied.
+            membership_type: A valid non-BungieNet membership type.
+            vendor_hash: The Hash identifier of the Vendor to be returned.
+        """
+        query = {"components": components}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Vendors/{vendor_hash}/",
+            query=query,
+        )
+        return forge(GetVendorClientResponse, result)
 
     async def get_public_vendors(
         self,
@@ -623,12 +700,13 @@ class Client(BaseClient):
         """Get items available from vendors where the vendors have items for
         sale that are common for everyone.
 
-        If any portion of the Vendor's available inventory is character
-        or account specific, we will be unable to return their data from
-        this endpoint due to the way that available inventory is
-        computed. As I am often guilty of saying: 'It's a long story...'
+        If any portion of the Vendor's available inventory is character or account specific, we will be unable to return their data from this endpoint due to the way that available inventory is computed. As I am often guilty of saying: 'It's a long story...'
+        Parameters:
+            components: A comma separated list of components to return (as strings or numeric values). See the DestinyComponentType enum for valid components to request. You must request at least one component to receive results.
         """
-        ...
+        query = {"components": components}
+        result = await self.get(path="/Destiny2/Vendors/", query=query)
+        return forge(GetPublicVendorsClientResponse, result)
 
     async def get_collectible_node_details(
         self,
@@ -640,8 +718,21 @@ class Client(BaseClient):
     ) -> GetCollectibleNodeDetailsClientResponse:
         """Given a Presentation Node that has Collectibles as direct
         descendants, this will return item details about those descendants in
-        the context of the requesting character."""
-        ...
+        the context of the requesting character.
+
+        Parameters:
+            character_id: The Destiny Character ID of the character for whom we're getting collectible detail info.
+            collectible_presentation_node_hash: The hash identifier of the Presentation Node for whom we should return collectible details. Details will only be returned for collectibles that are direct descendants of this node.
+            components: A comma separated list of components to return (as strings or numeric values). See the DestinyComponentType enum for valid components to request. You must request at least one component to receive results.
+            destiny_membership_id: Destiny membership ID of another user. You may be denied.
+            membership_type: A valid non-BungieNet membership type.
+        """
+        query = {"components": components}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Profile/{destiny_membership_id}/Character/{character_id}/Collectibles/{collectible_presentation_node_hash}/",
+            query=query,
+        )
+        return forge(GetCollectibleNodeDetailsClientResponse, result)
 
     async def transfer_item(
         self,
@@ -652,7 +743,11 @@ class Client(BaseClient):
         reference AND an instance ID if it's an instanced item.
         itshappening.gif
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Items/TransferItem/", query=query
+        )
+        return forge(TransferItemClientResponse, result)
 
     async def pull_from_postmaster(
         self,
@@ -663,7 +758,11 @@ class Client(BaseClient):
         You must have a valid Destiny account. You must also pass BOTH a
         reference AND an instance ID if it's an instanced item.
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Items/PullFromPostmaster/", query=query
+        )
+        return forge(PullFromPostmasterClientResponse, result)
 
     async def equip_item(
         self,
@@ -673,7 +772,9 @@ class Client(BaseClient):
         You must have a valid Destiny Account, and either be in a social
         space, in orbit, or offline.
         """
-        ...
+        query = None
+        result = await self.post(path="/Destiny2/Actions/Items/EquipItem/", query=query)
+        return forge(EquipItemClientResponse, result)
 
     async def equip_items(
         self,
@@ -684,7 +785,11 @@ class Client(BaseClient):
         space, in orbit, or offline. Any items not found on your
         character will be ignored.
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Items/EquipItems/", query=query
+        )
+        return forge(EquipItemsClientResponse, result)
 
     async def set_item_lock_state(
         self,
@@ -693,7 +798,11 @@ class Client(BaseClient):
 
         You must have a valid Destiny Account.
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Items/SetLockState/", query=query
+        )
+        return forge(SetItemLockStateClientResponse, result)
 
     async def set_quest_tracked_state(
         self,
@@ -703,7 +812,11 @@ class Client(BaseClient):
 
         You must have a valid Destiny Account. Yeah, it's an item.
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Items/SetTrackedState/", query=query
+        )
+        return forge(SetQuestTrackedStateClientResponse, result)
 
     async def insert_socket_plug(
         self,
@@ -719,7 +832,11 @@ class Client(BaseClient):
         include proof of permission for 'InsertPlugs' from the account
         owner.
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Items/InsertSocketPlug/", query=query
+        )
+        return forge(InsertSocketPlugClientResponse, result)
 
     async def insert_socket_plug_free(
         self,
@@ -733,14 +850,26 @@ class Client(BaseClient):
         character must either be in a social space, in orbit, or
         offline.
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Items/InsertSocketPlugFree/", query=query
+        )
+        return forge(InsertSocketPlugFreeClientResponse, result)
 
     async def get_post_game_carnage_report(
         self,
         activity_id: int,
     ) -> GetPostGameCarnageReportClientResponse:
-        """Gets the available post game carnage report for the activity ID."""
-        ...
+        """Gets the available post game carnage report for the activity ID.
+
+        Parameters:
+            activity_id: The ID of the activity whose PGCR is requested.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Destiny2/Stats/PostGameCarnageReport/{activity_id}/", query=query
+        )
+        return forge(GetPostGameCarnageReportClientResponse, result)
 
     async def report_offensive_post_game_carnage_report_player(
         self,
@@ -749,17 +878,24 @@ class Client(BaseClient):
         """Report a player that you met in an activity that was engaging in
         ToS-violating activities.
 
-        Both you and the offending player must have played in the
-        activityId passed in. Please use this judiciously and only when
-        you have strong suspicions of violation, pretty please.
+        Both you and the offending player must have played in the activityId passed in. Please use this judiciously and only when you have strong suspicions of violation, pretty please.
+        Parameters:
+            activity_id: The ID of the activity where you ran into the brigand that you're reporting.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/Destiny2/Stats/PostGameCarnageReport/{activity_id}/Report/",
+            query=query,
+        )
+        return forge(ReportOffensivePostGameCarnageReportPlayerClientResponse, result)
 
     async def get_historical_stats_definition(
         self,
     ) -> GetHistoricalStatsDefinitionClientResponse:
         """Gets historical stats definitions."""
-        ...
+        query = None
+        result = await self.get(path="/Destiny2/Stats/Definition/", query=query)
+        return forge(GetHistoricalStatsDefinitionClientResponse, result)
 
     async def get_clan_leaderboards(
         self,
@@ -772,8 +908,17 @@ class Client(BaseClient):
         destinyMembershipId as the focus.
 
         PREVIEW: This endpoint is still in beta, and may experience rough edges. The schema is in final form, but there may be bugs that prevent desirable operation.
+        Parameters:
+            group_id: Group ID of the clan whose leaderboards you wish to fetch.
+            maxtop: Maximum number of top players to return. Use a large number to get entire leaderboard.
+            modes: List of game modes for which to get leaderboards. See the documentation for DestinyActivityModeType for valid values, and pass in string representation, comma delimited.
+            statid: ID of stat to return rather than returning all Leaderboard stats.
         """
-        ...
+        query = {"maxtop": maxtop, "modes": modes, "statid": statid}
+        result = await self.get(
+            path=f"/Destiny2/Stats/Leaderboards/Clans/{group_id}/", query=query
+        )
+        return forge(GetClanLeaderboardsClientResponse, result)
 
     async def get_clan_aggregate_stats(
         self,
@@ -784,8 +929,15 @@ class Client(BaseClient):
         clan leaderboards.
 
         PREVIEW: This endpoint is still in beta, and may experience rough edges. The schema is in final form, but there may be bugs that prevent desirable operation.
+        Parameters:
+            group_id: Group ID of the clan whose leaderboards you wish to fetch.
+            modes: List of game modes for which to get leaderboards. See the documentation for DestinyActivityModeType for valid values, and pass in string representation, comma delimited.
         """
-        ...
+        query = {"modes": modes}
+        result = await self.get(
+            path=f"/Destiny2/Stats/AggregateClanStats/{group_id}/", query=query
+        )
+        return forge(GetClanAggregateStatsClientResponse, result)
 
     async def get_leaderboards(
         self,
@@ -799,8 +951,19 @@ class Client(BaseClient):
         destinyMembershipId as the focus.
 
         PREVIEW: This endpoint has not yet been implemented. It is being returned for a preview of future functionality, and for public comment/suggestion/preparation.
+        Parameters:
+            destiny_membership_id: The Destiny membershipId of the user to retrieve.
+            maxtop: Maximum number of top players to return. Use a large number to get entire leaderboard.
+            membership_type: A valid non-BungieNet membership type.
+            modes: List of game modes for which to get leaderboards. See the documentation for DestinyActivityModeType for valid values, and pass in string representation, comma delimited.
+            statid: ID of stat to return rather than returning all Leaderboard stats.
         """
-        ...
+        query = {"maxtop": maxtop, "modes": modes, "statid": statid}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Account/{destiny_membership_id}/Stats/Leaderboards/",
+            query=query,
+        )
+        return forge(GetLeaderboardsClientResponse, result)
 
     async def get_leaderboards_for_character(
         self,
@@ -815,8 +978,20 @@ class Client(BaseClient):
         destinyMembershipId as the focus.
 
         PREVIEW: This endpoint is still in beta, and may experience rough edges. The schema is in final form, but there may be bugs that prevent desirable operation.
+        Parameters:
+            character_id: The specific character to build the leaderboard around for the provided Destiny Membership.
+            destiny_membership_id: The Destiny membershipId of the user to retrieve.
+            maxtop: Maximum number of top players to return. Use a large number to get entire leaderboard.
+            membership_type: A valid non-BungieNet membership type.
+            modes: List of game modes for which to get leaderboards. See the documentation for DestinyActivityModeType for valid values, and pass in string representation, comma delimited.
+            statid: ID of stat to return rather than returning all Leaderboard stats.
         """
-        ...
+        query = {"maxtop": maxtop, "modes": modes, "statid": statid}
+        result = await self.get(
+            path=f"/Destiny2/Stats/Leaderboards/{membership_type}/{destiny_membership_id}/{character_id}/",
+            query=query,
+        )
+        return forge(GetLeaderboardsForCharacterClientResponse, result)
 
     async def search_destiny_entities(
         self,
@@ -824,8 +999,18 @@ class Client(BaseClient):
         type: str,
         page: t.Optional[int] = None,
     ) -> SearchDestinyEntitiesClientResponse:
-        """Gets a page list of Destiny items."""
-        ...
+        """Gets a page list of Destiny items.
+
+        Parameters:
+            page: Page number to return, starting with 0.
+            search_term: The string to use when searching for Destiny entities.
+            type: The type of entity for whom you would like results. These correspond to the entity's definition contract name. For instance, if you are looking for items, this property should be 'DestinyInventoryItemDefinition'.
+        """
+        query = {"page": page}
+        result = await self.get(
+            path=f"/Destiny2/Armory/Search/{type}/{search_term}/", query=query
+        )
+        return forge(SearchDestinyEntitiesClientResponse, result)
 
     async def get_historical_stats(
         self,
@@ -838,8 +1023,30 @@ class Client(BaseClient):
         modes: t.Optional[t.Sequence["DestinyActivityModeType"]] = None,
         period_type: t.Optional[int] = None,
     ) -> GetHistoricalStatsClientResponse:
-        """Gets historical stats for indicated character."""
-        ...
+        """Gets historical stats for indicated character.
+
+        Parameters:
+            character_id: The id of the character to retrieve. You can omit this character ID or set it to 0 to get aggregate stats across all characters.
+            dayend: Last day to return when daily stats are requested. Use the format YYYY-MM-DD. Currently, we cannot allow more than 31 days of daily data to be requested in a single request.
+            daystart: First day to return when daily stats are requested. Use the format YYYY-MM-DD. Currently, we cannot allow more than 31 days of daily data to be requested in a single request.
+            destiny_membership_id: The Destiny membershipId of the user to retrieve.
+            groups: Group of stats to include, otherwise only general stats are returned. Comma separated list is allowed. Values: General, Weapons, Medals
+            membership_type: A valid non-BungieNet membership type.
+            modes: Game modes to return. See the documentation for DestinyActivityModeType for valid values, and pass in string representation, comma delimited.
+            period_type: Indicates a specific period type to return. Optional. May be: Daily, AllTime, or Activity
+        """
+        query = {
+            "dayend": dayend,
+            "daystart": daystart,
+            "groups": groups,
+            "modes": modes,
+            "periodType": period_type,
+        }
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Account/{destiny_membership_id}/Character/{character_id}/Stats/",
+            query=query,
+        )
+        return forge(GetHistoricalStatsClientResponse, result)
 
     async def get_historical_stats_for_account(
         self,
@@ -848,8 +1055,19 @@ class Client(BaseClient):
         groups: t.Optional[t.Sequence["DestinyStatsGroupType"]] = None,
     ) -> GetHistoricalStatsForAccountClientResponse:
         """Gets aggregate historical stats organized around each character for
-        a given account."""
-        ...
+        a given account.
+
+        Parameters:
+            destiny_membership_id: The Destiny membershipId of the user to retrieve.
+            groups: Groups of stats to include, otherwise only general stats are returned. Comma separated list is allowed. Values: General, Weapons, Medals.
+            membership_type: A valid non-BungieNet membership type.
+        """
+        query = {"groups": groups}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Account/{destiny_membership_id}/Stats/",
+            query=query,
+        )
+        return forge(GetHistoricalStatsForAccountClientResponse, result)
 
     async def get_activity_history(
         self,
@@ -860,8 +1078,22 @@ class Client(BaseClient):
         mode: t.Optional[int] = None,
         page: t.Optional[int] = None,
     ) -> GetActivityHistoryClientResponse:
-        """Gets activity history stats for indicated character."""
-        ...
+        """Gets activity history stats for indicated character.
+
+        Parameters:
+            character_id: The id of the character to retrieve.
+            count: Number of rows to return
+            destiny_membership_id: The Destiny membershipId of the user to retrieve.
+            membership_type: A valid non-BungieNet membership type.
+            mode: A filter for the activity mode to be returned. None returns all activities. See the documentation for DestinyActivityModeType for valid values, and pass in string representation.
+            page: Page number to return, starting with 0.
+        """
+        query = {"count": count, "mode": mode, "page": page}
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Account/{destiny_membership_id}/Character/{character_id}/Stats/Activities/",
+            query=query,
+        )
+        return forge(GetActivityHistoryClientResponse, result)
 
     async def get_unique_weapon_history(
         self,
@@ -870,8 +1102,19 @@ class Client(BaseClient):
         membership_type: int,
     ) -> GetUniqueWeaponHistoryClientResponse:
         """Gets details about unique weapon usage, including all exotic
-        weapons."""
-        ...
+        weapons.
+
+        Parameters:
+            character_id: The id of the character to retrieve.
+            destiny_membership_id: The Destiny membershipId of the user to retrieve.
+            membership_type: A valid non-BungieNet membership type.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Account/{destiny_membership_id}/Character/{character_id}/Stats/UniqueWeapons/",
+            query=query,
+        )
+        return forge(GetUniqueWeaponHistoryClientResponse, result)
 
     async def get_destiny_aggregate_activity_stats(
         self,
@@ -880,28 +1123,51 @@ class Client(BaseClient):
         membership_type: int,
     ) -> GetDestinyAggregateActivityStatsClientResponse:
         """Gets all activities the character has participated in together with
-        aggregate statistics for those activities."""
-        ...
+        aggregate statistics for those activities.
+
+        Parameters:
+            character_id: The specific character whose activities should be returned.
+            destiny_membership_id: The Destiny membershipId of the user to retrieve.
+            membership_type: A valid non-BungieNet membership type.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Destiny2/{membership_type}/Account/{destiny_membership_id}/Character/{character_id}/Stats/AggregateActivityStats/",
+            query=query,
+        )
+        return forge(GetDestinyAggregateActivityStatsClientResponse, result)
 
     async def get_public_milestone_content(
         self,
         milestone_hash: int,
     ) -> GetPublicMilestoneContentClientResponse:
         """Gets custom localized content for the milestone of the given hash,
-        if it exists."""
-        ...
+        if it exists.
+
+        Parameters:
+            milestone_hash: The identifier for the milestone to be returned.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Destiny2/Milestones/{milestone_hash}/Content/", query=query
+        )
+        return forge(GetPublicMilestoneContentClientResponse, result)
 
     async def get_public_milestones(
         self,
     ) -> GetPublicMilestonesClientResponse:
         """Gets public information about currently available Milestones."""
-        ...
+        query = None
+        result = await self.get(path="/Destiny2/Milestones/", query=query)
+        return forge(GetPublicMilestonesClientResponse, result)
 
     async def awa_initialize_request(
         self,
     ) -> AwaInitializeRequestClientResponse:
         """Initialize a request to perform an advanced write action."""
-        ...
+        query = None
+        result = await self.post(path="/Destiny2/Awa/Initialize/", query=query)
+        return forge(AwaInitializeRequestClientResponse, result)
 
     async def awa_provide_authorization_result(
         self,
@@ -910,11 +1176,23 @@ class Client(BaseClient):
 
         Called by the Bungie Destiny App to approve or reject a request.
         """
-        ...
+        query = None
+        result = await self.post(
+            path="/Destiny2/Awa/AwaProvideAuthorizationResult/", query=query
+        )
+        return forge(AwaProvideAuthorizationResultClientResponse, result)
 
     async def awa_get_action_token(
         self,
         correlation_id: str,
     ) -> AwaGetActionTokenClientResponse:
-        """Returns the action token if user approves the request."""
-        ...
+        """Returns the action token if user approves the request.
+
+        Parameters:
+            correlation_id: The identifier for the advanced write action request.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Destiny2/Awa/GetActionToken/{correlation_id}/", query=query
+        )
+        return forge(AwaGetActionTokenClientResponse, result)

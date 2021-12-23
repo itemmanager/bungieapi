@@ -2,10 +2,10 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.forum import PostSearchResponse
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -26,5 +26,15 @@ class Client(BaseClient):
         page: int,
         sort: int,
     ) -> GetCommunityContentClientResponse:
-        """Returns community content."""
-        ...
+        """Returns community content.
+
+        Parameters:
+            media_filter: The type of media to get
+            page: Zero based page
+            sort: The sort mode.
+        """
+        query = None
+        result = await self.get(
+            path=f"/CommunityContent/Get/{sort}/{media_filter}/{page}/", query=query
+        )
+        return forge(GetCommunityContentClientResponse, result)

@@ -189,7 +189,7 @@ class Parameter:
     def forge(t: t.Type["Parameter"], data: t.Mapping, forge: Forge) -> "Parameter":
         return t(
             name=data["name"],
-            in_=data["in"],
+            in_=forge(ParameterSource, data["in"]),
             description=data.get("description", ""),
             type=forge(Schema, data),
         )

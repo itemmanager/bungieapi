@@ -2,11 +2,11 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types import SearchResultOfTrendingEntry
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.trending import TrendingCategories, TrendingDetail
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -51,15 +51,26 @@ class Client(BaseClient):
 
         For pagination within a category, call GetTrendingCategory.
         """
-        ...
+        query = None
+        result = await self.get(path="/Trending/Categories/", query=query)
+        return forge(GetTrendingCategoriesClientResponse, result)
 
     async def get_trending_category(
         self,
         category_id: str,
         page_number: int,
     ) -> GetTrendingCategoryClientResponse:
-        """Returns paginated lists of trending items for a category."""
-        ...
+        """Returns paginated lists of trending items for a category.
+
+        Parameters:
+            category_id: The ID of the category for whom you want additional results.
+            page_number: The page # of results to return.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Trending/Categories/{category_id}/{page_number}/", query=query
+        )
+        return forge(GetTrendingCategoryClientResponse, result)
 
     async def get_trending_entry_detail(
         self,
@@ -68,9 +79,13 @@ class Client(BaseClient):
     ) -> GetTrendingEntryDetailClientResponse:
         """Returns the detailed results for a specific trending entry.
 
-        Note that trending entries are uniquely identified by a
-        combination of *both* the TrendingEntryType *and* the
-        identifier: the identifier alone is not guaranteed to be
-        globally unique.
+        Note that trending entries are uniquely identified by a combination of *both* the TrendingEntryType *and* the identifier: the identifier alone is not guaranteed to be globally unique.
+        Parameters:
+            identifier: The identifier for the entity to be returned.
+            trending_entry_type: The type of entity to be returned.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/Trending/Details/{trending_entry_type}/{identifier}/", query=query
+        )
+        return forge(GetTrendingEntryDetailClientResponse, result)

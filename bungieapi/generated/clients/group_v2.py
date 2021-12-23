@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types import (
     SearchResultOfGroupBan,
     SearchResultOfGroupMember,
@@ -21,8 +23,6 @@ from bungieapi.generated.types.groups_v2 import (
     GroupSearchResponse,
     GroupV2Card,
 )
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -405,20 +405,30 @@ class Client(BaseClient):
     ) -> GetAvailableAvatarsClientResponse:
         """Returns a list of all available group avatars for the signed-in
         user."""
-        ...
+        query = None
+        result = await self.get(path="/GroupV2/GetAvailableAvatars/", query=query)
+        return forge(GetAvailableAvatarsClientResponse, result)
 
     async def get_available_themes(
         self,
     ) -> GetAvailableThemesClientResponse:
         """Returns a list of all available group themes."""
-        ...
+        query = None
+        result = await self.get(path="/GroupV2/GetAvailableThemes/", query=query)
+        return forge(GetAvailableThemesClientResponse, result)
 
     async def get_user_clan_invite_setting(
         self,
         m_type: int,
     ) -> GetUserClanInviteSettingClientResponse:
-        """Gets the state of the user's clan invite preferences for a particular membership type - true if they wish to be invited to clans, false otherwise."""
-        ...
+        """Gets the state of the user's clan invite preferences for a particular membership type - true if they wish to be invited to clans, false otherwise.
+        Parameters:
+            m_type: The Destiny membership type of the account we wish to access settings."""
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/GetUserClanInviteSetting/{m_type}/", query=query
+        )
+        return forge(GetUserClanInviteSettingClientResponse, result)
 
     async def get_recommended_groups(
         self,
@@ -426,30 +436,55 @@ class Client(BaseClient):
         group_type: int,
     ) -> GetRecommendedGroupsClientResponse:
         """Gets groups recommended for you based on the groups to whom those
-        you follow belong."""
-        ...
+        you follow belong.
+
+        Parameters:
+            create_date_range: Requested range in which to pull recommended groups
+            group_type: Type of groups requested
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/Recommended/{group_type}/{create_date_range}/", query=query
+        )
+        return forge(GetRecommendedGroupsClientResponse, result)
 
     async def group_search(
         self,
     ) -> GroupSearchClientResponse:
         """Search for Groups."""
-        ...
+        query = None
+        result = await self.post(path="/GroupV2/Search/", query=query)
+        return forge(GroupSearchClientResponse, result)
 
     async def get_group(
         self,
         group_id: int,
     ) -> GetGroupClientResponse:
-        """Get information about a specific group of the given ID."""
-        ...
+        """Get information about a specific group of the given ID.
+
+        Parameters:
+            group_id: Requested group's id.
+        """
+        query = None
+        result = await self.get(path=f"/GroupV2/{group_id}/", query=query)
+        return forge(GetGroupClientResponse, result)
 
     async def get_group_by_name(
         self,
         group_name: str,
         group_type: int,
     ) -> GetGroupByNameClientResponse:
-        """Get information about a specific group with the given name and
-        type."""
-        ...
+        """Get information about a specific group with the given name and type.
+
+        Parameters:
+            group_name: Exact name of the group to find.
+            group_type: Type of group to find.
+        """
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/Name/{group_name}/{group_type}/", query=query
+        )
+        return forge(GetGroupByNameClientResponse, result)
 
     async def get_group_by_name_v2(
         self,
@@ -458,15 +493,25 @@ class Client(BaseClient):
 
         The POST version.
         """
-        ...
+        query = None
+        result = await self.post(path="/GroupV2/NameV2/", query=query)
+        return forge(GetGroupByNameV2ClientResponse, result)
 
     async def get_group_optional_conversations(
         self,
         group_id: int,
     ) -> GetGroupOptionalConversationsClientResponse:
         """Gets a list of available optional conversation channels and their
-        settings."""
-        ...
+        settings.
+
+        Parameters:
+            group_id: Requested group's id.
+        """
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/{group_id}/OptionalConversations/", query=query
+        )
+        return forge(GetGroupOptionalConversationsClientResponse, result)
 
     async def edit_group(
         self,
@@ -475,8 +520,12 @@ class Client(BaseClient):
         """Edit an existing group.
 
         You must have suitable permissions in the group to perform this operation. This latest revision will only edit the fields you pass in - pass null for properties you want to leave unaltered.
+        Parameters:
+            group_id: Group ID of the group to edit.
         """
-        ...
+        query = None
+        result = await self.post(path=f"/GroupV2/{group_id}/Edit/", query=query)
+        return forge(EditGroupClientResponse, result)
 
     async def edit_clan_banner(
         self,
@@ -484,10 +533,15 @@ class Client(BaseClient):
     ) -> EditClanBannerClientResponse:
         """Edit an existing group's clan banner.
 
-        You must have suitable permissions in the group to perform this
-        operation. All fields are required.
+        You must have suitable permissions in the group to perform this operation. All fields are required.
+        Parameters:
+            group_id: Group ID of the group to edit.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/EditClanBanner/", query=query
+        )
+        return forge(EditClanBannerClientResponse, result)
 
     async def edit_founder_options(
         self,
@@ -495,10 +549,15 @@ class Client(BaseClient):
     ) -> EditFounderOptionsClientResponse:
         """Edit group options only available to a founder.
 
-        You must have suitable permissions in the group to perform this
-        operation.
+        You must have suitable permissions in the group to perform this operation.
+        Parameters:
+            group_id: Group ID of the group to edit.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/EditFounderOptions/", query=query
+        )
+        return forge(EditFounderOptionsClientResponse, result)
 
     async def add_optional_conversation(
         self,
@@ -507,8 +566,14 @@ class Client(BaseClient):
         """Add a new optional conversation/chat channel.
 
         Requires admin permissions to the group.
+        Parameters:
+            group_id: Group ID of the group to edit.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/OptionalConversations/Add/", query=query
+        )
+        return forge(AddOptionalConversationClientResponse, result)
 
     async def edit_optional_conversation(
         self,
@@ -518,8 +583,16 @@ class Client(BaseClient):
         """Edit the settings of an optional conversation/chat channel.
 
         Requires admin permissions to the group.
+        Parameters:
+            conversation_id: Conversation Id of the channel being edited.
+            group_id: Group ID of the group to edit.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/OptionalConversations/Edit/{conversation_id}/",
+            query=query,
+        )
+        return forge(EditOptionalConversationClientResponse, result)
 
     async def get_members_of_group(
         self,
@@ -528,8 +601,17 @@ class Client(BaseClient):
         member_type: t.Optional[int] = None,
         name_search: t.Optional[str] = None,
     ) -> GetMembersOfGroupClientResponse:
-        """Get the list of members in a given group."""
-        ...
+        """Get the list of members in a given group.
+
+        Parameters:
+            currentpage: Page number (starting with 1). Each page has a fixed size of 50 items per page.
+            group_id: The ID of the group.
+            member_type: Filter out other member types. Use None for all members.
+            name_search: The name fragment upon which a search should be executed for members with matching display or unique names.
+        """
+        query = {"memberType": member_type, "nameSearch": name_search}
+        result = await self.get(path=f"/GroupV2/{group_id}/Members/", query=query)
+        return forge(GetMembersOfGroupClientResponse, result)
 
     async def get_admins_and_founder_of_group(
         self,
@@ -537,8 +619,17 @@ class Client(BaseClient):
         group_id: int,
     ) -> GetAdminsAndFounderOfGroupClientResponse:
         """Get the list of members in a given group who are of admin level or
-        higher."""
-        ...
+        higher.
+
+        Parameters:
+            currentpage: Page number (starting with 1). Each page has a fixed size of 50 items per page.
+            group_id: The ID of the group.
+        """
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/{group_id}/AdminsAndFounder/", query=query
+        )
+        return forge(GetAdminsAndFounderOfGroupClientResponse, result)
 
     async def edit_group_membership(
         self,
@@ -549,10 +640,19 @@ class Client(BaseClient):
     ) -> EditGroupMembershipClientResponse:
         """Edit the membership type of a given member.
 
-        You must have suitable permissions in the group to perform this
-        operation.
+        You must have suitable permissions in the group to perform this operation.
+        Parameters:
+            group_id: ID of the group to which the member belongs.
+            membership_id: Membership ID to modify.
+            membership_type: Membership type of the provide membership ID.
+            member_type: New membertype for the specified member.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/{membership_type}/{membership_id}/SetMembershipType/{member_type}/",
+            query=query,
+        )
+        return forge(EditGroupMembershipClientResponse, result)
 
     async def kick_member(
         self,
@@ -563,10 +663,18 @@ class Client(BaseClient):
         """Kick a member from the given group, forcing them to reapply if they
         wish to re-join the group.
 
-        You must have suitable permissions in the group to perform this
-        operation.
+        You must have suitable permissions in the group to perform this operation.
+        Parameters:
+            group_id: Group ID to kick the user from.
+            membership_id: Membership ID to kick.
+            membership_type: Membership type of the provided membership ID.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/{membership_type}/{membership_id}/Kick/",
+            query=query,
+        )
+        return forge(KickMemberClientResponse, result)
 
     async def ban_member(
         self,
@@ -575,8 +683,19 @@ class Client(BaseClient):
         membership_type: int,
     ) -> BanMemberClientResponse:
         """Bans the requested member from the requested group for the specified
-        period of time."""
-        ...
+        period of time.
+
+        Parameters:
+            group_id: Group ID that has the member to ban.
+            membership_id: Membership ID of the member to ban from the group.
+            membership_type: Membership type of the provided membership ID.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/{membership_type}/{membership_id}/Ban/",
+            query=query,
+        )
+        return forge(BanMemberClientResponse, result)
 
     async def unban_member(
         self,
@@ -585,8 +704,18 @@ class Client(BaseClient):
         membership_type: int,
     ) -> UnbanMemberClientResponse:
         """Unbans the requested member, allowing them to re-apply for
-        membership."""
-        ...
+        membership.
+
+        Parameters:
+            membership_id: Membership ID of the member to unban from the group
+            membership_type: Membership type of the provided membership ID.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/{membership_type}/{membership_id}/Unban/",
+            query=query,
+        )
+        return forge(UnbanMemberClientResponse, result)
 
     async def get_banned_members_of_group(
         self,
@@ -595,10 +724,14 @@ class Client(BaseClient):
     ) -> GetBannedMembersOfGroupClientResponse:
         """Get the list of banned members in a given group.
 
-        Only accessible to group Admins and above. Not applicable to all
-        groups. Check group features.
+        Only accessible to group Admins and above. Not applicable to all groups. Check group features.
+        Parameters:
+            currentpage: Page number (starting with 1). Each page has a fixed size of 50 entries.
+            group_id: Group ID whose banned members you are fetching
         """
-        ...
+        query = None
+        result = await self.get(path=f"/GroupV2/{group_id}/Banned/", query=query)
+        return forge(GetBannedMembersOfGroupClientResponse, result)
 
     async def abdicate_foundership(
         self,
@@ -607,8 +740,19 @@ class Client(BaseClient):
         membership_type: int,
     ) -> AbdicateFoundershipClientResponse:
         """An administrative method to allow the founder of a group or clan to
-        give up their position to another admin permanently."""
-        ...
+        give up their position to another admin permanently.
+
+        Parameters:
+            founder_id_new: The new founder for this group. Must already be a group admin.
+            group_id: The target group id.
+            membership_type: Membership type of the provided founderIdNew.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Admin/AbdicateFoundership/{membership_type}/{founder_id_new}/",
+            query=query,
+        )
+        return forge(AbdicateFoundershipClientResponse, result)
 
     async def get_pending_memberships(
         self,
@@ -619,37 +763,77 @@ class Client(BaseClient):
         application to join a given group.
 
         Modified to include application info.
+        Parameters:
+            currentpage: Page number (starting with 1). Each page has a fixed size of 50 items per page.
+            group_id: ID of the group.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/{group_id}/Members/Pending/", query=query
+        )
+        return forge(GetPendingMembershipsClientResponse, result)
 
     async def get_invited_individuals(
         self,
         currentpage: int,
         group_id: int,
     ) -> GetInvitedIndividualsClientResponse:
-        """Get the list of users who have been invited into the group."""
-        ...
+        """Get the list of users who have been invited into the group.
+
+        Parameters:
+            currentpage: Page number (starting with 1). Each page has a fixed size of 50 items per page.
+            group_id: ID of the group.
+        """
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/{group_id}/Members/InvitedIndividuals/", query=query
+        )
+        return forge(GetInvitedIndividualsClientResponse, result)
 
     async def approve_all_pending(
         self,
         group_id: int,
     ) -> ApproveAllPendingClientResponse:
-        """Approve all of the pending users for the given group."""
-        ...
+        """Approve all of the pending users for the given group.
+
+        Parameters:
+            group_id: ID of the group.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/ApproveAll/", query=query
+        )
+        return forge(ApproveAllPendingClientResponse, result)
 
     async def deny_all_pending(
         self,
         group_id: int,
     ) -> DenyAllPendingClientResponse:
-        """Deny all of the pending users for the given group."""
-        ...
+        """Deny all of the pending users for the given group.
+
+        Parameters:
+            group_id: ID of the group.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/DenyAll/", query=query
+        )
+        return forge(DenyAllPendingClientResponse, result)
 
     async def approve_pending_for_list(
         self,
         group_id: int,
     ) -> ApprovePendingForListClientResponse:
-        """Approve all of the pending users for the given group."""
-        ...
+        """Approve all of the pending users for the given group.
+
+        Parameters:
+            group_id: ID of the group.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/ApproveList/", query=query
+        )
+        return forge(ApprovePendingForListClientResponse, result)
 
     async def approve_pending(
         self,
@@ -658,16 +842,35 @@ class Client(BaseClient):
         membership_type: int,
     ) -> ApprovePendingClientResponse:
         """Approve the given membershipId to join the group/clan as long as
-        they have applied."""
-        ...
+        they have applied.
+
+        Parameters:
+            group_id: ID of the group.
+            membership_id: The membership id being approved.
+            membership_type: Membership type of the supplied membership ID.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/Approve/{membership_type}/{membership_id}/",
+            query=query,
+        )
+        return forge(ApprovePendingClientResponse, result)
 
     async def deny_pending_for_list(
         self,
         group_id: int,
     ) -> DenyPendingForListClientResponse:
         """Deny all of the pending users for the given group that match the
-        passed-in ."""
-        ...
+        passed-in .
+
+        Parameters:
+            group_id: ID of the group.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/DenyList/", query=query
+        )
+        return forge(DenyPendingForListClientResponse, result)
 
     async def get_groups_for_member(
         self,
@@ -676,8 +879,20 @@ class Client(BaseClient):
         membership_id: int,
         membership_type: int,
     ) -> GetGroupsForMemberClientResponse:
-        """Get information about the groups that a given member has joined."""
-        ...
+        """Get information about the groups that a given member has joined.
+
+        Parameters:
+            filter: Filter apply to list of joined groups.
+            group_type: Type of group the supplied member founded.
+            membership_id: Membership ID to for which to find founded groups.
+            membership_type: Membership type of the supplied membership ID.
+        """
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/User/{membership_type}/{membership_id}/{filter}/{group_type}/",
+            query=query,
+        )
+        return forge(GetGroupsForMemberClientResponse, result)
 
     async def recover_group_for_founder(
         self,
@@ -685,9 +900,17 @@ class Client(BaseClient):
         membership_id: int,
         membership_type: int,
     ) -> RecoverGroupForFounderClientResponse:
-        """Allows a founder to manually recover a group they can see in game
-        but not on bungie.net."""
-        ...
+        """Allows a founder to manually recover a group they can see in game but not on bungie.net
+        Parameters:
+            group_type: Type of group the supplied member founded.
+            membership_id: Membership ID to for which to find founded groups.
+            membership_type: Membership type of the supplied membership ID."""
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/Recover/{membership_type}/{membership_id}/{group_type}/",
+            query=query,
+        )
+        return forge(RecoverGroupForFounderClientResponse, result)
 
     async def get_potential_groups_for_member(
         self,
@@ -697,8 +920,20 @@ class Client(BaseClient):
         membership_type: int,
     ) -> GetPotentialGroupsForMemberClientResponse:
         """Get information about the groups that a given member has applied to
-        or been invited to."""
-        ...
+        or been invited to.
+
+        Parameters:
+            filter: Filter apply to list of potential joined groups.
+            group_type: Type of group the supplied member applied.
+            membership_id: Membership ID to for which to find applied groups.
+            membership_type: Membership type of the supplied membership ID.
+        """
+        query = None
+        result = await self.get(
+            path=f"/GroupV2/User/Potential/{membership_type}/{membership_id}/{filter}/{group_type}/",
+            query=query,
+        )
+        return forge(GetPotentialGroupsForMemberClientResponse, result)
 
     async def individual_group_invite(
         self,
@@ -706,8 +941,19 @@ class Client(BaseClient):
         membership_id: int,
         membership_type: int,
     ) -> IndividualGroupInviteClientResponse:
-        """Invite a user to join this group."""
-        ...
+        """Invite a user to join this group.
+
+        Parameters:
+            group_id: ID of the group you would like to join.
+            membership_id: Membership id of the account being invited.
+            membership_type: MembershipType of the account being invited.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/IndividualInvite/{membership_type}/{membership_id}/",
+            query=query,
+        )
+        return forge(IndividualGroupInviteClientResponse, result)
 
     async def individual_group_invite_cancel(
         self,
@@ -715,5 +961,16 @@ class Client(BaseClient):
         membership_id: int,
         membership_type: int,
     ) -> IndividualGroupInviteCancelClientResponse:
-        """Cancels a pending invitation to join a group."""
-        ...
+        """Cancels a pending invitation to join a group.
+
+        Parameters:
+            group_id: ID of the group you would like to join.
+            membership_id: Membership id of the account being cancelled.
+            membership_type: MembershipType of the account being cancelled.
+        """
+        query = None
+        result = await self.post(
+            path=f"/GroupV2/{group_id}/Members/IndividualInviteCancel/{membership_type}/{membership_id}/",
+            query=query,
+        )
+        return forge(IndividualGroupInviteCancelClientResponse, result)

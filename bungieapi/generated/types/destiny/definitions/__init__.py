@@ -2328,11 +2328,23 @@ from bungieapi.generated.types.destiny import DestinyItemSortType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyItemSubType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyItemType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyObjectiveGrantStyle  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyProgressionRewardItemAcquisitionBehavior,
+)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyProgressionScope  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyProgressionStepDisplayEffect,
+)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyRace  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyStatAggregationType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyStatCategory  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyUnlockValueUIStyle  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyVendorInteractionRewardSelection,
+)  # noqa: E402
+from bungieapi.generated.types.destiny import (
+    DestinyVendorItemRefundPolicy,
+)  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyVendorProgressionType  # noqa: E402
 from bungieapi.generated.types.destiny import DestinyVendorReplyType  # noqa: E402
 from bungieapi.generated.types.destiny import DyeReference  # noqa: E402
@@ -2342,28 +2354,28 @@ from bungieapi.generated.types.destiny import ItemPerkVisibility  # noqa: E402
 from bungieapi.generated.types.destiny import SocketPlugSources  # noqa: E402
 from bungieapi.generated.types.destiny import SpecialItemType  # noqa: E402
 from bungieapi.generated.types.destiny import TierType  # noqa: E402
-from bungieapi.generated.types.destiny import VendorInteractionType  # noqa: E402
-from bungieapi.generated.types.destiny import (  # noqa: E402
-    DestinyProgressionRewardItemAcquisitionBehavior,
-    DestinyProgressionStepDisplayEffect,
-    DestinyVendorInteractionRewardSelection,
-    DestinyVendorItemRefundPolicy,
+from bungieapi.generated.types.destiny import (
     VendorDisplayCategorySortOrder,
-)
+)  # noqa: E402
+from bungieapi.generated.types.destiny import VendorInteractionType  # noqa: E402
 from bungieapi.generated.types.destiny.constants import (
     DestinyEnvironmentLocationMapping,
 )  # noqa: E402
 from bungieapi.generated.types.destiny.definitions.animations import (
     DestinyAnimationReference,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.definitions.common import (  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.common import (
     DestinyIconSequenceDefinition,
-)
-from bungieapi.generated.types.destiny.definitions.items import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.items import (
     DestinyDerivedItemCategoryDefinition,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.definitions.items import (
     DestinyItemPlugDefinition,
-)
+)  # noqa: E402
 from bungieapi.generated.types.destiny.definitions.sources import (
     DestinyItemSourceDefinition,
 )  # noqa: E402

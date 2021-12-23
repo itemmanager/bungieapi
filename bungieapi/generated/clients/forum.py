@@ -2,11 +2,11 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.forum import ForumRecruitmentDetail, PostSearchResponse
 from bungieapi.generated.types.tags.models.contracts import TagResponse
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -131,8 +131,24 @@ class Client(BaseClient):
         locales: t.Optional[str] = None,
         tagstring: t.Optional[str] = None,
     ) -> GetTopicsPagedClientResponse:
-        """Get topics from any forum."""
-        ...
+        """Get topics from any forum.
+
+        Parameters:
+            category_filter: A category filter
+            group: The group, if any.
+            locales: Comma seperated list of locales posts must match to return in the result list. Default 'en'
+            page: Zero paged page number
+            page_size: Unused
+            quick_date: A date filter.
+            sort: The sort mode.
+            tagstring: The tags to search, if any.
+        """
+        query = {"locales": locales, "tagstring": tagstring}
+        result = await self.get(
+            path=f"/Forum/GetTopicsPaged/{page}/{page_size}/{group}/{sort}/{quick_date}/{category_filter}/",
+            query=query,
+        )
+        return forge(GetTopicsPagedClientResponse, result)
 
     async def get_core_topics_paged(
         self,
@@ -142,8 +158,21 @@ class Client(BaseClient):
         sort: int,
         locales: t.Optional[str] = None,
     ) -> GetCoreTopicsPagedClientResponse:
-        """Gets a listing of all topics marked as part of the core group."""
-        ...
+        """Gets a listing of all topics marked as part of the core group.
+
+        Parameters:
+            category_filter: The category filter.
+            locales: Comma seperated list of locales posts must match to return in the result list. Default 'en'
+            page: Zero base page
+            quick_date: The date filter.
+            sort: The sort mode.
+        """
+        query = {"locales": locales}
+        result = await self.get(
+            path=f"/Forum/GetCoreTopicsPaged/{page}/{sort}/{quick_date}/{category_filter}/",
+            query=query,
+        )
+        return forge(GetCoreTopicsPagedClientResponse, result)
 
     async def get_posts_threaded_paged(
         self,
@@ -157,8 +186,17 @@ class Client(BaseClient):
         showbanned: t.Optional[str] = None,
     ) -> GetPostsThreadedPagedClientResponse:
         """Returns a thread of posts at the given parent, optionally returning
-        replies to those posts as well as the original parent."""
-        ...
+        replies to those posts as well as the original parent.
+
+        Parameters:
+            showbanned: If this value is not null or empty, banned posts are requested to be returned
+        """
+        query = {"showbanned": showbanned}
+        result = await self.get(
+            path=f"/Forum/GetPostsThreadedPaged/{parent_post_id}/{page}/{page_size}/{reply_size}/{get_parent_post}/{root_thread_mode}/{sort_mode}/",
+            query=query,
+        )
+        return forge(GetPostsThreadedPagedClientResponse, result)
 
     async def get_posts_threaded_paged_from_child(
         self,
@@ -172,16 +210,33 @@ class Client(BaseClient):
     ) -> GetPostsThreadedPagedFromChildClientResponse:
         """Returns a thread of posts starting at the topicId of the input
         childPostId, optionally returning replies to those posts as well as the
-        original parent."""
-        ...
+        original parent.
+
+        Parameters:
+            showbanned: If this value is not null or empty, banned posts are requested to be returned
+        """
+        query = {"showbanned": showbanned}
+        result = await self.get(
+            path=f"/Forum/GetPostsThreadedPagedFromChild/{child_post_id}/{page}/{page_size}/{reply_size}/{root_thread_mode}/{sort_mode}/",
+            query=query,
+        )
+        return forge(GetPostsThreadedPagedFromChildClientResponse, result)
 
     async def get_post_and_parent(
         self,
         child_post_id: int,
         showbanned: t.Optional[str] = None,
     ) -> GetPostAndParentClientResponse:
-        """Returns the post specified and its immediate parent."""
-        ...
+        """Returns the post specified and its immediate parent.
+
+        Parameters:
+            showbanned: If this value is not null or empty, banned posts are requested to be returned
+        """
+        query = {"showbanned": showbanned}
+        result = await self.get(
+            path=f"/Forum/GetPostAndParent/{child_post_id}/", query=query
+        )
+        return forge(GetPostAndParentClientResponse, result)
 
     async def get_post_and_parent_awaiting_approval(
         self,
@@ -189,8 +244,17 @@ class Client(BaseClient):
         showbanned: t.Optional[str] = None,
     ) -> GetPostAndParentAwaitingApprovalClientResponse:
         """Returns the post specified and its immediate parent of posts that
-        are awaiting approval."""
-        ...
+        are awaiting approval.
+
+        Parameters:
+            showbanned: If this value is not null or empty, banned posts are requested to be returned
+        """
+        query = {"showbanned": showbanned}
+        result = await self.get(
+            path=f"/Forum/GetPostAndParentAwaitingApproval/{child_post_id}/",
+            query=query,
+        )
+        return forge(GetPostAndParentAwaitingApprovalClientResponse, result)
 
     async def get_topic_for_content(
         self,
@@ -198,26 +262,44 @@ class Client(BaseClient):
     ) -> GetTopicForContentClientResponse:
         """Gets the post Id for the given content item's comments, if it
         exists."""
-        ...
+        query = None
+        result = await self.get(
+            path=f"/Forum/GetTopicForContent/{content_id}/", query=query
+        )
+        return forge(GetTopicForContentClientResponse, result)
 
     async def get_forum_tag_suggestions(
         self,
         partialtag: t.Optional[str] = None,
     ) -> GetForumTagSuggestionsClientResponse:
         """Gets tag suggestions based on partial text entry, matching them with
-        other tags previously used in the forums."""
-        ...
+        other tags previously used in the forums.
+
+        Parameters:
+            partialtag: The partial tag input to generate suggestions from.
+        """
+        query = {"partialtag": partialtag}
+        result = await self.get(path="/Forum/GetForumTagSuggestions/", query=query)
+        return forge(GetForumTagSuggestionsClientResponse, result)
 
     async def get_poll(
         self,
         topic_id: int,
     ) -> GetPollClientResponse:
-        """Gets the specified forum poll."""
-        ...
+        """Gets the specified forum poll.
+
+        Parameters:
+            topic_id: The post id of the topic that has the poll.
+        """
+        query = None
+        result = await self.get(path=f"/Forum/Poll/{topic_id}/", query=query)
+        return forge(GetPollClientResponse, result)
 
     async def get_recruitment_thread_summaries(
         self,
     ) -> GetRecruitmentThreadSummariesClientResponse:
         """Allows the caller to get a list of to 25 recruitment thread summary
         information objects."""
-        ...
+        query = None
+        result = await self.post(path="/Forum/Recruit/Summaries/", query=query)
+        return forge(GetRecruitmentThreadSummariesClientResponse, result)

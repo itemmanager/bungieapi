@@ -121,7 +121,9 @@ from bungieapi.generated.types.content import ContentItemPublicContract  # noqa:
 from bungieapi.generated.types.destiny.activities import (
     DestinyPublicActivityStatus,
 )  # noqa: E402
-from bungieapi.generated.types.destiny.milestones import (  # noqa: E402
+from bungieapi.generated.types.destiny.milestones import (
     DestinyMilestoneContent,
+)  # noqa: E402
+from bungieapi.generated.types.destiny.milestones import (
     DestinyPublicMilestone,
-)
+)  # noqa: E402

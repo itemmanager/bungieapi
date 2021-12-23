@@ -2,10 +2,10 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types.applications import ApiUsage, Application
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -39,15 +39,20 @@ class Client(BaseClient):
     ) -> GetApplicationApiUsageClientResponse:
         """Get API usage by application for time frame specified.
 
-        You can go as far back as 30 days ago, and can ask for up to a
-        48 hour window of time in a single request. You must be
-        authenticated with at least the ReadUserData permission to
-        access this endpoint.
+        You can go as far back as 30 days ago, and can ask for up to a 48 hour window of time in a single request. You must be authenticated with at least the ReadUserData permission to access this endpoint.
+        Parameters:
+            application_id: ID of the application to get usage statistics.
+            end: End time for query. Goes to now if not specified.
+            start: Start time for query. Goes to 24 hours ago if not specified.
         """
-        ...
+        query = {"end": end, "start": start}
+        result = await self.get(path=f"/App/ApiUsage/{application_id}/", query=query)
+        return forge(GetApplicationApiUsageClientResponse, result)
 
     async def get_bungie_applications(
         self,
     ) -> GetBungieApplicationsClientResponse:
         """Get list of applications created by Bungie."""
-        ...
+        query = None
+        result = await self.get(path="/App/FirstParty/", query=query)
+        return forge(GetBungieApplicationsClientResponse, result)

@@ -2,14 +2,14 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types import (
     SearchResultOfFireteamResponse,
     SearchResultOfFireteamSummary,
 )
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.fireteam import FireteamResponse
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -76,8 +76,14 @@ class Client(BaseClient):
         clan.
 
         Maximum value returned is 25.
+        Parameters:
+            group_id: The group id of the clan.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/Fireteam/Clan/{group_id}/ActiveCount/", query=query
+        )
+        return forge(GetActivePrivateClanFireteamCountClientResponse, result)
 
     async def get_available_clan_fireteams(
         self,
@@ -94,8 +100,22 @@ class Client(BaseClient):
         available slots.
 
         Caller is not checked for join criteria so caching is maximized.
+        Parameters:
+            activity_type: The activity type to filter by.
+            date_range: The date range to grab available fireteams.
+            group_id: The group id of the clan.
+            lang_filter: An optional language filter.
+            page: Zero based page
+            platform: The platform filter.
+            public_only: Determines public/private filtering.
+            slot_filter: Filters based on available slots
         """
-        ...
+        query = {"langFilter": lang_filter}
+        result = await self.get(
+            path=f"/Fireteam/Clan/{group_id}/Available/{platform}/{activity_type}/{date_range}/{slot_filter}/{public_only}/{page}/",
+            query=query,
+        )
+        return forge(GetAvailableClanFireteamsClientResponse, result)
 
     async def search_public_available_clan_fireteams(
         self,
@@ -109,8 +129,20 @@ class Client(BaseClient):
         """Gets a listing of all public fireteams starting now with open slots.
 
         Caller is not checked for join criteria so caching is maximized.
+        Parameters:
+            activity_type: The activity type to filter by.
+            date_range: The date range to grab available fireteams.
+            lang_filter: An optional language filter.
+            page: Zero based page
+            platform: The platform filter.
+            slot_filter: Filters based on available slots
         """
-        ...
+        query = {"langFilter": lang_filter}
+        result = await self.get(
+            path=f"/Fireteam/Search/Available/{platform}/{activity_type}/{date_range}/{slot_filter}/{page}/",
+            query=query,
+        )
+        return forge(SearchPublicAvailableClanFireteamsClientResponse, result)
 
     async def get_my_clan_fireteams(
         self,
@@ -122,13 +154,36 @@ class Client(BaseClient):
         lang_filter: t.Optional[str] = None,
     ) -> GetMyClanFireteamsClientResponse:
         """Gets a listing of all fireteams that caller is an applicant, a
-        member, or an alternate of."""
-        ...
+        member, or an alternate of.
+
+        Parameters:
+            group_filter: If true, filter by clan. Otherwise, ignore the clan and show all of the user's fireteams.
+            group_id: The group id of the clan. (This parameter is ignored unless the optional query parameter groupFilter is true).
+            include_closed: If true, return fireteams that have been closed.
+            lang_filter: An optional language filter.
+            page: Deprecated parameter, ignored.
+            platform: The platform filter.
+        """
+        query = {"groupFilter": group_filter, "langFilter": lang_filter}
+        result = await self.get(
+            path=f"/Fireteam/Clan/{group_id}/My/{platform}/{include_closed}/{page}/",
+            query=query,
+        )
+        return forge(GetMyClanFireteamsClientResponse, result)
 
     async def get_clan_fireteam(
         self,
         fireteam_id: int,
         group_id: int,
     ) -> GetClanFireteamClientResponse:
-        """Gets a specific fireteam."""
-        ...
+        """Gets a specific fireteam.
+
+        Parameters:
+            fireteam_id: The unique id of the fireteam.
+            group_id: The group id of the clan.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Fireteam/Clan/{group_id}/Summary/{fireteam_id}/", query=query
+        )
+        return forge(GetClanFireteamClientResponse, result)

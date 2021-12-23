@@ -2,15 +2,15 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
+from bungieapi.generated import clients
 from bungieapi.generated.types import GlobalAlert
 from bungieapi.generated.types.common.models import (
     CoreSettingsConfiguration,
     CoreSystem,
 )
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
-
-from ...base import BaseClient
-from .. import clients
 
 
 @dt.dataclass(frozen=True)
@@ -62,20 +62,26 @@ class Client(BaseClient):
         self,
     ) -> GetAvailableLocalesClientResponse:
         """List of available localization cultures."""
-        ...
+        query = None
+        result = await self.get(path="/GetAvailableLocales/", query=query)
+        return forge(GetAvailableLocalesClientResponse, result)
 
     async def get_common_settings(
         self,
     ) -> GetCommonSettingsClientResponse:
         """Get the common settings used by the Bungie.Net environment."""
-        ...
+        query = None
+        result = await self.get(path="/Settings/", query=query)
+        return forge(GetCommonSettingsClientResponse, result)
 
     async def get_user_system_overrides(
         self,
     ) -> GetUserSystemOverridesClientResponse:
         """Get the user-specific system overrides that should be respected
         alongside common systems."""
-        ...
+        query = None
+        result = await self.get(path="/UserSystemOverrides/", query=query)
+        return forge(GetUserSystemOverridesClientResponse, result)
 
     async def get_global_alerts(
         self,
@@ -85,8 +91,12 @@ class Client(BaseClient):
         pages, etc.
 
         Usually used for DOC alerts.
+        Parameters:
+            includestreaming: Determines whether Streaming Alerts are included in results
         """
-        ...
+        query = {"includestreaming": includestreaming}
+        result = await self.get(path="/GlobalAlerts/", query=query)
+        return forge(GetGlobalAlertsClientResponse, result)
 
     @property
     def app(self) -> clients.app.Client:

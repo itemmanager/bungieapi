@@ -2,14 +2,14 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.base import BaseClient
+from bungieapi.forge import forge
 from bungieapi.generated.types.exceptions import PlatformErrorCodes
 from bungieapi.generated.types.social.friends import (
     BungieFriendListResponse,
     BungieFriendRequestListResponse,
     PlatformFriendResponse,
 )
-
-from ...base import BaseClient
 
 
 @dt.dataclass(frozen=True)
@@ -105,13 +105,17 @@ class Client(BaseClient):
         self,
     ) -> GetFriendListClientResponse:
         """Returns your Bungie Friend list."""
-        ...
+        query = None
+        result = await self.get(path="/Social/Friends/", query=query)
+        return forge(GetFriendListClientResponse, result)
 
     async def get_friend_request_list(
         self,
     ) -> GetFriendRequestListClientResponse:
         """Returns your friend request queue."""
-        ...
+        query = None
+        result = await self.get(path="/Social/Friends/Requests/", query=query)
+        return forge(GetFriendRequestListClientResponse, result)
 
     async def issue_friend_request(
         self,
@@ -120,8 +124,14 @@ class Client(BaseClient):
         """Requests a friend relationship with the target user.
 
         Any of the target user's linked membership ids are valid inputs.
+        Parameters:
+            membership_id: The membership id of the user you wish to add.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/Social/Friends/Add/{membership_id}/", query=query
+        )
+        return forge(IssueFriendRequestClientResponse, result)
 
     async def accept_friend_request(
         self,
@@ -129,10 +139,15 @@ class Client(BaseClient):
     ) -> AcceptFriendRequestClientResponse:
         """Accepts a friend relationship with the target user.
 
-        The user must be on your incoming friend request list, though no
-        error will occur if they are not.
+        The user must be on your incoming friend request list, though no error will occur if they are not.
+        Parameters:
+            membership_id: The membership id of the user you wish to accept.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/Social/Friends/Requests/Accept/{membership_id}/", query=query
+        )
+        return forge(AcceptFriendRequestClientResponse, result)
 
     async def decline_friend_request(
         self,
@@ -140,10 +155,15 @@ class Client(BaseClient):
     ) -> DeclineFriendRequestClientResponse:
         """Declines a friend relationship with the target user.
 
-        The user must be on your incoming friend request list, though no
-        error will occur if they are not.
+        The user must be on your incoming friend request list, though no error will occur if they are not.
+        Parameters:
+            membership_id: The membership id of the user you wish to decline.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/Social/Friends/Requests/Decline/{membership_id}/", query=query
+        )
+        return forge(DeclineFriendRequestClientResponse, result)
 
     async def remove_friend(
         self,
@@ -151,10 +171,15 @@ class Client(BaseClient):
     ) -> RemoveFriendClientResponse:
         """Remove a friend relationship with the target user.
 
-        The user must be on your friend list, though no error will occur
-        if they are not.
+        The user must be on your friend list, though no error will occur if they are not.
+        Parameters:
+            membership_id: The membership id of the user you wish to remove.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/Social/Friends/Remove/{membership_id}/", query=query
+        )
+        return forge(RemoveFriendClientResponse, result)
 
     async def remove_friend_request(
         self,
@@ -162,10 +187,15 @@ class Client(BaseClient):
     ) -> RemoveFriendRequestClientResponse:
         """Remove a friend relationship with the target user.
 
-        The user must be on your outgoing request friend list, though no
-        error will occur if they are not.
+        The user must be on your outgoing request friend list, though no error will occur if they are not.
+        Parameters:
+            membership_id: The membership id of the user you wish to remove.
         """
-        ...
+        query = None
+        result = await self.post(
+            path=f"/Social/Friends/Requests/Remove/{membership_id}/", query=query
+        )
+        return forge(RemoveFriendRequestClientResponse, result)
 
     async def get_platform_friend_list(
         self,
@@ -176,5 +206,12 @@ class Client(BaseClient):
         information if they have Bungie accounts.
 
         Must have a recent login session with said platform.
+        Parameters:
+            friend_platform: The platform friend type.
+            page: The zero based page to return. Page size is 100.
         """
-        ...
+        query = None
+        result = await self.get(
+            path=f"/Social/PlatformFriends/{friend_platform}/{page}/", query=query
+        )
+        return forge(GetPlatformFriendListClientResponse, result)
