@@ -4,7 +4,7 @@ import typing as t
 from svarog.tools import camel_to_snake
 
 from .. import openapi as api
-from .literals import literal_bare, literal
+from .literals import literal, literal_bare
 
 
 @ft.singledispatch
@@ -35,8 +35,16 @@ def generate_object(
     if not object.properties and not object.additional_properties:
         yield "    ..."
     if object.properties:
-        required = [(name, property) for name, property in object.properties.items() if property.required]
-        not_required =  [(name, property) for name, property in object.properties.items() if not property.required]
+        required = [
+            (name, property)
+            for name, property in object.properties.items()
+            if property.required
+        ]
+        not_required = [
+            (name, property)
+            for name, property in object.properties.items()
+            if not property.required
+        ]
 
         for name, property in sorted(required):
             yield f"    {camel_to_snake(name)}: {literal_bare(property, module)} {linear_comment(property)}"

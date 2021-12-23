@@ -1,7 +1,7 @@
 import pytest
 
 from bungieapi import Client, __version__
-from bungieapi.generated.types.destiny.config import DestinyManifest
+from bungieapi.generated.components.schemas.destiny.config import DestinyManifest
 
 
 def test_version():

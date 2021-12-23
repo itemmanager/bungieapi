@@ -20,3 +20,9 @@ def suffix(input: t.Iterator[str], suffix: str) -> t.Iterator[str]:
 def with_preamble(generator: t.Iterator[str]) -> t.Iterator[str]:
     yield PREAMBLE
     yield from generator
+
+
+def response_schema_name(original_name: str) -> str:
+    if original_name.endswith("Response"):
+        original_name = original_name[: -len("Response")]
+    return f"{original_name}ClientResponse"

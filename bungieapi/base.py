@@ -1,15 +1,13 @@
-from enum import Enum
-from urllib.parse import urljoin
 import dataclasses as dt
-import aiohttp
 import typing as t
 
+import aiohttp
 from aiohttp import ClientResponse
 
 from bungieapi.forge import forge
-from bungieapi.generated.types.exceptions import PlatformErrorCodes
+from bungieapi.generated.components.schemas.exceptions import PlatformErrorCodes
 
-QueryInput = t.Union[None, str, bool, int, t.Sequence[Enum]]
+QueryInput = t.Any  # t.Union[None, str, bool, int, t.Sequence[Enum]]
 
 
 def clean_query_value(in_: QueryInput) -> str:
@@ -47,20 +45,24 @@ class BaseClient:
         response.raise_for_status()
         return response
 
-    async def get(self, path: str, query: t.Optional[t.Mapping[str, QueryInput]]) -> t.Mapping[str, t.Any]:
-        assert path[0] == '/'
+    async def get(
+        self, path: str, query: t.Optional[t.Mapping[str, QueryInput]]
+    ) -> t.Mapping[str, t.Any]:
+        assert path[0] == "/"
         query = self._clean_query(query) if query else {}
 
         async with self._session.get(f"{self._path}{path}", params=query) as response:
             response = await self.handle_error(response)
             return await response.json()
 
-    async def post(self, path: str, query: t.Optional[t.Mapping[str, QueryInput]]) -> t.Mapping[str, t.Any]:
-        assert path[0] == '/'
+    async def post(
+        self, path: str, query: t.Optional[t.Mapping[str, QueryInput]]
+    ) -> t.Mapping[str, t.Any]:
+        assert path[0] == "/"
         query = self._clean_query(query) if query else {}
 
-        async with self._session.post(f"{self._path}{path}", params=query, json={
-            'DisplayNamePrefix': 'the-the'
-        }) as response:
+        async with self._session.post(
+            f"{self._path}{path}", params=query, json={"DisplayNamePrefix": "the-the"}
+        ) as response:
             response = await self.handle_error(response)
             return await response.json()

@@ -13,11 +13,11 @@ from .svarog import forge
 T = t.TypeVar("T")
 
 OPEN_API_SPEC_URL = (
-    "https://raw.githubusercontent.com/Bungie-net/api/master/openapi-2.json"
+    "https://raw.githubusercontent.com/Bungie-net/api/master/openapi.json"
 )
 
 PROJECT_ROOT = Path(__file__).parent.parent
-OPEN_API_SPEC_PATH = PROJECT_ROOT / "source" / "openapi-2.json"
+OPEN_API_SPEC_PATH = PROJECT_ROOT / "source" / "openapi.json"
 DEST_DIR = PROJECT_ROOT / "bungieapi" / "generated"
 
 

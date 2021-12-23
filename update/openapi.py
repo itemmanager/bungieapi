@@ -3,9 +3,11 @@ import typing as t
 from collections import defaultdict
 from enum import Enum
 
+from svarog.forges import filter_cammel_case
 from svarog.tools import camel_to_snake
 from svarog.types import Forge
 
+from .generator.tools import response_schema_name
 from .svarog import svarog
 from .tools import to_camel_case
 
@@ -25,9 +27,15 @@ class Reference:
     @property
     def class_name(self) -> str:
         assert self.ref.startswith("#/")
-        *modules, name = self.ref.split("/")[-1].split(".")
+        _, *path, dotted_name = self.ref.split("/")
+        *modules, name = dotted_name.split(".")
         return ".".join(
-            ("types", *(camel_to_snake(module) for module in modules), name)
+            (
+                *("bungieapi", "generated"),
+                *map(camel_to_snake, path),
+                *map(camel_to_snake, modules),
+                name,
+            )
         )
 
     @staticmethod
@@ -42,7 +50,16 @@ class Reference:
 
     @property
     def name(self) -> str:
-        return self.class_name.split(".")[-1]
+        class_name = self.class_name
+        name = class_name.split(".")[-1]
+        if class_name.startswith("bungieapi.generated.components.responses"):
+            name = response_schema_name(name)
+        return name
+
+    @property
+    def module(self) -> t.Sequence[str]:
+        *module, _ = self.class_name.split(".")
+        return module
 
 
 class ApiType(Enum):
@@ -68,19 +85,31 @@ class Schema:
 
     @staticmethod
     def forge(t: t.Type["Schema"], data: t.Mapping, forge: Forge) -> "Schema":
-
-        cls = Schema.types[ApiType(data["type"])]
+        try:
+            cls = Schema.types[ApiType(data["type"])]
+        except:
+            raise
         return forge(cls, data)
 
 
+class Binded:
+    name: str
+
+    @property
+    def schema_name(self):
+        return self.name.split(".")[-1].replace("[]", "Array")
+
+
 @dt.dataclass(frozen=True)
-class BindSchema:
+class BindResponse(Binded):
+    name: str
+    response: "Response"
+
+
+@dt.dataclass(frozen=True)
+class BindSchema(Binded):
     name: str
     schema: Schema
-
-    @classmethod
-    def bind(cls, name: str, schema: Schema) -> "BindSchema":
-        return BindSchema(name, schema)
 
     @property
     def schema_name(self):
@@ -183,16 +212,13 @@ class Parameter:
     name: str
     in_: ParameterSource
     description: str
-    type: Schema
+    schema: Schema
 
     @staticmethod
-    def forge(t: t.Type["Parameter"], data: t.Mapping, forge: Forge) -> "Parameter":
-        return t(
-            name=data["name"],
-            in_=forge(ParameterSource, data["in"]),
-            description=data.get("description", ""),
-            type=forge(Schema, data),
-        )
+    def filter(
+        t: t.Type["Parameter"], data: t.Mapping, forge: Forge
+    ) -> t.Mapping[str, t.Any]:
+        return fix(data, {"in": "in_"})
 
     @property
     def python_name(self) -> str:
@@ -204,22 +230,36 @@ class Response:
     description: str
     schema: Object
 
+    @staticmethod
+    def filter(
+        t: t.Type["Response"], data: t.Mapping, forge: Forge
+    ) -> t.Mapping[str, t.Any]:
+        return {
+            "description": data["description"],
+            "schema": data["content"]["application/json"]["schema"],
+        }
+
     def __post_init__(self):
-        self.schema.properties['DetailedErrorTrace'] = dt.replace(self.schema.properties['DetailedErrorTrace'], required=False)
+        self.schema.properties["DetailedErrorTrace"] = dt.replace(  # type: ignore
+            self.schema.properties["DetailedErrorTrace"],
+            required=False,  #  type: ignore
+        )
 
 
 @dt.dataclass(frozen=True)
 class Operation:
     operation_id: str
     parameters: t.Sequence[Parameter]
-    responses: t.Mapping[str, Response]
+    response: Reference
     deprecated: bool = False
     description: t.Optional[str] = None
 
-    @property
-    def response(self) -> Response:
-        assert len(self.responses.values()) == 1
-        return next(self.responses.values().__iter__())
+    @staticmethod
+    def filter(
+        t: t.Type["Operation"], data: t.Dict, forge: Forge
+    ) -> t.Mapping[str, t.Any]:
+        responses = data.pop("responses")
+        return filter_cammel_case(t, {**data, "response": responses["200"]}, forge)
 
 
 class Scheme(Enum):
@@ -253,89 +293,73 @@ class BindOperation(Operation):
         return camel_to_snake(self.operation_id.split(".")[-1])
 
 
-@dt.dataclass(frozen=True)
-class TypeTree:
-    name: str
-    children: t.Sequence[t.Union[BindSchema, "TypeTree"]]
-
-    def child_types(self) -> t.Iterator["TypeTree"]:
-        yield from (child for child in self.children if isinstance(child, TypeTree))
-
-    def child_schema(self) -> t.Iterator[BindSchema]:
-        yield from (child for child in self.children if isinstance(child, BindSchema))
-
-    @classmethod
-    def from_mapping(cls, name: str, by_name: t.Mapping[str, BindSchema]) -> "TypeTree":
-        children: t.Mapping[str, t.Any] = defaultdict(dict)
-        my = []
-        for schema_name, schema in by_name.items():
-            if "." not in schema_name:
-                my.append(schema)
-            else:
-                group, rest = schema_name.split(".", 1)
-                children[camel_to_snake(group)][rest] = schema
-        return TypeTree(
-            name=name,
-            children=[
-                *my,
-                *(
-                    TypeTree.from_mapping(name, by_name)
-                    for name, by_name in children.items()
-                ),
-            ],
-        )
+T = t.TypeVar("T")
 
 
 @dt.dataclass(frozen=True)
-class OperationTree:
+class Tree(t.Generic[T]):
     name: str
-    children: t.Sequence[t.Union[BindOperation, "OperationTree"]]
+    children: t.Sequence[t.Union[T, "Tree"]]
 
-    def child_clients(self) -> t.Iterator["OperationTree"]:
-        yield from (
-            child for child in self.children if isinstance(child, OperationTree)
-        )
+    def child_nodes(self) -> t.Iterator["Tree"]:
+        yield from (child for child in self.children if isinstance(child, Tree))
 
-    def child_operations(self) -> t.Iterator[BindOperation]:
-        yield from (
-            child for child in self.children if isinstance(child, BindOperation)
-        )
+    def child_leaf(self) -> t.Iterator[T]:
+        yield from (child for child in self.children if not isinstance(child, Tree))
 
     @classmethod
     def from_mapping(
-        cls, name: str, by_id: t.Mapping[str, t.Union[BindOperation, "OperationTree"]]
-    ) -> "OperationTree":
+        cls, name: str, by_id: t.Mapping[str, t.Union[T, "Tree"]]
+    ) -> "Tree":
         children: t.Dict[str, t.Any] = defaultdict(dict)
         my = []
         for operation_id, operation in by_id.items():
             if "." not in operation_id:
                 my.append(operation)
             else:
-                group, rest = operation_id.split(".", 2)
-                children[group][rest] = operation
-        return OperationTree(
+                group, *rest = operation_id.split(".")
+                children[camel_to_snake(group)][".".join(rest)] = operation
+        return Tree(
             name=name,
             children=[
                 *my,
-                *(
-                    OperationTree.from_mapping(name, by_id)
-                    for name, by_id in children.items()
-                ),
+                *(Tree.from_mapping(name, by_id) for name, by_id in children.items()),
             ],
         )
 
 
 @dt.dataclass(frozen=True)
-class OpenApi:
-    swagger: str
-    info: Info
-    host: str
-    base_path: str
-    schemes: t.Sequence[Scheme]
-    paths: t.Mapping[str, t.Mapping[Method, Operation]]
-    definitions: t.Mapping[str, Schema]
+class Operations:
+    summary: str
+    description: str
+    get: t.Optional[Operation] = None
+    post: t.Optional[Operation] = None
 
-    def operations_tree(self) -> OperationTree:
+    def __post_init__(self):
+        if self.get and self.post:
+            raise RuntimeError("get and post cannot be set in the same moment")
+
+    def items(self) -> t.Iterator[t.Tuple[Method, Operation]]:
+        if self.get:
+            yield "get", self.get
+        if self.post:
+            yield "post", self.post
+
+
+@dt.dataclass(frozen=True)
+class Components:
+    schemas: t.Mapping[str, Schema]
+    responses: t.Mapping[str, Response]
+
+
+@dt.dataclass(frozen=True)
+class OpenApi:
+    openapi: str
+    info: Info
+    paths: t.Mapping[str, Operations]
+    components: Components
+
+    def operations_tree(self) -> Tree[BindOperation]:
         def fix_operation_id(operation_id: str) -> str:
             if operation_id.startswith("."):
                 return operation_id[1:]
@@ -349,10 +373,22 @@ class OpenApi:
             for method, operation in operation_map.items()
             if not operation.deprecated
         }
-        return OperationTree.from_mapping("Root", by_id)
+        return Tree[BindOperation].from_mapping("Root", by_id)
 
-    def types_tree(self) -> TypeTree:
-        by_name = {
-            name: BindSchema(name, schema) for name, schema in self.definitions.items()
-        }
-        return TypeTree.from_mapping("types", by_name)
+    def schema_tree(self) -> Tree[BindSchema]:
+        return Tree.from_mapping(
+            "schemas",
+            {
+                name: BindSchema(name, schema)
+                for name, schema in self.components.schemas.items()
+            },
+        )
+
+    def response_tree(self) -> Tree[BindResponse]:
+        return Tree.from_mapping(
+            "responses",
+            {
+                name: BindResponse(name, schema)
+                for name, schema in self.components.responses.items()
+            },
+        )

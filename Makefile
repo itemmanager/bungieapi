@@ -48,7 +48,7 @@ reformat: ## reformat code
 	isort . && autoflake -i -r . && black .
 
 clean: ## delete all generated files
-	rm -f source/openapi-2.json
+	rm -f source/openapi.json
 	rm -rf bungieapi/generated/
 
 generate: clean ## refetch openapi schema and regenerate client
