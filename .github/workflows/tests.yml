@@ -35,6 +35,8 @@ jobs:
           poetry run make typecheck
   test:
     runs-on: ubuntu-latest
+    env:
+      BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
 
     steps:
     - uses: actions/checkout@v2
