@@ -7,14 +7,12 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyItemTransferRequest:
-    character_id: t.Optional[int] = None
-    item_id: t.Optional[
-        int
-    ] = None  # The instance ID of the item for this action request.
-    item_reference_hash: t.Optional[int] = None
-    membership_type: t.Optional["BungieMembershipType"] = None
-    stack_size: t.Optional[int] = None
-    transfer_to_vault: t.Optional[bool] = None
+    character_id: int
+    item_id: int  # The instance ID of the item for this action request.
+    item_reference_hash: int
+    membership_type: "BungieMembershipType"
+    stack_size: int
+    transfer_to_vault: bool
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

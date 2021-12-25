@@ -7,8 +7,8 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class TagResponse:
-    ignore_status: t.Optional["IgnoreResponse"] = None
-    tag_text: t.Optional[str] = None
+    ignore_status: "IgnoreResponse"
+    tag_text: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

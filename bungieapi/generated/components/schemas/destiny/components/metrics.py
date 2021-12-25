@@ -7,8 +7,8 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyMetricsComponent:
-    metrics: t.Optional[t.Mapping[str, "DestinyMetricComponent"]] = None
-    metrics_root_node_hash: t.Optional[int] = None
+    metrics: t.Mapping[str, "DestinyMetricComponent"]
+    metrics_root_node_hash: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -19,8 +19,8 @@ class DestinyMetricsComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyMetricComponent:
-    invisible: t.Optional[bool] = None
-    objective_progress: t.Optional["DestinyObjectiveProgress"] = None
+    invisible: bool
+    objective_progress: "DestinyObjectiveProgress"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -30,6 +30,6 @@ class DestinyMetricComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.quests import (
+from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyObjectiveProgress,
-)  # noqa: E402
+)

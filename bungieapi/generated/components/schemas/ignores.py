@@ -8,8 +8,8 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class IgnoreResponse:
-    ignore_flags: t.Optional["IgnoreStatus"] = None
-    is_ignored: t.Optional[bool] = None
+    ignore_flags: "IgnoreStatus"
+    is_ignored: bool
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

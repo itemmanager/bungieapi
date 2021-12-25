@@ -8,7 +8,7 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class BungieFriendListResponse:
-    friends: t.Optional[t.Sequence["BungieFriend"]] = None
+    friends: t.Sequence["BungieFriend"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -18,14 +18,14 @@ class BungieFriendListResponse:
 
 @dt.dataclass(frozen=True)
 class BungieFriend:
-    bungie_global_display_name: t.Optional[str] = None
-    bungie_global_display_name_code: t.Optional[int] = None
-    bungie_net_user: t.Optional["GeneralUser"] = None
-    last_seen_as_bungie_membership_type: t.Optional["BungieMembershipType"] = None
-    last_seen_as_membership_id: t.Optional[int] = None
-    online_status: t.Optional["PresenceStatus"] = None
-    online_title: t.Optional["PresenceOnlineStateFlags"] = None
-    relationship: t.Optional["FriendRelationshipState"] = None
+    bungie_global_display_name: str
+    bungie_global_display_name_code: int
+    bungie_net_user: "GeneralUser"
+    last_seen_as_bungie_membership_type: "BungieMembershipType"
+    last_seen_as_membership_id: int
+    online_status: "PresenceStatus"
+    online_title: "PresenceOnlineStateFlags"
+    relationship: "FriendRelationshipState"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -64,8 +64,8 @@ class FriendRelationshipState(Enum):
 
 @dt.dataclass(frozen=True)
 class BungieFriendRequestListResponse:
-    incoming_requests: t.Optional[t.Sequence["BungieFriend"]] = None
-    outgoing_requests: t.Optional[t.Sequence["BungieFriend"]] = None
+    incoming_requests: t.Sequence["BungieFriend"]
+    outgoing_requests: t.Sequence["BungieFriend"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -83,10 +83,10 @@ class PlatformFriendType(Enum):
 
 @dt.dataclass(frozen=True)
 class PlatformFriendResponse:
-    current_page: t.Optional[int] = None
-    has_more: t.Optional[bool] = None
-    items_per_page: t.Optional[int] = None
-    platform_friends: t.Optional[t.Sequence["PlatformFriend"]] = None
+    current_page: int
+    has_more: bool
+    items_per_page: int
+    platform_friends: t.Sequence["PlatformFriend"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -99,13 +99,13 @@ class PlatformFriendResponse:
 
 @dt.dataclass(frozen=True)
 class PlatformFriend:
-    bungie_global_display_name: t.Optional[str] = None
-    bungie_global_display_name_code: t.Optional[int] = None
-    bungie_net_membership_id: t.Optional[int] = None
-    destiny_membership_id: t.Optional[int] = None
-    destiny_membership_type: t.Optional[int] = None
-    friend_platform: t.Optional["PlatformFriendType"] = None
-    platform_display_name: t.Optional[str] = None
+    bungie_global_display_name: str
+    bungie_global_display_name_code: int
+    bungie_net_membership_id: int
+    destiny_membership_id: int
+    destiny_membership_type: int
+    friend_platform: "PlatformFriendType"
+    platform_display_name: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

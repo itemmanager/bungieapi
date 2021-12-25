@@ -7,9 +7,9 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class UserTheme:
-    user_theme_description: t.Optional[str] = None
-    user_theme_id: t.Optional[int] = None
-    user_theme_name: t.Optional[str] = None
+    user_theme_description: str
+    user_theme_id: int
+    user_theme_name: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -21,9 +21,9 @@ class UserTheme:
 
 @dt.dataclass(frozen=True)
 class GroupTheme:
-    description: t.Optional[str] = None
-    folder: t.Optional[str] = None
-    name: t.Optional[str] = None
+    description: str
+    folder: str
+    name: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

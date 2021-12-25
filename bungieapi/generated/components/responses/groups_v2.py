@@ -7,13 +7,13 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class GroupSearchClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["GroupSearchResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "GroupSearchResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -29,13 +29,13 @@ class GroupSearchClientResponse:
 
 @dt.dataclass(frozen=True)
 class GroupClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["GroupResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "GroupResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -51,13 +51,13 @@ class GroupClientResponse:
 
 @dt.dataclass(frozen=True)
 class GroupMemberLeaveResultClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["GroupMemberLeaveResult"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "GroupMemberLeaveResult"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -73,13 +73,13 @@ class GroupMemberLeaveResultClientResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupsForMemberClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["GetGroupsForMemberResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "GetGroupsForMemberResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -95,13 +95,13 @@ class GetGroupsForMemberClientResponse:
 
 @dt.dataclass(frozen=True)
 class GroupMembershipSearchClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["GroupMembershipSearchResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "GroupMembershipSearchResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -117,13 +117,13 @@ class GroupMembershipSearchClientResponse:
 
 @dt.dataclass(frozen=True)
 class GroupPotentialMembershipSearchClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["GroupPotentialMembershipSearchResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "GroupPotentialMembershipSearchResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -139,13 +139,13 @@ class GroupPotentialMembershipSearchClientResponse:
 
 @dt.dataclass(frozen=True)
 class GroupApplicationClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["GroupApplicationResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "GroupApplicationResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -159,27 +159,17 @@ class GroupApplicationClientResponse:
         }
 
 
-from bungieapi.generated.components.schemas.exceptions import (
+from bungieapi.generated.components.schemas.exceptions import (  # noqa: E402
     PlatformErrorCodes,
-)  # noqa: E402
+)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.groups_v2 import (
-    GetGroupsForMemberResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (
-    GroupApplicationResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (
-    GroupMemberLeaveResult,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (
-    GroupMembershipSearchResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (
-    GroupPotentialMembershipSearchResponse,
-)  # noqa: E402
 from bungieapi.generated.components.schemas.groups_v2 import GroupResponse  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (
+from bungieapi.generated.components.schemas.groups_v2 import (  # noqa: E402
+    GetGroupsForMemberResponse,
+    GroupApplicationResponse,
+    GroupMemberLeaveResult,
+    GroupMembershipSearchResponse,
+    GroupPotentialMembershipSearchResponse,
     GroupSearchResponse,
-)  # noqa: E402
+)

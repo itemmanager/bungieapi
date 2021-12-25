@@ -7,8 +7,8 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class HyperlinkReference:
-    title: t.Optional[str] = None
-    url: t.Optional[str] = None
+    title: str
+    url: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -7,23 +7,23 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class ContentItemPublicContract:
-    allow_comments: t.Optional[bool] = None
-    author: t.Optional["GeneralUser"] = None
-    auto_english_property_fallback: t.Optional[bool] = None
-    c_type: t.Optional[str] = None
-    cms_path: t.Optional[str] = None
-    comment_summary: t.Optional["CommentSummary"] = None
-    content_id: t.Optional[int] = None
-    creation_date: t.Optional[str] = None
-    has_age_gate: t.Optional[bool] = None
-    minimum_age: t.Optional[int] = None
-    modify_date: t.Optional[str] = None
-    properties: t.Optional[
-        t.Mapping[str, t.Any]
-    ] = None  # Firehose content is really a collection of metadata and "properties", which are the potentially-but-not-strictly localizable data that comprises the meat of whatever content is being shown. As Cole Porter would have crooned, "Anything Goes" with Firehose properties. They are most often strings, but they can theoretically be anything. They are JSON encoded, and could be JSON structures, simple strings, numbers etc... The Content Type of the item (cType) will describe the properties, and thus how they ought to be deserialized.
-    rating_image_path: t.Optional[str] = None
-    representations: t.Optional[t.Sequence["ContentRepresentation"]] = None
-    tags: t.Optional[t.Sequence[str]] = None  # NOTE: Tags will always be lower case.
+    allow_comments: bool
+    author: "GeneralUser"
+    auto_english_property_fallback: bool
+    c_type: str
+    cms_path: str
+    comment_summary: "CommentSummary"
+    content_id: int
+    creation_date: str
+    has_age_gate: bool
+    minimum_age: int
+    modify_date: str
+    properties: t.Mapping[
+        str, t.Any
+    ]  # Firehose content is really a collection of metadata and "properties", which are the potentially-but-not-strictly localizable data that comprises the meat of whatever content is being shown. As Cole Porter would have crooned, "Anything Goes" with Firehose properties. They are most often strings, but they can theoretically be anything. They are JSON encoded, and could be JSON structures, simple strings, numbers etc... The Content Type of the item (cType) will describe the properties, and thus how they ought to be deserialized.
+    rating_image_path: str
+    representations: t.Sequence["ContentRepresentation"]
+    tags: t.Sequence[str]  # NOTE: Tags will always be lower case.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -47,9 +47,9 @@ class ContentItemPublicContract:
 
 @dt.dataclass(frozen=True)
 class ContentRepresentation:
-    name: t.Optional[str] = None
-    path: t.Optional[str] = None
-    validation_string: t.Optional[str] = None
+    name: str
+    path: str
+    validation_string: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -61,8 +61,8 @@ class ContentRepresentation:
 
 @dt.dataclass(frozen=True)
 class CommentSummary:
-    comment_count: t.Optional[int] = None
-    topic_id: t.Optional[int] = None
+    comment_count: int
+    topic_id: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -7,8 +7,8 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DateRange:
-    end: t.Optional[str] = None
-    start: t.Optional[str] = None
+    end: str
+    start: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

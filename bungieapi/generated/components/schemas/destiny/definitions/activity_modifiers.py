@@ -9,16 +9,10 @@ from bungieapi.json import to_json
 class DestinyActivityModifierDefinition:
     """Modifiers - in Destiny 1, these were referred to as "Skulls" - are changes that can be applied to an Activity."""
 
-    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
-    hash: t.Optional[
-        int
-    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: t.Optional[
-        int
-    ] = None  # The index of the entity as it was found in the investment tables.
-    redacted: t.Optional[
-        bool
-    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -30,6 +24,6 @@ class DestinyActivityModifierDefinition:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions.common import (
+from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
-)  # noqa: E402
+)

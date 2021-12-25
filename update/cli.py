@@ -5,9 +5,9 @@ from pathlib import Path
 
 import click
 
+from .forge import forge
 from .generator import generator
 from .openapi import OpenApi
-from .svarog import forge
 
 
 T = t.TypeVar("T")

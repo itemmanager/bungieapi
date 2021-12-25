@@ -15,11 +15,11 @@ class DestinyArtifactProfileScoped:
     can be used for overview information.
     """
 
-    artifact_hash: t.Optional[int] = None
-    point_progression: t.Optional["DestinyProgression"] = None
-    points_acquired: t.Optional[int] = None
-    power_bonus: t.Optional[int] = None
-    power_bonus_progression: t.Optional["DestinyProgression"] = None
+    artifact_hash: int
+    point_progression: "DestinyProgression"
+    points_acquired: int
+    power_bonus: int
+    power_bonus_progression: "DestinyProgression"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -33,10 +33,10 @@ class DestinyArtifactProfileScoped:
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactCharacterScoped:
-    artifact_hash: t.Optional[int] = None
-    points_used: t.Optional[int] = None
-    reset_count: t.Optional[int] = None
-    tiers: t.Optional[t.Sequence["DestinyArtifactTier"]] = None
+    artifact_hash: int
+    points_used: int
+    reset_count: int
+    tiers: t.Sequence["DestinyArtifactTier"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -49,10 +49,10 @@ class DestinyArtifactCharacterScoped:
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactTier:
-    is_unlocked: t.Optional[bool] = None
-    items: t.Optional[t.Sequence["DestinyArtifactTierItem"]] = None
-    points_to_unlock: t.Optional[int] = None
-    tier_hash: t.Optional[int] = None
+    is_unlocked: bool
+    items: t.Sequence["DestinyArtifactTierItem"]
+    points_to_unlock: int
+    tier_hash: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -65,8 +65,8 @@ class DestinyArtifactTier:
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierItem:
-    is_active: t.Optional[bool] = None
-    item_hash: t.Optional[int] = None
+    is_active: bool
+    item_hash: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -76,6 +76,6 @@ class DestinyArtifactTierItem:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyProgression,
-)  # noqa: E402
+)

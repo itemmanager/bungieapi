@@ -7,13 +7,9 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyRecordsComponent:
-    record_categories_root_node_hash: t.Optional[
-        int
-    ] = None  # The hash for the root presentation node definition of Triumph categories.
-    record_seals_root_node_hash: t.Optional[
-        int
-    ] = None  # The hash for the root presentation node definition of Triumph Seals.
-    records: t.Optional[t.Mapping[str, "DestinyRecordComponent"]] = None
+    record_categories_root_node_hash: int  # The hash for the root presentation node definition of Triumph categories.
+    record_seals_root_node_hash: int  # The hash for the root presentation node definition of Triumph Seals.
+    records: t.Mapping[str, "DestinyRecordComponent"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -27,16 +23,14 @@ class DestinyRecordsComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordComponent:
-    completed_count: t.Optional[
-        int
-    ] = None  # If available, this is the number of times this record has been completed. For example, the number of times a seal title has been gilded.
-    interval_objectives: t.Optional[t.Sequence["DestinyObjectiveProgress"]] = None
-    intervals_redeemed_count: t.Optional[int] = None
-    objectives: t.Optional[t.Sequence["DestinyObjectiveProgress"]] = None
-    reward_visibilty: t.Optional[
-        t.Sequence[bool]
-    ] = None  # If available, a list that describes which reward rewards should be shown (true) or hidden (false). This property is for regular record rewards, and not for interval objective rewards.
-    state: t.Optional["DestinyRecordState"] = None
+    completed_count: int  # If available, this is the number of times this record has been completed. For example, the number of times a seal title has been gilded.
+    interval_objectives: t.Sequence["DestinyObjectiveProgress"]
+    intervals_redeemed_count: int
+    objectives: t.Sequence["DestinyObjectiveProgress"]
+    reward_visibilty: t.Sequence[
+        bool
+    ]  # If available, a list that describes which reward rewards should be shown (true) or hidden (false). This property is for regular record rewards, and not for interval objective rewards.
+    state: "DestinyRecordState"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -51,22 +45,14 @@ class DestinyRecordComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyProfileRecordsComponent:
-    active_score: t.Optional[int] = None  # Your 'active' Triumphs score.
-    legacy_score: t.Optional[int] = None  # Your 'legacy' Triumphs score.
-    lifetime_score: t.Optional[int] = None  # Your 'lifetime' Triumphs score.
-    record_categories_root_node_hash: t.Optional[
-        int
-    ] = None  # The hash for the root presentation node definition of Triumph categories.
-    record_seals_root_node_hash: t.Optional[
-        int
-    ] = None  # The hash for the root presentation node definition of Triumph Seals.
-    records: t.Optional[t.Mapping[str, "DestinyRecordComponent"]] = None
-    score: t.Optional[
-        int
-    ] = None  # Your 'active' Triumphs score, maintained for backwards compatibility.
-    tracked_record_hash: t.Optional[
-        int
-    ] = None  # If this profile is tracking a record, this is the hash identifier of the record it is tracking.
+    active_score: int  # Your 'active' Triumphs score.
+    legacy_score: int  # Your 'legacy' Triumphs score.
+    lifetime_score: int  # Your 'lifetime' Triumphs score.
+    record_categories_root_node_hash: int  # The hash for the root presentation node definition of Triumph categories.
+    record_seals_root_node_hash: int  # The hash for the root presentation node definition of Triumph Seals.
+    records: t.Mapping[str, "DestinyRecordComponent"]
+    score: int  # Your 'active' Triumphs score, maintained for backwards compatibility.
+    tracked_record_hash: int  # If this profile is tracking a record, this is the hash identifier of the record it is tracking.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -85,14 +71,10 @@ class DestinyProfileRecordsComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterRecordsComponent:
-    featured_record_hashes: t.Optional[t.Sequence[int]] = None
-    record_categories_root_node_hash: t.Optional[
-        int
-    ] = None  # The hash for the root presentation node definition of Triumph categories.
-    record_seals_root_node_hash: t.Optional[
-        int
-    ] = None  # The hash for the root presentation node definition of Triumph Seals.
-    records: t.Optional[t.Mapping[str, "DestinyRecordComponent"]] = None
+    featured_record_hashes: t.Sequence[int]
+    record_categories_root_node_hash: int  # The hash for the root presentation node definition of Triumph categories.
+    record_seals_root_node_hash: int  # The hash for the root presentation node definition of Triumph Seals.
+    records: t.Mapping[str, "DestinyRecordComponent"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -106,9 +88,9 @@ class DestinyCharacterRecordsComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyRecordState,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.quests import (
+)
+from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyObjectiveProgress,
-)  # noqa: E402
+)

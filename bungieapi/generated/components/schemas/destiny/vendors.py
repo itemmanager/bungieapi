@@ -15,28 +15,16 @@ class DestinyVendorReceipt:
     to refund a purchase *yet*, but you know.
     """
 
-    currency_paid: t.Optional[
-        t.Sequence["DestinyItemQuantity"]
-    ] = None  # The amount paid for the item, in terms of items that were consumed in the purchase and their quantity.
-    expires_on: t.Optional[
-        str
-    ] = None  # The date at which this receipt is rendered invalid.
-    item_received: t.Optional[
+    currency_paid: t.Sequence[
         "DestinyItemQuantity"
-    ] = None  # The item that was received, and its quantity.
-    license_unlock_hash: t.Optional[
-        int
-    ] = None  # The unlock flag used to determine whether you still have the purchased item.
-    purchased_by_character_id: t.Optional[
-        int
-    ] = None  # The ID of the character who made the purchase.
-    refund_policy: t.Optional[
-        "DestinyVendorItemRefundPolicy"
-    ] = None  # Whether you can get a refund, and what happens in order for the refund to be received. See the DestinyVendorItemRefundPolicy enum for details.
-    sequence_number: t.Optional[int] = None  # The identifier of this receipt.
-    time_to_expiration: t.Optional[
-        int
-    ] = None  # The seconds since epoch at which this receipt is rendered invalid.
+    ]  # The amount paid for the item, in terms of items that were consumed in the purchase and their quantity.
+    expires_on: str  # The date at which this receipt is rendered invalid.
+    item_received: "DestinyItemQuantity"  # The item that was received, and its quantity.
+    license_unlock_hash: int  # The unlock flag used to determine whether you still have the purchased item.
+    purchased_by_character_id: int  # The ID of the character who made the purchase.
+    refund_policy: "DestinyVendorItemRefundPolicy"  # Whether you can get a refund, and what happens in order for the refund to be received. See the DestinyVendorItemRefundPolicy enum for details.
+    sequence_number: int  # The identifier of this receipt.
+    time_to_expiration: int  # The seconds since epoch at which this receipt is rendered invalid.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -52,9 +40,7 @@ class DestinyVendorReceipt:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyItemQuantity,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (
     DestinyVendorItemRefundPolicy,
-)  # noqa: E402
+)

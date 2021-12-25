@@ -19,18 +19,18 @@ class DestinyCharacterCustomization:
     yet)
     """
 
-    decal_color: t.Optional[int] = None
-    decal_index: t.Optional[int] = None
-    eye_color: t.Optional[int] = None
-    face: t.Optional[int] = None
-    feature_colors: t.Optional[t.Sequence[int]] = None
-    feature_index: t.Optional[int] = None
-    hair_colors: t.Optional[t.Sequence[int]] = None
-    hair_index: t.Optional[int] = None
-    lip_color: t.Optional[int] = None
-    personality: t.Optional[int] = None
-    skin_color: t.Optional[int] = None
-    wear_helmet: t.Optional[bool] = None
+    decal_color: int
+    decal_index: int
+    eye_color: int
+    face: int
+    feature_colors: t.Sequence[int]
+    feature_index: int
+    hair_colors: t.Sequence[int]
+    hair_index: int
+    lip_color: int
+    personality: int
+    skin_color: int
+    wear_helmet: bool
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -54,7 +54,7 @@ class DestinyCharacterPeerView:
     """A minimal view of a character's equipped items, for the purpose of
     rendering a summary screen or showing the character in 3D."""
 
-    equipment: t.Optional[t.Sequence["DestinyItemPeerView"]] = None
+    equipment: t.Sequence["DestinyItemPeerView"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -67,12 +67,10 @@ class DestinyItemPeerView:
     """Bare minimum summary information for an item, for the sake of 3D
     rendering the item."""
 
-    dyes: t.Optional[
-        t.Sequence["DyeReference"]
-    ] = None  # The list of dyes that have been applied to this item.
-    item_hash: t.Optional[
-        int
-    ] = None  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
+    dyes: t.Sequence[
+        "DyeReference"
+    ]  # The list of dyes that have been applied to this item.
+    item_hash: int  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -8,7 +8,7 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class TrendingCategories:
-    categories: t.Optional[t.Sequence["TrendingCategory"]] = None
+    categories: t.Sequence["TrendingCategory"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -18,9 +18,9 @@ class TrendingCategories:
 
 @dt.dataclass(frozen=True)
 class TrendingCategory:
-    category_id: t.Optional[str] = None
-    category_name: t.Optional[str] = None
-    entries: t.Optional["SearchResultOfTrendingEntry"] = None
+    category_id: str
+    category_name: str
+    entries: "SearchResultOfTrendingEntry"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -37,39 +37,23 @@ class TrendingEntry:
     Returns just enough to show the item on the trending page.
     """
 
-    creation_date: t.Optional[
-        str
-    ] = None  # If the entry has a date at which it was created, this is that date.
-    display_name: t.Optional[
-        str
-    ] = None  # The localized "display name/article title/'primary localized identifier'" of the entity.
-    end_date: t.Optional[str] = None
-    entity_type: t.Optional[
-        "TrendingEntryType"
-    ] = None  # An enum - unfortunately - dictating all of the possible kinds of trending items that you might get in your result set, in case you want to do custom rendering or call to get the details of the item.
-    feature_image: t.Optional[
-        str
-    ] = None  # If isFeatured, this image will be populated with whatever the featured image is. Note that this will likely be a very large image, so don't use it all the time.
-    identifier: t.Optional[
-        str
-    ] = None  # We don't know whether the identifier will be a string, a uint, or a long... so we're going to cast it all to a string. But either way, we need any trending item created to have a single unique identifier for its type.
-    image: t.Optional[str] = None
-    is_featured: t.Optional[bool] = None
-    items: t.Optional[
-        t.Sequence["TrendingEntry"]
-    ] = None  # If the item is of entityType TrendingEntryType.Container, it may have items - also Trending Entries - contained within it. This is the ordered list of those to display under the Container's header.
-    link: t.Optional[str] = None
-    mp4_video: t.Optional[
-        str
-    ] = None  # If this is populated, the entry has a related MP4 video to show. I am 100% certain I am going to regret putting this directly on TrendingEntry, but it will work so yolo
-    start_date: t.Optional[str] = None
-    tagline: t.Optional[
-        str
-    ] = None  # If the entity has a localized tagline/subtitle/motto/whatever, that is found here.
-    webm_video: t.Optional[
-        str
-    ] = None  # If this is populated, the entry has a related WebM video to show. I am 100% certain I am going to regret putting this directly on TrendingEntry, but it will work so yolo
-    weight: t.Optional[float] = None  # The weighted score of this trending item.
+    creation_date: str  # If the entry has a date at which it was created, this is that date.
+    display_name: str  # The localized "display name/article title/'primary localized identifier'" of the entity.
+    end_date: str
+    entity_type: "TrendingEntryType"  # An enum - unfortunately - dictating all of the possible kinds of trending items that you might get in your result set, in case you want to do custom rendering or call to get the details of the item.
+    feature_image: str  # If isFeatured, this image will be populated with whatever the featured image is. Note that this will likely be a very large image, so don't use it all the time.
+    identifier: str  # We don't know whether the identifier will be a string, a uint, or a long... so we're going to cast it all to a string. But either way, we need any trending item created to have a single unique identifier for its type.
+    image: str
+    is_featured: bool
+    items: t.Sequence[
+        "TrendingEntry"
+    ]  # If the item is of entityType TrendingEntryType.Container, it may have items - also Trending Entries - contained within it. This is the ordered list of those to display under the Container's header.
+    link: str
+    mp4_video: str  # If this is populated, the entry has a related MP4 video to show. I am 100% certain I am going to regret putting this directly on TrendingEntry, but it will work so yolo
+    start_date: str
+    tagline: str  # If the entity has a localized tagline/subtitle/motto/whatever, that is found here.
+    webm_video: str  # If this is populated, the entry has a related WebM video to show. I am 100% certain I am going to regret putting this directly on TrendingEntry, but it will work so yolo
+    weight: float  # The weighted score of this trending item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -110,14 +94,14 @@ class TrendingEntryType(Enum):
 
 @dt.dataclass(frozen=True)
 class TrendingDetail:
-    creation: t.Optional["TrendingEntryCommunityCreation"] = None
-    destiny_activity: t.Optional["TrendingEntryDestinyActivity"] = None
-    destiny_item: t.Optional["TrendingEntryDestinyItem"] = None
-    destiny_ritual: t.Optional["TrendingEntryDestinyRitual"] = None
-    entity_type: t.Optional["TrendingEntryType"] = None
-    identifier: t.Optional[str] = None
-    news: t.Optional["TrendingEntryNews"] = None
-    support: t.Optional["TrendingEntrySupportArticle"] = None
+    creation: "TrendingEntryCommunityCreation"
+    destiny_activity: "TrendingEntryDestinyActivity"
+    destiny_item: "TrendingEntryDestinyItem"
+    destiny_ritual: "TrendingEntryDestinyRitual"
+    entity_type: "TrendingEntryType"
+    identifier: str
+    news: "TrendingEntryNews"
+    support: "TrendingEntrySupportArticle"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -134,7 +118,7 @@ class TrendingDetail:
 
 @dt.dataclass(frozen=True)
 class TrendingEntryNews:
-    article: t.Optional["ContentItemPublicContract"] = None
+    article: "ContentItemPublicContract"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -144,7 +128,7 @@ class TrendingEntryNews:
 
 @dt.dataclass(frozen=True)
 class TrendingEntrySupportArticle:
-    article: t.Optional["ContentItemPublicContract"] = None
+    article: "ContentItemPublicContract"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -154,7 +138,7 @@ class TrendingEntrySupportArticle:
 
 @dt.dataclass(frozen=True)
 class TrendingEntryDestinyItem:
-    item_hash: t.Optional[int] = None
+    item_hash: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -164,8 +148,8 @@ class TrendingEntryDestinyItem:
 
 @dt.dataclass(frozen=True)
 class TrendingEntryDestinyActivity:
-    activity_hash: t.Optional[int] = None
-    status: t.Optional["DestinyPublicActivityStatus"] = None
+    activity_hash: int
+    status: "DestinyPublicActivityStatus"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -176,18 +160,14 @@ class TrendingEntryDestinyActivity:
 
 @dt.dataclass(frozen=True)
 class TrendingEntryDestinyRitual:
-    date_end: t.Optional[str] = None
-    date_start: t.Optional[str] = None
-    event_content: t.Optional[
-        "DestinyMilestoneContent"
-    ] = None  # A destiny event will not necessarily have milestone "custom content", but if it does the details will be here.
-    icon: t.Optional[str] = None
-    image: t.Optional[str] = None
-    milestone_details: t.Optional[
-        "DestinyPublicMilestone"
-    ] = None  # A destiny event does not necessarily have a related Milestone, but if it does the details will be returned here.
-    subtitle: t.Optional[str] = None
-    title: t.Optional[str] = None
+    date_end: str
+    date_start: str
+    event_content: "DestinyMilestoneContent"  # A destiny event will not necessarily have milestone "custom content", but if it does the details will be here.
+    icon: str
+    image: str
+    milestone_details: "DestinyPublicMilestone"  # A destiny event does not necessarily have a related Milestone, but if it does the details will be returned here.
+    subtitle: str
+    title: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -204,13 +184,13 @@ class TrendingEntryDestinyRitual:
 
 @dt.dataclass(frozen=True)
 class TrendingEntryCommunityCreation:
-    author: t.Optional[str] = None
-    author_membership_id: t.Optional[int] = None
-    body: t.Optional[str] = None
-    media: t.Optional[str] = None
-    post_id: t.Optional[int] = None
-    title: t.Optional[str] = None
-    upvotes: t.Optional[int] = None
+    author: str
+    author_membership_id: int
+    body: str
+    media: str
+    post_id: int
+    title: str
+    upvotes: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -225,18 +205,16 @@ class TrendingEntryCommunityCreation:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas import (
+from bungieapi.generated.components.schemas import (  # noqa: E402
     SearchResultOfTrendingEntry,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.content import (
+)
+from bungieapi.generated.components.schemas.content import (  # noqa: E402
     ContentItemPublicContract,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.activities import (
+)
+from bungieapi.generated.components.schemas.destiny.activities import (  # noqa: E402
     DestinyPublicActivityStatus,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.milestones import (
+)
+from bungieapi.generated.components.schemas.destiny.milestones import (  # noqa: E402
     DestinyMilestoneContent,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.milestones import (
     DestinyPublicMilestone,
-)  # noqa: E402
+)

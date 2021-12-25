@@ -7,9 +7,9 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyAnimationReference:
-    anim_identifier: t.Optional[str] = None
-    anim_name: t.Optional[str] = None
-    path: t.Optional[str] = None
+    anim_identifier: str
+    anim_name: str
+    path: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

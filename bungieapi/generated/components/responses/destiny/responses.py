@@ -7,13 +7,13 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyLinkedProfilesClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyLinkedProfilesResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyLinkedProfilesResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -29,13 +29,13 @@ class DestinyLinkedProfilesClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyProfileClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyProfileResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyProfileResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -51,13 +51,13 @@ class DestinyProfileClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyCharacterResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyCharacterResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -73,13 +73,13 @@ class DestinyCharacterClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyItemClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyItemResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyItemResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -95,13 +95,13 @@ class DestinyItemClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyVendorsClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyVendorsResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyVendorsResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -117,13 +117,13 @@ class DestinyVendorsClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyVendorClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyVendorResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyVendorResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -139,13 +139,13 @@ class DestinyVendorClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyPublicVendorsClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyPublicVendorsResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyPublicVendorsResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -161,13 +161,13 @@ class DestinyPublicVendorsClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleNodeDetailClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyCollectibleNodeDetailResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyCollectibleNodeDetailResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -183,13 +183,13 @@ class DestinyCollectibleNodeDetailClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyItemChangeClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyItemChangeResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyItemChangeResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -204,33 +204,17 @@ class DestinyItemChangeClientResponse:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.responses import (
+from bungieapi.generated.components.schemas.destiny.responses import (  # noqa: E402
     DestinyCharacterResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyCollectibleNodeDetailResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyItemChangeResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyItemResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyLinkedProfilesResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyProfileResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyPublicVendorsResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyVendorResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyVendorsResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.exceptions import (
+)
+from bungieapi.generated.components.schemas.exceptions import (  # noqa: E402
     PlatformErrorCodes,
-)  # noqa: E402
+)

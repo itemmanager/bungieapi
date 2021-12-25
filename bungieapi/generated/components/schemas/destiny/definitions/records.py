@@ -7,41 +7,31 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyRecordDefinition:
-    completion_info: t.Optional["DestinyRecordCompletionBlock"] = None
-    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
-    expiration_info: t.Optional["DestinyRecordExpirationBlock"] = None
-    for_title_gilding: t.Optional[bool] = None
-    hash: t.Optional[
+    completion_info: "DestinyRecordCompletionBlock"
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    expiration_info: "DestinyRecordExpirationBlock"
+    for_title_gilding: bool
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    interval_info: "DestinyRecordIntervalBlock"  # Some records have multiple 'interval' objectives, and the record may be claimed at each completed interval
+    lore_hash: int
+    objective_hashes: t.Sequence[int]
+    parent_node_hashes: t.Sequence[
         int
-    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: t.Optional[
-        int
-    ] = None  # The index of the entity as it was found in the investment tables.
-    interval_info: t.Optional[
-        "DestinyRecordIntervalBlock"
-    ] = None  # Some records have multiple 'interval' objectives, and the record may be claimed at each completed interval
-    lore_hash: t.Optional[int] = None
-    objective_hashes: t.Optional[t.Sequence[int]] = None
-    parent_node_hashes: t.Optional[
-        t.Sequence[int]
-    ] = None  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
-    presentation_info: t.Optional["DestinyPresentationChildBlock"] = None
-    presentation_node_type: t.Optional["DestinyPresentationNodeType"] = None
-    record_value_style: t.Optional["DestinyRecordValueStyle"] = None
-    redacted: t.Optional[
-        bool
-    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    requirements: t.Optional["DestinyPresentationNodeRequirementsBlock"] = None
-    reward_items: t.Optional[
-        t.Sequence["DestinyItemQuantity"]
-    ] = None  # If there is any publicly available information about rewards earned for achieving this record, this is the list of those items.  However, note that some records intentionally have "hidden" rewards. These will not be returned in this list.
-    scope: t.Optional[
-        "DestinyScope"
-    ] = None  # Indicates whether this Record's state is determined on a per-character or on an account-wide basis.
-    state_info: t.Optional["SchemaRecordStateBlock"] = None
-    title_info: t.Optional["DestinyRecordTitleBlock"] = None
-    trait_hashes: t.Optional[t.Sequence[int]] = None
-    trait_ids: t.Optional[t.Sequence[str]] = None
+    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    presentation_info: "DestinyPresentationChildBlock"
+    presentation_node_type: "DestinyPresentationNodeType"
+    record_value_style: "DestinyRecordValueStyle"
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    requirements: "DestinyPresentationNodeRequirementsBlock"
+    reward_items: t.Sequence[
+        "DestinyItemQuantity"
+    ]  # If there is any publicly available information about rewards earned for achieving this record, this is the list of those items.  However, note that some records intentionally have "hidden" rewards. These will not be returned in this list.
+    scope: "DestinyScope"  # Indicates whether this Record's state is determined on a per-character or on an account-wide basis.
+    state_info: "SchemaRecordStateBlock"
+    title_info: "DestinyRecordTitleBlock"
+    trait_hashes: t.Sequence[int]
+    trait_ids: t.Sequence[str]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -71,12 +61,12 @@ class DestinyRecordDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordTitleBlock:
-    gilding_tracking_record_hash: t.Optional[int] = None
-    has_title: t.Optional[bool] = None
-    titles_by_gender: t.Optional[t.Mapping[str, str]] = None
-    titles_by_gender_hash: t.Optional[
-        t.Mapping[str, str]
-    ] = None  # For those who prefer to use the definitions.
+    gilding_tracking_record_hash: int
+    has_title: bool
+    titles_by_gender: t.Mapping[str, str]
+    titles_by_gender_hash: t.Mapping[
+        str, str
+    ]  # For those who prefer to use the definitions.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -89,12 +79,10 @@ class DestinyRecordTitleBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordCompletionBlock:
-    score_value: t.Optional[int] = None
-    partial_completion_objective_count_threshold: t.Optional[
-        int
-    ] = None  # The number of objectives that must be completed before the objective is considered "complete"
-    should_fire_toast: t.Optional[bool] = None
-    toast_style: t.Optional["DestinyRecordToastStyle"] = None
+    score_value: int
+    partial_completion_objective_count_threshold: int  # The number of objectives that must be completed before the objective is considered "complete"
+    should_fire_toast: bool
+    toast_style: "DestinyRecordToastStyle"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -109,8 +97,8 @@ class DestinyRecordCompletionBlock:
 
 @dt.dataclass(frozen=True)
 class SchemaRecordStateBlock:
-    featured_priority: t.Optional[int] = None
-    obscured_string: t.Optional[str] = None
+    featured_priority: int
+    obscured_string: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -124,9 +112,9 @@ class DestinyRecordExpirationBlock:
     """If this record has an expiration after which it cannot be earned, this
     is some information about that expiration."""
 
-    description: t.Optional[str] = None
-    has_expiration: t.Optional[bool] = None
-    icon: t.Optional[str] = None
+    description: str
+    has_expiration: bool
+    icon: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -138,9 +126,9 @@ class DestinyRecordExpirationBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordIntervalBlock:
-    interval_objectives: t.Optional[t.Sequence["DestinyRecordIntervalObjective"]] = None
-    interval_rewards: t.Optional[t.Sequence["DestinyRecordIntervalRewards"]] = None
-    original_objective_array_insertion_index: t.Optional[int] = None
+    interval_objectives: t.Sequence["DestinyRecordIntervalObjective"]
+    interval_rewards: t.Sequence["DestinyRecordIntervalRewards"]
+    original_objective_array_insertion_index: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -154,8 +142,8 @@ class DestinyRecordIntervalBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordIntervalObjective:
-    interval_objective_hash: t.Optional[int] = None
-    interval_score_value: t.Optional[int] = None
+    interval_objective_hash: int
+    interval_score_value: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -166,7 +154,7 @@ class DestinyRecordIntervalObjective:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordIntervalRewards:
-    interval_reward_items: t.Optional[t.Sequence["DestinyItemQuantity"]] = None
+    interval_reward_items: t.Sequence["DestinyItemQuantity"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -174,27 +162,19 @@ class DestinyRecordIntervalRewards:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import (
-    DestinyItemQuantity,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (
-    DestinyPresentationNodeType,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (
-    DestinyRecordToastStyle,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (
-    DestinyRecordValueStyle,
-)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+    DestinyItemQuantity,
+    DestinyPresentationNodeType,
+    DestinyRecordToastStyle,
+    DestinyRecordValueStyle,
+)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions.common import (
+from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.presentation import (
+)
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
     DestinyPresentationChildBlock,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.presentation import (
     DestinyPresentationNodeRequirementsBlock,
-)  # noqa: E402
+)

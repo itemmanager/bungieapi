@@ -37,25 +37,25 @@ class FireteamSlotSearch(Enum):
 
 @dt.dataclass(frozen=True)
 class FireteamSummary:
-    activity_type: t.Optional[int] = None
-    alternate_slot_count: t.Optional[int] = None
-    available_alternate_slot_count: t.Optional[int] = None
-    available_player_slot_count: t.Optional[int] = None
-    date_created: t.Optional[str] = None
-    date_modified: t.Optional[str] = None
-    date_player_modified: t.Optional[str] = None
-    fireteam_id: t.Optional[int] = None
-    group_id: t.Optional[int] = None
-    is_immediate: t.Optional[bool] = None
-    is_public: t.Optional[bool] = None
-    is_valid: t.Optional[bool] = None
-    locale: t.Optional[str] = None
-    owner_membership_id: t.Optional[int] = None
-    platform: t.Optional["FireteamPlatform"] = None
-    player_slot_count: t.Optional[int] = None
-    scheduled_time: t.Optional[str] = None
-    title: t.Optional[str] = None
-    title_before_moderation: t.Optional[str] = None
+    activity_type: int
+    alternate_slot_count: int
+    available_alternate_slot_count: int
+    available_player_slot_count: int
+    date_created: str
+    date_modified: str
+    date_player_modified: str
+    fireteam_id: int
+    group_id: int
+    is_immediate: bool
+    is_public: bool
+    is_valid: bool
+    locale: str
+    owner_membership_id: int
+    platform: "FireteamPlatform"
+    player_slot_count: int
+    scheduled_time: str
+    title: str
+    title_before_moderation: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -83,9 +83,9 @@ class FireteamSummary:
 
 @dt.dataclass(frozen=True)
 class FireteamResponse:
-    alternates: t.Optional[t.Sequence["FireteamMember"]] = None
-    members: t.Optional[t.Sequence["FireteamMember"]] = None
-    summary: t.Optional["FireteamSummary"] = None
+    alternates: t.Sequence["FireteamMember"]
+    members: t.Sequence["FireteamMember"]
+    summary: "FireteamSummary"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -97,15 +97,13 @@ class FireteamResponse:
 
 @dt.dataclass(frozen=True)
 class FireteamMember:
-    bungie_net_user_info: t.Optional["UserInfoCard"] = None
-    character_id: t.Optional[int] = None
-    date_joined: t.Optional[str] = None
-    destiny_user_info: t.Optional["FireteamUserInfoCard"] = None
-    has_microphone: t.Optional[bool] = None
-    last_platform_invite_attempt_date: t.Optional[str] = None
-    last_platform_invite_attempt_result: t.Optional[
-        "FireteamPlatformInviteResult"
-    ] = None
+    bungie_net_user_info: "UserInfoCard"
+    character_id: int
+    date_joined: str
+    destiny_user_info: "FireteamUserInfoCard"
+    has_microphone: bool
+    last_platform_invite_attempt_date: str
+    last_platform_invite_attempt_result: "FireteamPlatformInviteResult"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -125,34 +123,20 @@ class FireteamMember:
 
 @dt.dataclass(frozen=True)
 class FireteamUserInfoCard:
-    fireteam_display_name: t.Optional[str] = None
-    fireteam_membership_type: t.Optional["BungieMembershipType"] = None
-    applicable_membership_types: t.Optional[
-        t.Sequence["BungieMembershipType"]
-    ] = None  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: t.Optional[
-        str
-    ] = None  # The bungie global display name, if set.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
-    cross_save_override: t.Optional[
+    fireteam_display_name: str
+    fireteam_membership_type: "BungieMembershipType"
+    applicable_membership_types: t.Sequence[
         "BungieMembershipType"
-    ] = None  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: t.Optional[
-        str
-    ] = None  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    icon_path: t.Optional[str] = None  # URL the Icon if available.
-    is_public: t.Optional[bool] = None  # If True, this is a public user membership.
-    membership_id: t.Optional[
-        int
-    ] = None  # Membership ID as they user is known in the Accounts service
-    membership_type: t.Optional[
-        "BungieMembershipType"
-    ] = None  # Type of the membership. Not necessarily the native type.
-    supplemental_display_name: t.Optional[
-        str
-    ] = None  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    bungie_global_display_name: str  # The bungie global display name, if set.
+    bungie_global_display_name_code: int  # The bungie global display name code, if set.
+    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    icon_path: str  # URL the Icon if available.
+    is_public: bool  # If True, this is a public user membership.
+    membership_id: int  # Membership ID as they user is known in the Accounts service
+    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

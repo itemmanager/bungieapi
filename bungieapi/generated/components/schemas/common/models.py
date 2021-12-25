@@ -7,27 +7,27 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class CoreSettingsConfiguration:
-    clan_banner_decal_colors: t.Optional[t.Sequence["CoreSetting"]] = None
-    clan_banner_decals: t.Optional[t.Sequence["CoreSetting"]] = None
-    clan_banner_gonfalon_colors: t.Optional[t.Sequence["CoreSetting"]] = None
-    clan_banner_gonfalon_detail_colors: t.Optional[t.Sequence["CoreSetting"]] = None
-    clan_banner_gonfalon_details: t.Optional[t.Sequence["CoreSetting"]] = None
-    clan_banner_gonfalons: t.Optional[t.Sequence["CoreSetting"]] = None
-    clan_banner_standards: t.Optional[t.Sequence["CoreSetting"]] = None
-    destiny2_core_settings: t.Optional["Destiny2CoreSettings"] = None
-    destiny_membership_types: t.Optional[t.Sequence["CoreSetting"]] = None
-    email_settings: t.Optional["EmailSettings"] = None
-    environment: t.Optional[str] = None
-    fireteam_activities: t.Optional[t.Sequence["CoreSetting"]] = None
-    forum_categories: t.Optional[t.Sequence["CoreSetting"]] = None
-    group_avatars: t.Optional[t.Sequence["CoreSetting"]] = None
-    ignore_reasons: t.Optional[t.Sequence["CoreSetting"]] = None
-    recruitment_activities: t.Optional[t.Sequence["CoreSetting"]] = None
-    recruitment_misc_tags: t.Optional[t.Sequence["CoreSetting"]] = None
-    recruitment_platform_tags: t.Optional[t.Sequence["CoreSetting"]] = None
-    system_content_locales: t.Optional[t.Sequence["CoreSetting"]] = None
-    systems: t.Optional[t.Mapping[str, "CoreSystem"]] = None
-    user_content_locales: t.Optional[t.Sequence["CoreSetting"]] = None
+    clan_banner_decal_colors: t.Sequence["CoreSetting"]
+    clan_banner_decals: t.Sequence["CoreSetting"]
+    clan_banner_gonfalon_colors: t.Sequence["CoreSetting"]
+    clan_banner_gonfalon_detail_colors: t.Sequence["CoreSetting"]
+    clan_banner_gonfalon_details: t.Sequence["CoreSetting"]
+    clan_banner_gonfalons: t.Sequence["CoreSetting"]
+    clan_banner_standards: t.Sequence["CoreSetting"]
+    destiny2_core_settings: "Destiny2CoreSettings"
+    destiny_membership_types: t.Sequence["CoreSetting"]
+    email_settings: "EmailSettings"
+    environment: str
+    fireteam_activities: t.Sequence["CoreSetting"]
+    forum_categories: t.Sequence["CoreSetting"]
+    group_avatars: t.Sequence["CoreSetting"]
+    ignore_reasons: t.Sequence["CoreSetting"]
+    recruitment_activities: t.Sequence["CoreSetting"]
+    recruitment_misc_tags: t.Sequence["CoreSetting"]
+    recruitment_platform_tags: t.Sequence["CoreSetting"]
+    system_content_locales: t.Sequence["CoreSetting"]
+    systems: t.Mapping[str, "CoreSystem"]
+    user_content_locales: t.Sequence["CoreSetting"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -59,8 +59,8 @@ class CoreSettingsConfiguration:
 
 @dt.dataclass(frozen=True)
 class CoreSystem:
-    enabled: t.Optional[bool] = None
-    parameters: t.Optional[t.Mapping[str, str]] = None
+    enabled: bool
+    parameters: t.Mapping[str, str]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -71,12 +71,12 @@ class CoreSystem:
 
 @dt.dataclass(frozen=True)
 class CoreSetting:
-    child_settings: t.Optional[t.Sequence["CoreSetting"]] = None
-    display_name: t.Optional[str] = None
-    identifier: t.Optional[str] = None
-    image_path: t.Optional[str] = None
-    is_default: t.Optional[bool] = None
-    summary: t.Optional[str] = None
+    child_settings: t.Sequence["CoreSetting"]
+    display_name: str
+    identifier: str
+    image_path: str
+    is_default: bool
+    summary: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -91,30 +91,30 @@ class CoreSetting:
 
 @dt.dataclass(frozen=True)
 class Destiny2CoreSettings:
-    active_seals_root_node_hash: t.Optional[int] = None
-    active_triumphs_root_node_hash: t.Optional[int] = None
-    ammo_type_heavy_icon: t.Optional[str] = None
-    ammo_type_primary_icon: t.Optional[str] = None
-    ammo_type_special_icon: t.Optional[str] = None
-    badges_root_node: t.Optional[int] = None
-    collection_root_node: t.Optional[int] = None
-    current_rank_progression_hashes: t.Optional[t.Sequence[int]] = None
-    current_season_hash: t.Optional[int] = None
-    current_seasonal_artifact_hash: t.Optional[int] = None
-    exotic_catalysts_root_node_hash: t.Optional[int] = None
-    future_season_hashes: t.Optional[t.Sequence[int]] = None
-    insert_plug_free_blocked_socket_type_hashes: t.Optional[t.Sequence[int]] = None
-    insert_plug_free_protected_plug_item_hashes: t.Optional[t.Sequence[int]] = None
-    legacy_seals_root_node_hash: t.Optional[int] = None
-    legacy_triumphs_root_node_hash: t.Optional[int] = None
-    lore_root_node_hash: t.Optional[int] = None
-    medals_root_node: t.Optional[int] = None
-    medals_root_node_hash: t.Optional[int] = None
-    metrics_root_node: t.Optional[int] = None
-    past_season_hashes: t.Optional[t.Sequence[int]] = None
-    records_root_node: t.Optional[int] = None
-    seasonal_challenges_presentation_node_hash: t.Optional[int] = None
-    undiscovered_collectible_image: t.Optional[str] = None
+    active_seals_root_node_hash: int
+    active_triumphs_root_node_hash: int
+    ammo_type_heavy_icon: str
+    ammo_type_primary_icon: str
+    ammo_type_special_icon: str
+    badges_root_node: int
+    collection_root_node: int
+    current_rank_progression_hashes: t.Sequence[int]
+    current_season_hash: int
+    current_seasonal_artifact_hash: int
+    exotic_catalysts_root_node_hash: int
+    future_season_hashes: t.Sequence[int]
+    insert_plug_free_blocked_socket_type_hashes: t.Sequence[int]
+    insert_plug_free_protected_plug_item_hashes: t.Sequence[int]
+    legacy_seals_root_node_hash: int
+    legacy_triumphs_root_node_hash: int
+    lore_root_node_hash: int
+    medals_root_node: int
+    medals_root_node_hash: int
+    metrics_root_node: int
+    past_season_hashes: t.Sequence[int]
+    records_root_node: int
+    seasonal_challenges_presentation_node_hash: int
+    undiscovered_collectible_image: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -10,12 +10,8 @@ class DestinyVendorLocationDefinition:
     """These definitions represent vendors' locations and relevant display
     information at different times in the game."""
 
-    background_image_path: t.Optional[
-        str
-    ] = None  # The relative path to the background image representing this Vendor at this location, for use in a banner.
-    destination_hash: t.Optional[
-        int
-    ] = None  # The hash identifier for a Destination at which this vendor may be located. Each destination where a Vendor may exist will only ever have a single entry.
+    background_image_path: str  # The relative path to the background image representing this Vendor at this location, for use in a banner.
+    destination_hash: int  # The hash identifier for a Destination at which this vendor may be located. Each destination where a Vendor may exist will only ever have a single entry.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

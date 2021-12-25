@@ -20,9 +20,9 @@ class DestinyPlugSetsComponent:
     reused)
     """
 
-    plugs: t.Optional[
-        t.Mapping[str, t.Sequence["DestinyItemPlug"]]
-    ] = None  # The shared list of plugs for each relevant PlugSet, keyed by the hash identifier of the PlugSet (DestinyPlugSetDefinition).
+    plugs: t.Mapping[
+        str, t.Sequence["DestinyItemPlug"]
+    ]  # The shared list of plugs for each relevant PlugSet, keyed by the hash identifier of the PlugSet (DestinyPlugSetDefinition).
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -31,6 +31,6 @@ class DestinyPlugSetsComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.sockets import (
+from bungieapi.generated.components.schemas.destiny.sockets import (  # noqa: E402
     DestinyItemPlug,
-)  # noqa: E402
+)

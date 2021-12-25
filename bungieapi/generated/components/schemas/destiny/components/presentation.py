@@ -7,7 +7,7 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodesComponent:
-    nodes: t.Optional[t.Mapping[str, "DestinyPresentationNodeComponent"]] = None
+    nodes: t.Mapping[str, "DestinyPresentationNodeComponent"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -17,19 +17,11 @@ class DestinyPresentationNodesComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeComponent:
-    completion_value: t.Optional[
-        int
-    ] = None  # The value at which the presentation node is considered to be completed.
-    objective: t.Optional[
-        "DestinyObjectiveProgress"
-    ] = None  # An optional property: presentation nodes MAY have objectives, which can be used to infer more human readable data about the progress. However, progressValue and completionValue ought to be considered the canonical values for progress on Progression Nodes.
-    progress_value: t.Optional[
-        int
-    ] = None  # How much of the presentation node is considered to be completed so far by the given character/profile.
-    record_category_score: t.Optional[
-        int
-    ] = None  # If available, this is the current score for the record category that this node represents.
-    state: t.Optional["DestinyPresentationNodeState"] = None
+    completion_value: int  # The value at which the presentation node is considered to be completed.
+    objective: "DestinyObjectiveProgress"  # An optional property: presentation nodes MAY have objectives, which can be used to infer more human readable data about the progress. However, progressValue and completionValue ought to be considered the canonical values for progress on Progression Nodes.
+    progress_value: int  # How much of the presentation node is considered to be completed so far by the given character/profile.
+    record_category_score: int  # If available, this is the current score for the record category that this node represents.
+    state: "DestinyPresentationNodeState"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -42,9 +34,9 @@ class DestinyPresentationNodeComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyPresentationNodeState,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.quests import (
+)
+from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyObjectiveProgress,
-)  # noqa: E402
+)

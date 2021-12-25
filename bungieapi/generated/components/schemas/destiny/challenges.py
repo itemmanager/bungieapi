@@ -10,9 +10,7 @@ class DestinyChallengeStatus:
     """Represents the status and other related information for a challenge that is - or was - available to a player.
     A challenge is a bonus objective, generally tacked onto Quests or Activities, that provide additional variations on play."""
 
-    objective: t.Optional[
-        "DestinyObjectiveProgress"
-    ] = None  # The progress - including completion status - of the active challenge.
+    objective: "DestinyObjectiveProgress"  # The progress - including completion status - of the active challenge.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -21,6 +19,6 @@ class DestinyChallengeStatus:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.quests import (
+from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyObjectiveProgress,
-)  # noqa: E402
+)

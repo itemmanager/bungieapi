@@ -11,15 +11,15 @@ class DestinyPublicActivityStatus:
     is currently active in the Activity, regardless of an individual
     character's progress in it."""
 
-    challenge_objective_hashes: t.Optional[
-        t.Sequence[int]
-    ] = None  # Active Challenges for the activity, if any - represented as hashes for DestinyObjectiveDefinitions.
-    modifier_hashes: t.Optional[
-        t.Sequence[int]
-    ] = None  # The active modifiers on this activity, if any - represented as hashes for DestinyActivityModifierDefinitions.
-    reward_tooltip_items: t.Optional[
-        t.Sequence["DestinyItemQuantity"]
-    ] = None  # If the activity itself provides any specific "mock" rewards, this will be the items and their quantity. Why "mock", you ask? Because these are the rewards as they are represented in the tooltip of the Activity. These are often pointers to fake items that look good in a tooltip, but represent an abstract concept of what you will get for a reward rather than the specific items you may obtain.
+    challenge_objective_hashes: t.Sequence[
+        int
+    ]  # Active Challenges for the activity, if any - represented as hashes for DestinyObjectiveDefinitions.
+    modifier_hashes: t.Sequence[
+        int
+    ]  # The active modifiers on this activity, if any - represented as hashes for DestinyActivityModifierDefinitions.
+    reward_tooltip_items: t.Sequence[
+        "DestinyItemQuantity"
+    ]  # If the activity itself provides any specific "mock" rewards, this will be the items and their quantity. Why "mock", you ask? Because these are the rewards as they are represented in the tooltip of the Activity. These are often pointers to fake items that look good in a tooltip, but represent an abstract concept of what you will get for a reward rather than the specific items you may obtain.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -30,6 +30,6 @@ class DestinyPublicActivityStatus:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyItemQuantity,
-)  # noqa: E402
+)
