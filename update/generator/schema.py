@@ -1,9 +1,8 @@
 import functools as ft
 import typing as t
 
-from svarog.tools import camel_to_snake
-
 from .. import openapi as api
+from ..tools import camel_to_snake
 from .literals import literal, literal_bare
 
 
@@ -12,7 +11,6 @@ def generate_schema(
     schema: api.Schema, name: str, module: t.Sequence[str]
 ) -> t.Iterator[str]:
     raise Exception(f"cannot generate type: {type(schema)} ({name})")
-    # yield f"{name} = t.Any"
 
 
 def linear_comment(something: t.Any) -> str:
@@ -53,6 +51,12 @@ def generate_object(
 
     if object.additional_properties:
         yield f"    additional: t.Mapping[str, {literal_bare(object.additional_properties, [])}]  = dt.field(default_factory=dict)"
+
+    yield f"    def to_json(self) -> t.Mapping[str, t.Any]:"
+    yield "        return {"
+    for name, property in (object.properties or {}).items():
+        yield f'"{name}": to_json(self.{camel_to_snake(name)}),'
+    yield "}"
     if object.all_of:
         raise NotImplementedError("cannot generate dataclass with parent")
 

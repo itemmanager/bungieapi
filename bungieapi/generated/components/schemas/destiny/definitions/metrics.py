@@ -2,21 +2,43 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyMetricDefinition:
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    lower_value_is_better: bool
-    parent_node_hashes: t.Sequence[
+    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
+    hash: t.Optional[
         int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
-    presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    tracking_objective_hash: int
-    trait_hashes: t.Sequence[int]
-    trait_ids: t.Sequence[str]
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    lower_value_is_better: t.Optional[bool] = None
+    parent_node_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    presentation_node_type: t.Optional["DestinyPresentationNodeType"] = None
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    tracking_objective_hash: t.Optional[int] = None
+    trait_hashes: t.Optional[t.Sequence[int]] = None
+    trait_ids: t.Optional[t.Sequence[str]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayProperties": to_json(self.display_properties),
+            "trackingObjectiveHash": to_json(self.tracking_objective_hash),
+            "lowerValueIsBetter": to_json(self.lower_value_is_better),
+            "presentationNodeType": to_json(self.presentation_node_type),
+            "traitIds": to_json(self.trait_ids),
+            "traitHashes": to_json(self.trait_hashes),
+            "parentNodeHashes": to_json(self.parent_node_hashes),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 from bungieapi.generated.components.schemas.destiny import (

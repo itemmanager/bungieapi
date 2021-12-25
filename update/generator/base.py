@@ -17,6 +17,8 @@ def responses_module_generator(
     yield "import typing as t"
     yield "import dataclasses as dt"
     yield "from enum import Enum"
+    yield "from bungieapi.json import to_json"
+
     for bind_response in tree.child_leaf():
         yield from generate_schema(
             bind_response.response.schema,
@@ -44,12 +46,11 @@ def schema_module_generator(
     yield "import typing as t"
     yield "import dataclasses as dt"
     yield "from enum import Enum"
+    yield "from bungieapi.forge import forge"
+    yield "from bungieapi.json import to_json"
 
     for schema in types.child_leaf():
-        try:
-            yield from generate_schema(schema.schema, schema.schema_name, module)
-        except:
-            raise
+        yield from generate_schema(schema.schema, schema.schema_name, module)
     yield ""
 
     imports = list(

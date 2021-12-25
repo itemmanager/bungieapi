@@ -3,7 +3,6 @@ import typing as t
 from collections import defaultdict
 from enum import Enum
 
-from svarog.forges import filter_cammel_case
 from svarog.tools import camel_to_snake
 from svarog.types import Forge
 
@@ -39,9 +38,7 @@ class Reference:
         )
 
     @staticmethod
-    def filter(
-        t: t.Type["Integer"], data: t.Mapping, forge: Forge
-    ) -> t.Mapping[str, t.Any]:
+    def filter(t: t.Type["Integer"], data: t.Mapping) -> t.Mapping[str, t.Any]:
         return fix(data, {"$ref": "ref"})
 
     def local(self, module: t.Sequence[str]) -> bool:
@@ -85,10 +82,7 @@ class Schema:
 
     @staticmethod
     def forge(t: t.Type["Schema"], data: t.Mapping, forge: Forge) -> "Schema":
-        try:
-            cls = Schema.types[ApiType(data["type"])]
-        except:
-            raise
+        cls = Schema.types[ApiType(data["type"])]
         return forge(cls, data)
 
 
@@ -161,9 +155,7 @@ class Integer(Schema, type=ApiType.INTEGER):
     enum_values: t.Optional[t.Sequence[EnumValue]] = None
 
     @staticmethod
-    def filter(
-        t: t.Type["Integer"], data: t.Mapping, forge: Forge
-    ) -> t.Mapping[str, t.Any]:
+    def filter(t: t.Type["Integer"], data: t.Mapping) -> t.Mapping[str, t.Any]:
         return fix(
             data, {"x-enum-reference": "enum_reference", "x-enum-values": "enum_values"}
         )
@@ -187,8 +179,10 @@ class Object(Schema, type=ApiType.OBJECT):
 
 
 def forge_regerence_or_schema(
-    t: t.Union[Reference, Schema], data: t.Mapping[str, t.Any], forge: Forge
-) -> t.Union[Reference, Schema]:
+    t: t.Union[Reference, Schema, None], data: t.Mapping[str, t.Any], forge: Forge
+) -> t.Union[Reference, Schema, None]:
+    if data is None:
+        return None
     if "$ref" in data:
         return forge(Reference, data)
     return forge(Schema, data)
@@ -215,9 +209,7 @@ class Parameter:
     schema: Schema
 
     @staticmethod
-    def filter(
-        t: t.Type["Parameter"], data: t.Mapping, forge: Forge
-    ) -> t.Mapping[str, t.Any]:
+    def filter(t: t.Type["Parameter"], data: t.Mapping) -> t.Mapping[str, t.Any]:
         return fix(data, {"in": "in_"})
 
     @property
@@ -231,9 +223,7 @@ class Response:
     schema: Object
 
     @staticmethod
-    def filter(
-        t: t.Type["Response"], data: t.Mapping, forge: Forge
-    ) -> t.Mapping[str, t.Any]:
+    def filter(t: t.Type["Response"], data: t.Mapping) -> t.Mapping[str, t.Any]:
         return {
             "description": data["description"],
             "schema": data["content"]["application/json"]["schema"],
@@ -241,8 +231,8 @@ class Response:
 
     def __post_init__(self):
         self.schema.properties["DetailedErrorTrace"] = dt.replace(  # type: ignore
-            self.schema.properties["DetailedErrorTrace"],
-            required=False,  #  type: ignore
+            self.schema.properties["DetailedErrorTrace"],  #  type: ignore
+            required=False,
         )
 
 
@@ -253,13 +243,15 @@ class Operation:
     response: Reference
     deprecated: bool = False
     description: t.Optional[str] = None
+    request_body: t.Union[Reference, Schema, None] = None
 
     @staticmethod
-    def filter(
-        t: t.Type["Operation"], data: t.Dict, forge: Forge
-    ) -> t.Mapping[str, t.Any]:
+    def filter(t: t.Type["Operation"], data: t.Dict) -> t.Mapping:
         responses = data.pop("responses")
-        return filter_cammel_case(t, {**data, "response": responses["200"]}, forge)
+        if request_body := data.pop("request_body", None):
+            request_body = request_body["content"]["application/json"]["schema"]
+
+        return {**data, "response": responses["200"], "request_body": request_body}
 
 
 class Scheme(Enum):

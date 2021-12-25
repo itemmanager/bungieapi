@@ -2,19 +2,43 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodesComponent:
-    nodes: t.Mapping[str, "DestinyPresentationNodeComponent"]
+    nodes: t.Optional[t.Mapping[str, "DestinyPresentationNodeComponent"]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "nodes": to_json(self.nodes),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeComponent:
-    completion_value: int  # The value at which the presentation node is considered to be completed.
-    objective: "DestinyObjectiveProgress"  # An optional property: presentation nodes MAY have objectives, which can be used to infer more human readable data about the progress. However, progressValue and completionValue ought to be considered the canonical values for progress on Progression Nodes.
-    progress_value: int  # How much of the presentation node is considered to be completed so far by the given character/profile.
-    record_category_score: int  # If available, this is the current score for the record category that this node represents.
-    state: "DestinyPresentationNodeState"
+    completion_value: t.Optional[
+        int
+    ] = None  # The value at which the presentation node is considered to be completed.
+    objective: t.Optional[
+        "DestinyObjectiveProgress"
+    ] = None  # An optional property: presentation nodes MAY have objectives, which can be used to infer more human readable data about the progress. However, progressValue and completionValue ought to be considered the canonical values for progress on Progression Nodes.
+    progress_value: t.Optional[
+        int
+    ] = None  # How much of the presentation node is considered to be completed so far by the given character/profile.
+    record_category_score: t.Optional[
+        int
+    ] = None  # If available, this is the current score for the record category that this node represents.
+    state: t.Optional["DestinyPresentationNodeState"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "state": to_json(self.state),
+            "objective": to_json(self.objective),
+            "progressValue": to_json(self.progress_value),
+            "completionValue": to_json(self.completion_value),
+            "recordCategoryScore": to_json(self.record_category_score),
+        }
 
 
 from bungieapi.generated.components.schemas.destiny import (

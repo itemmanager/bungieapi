@@ -1,26 +1,21 @@
-import sys
+import subprocess
 from pathlib import Path
 
-import autoflake  # type: ignore
-import black as black
-import docformatter  # type: ignore
-from isort.api import sort_file
 
-
-def reformat_file(path: Path) -> None:
-    docformatter._main(
-        ["docformatter", "-i", str(path)], sys.stdin, sys.stderr, sys.stdin
+def reformat_directory(path: Path) -> None:
+    subprocess.check_call(
+        ["docformatter", str(path), "-r", "-i"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
-    autoflake._main(
-        ["autoflake", "--in-place", "--remove-all-unused-imports", str(path)],
-        sys.stdin,
-        sys.stderr,
+    subprocess.check_call(
+        ["autoflake", "--remove-all-unused-imports", "-i", "-r", str(path)],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
-    sort_file(path, quiet=True)
-    black.reformat_one(
-        src=path,
-        fast=False,
-        write_back=black.WriteBack.YES,
-        mode=black.Mode(),
-        report=black.Report(quiet=True),
+    subprocess.check_call(
+        ["isort", str(path)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+    subprocess.check_call(
+        ["black", str(path)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )

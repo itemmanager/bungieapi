@@ -2,49 +2,95 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class GeneralUserClientResponse:
-    error_code: "PlatformErrorCodes"
-    error_status: str
-    message: str
-    message_data: t.Mapping[str, str]
-    response: "GeneralUser"
-    throttle_seconds: int
     detailed_error_trace: t.Optional[str] = None
+    error_code: t.Optional["PlatformErrorCodes"] = None
+    error_status: t.Optional[str] = None
+    message: t.Optional[str] = None
+    message_data: t.Optional[t.Mapping[str, str]] = None
+    response: t.Optional["GeneralUser"] = None
+    throttle_seconds: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Response": to_json(self.response),
+            "ErrorCode": to_json(self.error_code),
+            "ThrottleSeconds": to_json(self.throttle_seconds),
+            "ErrorStatus": to_json(self.error_status),
+            "Message": to_json(self.message),
+            "MessageData": to_json(self.message_data),
+            "DetailedErrorTrace": to_json(self.detailed_error_trace),
+        }
 
 
 @dt.dataclass(frozen=True)
 class UserMembershipDataClientResponse:
-    error_code: "PlatformErrorCodes"
-    error_status: str
-    message: str
-    message_data: t.Mapping[str, str]
-    response: "UserMembershipData"
-    throttle_seconds: int
     detailed_error_trace: t.Optional[str] = None
+    error_code: t.Optional["PlatformErrorCodes"] = None
+    error_status: t.Optional[str] = None
+    message: t.Optional[str] = None
+    message_data: t.Optional[t.Mapping[str, str]] = None
+    response: t.Optional["UserMembershipData"] = None
+    throttle_seconds: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Response": to_json(self.response),
+            "ErrorCode": to_json(self.error_code),
+            "ThrottleSeconds": to_json(self.throttle_seconds),
+            "ErrorStatus": to_json(self.error_status),
+            "Message": to_json(self.message),
+            "MessageData": to_json(self.message_data),
+            "DetailedErrorTrace": to_json(self.detailed_error_trace),
+        }
 
 
 @dt.dataclass(frozen=True)
 class HardLinkedUserMembershipClientResponse:
-    error_code: "PlatformErrorCodes"
-    error_status: str
-    message: str
-    message_data: t.Mapping[str, str]
-    response: "HardLinkedUserMembership"
-    throttle_seconds: int
     detailed_error_trace: t.Optional[str] = None
+    error_code: t.Optional["PlatformErrorCodes"] = None
+    error_status: t.Optional[str] = None
+    message: t.Optional[str] = None
+    message_data: t.Optional[t.Mapping[str, str]] = None
+    response: t.Optional["HardLinkedUserMembership"] = None
+    throttle_seconds: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Response": to_json(self.response),
+            "ErrorCode": to_json(self.error_code),
+            "ThrottleSeconds": to_json(self.throttle_seconds),
+            "ErrorStatus": to_json(self.error_status),
+            "Message": to_json(self.message),
+            "MessageData": to_json(self.message_data),
+            "DetailedErrorTrace": to_json(self.detailed_error_trace),
+        }
 
 
 @dt.dataclass(frozen=True)
 class UserSearchClientResponse:
-    error_code: "PlatformErrorCodes"
-    error_status: str
-    message: str
-    message_data: t.Mapping[str, str]
-    response: "UserSearchResponse"
-    throttle_seconds: int
     detailed_error_trace: t.Optional[str] = None
+    error_code: t.Optional["PlatformErrorCodes"] = None
+    error_status: t.Optional[str] = None
+    message: t.Optional[str] = None
+    message_data: t.Optional[t.Mapping[str, str]] = None
+    response: t.Optional["UserSearchResponse"] = None
+    throttle_seconds: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Response": to_json(self.response),
+            "ErrorCode": to_json(self.error_code),
+            "ThrottleSeconds": to_json(self.throttle_seconds),
+            "ErrorStatus": to_json(self.error_status),
+            "Message": to_json(self.message),
+            "MessageData": to_json(self.message_data),
+            "DetailedErrorTrace": to_json(self.detailed_error_trace),
+        }
 
 
 from bungieapi.generated.components.schemas.exceptions import (

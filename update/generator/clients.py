@@ -4,12 +4,10 @@ from functools import singledispatch
 
 from update.generator.imports import generate_imports
 from update.generator.literals import literal
-from update.generator.schema import generate_schema
 from update.openapi import BindOperation, Tree
 from update.tools import camel_to_snake
 
 from .. import openapi as api
-from .tools import response_schema_name
 
 
 def client(operation_tree: Tree[BindOperation]) -> t.Iterator[str]:
@@ -18,6 +16,7 @@ def client(operation_tree: Tree[BindOperation]) -> t.Iterator[str]:
     yield "from bungieapi.generated import clients"
     yield "from bungieapi.base import BaseClient"
     yield "from bungieapi.forge import forge"
+    yield "from bungieapi.json import to_json"
 
     for operation in operation_tree.child_leaf():
         yield from generate_imports(operation, [])
@@ -45,10 +44,13 @@ def query_param_to_snake(match: re.Match) -> str:
 @client_method.register
 def generate_client_method_operation(operation: BindOperation) -> t.Iterator[str]:
     yield f"    async def {operation.python_name}(self,"
+    if operation.request_body:
+        yield f"request: {literal(operation.request_body, [])},"
     for parameter in sorted(
         operation.parameters, key=lambda param: not param.schema.required
     ):
         yield f"{parameter.python_name}: {literal(parameter.schema, []) }{ ' = None' if not parameter.schema.required  else ''},"
+
     assert isinstance(operation.response, api.Reference)
     return_type = operation.response.name
     yield f") -> {return_type}:"
@@ -59,7 +61,7 @@ def generate_client_method_operation(operation: BindOperation) -> t.Iterator[str
         for p in parameter_descriptions:
             yield f"    {p.python_name}: {p.description}"
 
-    yield f'"""'
+    yield '"""'
     path_parameters = [
         p for p in operation.parameters if p.in_ == api.ParameterSource.PATH
     ]
@@ -79,7 +81,9 @@ def generate_client_method_operation(operation: BindOperation) -> t.Iterator[str
         yield f"        query = {query_dict}"
     else:
         yield "        query = None"
-    yield f"        result = await self.{operation.method}(path={path}, query=query)"
+    request = "request=request" if operation.request_body else ""
+
+    yield f"        result = await self.{operation.method}(path={path}, query=query,{request})"
     yield f"        return forge({return_type}, result)"
 
 

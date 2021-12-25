@@ -3,19 +3,45 @@ import dataclasses as dt
 import typing as t
 from enum import Enum
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class AwaInitializeResponse:
-    correlation_id: str  # ID used to get the token. Present this ID to the user as it will identify this specific request on their device.
-    sent_to_self: bool  # True if the PUSH message will only be sent to the device that made this request.
+    correlation_id: t.Optional[
+        str
+    ] = None  # ID used to get the token. Present this ID to the user as it will identify this specific request on their device.
+    sent_to_self: t.Optional[
+        bool
+    ] = None  # True if the PUSH message will only be sent to the device that made this request.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "correlationId": to_json(self.correlation_id),
+            "sentToSelf": to_json(self.sent_to_self),
+        }
 
 
 @dt.dataclass(frozen=True)
 class AwaPermissionRequested:
-    affected_item_id: int  # Item instance ID the action shall be applied to. This is optional for all but a new AwaType values. Rule of thumb is to provide the item instance ID if one is available.
-    character_id: int  # Destiny character ID, if applicable, that will be affected by the action.
-    membership_type: "BungieMembershipType"  # Destiny membership type of the account to modify.
-    type: "AwaType"  # Type of advanced write action.
+    affected_item_id: t.Optional[
+        int
+    ] = None  # Item instance ID the action shall be applied to. This is optional for all but a new AwaType values. Rule of thumb is to provide the item instance ID if one is available.
+    character_id: t.Optional[
+        int
+    ] = None  # Destiny character ID, if applicable, that will be affected by the action.
+    membership_type: t.Optional[
+        "BungieMembershipType"
+    ] = None  # Destiny membership type of the account to modify.
+    type: t.Optional["AwaType"] = None  # Type of advanced write action.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "type": to_json(self.type),
+            "affectedItemId": to_json(self.affected_item_id),
+            "membershipType": to_json(self.membership_type),
+            "characterId": to_json(self.character_id),
+        }
 
 
 class AwaType(Enum):
@@ -25,9 +51,20 @@ class AwaType(Enum):
 
 @dt.dataclass(frozen=True)
 class AwaUserResponse:
-    correlation_id: str  # Correlation ID of the request
-    nonce: t.Sequence[str]  # Secret nonce received via the PUSH notification.
-    selection: "AwaUserSelection"  # Indication of the selection the user has made (Approving or rejecting the action)
+    correlation_id: t.Optional[str] = None  # Correlation ID of the request
+    nonce: t.Optional[
+        t.Sequence[str]
+    ] = None  # Secret nonce received via the PUSH notification.
+    selection: t.Optional[
+        "AwaUserSelection"
+    ] = None  # Indication of the selection the user has made (Approving or rejecting the action)
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "selection": to_json(self.selection),
+            "correlationId": to_json(self.correlation_id),
+            "nonce": to_json(self.nonce),
+        }
 
 
 class AwaUserSelection(Enum):
@@ -38,14 +75,38 @@ class AwaUserSelection(Enum):
 
 @dt.dataclass(frozen=True)
 class AwaAuthorizationResult:
-    action_token: str  # Credential used to prove the user authorized an advanced write action.
-    developer_note: str  # Message to the app developer to help understand the response.
-    maximum_number_of_uses: int  # This token may be used to perform the requested action this number of times, at a maximum. If this value is 0, then there is no limit.
-    membership_type: "BungieMembershipType"  # MembershipType from the permission request.
-    response_reason: "AwaResponseReason"
-    type: "AwaType"  # Advanced Write Action Type from the permission request.
-    user_selection: "AwaUserSelection"  # Indication of how the user responded to the request. If the value is "Approved" the actionToken will contain the token that can be presented when performing the advanced write action.
-    valid_until: str  # Time, UTC, when token expires.
+    action_token: t.Optional[
+        str
+    ] = None  # Credential used to prove the user authorized an advanced write action.
+    developer_note: t.Optional[
+        str
+    ] = None  # Message to the app developer to help understand the response.
+    maximum_number_of_uses: t.Optional[
+        int
+    ] = None  # This token may be used to perform the requested action this number of times, at a maximum. If this value is 0, then there is no limit.
+    membership_type: t.Optional[
+        "BungieMembershipType"
+    ] = None  # MembershipType from the permission request.
+    response_reason: t.Optional["AwaResponseReason"] = None
+    type: t.Optional[
+        "AwaType"
+    ] = None  # Advanced Write Action Type from the permission request.
+    user_selection: t.Optional[
+        "AwaUserSelection"
+    ] = None  # Indication of how the user responded to the request. If the value is "Approved" the actionToken will contain the token that can be presented when performing the advanced write action.
+    valid_until: t.Optional[str] = None  # Time, UTC, when token expires.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "userSelection": to_json(self.user_selection),
+            "responseReason": to_json(self.response_reason),
+            "developerNote": to_json(self.developer_note),
+            "actionToken": to_json(self.action_token),
+            "maximumNumberOfUses": to_json(self.maximum_number_of_uses),
+            "validUntil": to_json(self.valid_until),
+            "type": to_json(self.type),
+            "membershipType": to_json(self.membership_type),
+        }
 
 
 class AwaResponseReason(Enum):

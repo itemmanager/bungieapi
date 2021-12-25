@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyChecklistDefinition:
@@ -25,15 +27,36 @@ class DestinyChecklistDefinition:
     Forsaken.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    entries: t.Sequence[
-        "DestinyChecklistEntryDefinition"
-    ]  # The individual checklist items. Gotta catch 'em all.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    scope: "DestinyScope"  # Indicates whether you will find this checklist on the Profile or Character components.
-    view_action_string: str  # A localized string prompting you to view the checklist.
+    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
+    entries: t.Optional[
+        t.Sequence["DestinyChecklistEntryDefinition"]
+    ] = None  # The individual checklist items. Gotta catch 'em all.
+    hash: t.Optional[
+        int
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    scope: t.Optional[
+        "DestinyScope"
+    ] = None  # Indicates whether you will find this checklist on the Profile or Character components.
+    view_action_string: t.Optional[
+        str
+    ] = None  # A localized string prompting you to view the checklist.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayProperties": to_json(self.display_properties),
+            "viewActionString": to_json(self.view_action_string),
+            "scope": to_json(self.scope),
+            "entries": to_json(self.entries),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -47,16 +70,38 @@ class DestinyChecklistEntryDefinition:
     actually be able to be associated with some other Destiny entity.
     """
 
-    activity_hash: int
-    bubble_hash: int  # Note that a Bubble's hash doesn't uniquely identify a "top level" entity in Destiny. Only the combination of location and bubble can uniquely identify a place in the world of Destiny: so if bubbleHash is populated, locationHash must too be populated for it to have any meaning. You can use this property if it is populated to look up the DestinyLocationDefinition's associated .locationReleases[].activityBubbleName property.
-    destination_hash: int
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Even if no other associations exist, we will give you *something* for display properties. In cases where we have no associated entities, it may be as simple as a numerical identifier.
-    hash: int  # The identifier for this Checklist entry. Guaranteed unique only within this Checklist Definition, and not globally/for all checklists.
-    item_hash: int
-    location_hash: int
-    scope: "DestinyScope"  # The scope at which this specific entry can be computed.
-    vendor_hash: int
-    vendor_interaction_index: int
+    activity_hash: t.Optional[int] = None
+    bubble_hash: t.Optional[
+        int
+    ] = None  # Note that a Bubble's hash doesn't uniquely identify a "top level" entity in Destiny. Only the combination of location and bubble can uniquely identify a place in the world of Destiny: so if bubbleHash is populated, locationHash must too be populated for it to have any meaning. You can use this property if it is populated to look up the DestinyLocationDefinition's associated .locationReleases[].activityBubbleName property.
+    destination_hash: t.Optional[int] = None
+    display_properties: t.Optional[
+        "DestinyDisplayPropertiesDefinition"
+    ] = None  # Even if no other associations exist, we will give you *something* for display properties. In cases where we have no associated entities, it may be as simple as a numerical identifier.
+    hash: t.Optional[
+        int
+    ] = None  # The identifier for this Checklist entry. Guaranteed unique only within this Checklist Definition, and not globally/for all checklists.
+    item_hash: t.Optional[int] = None
+    location_hash: t.Optional[int] = None
+    scope: t.Optional[
+        "DestinyScope"
+    ] = None  # The scope at which this specific entry can be computed.
+    vendor_hash: t.Optional[int] = None
+    vendor_interaction_index: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "hash": to_json(self.hash),
+            "displayProperties": to_json(self.display_properties),
+            "destinationHash": to_json(self.destination_hash),
+            "locationHash": to_json(self.location_hash),
+            "bubbleHash": to_json(self.bubble_hash),
+            "activityHash": to_json(self.activity_hash),
+            "itemHash": to_json(self.item_hash),
+            "vendorHash": to_json(self.vendor_hash),
+            "vendorInteractionIndex": to_json(self.vendor_interaction_index),
+            "scope": to_json(self.scope),
+        }
 
 
 from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402

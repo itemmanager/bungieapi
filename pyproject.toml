@@ -6,7 +6,7 @@ authors = ["Damian Świstowski <damian@swistowski.org>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-svarog = "^0.2.0"
+svarog = "^0.2.1"
 aiohttp = "^3.8.1"
 
 [tool.poetry.dev-dependencies]

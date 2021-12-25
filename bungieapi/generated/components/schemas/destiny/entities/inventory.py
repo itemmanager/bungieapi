@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyInventoryComponent:
@@ -17,9 +19,14 @@ class DestinyInventoryComponent:
     for more info.
     """
 
-    items: t.Sequence[
-        "DestinyItemComponent"
-    ]  # The items in this inventory. If you care to bucket them, use the item's bucketHash property to group them.
+    items: t.Optional[
+        t.Sequence["DestinyItemComponent"]
+    ] = None  # The items in this inventory. If you care to bucket them, use the item's bucketHash property to group them.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "items": to_json(self.items),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

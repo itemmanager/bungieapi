@@ -3,6 +3,8 @@ import dataclasses as dt
 import typing as t
 from enum import Enum
 
+from bungieapi.json import to_json
+
 
 class BungieMembershipType(Enum):
     """The types of membership the Accounts system supports.
@@ -48,22 +50,50 @@ class BungieCredentialType(Enum):
 
 @dt.dataclass(frozen=True)
 class SearchResultOfContentItemPublicContract:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["ContentItemPublicContract"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["ContentItemPublicContract"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfPostResponse:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["PostResponse"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["PostResponse"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 BungieMembershipTypeArray = t.Sequence["BungieMembershipType"]
@@ -71,736 +101,1584 @@ BungieMembershipTypeArray = t.Sequence["BungieMembershipType"]
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupV2Card:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["GroupV2Card"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["GroupV2Card"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMember:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["GroupMember"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["GroupMember"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupBan:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["GroupBan"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["GroupBan"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMemberApplication:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["GroupMemberApplication"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["GroupMemberApplication"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMembership:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["GroupMembership"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["GroupMembership"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupPotentialMembership:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["GroupPotentialMembership"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["GroupPotentialMembership"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorReceiptsComponent:
-    data: "DestinyVendorReceiptsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyVendorReceiptsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyInventoryComponent:
-    data: "DestinyInventoryComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyInventoryComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileComponent:
-    data: "DestinyProfileComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyProfileComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPlatformSilverComponent:
-    data: "DestinyPlatformSilverComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyPlatformSilverComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyKiosksComponent:
-    data: "DestinyKiosksComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyKiosksComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPlugSetsComponent:
-    data: "DestinyPlugSetsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyPlugSetsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileProgressionComponent:
-    data: "DestinyProfileProgressionComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyProfileProgressionComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPresentationNodesComponent:
-    data: "DestinyPresentationNodesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyPresentationNodesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileRecordsComponent:
-    data: "DestinyProfileRecordsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyProfileRecordsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileCollectiblesComponent:
-    data: "DestinyProfileCollectiblesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyProfileCollectiblesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileTransitoryComponent:
-    data: "DestinyProfileTransitoryComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyProfileTransitoryComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyMetricsComponent:
-    data: "DestinyMetricsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyMetricsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyStringVariablesComponent:
-    data: "DestinyStringVariablesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyStringVariablesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
-    data: t.Mapping[str, "DestinyCharacterComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyCharacterComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyInventoryComponent:
-    data: t.Mapping[str, "DestinyInventoryComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyInventoryComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent:
-    data: t.Mapping[str, "DestinyCharacterProgressionComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyCharacterProgressionComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent:
-    data: t.Mapping[str, "DestinyCharacterRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyCharacterRenderComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent:
-    data: t.Mapping[str, "DestinyCharacterActivitiesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyCharacterActivitiesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyKiosksComponent:
-    data: t.Mapping[str, "DestinyKiosksComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyKiosksComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent:
-    data: t.Mapping[str, "DestinyPlugSetsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyPlugSetsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyBaseItemComponentSetOfuint32:
-    objectives: "DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent"
-    perks: "DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent"
+    objectives: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent"
+    ] = None
+    perks: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent"
+    ] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "objectives": to_json(self.objectives),
+            "perks": to_json(self.perks),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent:
-    data: t.Mapping[str, "DestinyItemObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemObjectivesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent:
-    data: t.Mapping[str, "DestinyItemPerksComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemPerksComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent:
-    data: t.Mapping[str, "DestinyPresentationNodesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyPresentationNodesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent:
-    data: t.Mapping[str, "DestinyCharacterRecordsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyCharacterRecordsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent:
-    data: t.Mapping[str, "DestinyCollectiblesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyCollectiblesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent:
-    data: t.Mapping[str, "DestinyStringVariablesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyStringVariablesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyBaseItemComponentSetOfint64:
-    objectives: "DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent"
-    perks: "DictionaryComponentResponseOfint64AndDestinyItemPerksComponent"
+    objectives: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent"
+    ] = None
+    perks: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemPerksComponent"
+    ] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "objectives": to_json(self.objectives),
+            "perks": to_json(self.perks),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent:
-    data: t.Mapping[str, "DestinyItemObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemObjectivesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemPerksComponent:
-    data: t.Mapping[str, "DestinyItemPerksComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemPerksComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemComponentSetOfint64:
-    instances: "DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent"
-    objectives: "DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent"
-    perks: "DictionaryComponentResponseOfint64AndDestinyItemPerksComponent"
-    plug_objectives: "DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent"
-    plug_states: "DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent"
-    render_data: "DictionaryComponentResponseOfint64AndDestinyItemRenderComponent"
-    reusable_plugs: "DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent"
-    sockets: "DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent"
-    stats: "DictionaryComponentResponseOfint64AndDestinyItemStatsComponent"
-    talent_grids: "DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent"
+    instances: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent"
+    ] = None
+    objectives: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent"
+    ] = None
+    perks: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemPerksComponent"
+    ] = None
+    plug_objectives: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent"
+    ] = None
+    plug_states: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent"
+    ] = None
+    render_data: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemRenderComponent"
+    ] = None
+    reusable_plugs: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent"
+    ] = None
+    sockets: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent"
+    ] = None
+    stats: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemStatsComponent"
+    ] = None
+    talent_grids: t.Optional[
+        "DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent"
+    ] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "instances": to_json(self.instances),
+            "renderData": to_json(self.render_data),
+            "stats": to_json(self.stats),
+            "sockets": to_json(self.sockets),
+            "reusablePlugs": to_json(self.reusable_plugs),
+            "plugObjectives": to_json(self.plug_objectives),
+            "talentGrids": to_json(self.talent_grids),
+            "plugStates": to_json(self.plug_states),
+            "objectives": to_json(self.objectives),
+            "perks": to_json(self.perks),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent:
-    data: t.Mapping[str, "DestinyItemInstanceComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemInstanceComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemRenderComponent:
-    data: t.Mapping[str, "DestinyItemRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemRenderComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemStatsComponent:
-    data: t.Mapping[str, "DestinyItemStatsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemStatsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent:
-    data: t.Mapping[str, "DestinyItemSocketsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemSocketsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent:
-    data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemReusablePlugsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent:
-    data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemPlugObjectivesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent:
-    data: t.Mapping[str, "DestinyItemTalentGridComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemTalentGridComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent:
-    data: t.Mapping[str, "DestinyItemPlugComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemPlugComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent:
-    data: t.Mapping[str, "DestinyCurrenciesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyCurrenciesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterComponent:
-    data: "DestinyCharacterComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyCharacterComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterProgressionComponent:
-    data: "DestinyCharacterProgressionComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyCharacterProgressionComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterRenderComponent:
-    data: "DestinyCharacterRenderComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyCharacterRenderComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterActivitiesComponent:
-    data: "DestinyCharacterActivitiesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyCharacterActivitiesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterRecordsComponent:
-    data: "DestinyCharacterRecordsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyCharacterRecordsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCollectiblesComponent:
-    data: "DestinyCollectiblesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyCollectiblesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCurrenciesComponent:
-    data: "DestinyCurrenciesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyCurrenciesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemComponent:
-    data: "DestinyItemComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemInstanceComponent:
-    data: "DestinyItemInstanceComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemInstanceComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemObjectivesComponent:
-    data: "DestinyItemObjectivesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemObjectivesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemPerksComponent:
-    data: "DestinyItemPerksComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemPerksComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemRenderComponent:
-    data: "DestinyItemRenderComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemRenderComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemStatsComponent:
-    data: "DestinyItemStatsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemStatsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemTalentGridComponent:
-    data: "DestinyItemTalentGridComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemTalentGridComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemSocketsComponent:
-    data: "DestinyItemSocketsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemSocketsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemReusablePlugsComponent:
-    data: "DestinyItemReusablePlugsComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemReusablePlugsComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemPlugObjectivesComponent:
-    data: "DestinyItemPlugObjectivesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyItemPlugObjectivesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorGroupComponent:
-    data: "DestinyVendorGroupComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyVendorGroupComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyVendorComponent:
-    data: t.Mapping[str, "DestinyVendorComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyVendorComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent:
-    data: t.Mapping[str, "DestinyVendorCategoriesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyVendorCategoriesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyVendorSaleItemSetComponentOfDestinyVendorSaleItemComponent:
-    sale_items: t.Mapping[str, "DestinyVendorSaleItemComponent"]
+    sale_items: t.Optional[t.Mapping[str, "DestinyVendorSaleItemComponent"]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "saleItems": to_json(self.sale_items),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent:
-    data: t.Mapping[str, "PersonalDestinyVendorSaleItemSetComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "PersonalDestinyVendorSaleItemSetComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyBaseItemComponentSetOfint32:
-    objectives: "DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent"
-    perks: "DictionaryComponentResponseOfint32AndDestinyItemPerksComponent"
+    objectives: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent"
+    ] = None
+    perks: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemPerksComponent"
+    ] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "objectives": to_json(self.objectives),
+            "perks": to_json(self.perks),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent:
-    data: t.Mapping[str, "DestinyItemObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemObjectivesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemPerksComponent:
-    data: t.Mapping[str, "DestinyItemPerksComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemPerksComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemComponentSetOfint32:
-    instances: "DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent"
-    objectives: "DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent"
-    perks: "DictionaryComponentResponseOfint32AndDestinyItemPerksComponent"
-    plug_objectives: "DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent"
-    plug_states: "DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent"
-    render_data: "DictionaryComponentResponseOfint32AndDestinyItemRenderComponent"
-    reusable_plugs: "DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent"
-    sockets: "DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent"
-    stats: "DictionaryComponentResponseOfint32AndDestinyItemStatsComponent"
-    talent_grids: "DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent"
+    instances: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent"
+    ] = None
+    objectives: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent"
+    ] = None
+    perks: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemPerksComponent"
+    ] = None
+    plug_objectives: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent"
+    ] = None
+    plug_states: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent"
+    ] = None
+    render_data: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemRenderComponent"
+    ] = None
+    reusable_plugs: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent"
+    ] = None
+    sockets: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent"
+    ] = None
+    stats: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemStatsComponent"
+    ] = None
+    talent_grids: t.Optional[
+        "DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent"
+    ] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "instances": to_json(self.instances),
+            "renderData": to_json(self.render_data),
+            "stats": to_json(self.stats),
+            "sockets": to_json(self.sockets),
+            "reusablePlugs": to_json(self.reusable_plugs),
+            "plugObjectives": to_json(self.plug_objectives),
+            "talentGrids": to_json(self.talent_grids),
+            "plugStates": to_json(self.plug_states),
+            "objectives": to_json(self.objectives),
+            "perks": to_json(self.perks),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent:
-    data: t.Mapping[str, "DestinyItemInstanceComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemInstanceComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemRenderComponent:
-    data: t.Mapping[str, "DestinyItemRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemRenderComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemStatsComponent:
-    data: t.Mapping[str, "DestinyItemStatsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemStatsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent:
-    data: t.Mapping[str, "DestinyItemSocketsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemSocketsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent:
-    data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemReusablePlugsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent:
-    data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemPlugObjectivesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent:
-    data: t.Mapping[str, "DestinyItemTalentGridComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemTalentGridComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorComponent:
-    data: "DestinyVendorComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyVendorComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorCategoriesComponent:
-    data: "DestinyVendorCategoriesComponent"
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional["DestinyVendorCategoriesComponent"] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent:
-    data: t.Mapping[str, "DestinyVendorSaleItemComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyVendorSaleItemComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent:
-    data: t.Mapping[str, "DestinyPublicVendorComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyPublicVendorComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyVendorSaleItemSetComponentOfDestinyPublicVendorSaleItemComponent:
-    sale_items: t.Mapping[str, "DestinyPublicVendorSaleItemComponent"]
+    sale_items: t.Optional[
+        t.Mapping[str, "DestinyPublicVendorSaleItemComponent"]
+    ] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "saleItems": to_json(self.sale_items),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent:
-    data: t.Mapping[str, "PublicDestinyVendorSaleItemSetComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "PublicDestinyVendorSaleItemSetComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemComponentSetOfuint32:
-    instances: "DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent"
-    objectives: "DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent"
-    perks: "DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent"
-    plug_objectives: "DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent"
-    plug_states: "DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent"
-    render_data: "DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent"
-    reusable_plugs: "DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent"
-    sockets: "DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent"
-    stats: "DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent"
-    talent_grids: "DictionaryComponentResponseOfuint32AndDestinyItemTalentGridComponent"
+    instances: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent"
+    ] = None
+    objectives: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent"
+    ] = None
+    perks: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent"
+    ] = None
+    plug_objectives: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent"
+    ] = None
+    plug_states: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent"
+    ] = None
+    render_data: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent"
+    ] = None
+    reusable_plugs: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent"
+    ] = None
+    sockets: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent"
+    ] = None
+    stats: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent"
+    ] = None
+    talent_grids: t.Optional[
+        "DictionaryComponentResponseOfuint32AndDestinyItemTalentGridComponent"
+    ] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "instances": to_json(self.instances),
+            "renderData": to_json(self.render_data),
+            "stats": to_json(self.stats),
+            "sockets": to_json(self.sockets),
+            "reusablePlugs": to_json(self.reusable_plugs),
+            "plugObjectives": to_json(self.plug_objectives),
+            "talentGrids": to_json(self.talent_grids),
+            "plugStates": to_json(self.plug_states),
+            "objectives": to_json(self.objectives),
+            "perks": to_json(self.perks),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent:
-    data: t.Mapping[str, "DestinyItemInstanceComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemInstanceComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent:
-    data: t.Mapping[str, "DestinyItemRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemRenderComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent:
-    data: t.Mapping[str, "DestinyItemStatsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemStatsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent:
-    data: t.Mapping[str, "DestinyItemSocketsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemSocketsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent:
-    data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemReusablePlugsComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent:
-    data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemPlugObjectivesComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemTalentGridComponent:
-    data: t.Mapping[str, "DestinyItemTalentGridComponent"]
-    disabled: bool  # If true, this component is disabled.
-    privacy: "ComponentPrivacySetting"
+    data: t.Optional[t.Mapping[str, "DestinyItemTalentGridComponent"]] = None
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    privacy: t.Optional["ComponentPrivacySetting"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfDestinyEntitySearchResultItem:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["DestinyEntitySearchResultItem"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["DestinyEntitySearchResultItem"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfTrendingEntry:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["TrendingEntry"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["TrendingEntry"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfFireteamSummary:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["FireteamSummary"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["FireteamSummary"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class SearchResultOfFireteamResponse:
-    has_more: bool
-    query: "PagedQuery"
-    replacement_continuation_token: str
-    results: t.Sequence["FireteamResponse"]
-    total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: t.Optional[bool] = None
+    query: t.Optional["PagedQuery"] = None
+    replacement_continuation_token: t.Optional[str] = None
+    results: t.Optional[t.Sequence["FireteamResponse"]] = None
+    total_results: t.Optional[int] = None
+    use_total_results: t.Optional[
+        bool
+    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "results": to_json(self.results),
+            "totalResults": to_json(self.total_results),
+            "hasMore": to_json(self.has_more),
+            "query": to_json(self.query),
+            "replacementContinuationToken": to_json(
+                self.replacement_continuation_token
+            ),
+            "useTotalResults": to_json(self.use_total_results),
+        }
 
 
 @dt.dataclass(frozen=True)
 class GlobalAlert:
-    alert_html: str
-    alert_key: str
-    alert_level: "GlobalAlertLevel"
-    alert_link: str
-    alert_timestamp: str
-    alert_type: "GlobalAlertType"
-    stream_info: "StreamInfo"
+    alert_html: t.Optional[str] = None
+    alert_key: t.Optional[str] = None
+    alert_level: t.Optional["GlobalAlertLevel"] = None
+    alert_link: t.Optional[str] = None
+    alert_timestamp: t.Optional[str] = None
+    alert_type: t.Optional["GlobalAlertType"] = None
+    stream_info: t.Optional["StreamInfo"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "AlertKey": to_json(self.alert_key),
+            "AlertHtml": to_json(self.alert_html),
+            "AlertTimestamp": to_json(self.alert_timestamp),
+            "AlertLink": to_json(self.alert_link),
+            "AlertLevel": to_json(self.alert_level),
+            "AlertType": to_json(self.alert_type),
+            "StreamInfo": to_json(self.stream_info),
+        }
 
 
 class GlobalAlertLevel(Enum):
@@ -817,7 +1695,12 @@ class GlobalAlertType(Enum):
 
 @dt.dataclass(frozen=True)
 class StreamInfo:
-    channel_name: str
+    channel_name: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "ChannelName": to_json(self.channel_name),
+        }
 
 
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402

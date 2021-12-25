@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeBaseDefinition:
@@ -10,29 +12,64 @@ class DestinyPresentationNodeBaseDefinition:
     Presentation Nodes, Records, Collectibles, and Metrics.
     """
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    parent_node_hashes: t.Sequence[
+    hash: t.Optional[
         int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
-    presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    trait_hashes: t.Sequence[int]
-    trait_ids: t.Sequence[str]
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    parent_node_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    presentation_node_type: t.Optional["DestinyPresentationNodeType"] = None
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    trait_hashes: t.Optional[t.Sequence[int]] = None
+    trait_ids: t.Optional[t.Sequence[str]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "presentationNodeType": to_json(self.presentation_node_type),
+            "traitIds": to_json(self.trait_ids),
+            "traitHashes": to_json(self.trait_hashes),
+            "parentNodeHashes": to_json(self.parent_node_hashes),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyScoredPresentationNodeBaseDefinition:
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    max_category_record_score: int
-    parent_node_hashes: t.Sequence[
+    hash: t.Optional[
         int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
-    presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    trait_hashes: t.Sequence[int]
-    trait_ids: t.Sequence[str]
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    max_category_record_score: t.Optional[int] = None
+    parent_node_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    presentation_node_type: t.Optional["DestinyPresentationNodeType"] = None
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    trait_hashes: t.Optional[t.Sequence[int]] = None
+    trait_ids: t.Optional[t.Sequence[str]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "maxCategoryRecordScore": to_json(self.max_category_record_score),
+            "presentationNodeType": to_json(self.presentation_node_type),
+            "traitIds": to_json(self.trait_ids),
+            "traitHashes": to_json(self.trait_hashes),
+            "parentNodeHashes": to_json(self.parent_node_hashes),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -46,28 +83,80 @@ class DestinyPresentationNodeDefinition:
     We'll see if I come to regret this as well.
     """
 
-    children: "DestinyPresentationNodeChildrenBlock"  # The child entities contained by this presentation node.
-    completion_record_hash: int  # If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.
-    disable_child_subscreen_navigation: bool  # If this presentation node has children, but the game doesn't let you inspect the details of those children, that is indicated here.
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    display_style: "DestinyPresentationDisplayStyle"  # A hint for how to display this presentation node when it's shown in a list.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    max_category_record_score: int
-    node_type: "DestinyPresentationNodeType"
-    objective_hash: int  # If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here.
-    original_icon: str  # The original icon for this presentation node, before we futzed with it.
-    parent_node_hashes: t.Sequence[
+    children: t.Optional[
+        "DestinyPresentationNodeChildrenBlock"
+    ] = None  # The child entities contained by this presentation node.
+    completion_record_hash: t.Optional[
         int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
-    presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    requirements: "DestinyPresentationNodeRequirementsBlock"  # The requirements for being able to interact with this presentation node and its children.
-    root_view_icon: str  # Some presentation nodes are meant to be explicitly shown on the "root" or "entry" screens for the feature to which they are related. You should use this icon when showing them on such a view, if you have a similar "entry point" view in your UI. If you don't have a UI, then I guess it doesn't matter either way does it?
-    scope: "DestinyScope"  # Indicates whether this presentation node's state is determined on a per-character or on an account-wide basis.
-    screen_style: "DestinyPresentationScreenStyle"  # A hint for how to display this presentation node when it's shown in its own detail screen.
-    trait_hashes: t.Sequence[int]
-    trait_ids: t.Sequence[str]
+    ] = None  # If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.
+    disable_child_subscreen_navigation: t.Optional[
+        bool
+    ] = None  # If this presentation node has children, but the game doesn't let you inspect the details of those children, that is indicated here.
+    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
+    display_style: t.Optional[
+        "DestinyPresentationDisplayStyle"
+    ] = None  # A hint for how to display this presentation node when it's shown in a list.
+    hash: t.Optional[
+        int
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    max_category_record_score: t.Optional[int] = None
+    node_type: t.Optional["DestinyPresentationNodeType"] = None
+    objective_hash: t.Optional[
+        int
+    ] = None  # If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here.
+    original_icon: t.Optional[
+        str
+    ] = None  # The original icon for this presentation node, before we futzed with it.
+    parent_node_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    presentation_node_type: t.Optional["DestinyPresentationNodeType"] = None
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    requirements: t.Optional[
+        "DestinyPresentationNodeRequirementsBlock"
+    ] = None  # The requirements for being able to interact with this presentation node and its children.
+    root_view_icon: t.Optional[
+        str
+    ] = None  # Some presentation nodes are meant to be explicitly shown on the "root" or "entry" screens for the feature to which they are related. You should use this icon when showing them on such a view, if you have a similar "entry point" view in your UI. If you don't have a UI, then I guess it doesn't matter either way does it?
+    scope: t.Optional[
+        "DestinyScope"
+    ] = None  # Indicates whether this presentation node's state is determined on a per-character or on an account-wide basis.
+    screen_style: t.Optional[
+        "DestinyPresentationScreenStyle"
+    ] = None  # A hint for how to display this presentation node when it's shown in its own detail screen.
+    trait_hashes: t.Optional[t.Sequence[int]] = None
+    trait_ids: t.Optional[t.Sequence[str]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayProperties": to_json(self.display_properties),
+            "originalIcon": to_json(self.original_icon),
+            "rootViewIcon": to_json(self.root_view_icon),
+            "nodeType": to_json(self.node_type),
+            "scope": to_json(self.scope),
+            "objectiveHash": to_json(self.objective_hash),
+            "completionRecordHash": to_json(self.completion_record_hash),
+            "children": to_json(self.children),
+            "displayStyle": to_json(self.display_style),
+            "screenStyle": to_json(self.screen_style),
+            "requirements": to_json(self.requirements),
+            "disableChildSubscreenNavigation": to_json(
+                self.disable_child_subscreen_navigation
+            ),
+            "maxCategoryRecordScore": to_json(self.max_category_record_score),
+            "presentationNodeType": to_json(self.presentation_node_type),
+            "traitIds": to_json(self.trait_ids),
+            "traitHashes": to_json(self.trait_hashes),
+            "parentNodeHashes": to_json(self.parent_node_hashes),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -81,20 +170,42 @@ class DestinyPresentationNodeChildrenBlock:
     for that entity (if anything)
     """
 
-    collectibles: t.Sequence["DestinyPresentationNodeCollectibleChildEntry"]
-    metrics: t.Sequence["DestinyPresentationNodeMetricChildEntry"]
-    presentation_nodes: t.Sequence["DestinyPresentationNodeChildEntry"]
-    records: t.Sequence["DestinyPresentationNodeRecordChildEntry"]
+    collectibles: t.Optional[
+        t.Sequence["DestinyPresentationNodeCollectibleChildEntry"]
+    ] = None
+    metrics: t.Optional[t.Sequence["DestinyPresentationNodeMetricChildEntry"]] = None
+    presentation_nodes: t.Optional[
+        t.Sequence["DestinyPresentationNodeChildEntry"]
+    ] = None
+    records: t.Optional[t.Sequence["DestinyPresentationNodeRecordChildEntry"]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "presentationNodes": to_json(self.presentation_nodes),
+            "collectibles": to_json(self.collectibles),
+            "records": to_json(self.records),
+            "metrics": to_json(self.metrics),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeChildEntry:
-    presentation_node_hash: int
+    presentation_node_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "presentationNodeHash": to_json(self.presentation_node_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeCollectibleChildEntry:
-    collectible_hash: int
+    collectible_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "collectibleHash": to_json(self.collectible_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -105,24 +216,52 @@ class DestinyPresentationNodeRequirementsBlock:
     be shown if these requirements aren't met.
     """
 
-    entitlement_unavailable_message: str  # If this node is not accessible due to Entitlements (for instance, you don't own the required game expansion), this is the message to show.
+    entitlement_unavailable_message: t.Optional[
+        str
+    ] = None  # If this node is not accessible due to Entitlements (for instance, you don't own the required game expansion), this is the message to show.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "entitlementUnavailableMessage": to_json(
+                self.entitlement_unavailable_message
+            ),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationChildBlock:
-    display_style: "DestinyPresentationDisplayStyle"
-    parent_presentation_node_hashes: t.Sequence[int]
-    presentation_node_type: "DestinyPresentationNodeType"
+    display_style: t.Optional["DestinyPresentationDisplayStyle"] = None
+    parent_presentation_node_hashes: t.Optional[t.Sequence[int]] = None
+    presentation_node_type: t.Optional["DestinyPresentationNodeType"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "presentationNodeType": to_json(self.presentation_node_type),
+            "parentPresentationNodeHashes": to_json(
+                self.parent_presentation_node_hashes
+            ),
+            "displayStyle": to_json(self.display_style),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeRecordChildEntry:
-    record_hash: int
+    record_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "recordHash": to_json(self.record_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeMetricChildEntry:
-    metric_hash: int
+    metric_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "metricHash": to_json(self.metric_hash),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

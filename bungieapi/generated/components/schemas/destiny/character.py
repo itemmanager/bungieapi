@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterCustomization:
@@ -17,18 +19,34 @@ class DestinyCharacterCustomization:
     yet)
     """
 
-    decal_color: int
-    decal_index: int
-    eye_color: int
-    face: int
-    feature_colors: t.Sequence[int]
-    feature_index: int
-    hair_colors: t.Sequence[int]
-    hair_index: int
-    lip_color: int
-    personality: int
-    skin_color: int
-    wear_helmet: bool
+    decal_color: t.Optional[int] = None
+    decal_index: t.Optional[int] = None
+    eye_color: t.Optional[int] = None
+    face: t.Optional[int] = None
+    feature_colors: t.Optional[t.Sequence[int]] = None
+    feature_index: t.Optional[int] = None
+    hair_colors: t.Optional[t.Sequence[int]] = None
+    hair_index: t.Optional[int] = None
+    lip_color: t.Optional[int] = None
+    personality: t.Optional[int] = None
+    skin_color: t.Optional[int] = None
+    wear_helmet: t.Optional[bool] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "personality": to_json(self.personality),
+            "face": to_json(self.face),
+            "skinColor": to_json(self.skin_color),
+            "lipColor": to_json(self.lip_color),
+            "eyeColor": to_json(self.eye_color),
+            "hairColors": to_json(self.hair_colors),
+            "featureColors": to_json(self.feature_colors),
+            "decalColor": to_json(self.decal_color),
+            "wearHelmet": to_json(self.wear_helmet),
+            "hairIndex": to_json(self.hair_index),
+            "featureIndex": to_json(self.feature_index),
+            "decalIndex": to_json(self.decal_index),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -36,7 +54,12 @@ class DestinyCharacterPeerView:
     """A minimal view of a character's equipped items, for the purpose of
     rendering a summary screen or showing the character in 3D."""
 
-    equipment: t.Sequence["DestinyItemPeerView"]
+    equipment: t.Optional[t.Sequence["DestinyItemPeerView"]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "equipment": to_json(self.equipment),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -44,10 +67,18 @@ class DestinyItemPeerView:
     """Bare minimum summary information for an item, for the sake of 3D
     rendering the item."""
 
-    dyes: t.Sequence[
-        "DyeReference"
-    ]  # The list of dyes that have been applied to this item.
-    item_hash: int  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
+    dyes: t.Optional[
+        t.Sequence["DyeReference"]
+    ] = None  # The list of dyes that have been applied to this item.
+    item_hash: t.Optional[
+        int
+    ] = None  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "itemHash": to_json(self.item_hash),
+            "dyes": to_json(self.dyes),
+        }
 
 
 from bungieapi.generated.components.schemas.destiny import DyeReference  # noqa: E402

@@ -2,30 +2,71 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyCollectiblesComponent:
-    collectibles: t.Mapping[str, "DestinyCollectibleComponent"]
-    collection_badges_root_node_hash: int  # The hash for the root presentation node definition of Collection Badges.
-    collection_categories_root_node_hash: int  # The hash for the root presentation node definition of Collection categories.
+    collectibles: t.Optional[t.Mapping[str, "DestinyCollectibleComponent"]] = None
+    collection_badges_root_node_hash: t.Optional[
+        int
+    ] = None  # The hash for the root presentation node definition of Collection Badges.
+    collection_categories_root_node_hash: t.Optional[
+        int
+    ] = None  # The hash for the root presentation node definition of Collection categories.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "collectibles": to_json(self.collectibles),
+            "collectionCategoriesRootNodeHash": to_json(
+                self.collection_categories_root_node_hash
+            ),
+            "collectionBadgesRootNodeHash": to_json(
+                self.collection_badges_root_node_hash
+            ),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleComponent:
-    state: "DestinyCollectibleState"
+    state: t.Optional["DestinyCollectibleState"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "state": to_json(self.state),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyProfileCollectiblesComponent:
-    collectibles: t.Mapping[str, "DestinyCollectibleComponent"]
-    collection_badges_root_node_hash: int  # The hash for the root presentation node definition of Collection Badges.
-    collection_categories_root_node_hash: int  # The hash for the root presentation node definition of Collection categories.
-    newness_flagged_collectible_hashes: t.Sequence[
+    collectibles: t.Optional[t.Mapping[str, "DestinyCollectibleComponent"]] = None
+    collection_badges_root_node_hash: t.Optional[
         int
-    ]  # The list of collectibles determined by the game as having been "recently" acquired. The game client itself actually controls this data, so I personally question whether anyone will get much use out of this: because we can't edit this value through the API. But in case anyone finds it useful, here it is.
-    recent_collectible_hashes: t.Sequence[
+    ] = None  # The hash for the root presentation node definition of Collection Badges.
+    collection_categories_root_node_hash: t.Optional[
         int
-    ]  # The list of collectibles determined by the game as having been "recently" acquired.
+    ] = None  # The hash for the root presentation node definition of Collection categories.
+    newness_flagged_collectible_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # The list of collectibles determined by the game as having been "recently" acquired. The game client itself actually controls this data, so I personally question whether anyone will get much use out of this: because we can't edit this value through the API. But in case anyone finds it useful, here it is.
+    recent_collectible_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # The list of collectibles determined by the game as having been "recently" acquired.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "recentCollectibleHashes": to_json(self.recent_collectible_hashes),
+            "newnessFlaggedCollectibleHashes": to_json(
+                self.newness_flagged_collectible_hashes
+            ),
+            "collectibles": to_json(self.collectibles),
+            "collectionCategoriesRootNodeHash": to_json(
+                self.collection_categories_root_node_hash
+            ),
+            "collectionBadgesRootNodeHash": to_json(
+                self.collection_badges_root_node_hash
+            ),
+        }
 
 
 from bungieapi.generated.components.schemas.destiny import (

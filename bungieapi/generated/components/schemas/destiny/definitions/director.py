@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyActivityGraphDefinition:
@@ -21,27 +23,46 @@ class DestinyActivityGraphDefinition:
     that content in this definition.
     """
 
-    art_elements: t.Sequence[
-        "DestinyActivityGraphArtElementDefinition"
-    ]  # Represents one-off/special UI elements that appear on the map.
-    connections: t.Sequence[
-        "DestinyActivityGraphConnectionDefinition"
-    ]  # Represents connections between graph nodes. However, it lacks context that we'd need to make good use of it.
-    display_objectives: t.Sequence[
-        "DestinyActivityGraphDisplayObjectiveDefinition"
-    ]  # Objectives can display on maps, and this is supposedly metadata for that. I have not had the time to analyze the details of what is useful within however: we could be missing important data to make this work. Expect this property to be expanded on later if possible.
-    display_progressions: t.Sequence[
-        "DestinyActivityGraphDisplayProgressionDefinition"
-    ]  # Progressions can also display on maps, but similarly to displayObjectives we appear to lack some required information and context right now. We will have to look into it later and add more data if possible.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    linked_graphs: t.Sequence[
-        "DestinyLinkedGraphDefinition"
-    ]  # Represents links between this Activity Graph and other ones.
-    nodes: t.Sequence[
-        "DestinyActivityGraphNodeDefinition"
-    ]  # These represent the visual "nodes" on the map's view. These are the activities you can click on in the map.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    art_elements: t.Optional[
+        t.Sequence["DestinyActivityGraphArtElementDefinition"]
+    ] = None  # Represents one-off/special UI elements that appear on the map.
+    connections: t.Optional[
+        t.Sequence["DestinyActivityGraphConnectionDefinition"]
+    ] = None  # Represents connections between graph nodes. However, it lacks context that we'd need to make good use of it.
+    display_objectives: t.Optional[
+        t.Sequence["DestinyActivityGraphDisplayObjectiveDefinition"]
+    ] = None  # Objectives can display on maps, and this is supposedly metadata for that. I have not had the time to analyze the details of what is useful within however: we could be missing important data to make this work. Expect this property to be expanded on later if possible.
+    display_progressions: t.Optional[
+        t.Sequence["DestinyActivityGraphDisplayProgressionDefinition"]
+    ] = None  # Progressions can also display on maps, but similarly to displayObjectives we appear to lack some required information and context right now. We will have to look into it later and add more data if possible.
+    hash: t.Optional[
+        int
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    linked_graphs: t.Optional[
+        t.Sequence["DestinyLinkedGraphDefinition"]
+    ] = None  # Represents links between this Activity Graph and other ones.
+    nodes: t.Optional[
+        t.Sequence["DestinyActivityGraphNodeDefinition"]
+    ] = None  # These represent the visual "nodes" on the map's view. These are the activities you can click on in the map.
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "nodes": to_json(self.nodes),
+            "artElements": to_json(self.art_elements),
+            "connections": to_json(self.connections),
+            "displayObjectives": to_json(self.display_objectives),
+            "displayProgressions": to_json(self.display_progressions),
+            "linkedGraphs": to_json(self.linked_graphs),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -55,18 +76,34 @@ class DestinyActivityGraphNodeDefinition:
     tooltip and other UI related to the node)
     """
 
-    activities: t.Sequence[
-        "DestinyActivityGraphNodeActivityDefinition"
-    ]  # The node may have various possible activities that could be active for it, however only one may be active at a time. See the DestinyActivityGraphNodeActivityDefinition for details.
-    featuring_states: t.Sequence[
-        "DestinyActivityGraphNodeFeaturingStateDefinition"
-    ]  # The node may have various visual accents placed on it, or styles applied. These are the list of possible styles that the Node can have. The game iterates through each, looking for the first one that passes a check of the required game/character/account state in order to show that style, and then renders the node in that style.
-    node_id: int  # An identifier for the Activity Graph Node, only guaranteed to be unique within its parent Activity Graph.
-    override_display: "DestinyDisplayPropertiesDefinition"  # The node *may* have display properties that override the active Activity's display properties.
-    position: "DestinyPositionDefinition"  # The position on the map for this node.
-    states: t.Sequence[
-        "DestinyActivityGraphNodeStateEntry"
-    ]  # Represents possible states that the graph node can be in. These are combined with some checking that happens in the game client and server to determine which state is actually active at any given time.
+    activities: t.Optional[
+        t.Sequence["DestinyActivityGraphNodeActivityDefinition"]
+    ] = None  # The node may have various possible activities that could be active for it, however only one may be active at a time. See the DestinyActivityGraphNodeActivityDefinition for details.
+    featuring_states: t.Optional[
+        t.Sequence["DestinyActivityGraphNodeFeaturingStateDefinition"]
+    ] = None  # The node may have various visual accents placed on it, or styles applied. These are the list of possible styles that the Node can have. The game iterates through each, looking for the first one that passes a check of the required game/character/account state in order to show that style, and then renders the node in that style.
+    node_id: t.Optional[
+        int
+    ] = None  # An identifier for the Activity Graph Node, only guaranteed to be unique within its parent Activity Graph.
+    override_display: t.Optional[
+        "DestinyDisplayPropertiesDefinition"
+    ] = None  # The node *may* have display properties that override the active Activity's display properties.
+    position: t.Optional[
+        "DestinyPositionDefinition"
+    ] = None  # The position on the map for this node.
+    states: t.Optional[
+        t.Sequence["DestinyActivityGraphNodeStateEntry"]
+    ] = None  # Represents possible states that the graph node can be in. These are combined with some checking that happens in the game client and server to determine which state is actually active at any given time.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "nodeId": to_json(self.node_id),
+            "overrideDisplay": to_json(self.override_display),
+            "position": to_json(self.position),
+            "featuringStates": to_json(self.featuring_states),
+            "activities": to_json(self.activities),
+            "states": to_json(self.states),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -78,7 +115,14 @@ class DestinyActivityGraphNodeFeaturingStateDefinition:
     whether it should be set.
     """
 
-    highlight_type: "ActivityGraphNodeHighlightType"  # The node can be highlighted in a variety of ways - the game iterates through these and finds the first FeaturingState that is valid at the present moment given the Game, Account, and Character state, and renders the node in that state. See the ActivityGraphNodeHighlightType enum for possible values.
+    highlight_type: t.Optional[
+        "ActivityGraphNodeHighlightType"
+    ] = None  # The node can be highlighted in a variety of ways - the game iterates through these and finds the first FeaturingState that is valid at the present moment given the Game, Account, and Character state, and renders the node in that state. See the ActivityGraphNodeHighlightType enum for possible values.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "highlightType": to_json(self.highlight_type),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -94,8 +138,18 @@ class DestinyActivityGraphNodeActivityDefinition:
     but only one is active for the week.
     """
 
-    activity_hash: int  # The activity that will be activated if the user clicks on this node. Controls all activity-related information displayed on the node if it is active (the text shown in the tooltip etc)
-    node_activity_id: int  # An identifier for this node activity. It is only guaranteed to be unique within the Activity Graph.
+    activity_hash: t.Optional[
+        int
+    ] = None  # The activity that will be activated if the user clicks on this node. Controls all activity-related information displayed on the node if it is active (the text shown in the tooltip etc)
+    node_activity_id: t.Optional[
+        int
+    ] = None  # An identifier for this node activity. It is only guaranteed to be unique within the Activity Graph.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "nodeActivityId": to_json(self.node_activity_id),
+            "activityHash": to_json(self.activity_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -106,7 +160,12 @@ class DestinyActivityGraphNodeStateEntry:
     in different ways or even excluded from view entirely.
     """
 
-    state: "DestinyGraphNodeState"
+    state: t.Optional["DestinyGraphNodeState"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "state": to_json(self.state),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -119,7 +178,14 @@ class DestinyActivityGraphArtElementDefinition:
     pipeline exists (if it ever will)
     """
 
-    position: "DestinyPositionDefinition"  # The position on the map of the art element.
+    position: t.Optional[
+        "DestinyPositionDefinition"
+    ] = None  # The position on the map of the art element.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "position": to_json(self.position),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -131,8 +197,14 @@ class DestinyActivityGraphConnectionDefinition:
     that linking.
     """
 
-    dest_node_hash: int
-    source_node_hash: int
+    dest_node_hash: t.Optional[int] = None
+    source_node_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "sourceNodeHash": to_json(self.source_node_hash),
+            "destNodeHash": to_json(self.dest_node_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -140,8 +212,16 @@ class DestinyActivityGraphDisplayObjectiveDefinition:
     """When a Graph needs to show active Objectives, this defines those
     objectives as well as an identifier."""
 
-    id: int  # $NOTE $amola 2017-01-19 This field is apparently something that CUI uses to manually wire up objectives to display info. I am unsure how it works.
-    objective_hash: int  # The objective being shown on the map.
+    id: t.Optional[
+        int
+    ] = None  # $NOTE $amola 2017-01-19 This field is apparently something that CUI uses to manually wire up objectives to display info. I am unsure how it works.
+    objective_hash: t.Optional[int] = None  # The objective being shown on the map.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "id": to_json(self.id),
+            "objectiveHash": to_json(self.objective_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -149,8 +229,14 @@ class DestinyActivityGraphDisplayProgressionDefinition:
     """When a Graph needs to show active Progressions, this defines those
     objectives as well as an identifier."""
 
-    id: int
-    progression_hash: int
+    id: t.Optional[int] = None
+    progression_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "id": to_json(self.id),
+            "progressionHash": to_json(self.progression_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -158,17 +244,32 @@ class DestinyLinkedGraphDefinition:
     """This describes links between the current graph and others, as well as
     when that link is relevant."""
 
-    description: str
-    linked_graph_id: int
-    linked_graphs: t.Sequence["DestinyLinkedGraphEntryDefinition"]
-    name: str
-    overview: str
-    unlock_expression: "DestinyUnlockExpressionDefinition"
+    description: t.Optional[str] = None
+    linked_graph_id: t.Optional[int] = None
+    linked_graphs: t.Optional[t.Sequence["DestinyLinkedGraphEntryDefinition"]] = None
+    name: t.Optional[str] = None
+    overview: t.Optional[str] = None
+    unlock_expression: t.Optional["DestinyUnlockExpressionDefinition"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "description": to_json(self.description),
+            "name": to_json(self.name),
+            "unlockExpression": to_json(self.unlock_expression),
+            "linkedGraphId": to_json(self.linked_graph_id),
+            "linkedGraphs": to_json(self.linked_graphs),
+            "overview": to_json(self.overview),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyLinkedGraphEntryDefinition:
-    activity_graph_hash: int
+    activity_graph_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "activityGraphHash": to_json(self.activity_graph_hash),
+        }
 
 
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402

@@ -3,76 +3,151 @@ import dataclasses as dt
 import typing as t
 from enum import Enum
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class ContentTypeDescription:
-    allow_comments: bool
-    auto_english_property_fallback: bool
-    bind_identifier_to_property: str
-    bound_regex: str
-    bulk_uploadable: bool
-    c_type: str
-    content_description: str
-    force_identifier_binding: bool
-    name: str
-    preview_image: str
-    previews: t.Sequence["ContentPreview"]
-    priority: int
-    properties: t.Sequence["ContentTypeProperty"]
-    property_sections: t.Sequence["ContentTypePropertySection"]
-    reminder: str
-    show_in_content_editor: bool
-    suppress_cms_path: bool
-    tag_metadata: t.Sequence["TagMetadataDefinition"]
-    tag_metadata_items: t.Mapping[str, "TagMetadataItem"]
-    type_of: str
-    usage_examples: t.Sequence[str]
+    allow_comments: t.Optional[bool] = None
+    auto_english_property_fallback: t.Optional[bool] = None
+    bind_identifier_to_property: t.Optional[str] = None
+    bound_regex: t.Optional[str] = None
+    bulk_uploadable: t.Optional[bool] = None
+    c_type: t.Optional[str] = None
+    content_description: t.Optional[str] = None
+    force_identifier_binding: t.Optional[bool] = None
+    name: t.Optional[str] = None
+    preview_image: t.Optional[str] = None
+    previews: t.Optional[t.Sequence["ContentPreview"]] = None
+    priority: t.Optional[int] = None
+    properties: t.Optional[t.Sequence["ContentTypeProperty"]] = None
+    property_sections: t.Optional[t.Sequence["ContentTypePropertySection"]] = None
+    reminder: t.Optional[str] = None
+    show_in_content_editor: t.Optional[bool] = None
+    suppress_cms_path: t.Optional[bool] = None
+    tag_metadata: t.Optional[t.Sequence["TagMetadataDefinition"]] = None
+    tag_metadata_items: t.Optional[t.Mapping[str, "TagMetadataItem"]] = None
+    type_of: t.Optional[str] = None
+    usage_examples: t.Optional[t.Sequence[str]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "cType": to_json(self.c_type),
+            "name": to_json(self.name),
+            "contentDescription": to_json(self.content_description),
+            "previewImage": to_json(self.preview_image),
+            "priority": to_json(self.priority),
+            "reminder": to_json(self.reminder),
+            "properties": to_json(self.properties),
+            "tagMetadata": to_json(self.tag_metadata),
+            "tagMetadataItems": to_json(self.tag_metadata_items),
+            "usageExamples": to_json(self.usage_examples),
+            "showInContentEditor": to_json(self.show_in_content_editor),
+            "typeOf": to_json(self.type_of),
+            "bindIdentifierToProperty": to_json(self.bind_identifier_to_property),
+            "boundRegex": to_json(self.bound_regex),
+            "forceIdentifierBinding": to_json(self.force_identifier_binding),
+            "allowComments": to_json(self.allow_comments),
+            "autoEnglishPropertyFallback": to_json(self.auto_english_property_fallback),
+            "bulkUploadable": to_json(self.bulk_uploadable),
+            "previews": to_json(self.previews),
+            "suppressCmsPath": to_json(self.suppress_cms_path),
+            "propertySections": to_json(self.property_sections),
+        }
 
 
 @dt.dataclass(frozen=True)
 class ContentTypeProperty:
-    attributes: t.Mapping[str, str]
-    bind_to_property: str
-    bound_regex: str
-    child_properties: t.Sequence["ContentTypeProperty"]
-    content_type_allowed: str
-    datatype: "ContentPropertyDataTypeEnum"
-    default_values: t.Sequence["ContentTypeDefaultValue"]
-    enabled: bool
-    entitytype: str
-    fallback: bool
-    is_combo: bool
-    is_external_allowed: bool
-    is_image: bool
-    is_title: bool
-    is_video: bool
-    legal_content_types: t.Sequence[str]
-    localizable: bool
-    max_byte_length: int
-    max_file_size: int
-    max_height: int
-    max_length: int
-    max_width: int
-    min_height: int
-    min_width: int
-    name: str
-    order: int
-    property_description: str
-    property_section: str
-    readable_name: str
-    regexp: str
-    representation_selection: t.Mapping[str, str]
-    representation_validation_string: str
-    required: bool
-    root_property_name: str
-    rss_attribute: str
-    suppress_property: bool
-    validate_as: str
-    value: str
-    visible: bool
-    visible_dependency: str
-    visible_on: str
-    weight: int
+    attributes: t.Optional[t.Mapping[str, str]] = None
+    bind_to_property: t.Optional[str] = None
+    bound_regex: t.Optional[str] = None
+    child_properties: t.Optional[t.Sequence["ContentTypeProperty"]] = None
+    content_type_allowed: t.Optional[str] = None
+    datatype: t.Optional["ContentPropertyDataTypeEnum"] = None
+    default_values: t.Optional[t.Sequence["ContentTypeDefaultValue"]] = None
+    enabled: t.Optional[bool] = None
+    entitytype: t.Optional[str] = None
+    fallback: t.Optional[bool] = None
+    is_combo: t.Optional[bool] = None
+    is_external_allowed: t.Optional[bool] = None
+    is_image: t.Optional[bool] = None
+    is_title: t.Optional[bool] = None
+    is_video: t.Optional[bool] = None
+    legal_content_types: t.Optional[t.Sequence[str]] = None
+    localizable: t.Optional[bool] = None
+    max_byte_length: t.Optional[int] = None
+    max_file_size: t.Optional[int] = None
+    max_height: t.Optional[int] = None
+    max_length: t.Optional[int] = None
+    max_width: t.Optional[int] = None
+    min_height: t.Optional[int] = None
+    min_width: t.Optional[int] = None
+    name: t.Optional[str] = None
+    order: t.Optional[int] = None
+    property_description: t.Optional[str] = None
+    property_section: t.Optional[str] = None
+    readable_name: t.Optional[str] = None
+    regexp: t.Optional[str] = None
+    representation_selection: t.Optional[t.Mapping[str, str]] = None
+    representation_validation_string: t.Optional[str] = None
+    required: t.Optional[bool] = None
+    root_property_name: t.Optional[str] = None
+    rss_attribute: t.Optional[str] = None
+    suppress_property: t.Optional[bool] = None
+    validate_as: t.Optional[str] = None
+    value: t.Optional[str] = None
+    visible: t.Optional[bool] = None
+    visible_dependency: t.Optional[str] = None
+    visible_on: t.Optional[str] = None
+    weight: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "name": to_json(self.name),
+            "rootPropertyName": to_json(self.root_property_name),
+            "readableName": to_json(self.readable_name),
+            "value": to_json(self.value),
+            "propertyDescription": to_json(self.property_description),
+            "localizable": to_json(self.localizable),
+            "fallback": to_json(self.fallback),
+            "enabled": to_json(self.enabled),
+            "order": to_json(self.order),
+            "visible": to_json(self.visible),
+            "isTitle": to_json(self.is_title),
+            "required": to_json(self.required),
+            "maxLength": to_json(self.max_length),
+            "maxByteLength": to_json(self.max_byte_length),
+            "maxFileSize": to_json(self.max_file_size),
+            "regexp": to_json(self.regexp),
+            "validateAs": to_json(self.validate_as),
+            "rssAttribute": to_json(self.rss_attribute),
+            "visibleDependency": to_json(self.visible_dependency),
+            "visibleOn": to_json(self.visible_on),
+            "datatype": to_json(self.datatype),
+            "attributes": to_json(self.attributes),
+            "childProperties": to_json(self.child_properties),
+            "contentTypeAllowed": to_json(self.content_type_allowed),
+            "bindToProperty": to_json(self.bind_to_property),
+            "boundRegex": to_json(self.bound_regex),
+            "representationSelection": to_json(self.representation_selection),
+            "defaultValues": to_json(self.default_values),
+            "isExternalAllowed": to_json(self.is_external_allowed),
+            "propertySection": to_json(self.property_section),
+            "weight": to_json(self.weight),
+            "entitytype": to_json(self.entitytype),
+            "isCombo": to_json(self.is_combo),
+            "suppressProperty": to_json(self.suppress_property),
+            "legalContentTypes": to_json(self.legal_content_types),
+            "representationValidationString": to_json(
+                self.representation_validation_string
+            ),
+            "minWidth": to_json(self.min_width),
+            "maxWidth": to_json(self.max_width),
+            "minHeight": to_json(self.min_height),
+            "maxHeight": to_json(self.max_height),
+            "isVideo": to_json(self.is_video),
+            "isImage": to_json(self.is_image),
+        }
 
 
 class ContentPropertyDataTypeEnum(Enum):
@@ -95,45 +170,88 @@ class ContentPropertyDataTypeEnum(Enum):
 
 @dt.dataclass(frozen=True)
 class ContentTypeDefaultValue:
-    default_value: str
-    when_clause: str
-    when_value: str
+    default_value: t.Optional[str] = None
+    when_clause: t.Optional[str] = None
+    when_value: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "whenClause": to_json(self.when_clause),
+            "whenValue": to_json(self.when_value),
+            "defaultValue": to_json(self.default_value),
+        }
 
 
 @dt.dataclass(frozen=True)
 class TagMetadataDefinition:
-    datatype: str
-    description: str
-    is_required: bool
-    items: t.Sequence["TagMetadataItem"]
-    name: str
-    order: int
+    datatype: t.Optional[str] = None
+    description: t.Optional[str] = None
+    is_required: t.Optional[bool] = None
+    items: t.Optional[t.Sequence["TagMetadataItem"]] = None
+    name: t.Optional[str] = None
+    order: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "description": to_json(self.description),
+            "order": to_json(self.order),
+            "items": to_json(self.items),
+            "datatype": to_json(self.datatype),
+            "name": to_json(self.name),
+            "isRequired": to_json(self.is_required),
+        }
 
 
 @dt.dataclass(frozen=True)
 class TagMetadataItem:
-    description: str
-    groups: t.Sequence[str]
-    is_default: bool
-    name: str
-    tag_text: str
+    description: t.Optional[str] = None
+    groups: t.Optional[t.Sequence[str]] = None
+    is_default: t.Optional[bool] = None
+    name: t.Optional[str] = None
+    tag_text: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "description": to_json(self.description),
+            "tagText": to_json(self.tag_text),
+            "groups": to_json(self.groups),
+            "isDefault": to_json(self.is_default),
+            "name": to_json(self.name),
+        }
 
 
 @dt.dataclass(frozen=True)
 class ContentPreview:
-    item_in_set: bool
-    name: str
-    path: str
-    set_nesting: int
-    set_tag: str
-    use_set_id: int
+    item_in_set: t.Optional[bool] = None
+    name: t.Optional[str] = None
+    path: t.Optional[str] = None
+    set_nesting: t.Optional[int] = None
+    set_tag: t.Optional[str] = None
+    use_set_id: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "name": to_json(self.name),
+            "path": to_json(self.path),
+            "itemInSet": to_json(self.item_in_set),
+            "setTag": to_json(self.set_tag),
+            "setNesting": to_json(self.set_nesting),
+            "useSetId": to_json(self.use_set_id),
+        }
 
 
 @dt.dataclass(frozen=True)
 class ContentTypePropertySection:
-    collapsed: bool
-    name: str
-    readable_name: str
+    collapsed: t.Optional[bool] = None
+    name: t.Optional[str] = None
+    readable_name: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "name": to_json(self.name),
+            "readableName": to_json(self.readable_name),
+            "collapsed": to_json(self.collapsed),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

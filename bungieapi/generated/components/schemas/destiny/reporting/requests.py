@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyReportOffensePgcrRequest:
@@ -18,10 +20,19 @@ class DestinyReportOffensePgcrRequest:
     the URL of the reporting endpoint itself.
     """
 
-    offending_character_id: int  # Within the PGCR provided when calling the Reporting endpoint, this should be the character ID of the user that you thought was violating terms of use. They must exist in the PGCR provided.
-    reason_category_hashes: t.Sequence[
+    offending_character_id: t.Optional[
         int
-    ]  # So you've decided to report someone instead of cursing them and their descendants. Well, okay then. This is the category or categorie(s) of infractions for which you are reporting the user. These are hash identifiers that map to DestinyReportReasonCategoryDefinition entries.
-    reason_hashes: t.Sequence[
-        int
-    ]  # If applicable, provide a more specific reason(s) within the general category of problems provided by the reasonHash. This is also an identifier for a reason. All reasonHashes provided must be children of at least one the reasonCategoryHashes provided.
+    ] = None  # Within the PGCR provided when calling the Reporting endpoint, this should be the character ID of the user that you thought was violating terms of use. They must exist in the PGCR provided.
+    reason_category_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # So you've decided to report someone instead of cursing them and their descendants. Well, okay then. This is the category or categorie(s) of infractions for which you are reporting the user. These are hash identifiers that map to DestinyReportReasonCategoryDefinition entries.
+    reason_hashes: t.Optional[
+        t.Sequence[int]
+    ] = None  # If applicable, provide a more specific reason(s) within the general category of problems provided by the reasonHash. This is also an identifier for a reason. All reasonHashes provided must be children of at least one the reasonCategoryHashes provided.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "reasonCategoryHashes": to_json(self.reason_category_hashes),
+            "reasonHashes": to_json(self.reason_hashes),
+            "offendingCharacterId": to_json(self.offending_character_id),
+        }

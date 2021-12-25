@@ -4,7 +4,6 @@ import typing as t
 
 from .. import openapi as api
 from .references import references
-from .tools import response_schema_name
 
 
 @ft.singledispatch
@@ -22,6 +21,7 @@ def generate_imports_operation(
     for schema in it.chain(  # type: ignore
         (parameter.schema for parameter in operation.parameters),
         (operation.response,),
+        (operation.request_body,) if operation.request_body else [],
     ):
         yield from generate_imports(schema, module)
 

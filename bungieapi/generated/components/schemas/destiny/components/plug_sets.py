@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyPlugSetsComponent:
@@ -18,9 +20,14 @@ class DestinyPlugSetsComponent:
     reused)
     """
 
-    plugs: t.Mapping[
-        str, t.Sequence["DestinyItemPlug"]
-    ]  # The shared list of plugs for each relevant PlugSet, keyed by the hash identifier of the PlugSet (DestinyPlugSetDefinition).
+    plugs: t.Optional[
+        t.Mapping[str, t.Sequence["DestinyItemPlug"]]
+    ] = None  # The shared list of plugs for each relevant PlugSet, keyed by the hash identifier of the PlugSet (DestinyPlugSetDefinition).
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "plugs": to_json(self.plugs),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

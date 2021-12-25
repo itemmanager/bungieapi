@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyProfileProgressionComponent:
@@ -13,10 +15,18 @@ class DestinyProfileProgressionComponent:
     such as Checklist info.
     """
 
-    checklists: t.Mapping[
-        str, t.Mapping[str, bool]
-    ]  # The set of checklists that can be examined on a profile-wide basis, keyed by the hash identifier of the Checklist (DestinyChecklistDefinition) For each checklist returned, its value is itself a Dictionary keyed by the checklist's hash identifier with the value being a boolean indicating if it's been discovered yet.
-    seasonal_artifact: "DestinyArtifactProfileScoped"  # Data related to your progress on the current season's artifact that is the same across characters.
+    checklists: t.Optional[
+        t.Mapping[str, t.Mapping[str, bool]]
+    ] = None  # The set of checklists that can be examined on a profile-wide basis, keyed by the hash identifier of the Checklist (DestinyChecklistDefinition) For each checklist returned, its value is itself a Dictionary keyed by the checklist's hash identifier with the value being a boolean indicating if it's been discovered yet.
+    seasonal_artifact: t.Optional[
+        "DestinyArtifactProfileScoped"
+    ] = None  # Data related to your progress on the current season's artifact that is the same across characters.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "checklists": to_json(self.checklists),
+            "seasonalArtifact": to_json(self.seasonal_artifact),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -24,15 +34,30 @@ class DestinyProfileTransitoryComponent:
     """This is an experimental set of data that Bungie considers to be "transitory" - information that may be useful for API users, but that is coming from a non-authoritative data source about information that could potentially change at a more frequent pace than Bungie.net will receive updates about it.
     This information is provided exclusively for convenience should any of it be useful to users: we provide no guarantees to the accuracy or timeliness of data that comes from this source. Know that this data can potentially be out-of-date or even wrong entirely if the user disconnected from the game or suddenly changed their status before we can receive refreshed data."""
 
-    current_activity: "DestinyProfileTransitoryCurrentActivity"  # If you are in an activity, this is some transitory info about the activity currently being played.
-    joinability: "DestinyProfileTransitoryJoinability"  # Information about whether and what might prevent you from joining this person on a fireteam.
-    last_orbited_destination_hash: int  # The hash identifier for the DestinyDestinationDefinition of the last location you were orbiting when in orbit.
-    party_members: t.Sequence[
-        "DestinyProfileTransitoryPartyMember"
-    ]  # If you have any members currently in your party, this is some (very) bare-bones information about those members.
-    tracking: t.Sequence[
-        "DestinyProfileTransitoryTrackingEntry"
-    ]  # Information about tracked entities.
+    current_activity: t.Optional[
+        "DestinyProfileTransitoryCurrentActivity"
+    ] = None  # If you are in an activity, this is some transitory info about the activity currently being played.
+    joinability: t.Optional[
+        "DestinyProfileTransitoryJoinability"
+    ] = None  # Information about whether and what might prevent you from joining this person on a fireteam.
+    last_orbited_destination_hash: t.Optional[
+        int
+    ] = None  # The hash identifier for the DestinyDestinationDefinition of the last location you were orbiting when in orbit.
+    party_members: t.Optional[
+        t.Sequence["DestinyProfileTransitoryPartyMember"]
+    ] = None  # If you have any members currently in your party, this is some (very) bare-bones information about those members.
+    tracking: t.Optional[
+        t.Sequence["DestinyProfileTransitoryTrackingEntry"]
+    ] = None  # Information about tracked entities.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "partyMembers": to_json(self.party_members),
+            "currentActivity": to_json(self.current_activity),
+            "joinability": to_json(self.joinability),
+            "tracking": to_json(self.tracking),
+            "lastOrbitedDestinationHash": to_json(self.last_orbited_destination_hash),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -51,10 +76,24 @@ class DestinyProfileTransitoryPartyMember:
     currently playing character. Pretty please with sugar on top.
     """
 
-    display_name: str  # The player's last known display name.
-    emblem_hash: int  # The identifier for the DestinyInventoryItemDefinition of the player's emblem.
-    membership_id: int  # The Membership ID that matches the party member.
-    status: "DestinyPartyMemberStates"  # A Flags Enumeration value indicating the states that the player is in relevant to being on a fireteam.
+    display_name: t.Optional[str] = None  # The player's last known display name.
+    emblem_hash: t.Optional[
+        int
+    ] = None  # The identifier for the DestinyInventoryItemDefinition of the player's emblem.
+    membership_id: t.Optional[
+        int
+    ] = None  # The Membership ID that matches the party member.
+    status: t.Optional[
+        "DestinyPartyMemberStates"
+    ] = None  # A Flags Enumeration value indicating the states that the player is in relevant to being on a fireteam.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "membershipId": to_json(self.membership_id),
+            "emblemHash": to_json(self.emblem_hash),
+            "displayName": to_json(self.display_name),
+            "status": to_json(self.status),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -67,12 +106,32 @@ class DestinyProfileTransitoryCurrentActivity:
     should be considered non-authoritative in comparison.
     """
 
-    end_time: str  # If you're still in it but it "ended" (like when folks are dancing around the loot after they beat a boss), this is when the activity ended.
-    highest_opposing_faction_score: float  # If you have human opponents, this is the highest opposing team's score.
-    number_of_opponents: int  # This is how many human or poorly crafted aimbot opponents you have.
-    number_of_players: int  # This is how many human or poorly crafted aimbots are on your team.
-    score: float  # This is what our non-authoritative source thought the score was.
-    start_time: str  # When the activity started.
+    end_time: t.Optional[
+        str
+    ] = None  # If you're still in it but it "ended" (like when folks are dancing around the loot after they beat a boss), this is when the activity ended.
+    highest_opposing_faction_score: t.Optional[
+        float
+    ] = None  # If you have human opponents, this is the highest opposing team's score.
+    number_of_opponents: t.Optional[
+        int
+    ] = None  # This is how many human or poorly crafted aimbot opponents you have.
+    number_of_players: t.Optional[
+        int
+    ] = None  # This is how many human or poorly crafted aimbots are on your team.
+    score: t.Optional[
+        float
+    ] = None  # This is what our non-authoritative source thought the score was.
+    start_time: t.Optional[str] = None  # When the activity started.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "startTime": to_json(self.start_time),
+            "endTime": to_json(self.end_time),
+            "score": to_json(self.score),
+            "highestOpposingFactionScore": to_json(self.highest_opposing_faction_score),
+            "numberOfOpponents": to_json(self.number_of_opponents),
+            "numberOfPlayers": to_json(self.number_of_players),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -84,9 +143,22 @@ class DestinyProfileTransitoryJoinability:
     But perhaps it will be in some use cases?
     """
 
-    closed_reasons: "DestinyJoinClosedReasons"  # Reasons why a person can't join this person's fireteam.
-    open_slots: int  # The number of slots still available on this person's fireteam.
-    privacy_setting: "DestinyGamePrivacySetting"  # Who the person is currently allowing invites from.
+    closed_reasons: t.Optional[
+        "DestinyJoinClosedReasons"
+    ] = None  # Reasons why a person can't join this person's fireteam.
+    open_slots: t.Optional[
+        int
+    ] = None  # The number of slots still available on this person's fireteam.
+    privacy_setting: t.Optional[
+        "DestinyGamePrivacySetting"
+    ] = None  # Who the person is currently allowing invites from.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "openSlots": to_json(self.open_slots),
+            "privacySetting": to_json(self.privacy_setting),
+            "closedReasons": to_json(self.closed_reasons),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -99,12 +171,34 @@ class DestinyProfileTransitoryTrackingEntry:
     combinations of these entries have values being tracked.
     """
 
-    activity_hash: int  # OPTIONAL - If this is tracking the status of a DestinyActivityDefinition, this is the identifier for that activity.
-    item_hash: int  # OPTIONAL - If this is tracking the status of a DestinyInventoryItemDefinition, this is the identifier for that item.
-    location_hash: int  # OPTIONAL - If this is tracking a DestinyLocationDefinition, this is the identifier for that location.
-    objective_hash: int  # OPTIONAL - If this is tracking the status of a DestinyObjectiveDefinition, this is the identifier for that objective.
-    questline_item_hash: int  # OPTIONAL - If this is tracking the status of a quest, this is the identifier for the DestinyInventoryItemDefinition that containst that questline data.
-    tracked_date: str  # OPTIONAL - I've got to level with you, I don't really know what this is. Is it when you started tracking it? Is it only populated for tracked items that have time limits? I don't know, but we can get at it - when I get time to actually test what it is, I'll update this. In the meantime, bask in the mysterious data.
+    activity_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a DestinyActivityDefinition, this is the identifier for that activity.
+    item_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a DestinyInventoryItemDefinition, this is the identifier for that item.
+    location_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking a DestinyLocationDefinition, this is the identifier for that location.
+    objective_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a DestinyObjectiveDefinition, this is the identifier for that objective.
+    questline_item_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a quest, this is the identifier for the DestinyInventoryItemDefinition that containst that questline data.
+    tracked_date: t.Optional[
+        str
+    ] = None  # OPTIONAL - I've got to level with you, I don't really know what this is. Is it when you started tracking it? Is it only populated for tracked items that have time limits? I don't know, but we can get at it - when I get time to actually test what it is, I'll update this. In the meantime, bask in the mysterious data.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "locationHash": to_json(self.location_hash),
+            "itemHash": to_json(self.item_hash),
+            "objectiveHash": to_json(self.objective_hash),
+            "activityHash": to_json(self.activity_hash),
+            "questlineItemHash": to_json(self.questline_item_hash),
+            "trackedDate": to_json(self.tracked_date),
+        }
 
 
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402

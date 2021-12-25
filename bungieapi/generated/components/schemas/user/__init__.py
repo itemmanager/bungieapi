@@ -3,16 +3,39 @@ import dataclasses as dt
 import typing as t
 from enum import Enum
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class UserMembership:
     """Very basic info about a user as returned by the Account server."""
 
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    bungie_global_display_name: t.Optional[
+        str
+    ] = None  # The bungie global display name, if set.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
+    display_name: t.Optional[
+        str
+    ] = None  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    membership_id: t.Optional[
+        int
+    ] = None  # Membership ID as they user is known in the Accounts service
+    membership_type: t.Optional[
+        "BungieMembershipType"
+    ] = None  # Type of the membership. Not necessarily the native type.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "membershipType": to_json(self.membership_type),
+            "membershipId": to_json(self.membership_id),
+            "displayName": to_json(self.display_name),
+            "bungieGlobalDisplayName": to_json(self.bungie_global_display_name),
+            "bungieGlobalDisplayNameCode": to_json(
+                self.bungie_global_display_name_code
+            ),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -23,16 +46,42 @@ class CrossSaveUserMembership:
     Do NOT use as a request contract.
     """
 
-    applicable_membership_types: t.Sequence[
+    applicable_membership_types: t.Optional[
+        t.Sequence["BungieMembershipType"]
+    ] = None  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    bungie_global_display_name: t.Optional[
+        str
+    ] = None  # The bungie global display name, if set.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
+    cross_save_override: t.Optional[
         "BungieMembershipType"
-    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
-    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    is_public: bool  # If True, this is a public user membership.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    ] = None  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    display_name: t.Optional[
+        str
+    ] = None  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    is_public: t.Optional[bool] = None  # If True, this is a public user membership.
+    membership_id: t.Optional[
+        int
+    ] = None  # Membership ID as they user is known in the Accounts service
+    membership_type: t.Optional[
+        "BungieMembershipType"
+    ] = None  # Type of the membership. Not necessarily the native type.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "crossSaveOverride": to_json(self.cross_save_override),
+            "applicableMembershipTypes": to_json(self.applicable_membership_types),
+            "isPublic": to_json(self.is_public),
+            "membershipType": to_json(self.membership_type),
+            "membershipId": to_json(self.membership_id),
+            "displayName": to_json(self.display_name),
+            "bungieGlobalDisplayName": to_json(self.bungie_global_display_name),
+            "bungieGlobalDisplayNameCode": to_json(
+                self.bungie_global_display_name_code
+            ),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -48,122 +97,256 @@ class UserInfoCard:
     other contracts.
     """
 
-    applicable_membership_types: t.Sequence[
+    applicable_membership_types: t.Optional[
+        t.Sequence["BungieMembershipType"]
+    ] = None  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    bungie_global_display_name: t.Optional[
+        str
+    ] = None  # The bungie global display name, if set.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
+    cross_save_override: t.Optional[
         "BungieMembershipType"
-    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
-    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    icon_path: str  # URL the Icon if available.
-    is_public: bool  # If True, this is a public user membership.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
-    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    ] = None  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    display_name: t.Optional[
+        str
+    ] = None  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    icon_path: t.Optional[str] = None  # URL the Icon if available.
+    is_public: t.Optional[bool] = None  # If True, this is a public user membership.
+    membership_id: t.Optional[
+        int
+    ] = None  # Membership ID as they user is known in the Accounts service
+    membership_type: t.Optional[
+        "BungieMembershipType"
+    ] = None  # Type of the membership. Not necessarily the native type.
+    supplemental_display_name: t.Optional[
+        str
+    ] = None  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "supplementalDisplayName": to_json(self.supplemental_display_name),
+            "iconPath": to_json(self.icon_path),
+            "crossSaveOverride": to_json(self.cross_save_override),
+            "applicableMembershipTypes": to_json(self.applicable_membership_types),
+            "isPublic": to_json(self.is_public),
+            "membershipType": to_json(self.membership_type),
+            "membershipId": to_json(self.membership_id),
+            "displayName": to_json(self.display_name),
+            "bungieGlobalDisplayName": to_json(self.bungie_global_display_name),
+            "bungieGlobalDisplayNameCode": to_json(
+                self.bungie_global_display_name_code
+            ),
+        }
 
 
 @dt.dataclass(frozen=True)
 class GeneralUser:
-    about: str
-    blizzard_display_name: str
-    cached_bungie_global_display_name: str
-    cached_bungie_global_display_name_code: int
-    context: "UserToUserContext"
-    display_name: str
-    fb_display_name: str
-    first_access: str
-    is_deleted: bool
-    last_ban_report_id: int
-    last_update: str
-    legacy_portal_uid: int
-    locale: str
-    locale_inherit_default: bool
-    membership_id: int
-    normalized_name: str
-    profile_ban_expire: str
-    profile_picture: int
-    profile_picture_path: str
-    profile_picture_wide_path: str
-    profile_theme: int
-    profile_theme_name: str
-    psn_display_name: str
-    show_activity: bool
-    show_group_messaging: bool
-    stadia_display_name: str
-    status_date: str
-    status_text: str
-    steam_display_name: str
-    success_message_flags: int
-    twitch_display_name: str
-    unique_name: str
-    user_title: int
-    user_title_display: str
-    xbox_display_name: str
+    about: t.Optional[str] = None
+    blizzard_display_name: t.Optional[str] = None
+    cached_bungie_global_display_name: t.Optional[str] = None
+    cached_bungie_global_display_name_code: t.Optional[int] = None
+    context: t.Optional["UserToUserContext"] = None
+    display_name: t.Optional[str] = None
+    fb_display_name: t.Optional[str] = None
+    first_access: t.Optional[str] = None
+    is_deleted: t.Optional[bool] = None
+    last_ban_report_id: t.Optional[int] = None
+    last_update: t.Optional[str] = None
+    legacy_portal_uid: t.Optional[int] = None
+    locale: t.Optional[str] = None
+    locale_inherit_default: t.Optional[bool] = None
+    membership_id: t.Optional[int] = None
+    normalized_name: t.Optional[str] = None
+    profile_ban_expire: t.Optional[str] = None
+    profile_picture: t.Optional[int] = None
+    profile_picture_path: t.Optional[str] = None
+    profile_picture_wide_path: t.Optional[str] = None
+    profile_theme: t.Optional[int] = None
+    profile_theme_name: t.Optional[str] = None
+    psn_display_name: t.Optional[str] = None
+    show_activity: t.Optional[bool] = None
+    show_group_messaging: t.Optional[bool] = None
+    stadia_display_name: t.Optional[str] = None
+    status_date: t.Optional[str] = None
+    status_text: t.Optional[str] = None
+    steam_display_name: t.Optional[str] = None
+    success_message_flags: t.Optional[int] = None
+    twitch_display_name: t.Optional[str] = None
+    unique_name: t.Optional[str] = None
+    user_title: t.Optional[int] = None
+    user_title_display: t.Optional[str] = None
+    xbox_display_name: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "membershipId": to_json(self.membership_id),
+            "uniqueName": to_json(self.unique_name),
+            "normalizedName": to_json(self.normalized_name),
+            "displayName": to_json(self.display_name),
+            "profilePicture": to_json(self.profile_picture),
+            "profileTheme": to_json(self.profile_theme),
+            "userTitle": to_json(self.user_title),
+            "successMessageFlags": to_json(self.success_message_flags),
+            "isDeleted": to_json(self.is_deleted),
+            "about": to_json(self.about),
+            "firstAccess": to_json(self.first_access),
+            "lastUpdate": to_json(self.last_update),
+            "legacyPortalUID": to_json(self.legacy_portal_uid),
+            "context": to_json(self.context),
+            "psnDisplayName": to_json(self.psn_display_name),
+            "xboxDisplayName": to_json(self.xbox_display_name),
+            "fbDisplayName": to_json(self.fb_display_name),
+            "showActivity": to_json(self.show_activity),
+            "locale": to_json(self.locale),
+            "localeInheritDefault": to_json(self.locale_inherit_default),
+            "lastBanReportId": to_json(self.last_ban_report_id),
+            "showGroupMessaging": to_json(self.show_group_messaging),
+            "profilePicturePath": to_json(self.profile_picture_path),
+            "profilePictureWidePath": to_json(self.profile_picture_wide_path),
+            "profileThemeName": to_json(self.profile_theme_name),
+            "userTitleDisplay": to_json(self.user_title_display),
+            "statusText": to_json(self.status_text),
+            "statusDate": to_json(self.status_date),
+            "profileBanExpire": to_json(self.profile_ban_expire),
+            "blizzardDisplayName": to_json(self.blizzard_display_name),
+            "steamDisplayName": to_json(self.steam_display_name),
+            "stadiaDisplayName": to_json(self.stadia_display_name),
+            "twitchDisplayName": to_json(self.twitch_display_name),
+            "cachedBungieGlobalDisplayName": to_json(
+                self.cached_bungie_global_display_name
+            ),
+            "cachedBungieGlobalDisplayNameCode": to_json(
+                self.cached_bungie_global_display_name_code
+            ),
+        }
 
 
 @dt.dataclass(frozen=True)
 class UserToUserContext:
-    global_ignore_end_date: str
-    ignore_status: "IgnoreResponse"
-    is_following: bool
+    global_ignore_end_date: t.Optional[str] = None
+    ignore_status: t.Optional["IgnoreResponse"] = None
+    is_following: t.Optional[bool] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "isFollowing": to_json(self.is_following),
+            "ignoreStatus": to_json(self.ignore_status),
+            "globalIgnoreEndDate": to_json(self.global_ignore_end_date),
+        }
 
 
 @dt.dataclass(frozen=True)
 class UserMembershipData:
-    bungie_net_user: "GeneralUser"
-    destiny_memberships: t.Sequence[
-        "GroupUserInfoCard"
-    ]  # this allows you to see destiny memberships that are visible and linked to this account (regardless of whether or not they have characters on the world server)
-    primary_membership_id: int  # If this property is populated, it will have the membership ID of the account considered to be "primary" in this user's cross save relationship.  If null, this user has no cross save relationship, nor primary account.
+    bungie_net_user: t.Optional["GeneralUser"] = None
+    destiny_memberships: t.Optional[
+        t.Sequence["GroupUserInfoCard"]
+    ] = None  # this allows you to see destiny memberships that are visible and linked to this account (regardless of whether or not they have characters on the world server)
+    primary_membership_id: t.Optional[
+        int
+    ] = None  # If this property is populated, it will have the membership ID of the account considered to be "primary" in this user's cross save relationship.  If null, this user has no cross save relationship, nor primary account.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "destinyMemberships": to_json(self.destiny_memberships),
+            "primaryMembershipId": to_json(self.primary_membership_id),
+            "bungieNetUser": to_json(self.bungie_net_user),
+        }
 
 
 @dt.dataclass(frozen=True)
 class HardLinkedUserMembership:
-    cross_save_overridden_membership_id: int
-    cross_save_overridden_type: "BungieMembershipType"
-    membership_id: int
-    membership_type: "BungieMembershipType"
+    cross_save_overridden_membership_id: t.Optional[int] = None
+    cross_save_overridden_type: t.Optional["BungieMembershipType"] = None
+    membership_id: t.Optional[int] = None
+    membership_type: t.Optional["BungieMembershipType"] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "membershipType": to_json(self.membership_type),
+            "membershipId": to_json(self.membership_id),
+            "CrossSaveOverriddenType": to_json(self.cross_save_overridden_type),
+            "CrossSaveOverriddenMembershipId": to_json(
+                self.cross_save_overridden_membership_id
+            ),
+        }
 
 
 @dt.dataclass(frozen=True)
 class UserSearchResponse:
-    has_more: bool
-    page: int
-    search_results: t.Sequence["UserSearchResponseDetail"]
+    has_more: t.Optional[bool] = None
+    page: t.Optional[int] = None
+    search_results: t.Optional[t.Sequence["UserSearchResponseDetail"]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "searchResults": to_json(self.search_results),
+            "page": to_json(self.page),
+            "hasMore": to_json(self.has_more),
+        }
 
 
 @dt.dataclass(frozen=True)
 class UserSearchResponseDetail:
-    bungie_global_display_name: str
-    bungie_global_display_name_code: int
-    bungie_net_membership_id: int
-    destiny_memberships: t.Sequence["UserInfoCard"]
+    bungie_global_display_name: t.Optional[str] = None
+    bungie_global_display_name_code: t.Optional[int] = None
+    bungie_net_membership_id: t.Optional[int] = None
+    destiny_memberships: t.Optional[t.Sequence["UserInfoCard"]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "bungieGlobalDisplayName": to_json(self.bungie_global_display_name),
+            "bungieGlobalDisplayNameCode": to_json(
+                self.bungie_global_display_name_code
+            ),
+            "bungieNetMembershipId": to_json(self.bungie_net_membership_id),
+            "destinyMemberships": to_json(self.destiny_memberships),
+        }
 
 
 @dt.dataclass(frozen=True)
 class UserSearchPrefixRequest:
-    display_name_prefix: str
+    display_name_prefix: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayNamePrefix": to_json(self.display_name_prefix),
+        }
 
 
 @dt.dataclass(frozen=True)
 class ExactSearchRequest:
-    display_name: str
-    display_name_code: int
+    display_name: t.Optional[str] = None
+    display_name_code: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayName": to_json(self.display_name),
+            "displayNameCode": to_json(self.display_name_code),
+        }
 
 
 @dt.dataclass(frozen=True)
 class EmailSettings:
     """The set of all email subscription/opt-in settings and definitions."""
 
-    opt_in_definitions: t.Mapping[
-        str, "EmailOptInDefinition"
-    ]  # Keyed by the name identifier of the opt-in definition.
-    subscription_definitions: t.Mapping[
-        str, "EmailSubscriptionDefinition"
-    ]  # Keyed by the name identifier of the Subscription definition.
-    views: t.Mapping[
-        str, "EmailViewDefinition"
-    ]  # Keyed by the name identifier of the View definition.
+    opt_in_definitions: t.Optional[
+        t.Mapping[str, "EmailOptInDefinition"]
+    ] = None  # Keyed by the name identifier of the opt-in definition.
+    subscription_definitions: t.Optional[
+        t.Mapping[str, "EmailSubscriptionDefinition"]
+    ] = None  # Keyed by the name identifier of the Subscription definition.
+    views: t.Optional[
+        t.Mapping[str, "EmailViewDefinition"]
+    ] = None  # Keyed by the name identifier of the View definition.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "optInDefinitions": to_json(self.opt_in_definitions),
+            "subscriptionDefinitions": to_json(self.subscription_definitions),
+            "views": to_json(self.views),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -171,12 +354,24 @@ class EmailOptInDefinition:
     """Defines a single opt-in category: a wide-scoped permission to send
     emails for the subject related to the opt-in."""
 
-    dependent_subscriptions: t.Sequence[
-        "EmailSubscriptionDefinition"
-    ]  # Information about the dependent subscriptions for this opt-in.
-    name: str  # The unique identifier for this opt-in category.
-    set_by_default: bool  # If true, this opt-in setting should be set by default in situations where accounts are created without explicit choices about what they're opting into.
-    value: "OptInFlags"  # The flag value for this opt-in category. For historical reasons, this is defined as a flags enum.
+    dependent_subscriptions: t.Optional[
+        t.Sequence["EmailSubscriptionDefinition"]
+    ] = None  # Information about the dependent subscriptions for this opt-in.
+    name: t.Optional[str] = None  # The unique identifier for this opt-in category.
+    set_by_default: t.Optional[
+        bool
+    ] = None  # If true, this opt-in setting should be set by default in situations where accounts are created without explicit choices about what they're opting into.
+    value: t.Optional[
+        "OptInFlags"
+    ] = None  # The flag value for this opt-in category. For historical reasons, this is defined as a flags enum.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "name": to_json(self.name),
+            "value": to_json(self.value),
+            "setByDefault": to_json(self.set_by_default),
+            "dependentSubscriptions": to_json(self.dependent_subscriptions),
+        }
 
 
 class OptInFlags(Enum):
@@ -198,11 +393,20 @@ class EmailSubscriptionDefinition:
     focused subject (generally timeboxed, such as for a specific release of a
     product or feature)."""
 
-    localization: t.Mapping[
-        str, "EMailSettingSubscriptionLocalization"
-    ]  # A dictionary of localized text for the EMail Opt-in setting, keyed by the locale.
-    name: str  # The unique identifier for this subscription.
-    value: int  # The bitflag value for this subscription. Should be a unique power of two value.
+    localization: t.Optional[
+        t.Mapping[str, "EMailSettingSubscriptionLocalization"]
+    ] = None  # A dictionary of localized text for the EMail Opt-in setting, keyed by the locale.
+    name: t.Optional[str] = None  # The unique identifier for this subscription.
+    value: t.Optional[
+        int
+    ] = None  # The bitflag value for this subscription. Should be a unique power of two value.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "name": to_json(self.name),
+            "localization": to_json(self.localization),
+            "value": to_json(self.value),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -210,8 +414,14 @@ class EMailSettingLocalization:
     """Localized text relevant to a given EMail setting in a given
     localization."""
 
-    description: str
-    title: str
+    description: t.Optional[str] = None
+    title: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "title": to_json(self.title),
+            "description": to_json(self.description),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -222,13 +432,24 @@ class EMailSettingSubscriptionLocalization:
     Extra settings specifically for subscriptions.
     """
 
-    description: str
-    known_user_action_text: str
-    registered_user_description: str
-    title: str
-    unknown_user_action_text: str
-    unknown_user_description: str
-    unregistered_user_description: str
+    description: t.Optional[str] = None
+    known_user_action_text: t.Optional[str] = None
+    registered_user_description: t.Optional[str] = None
+    title: t.Optional[str] = None
+    unknown_user_action_text: t.Optional[str] = None
+    unknown_user_description: t.Optional[str] = None
+    unregistered_user_description: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "unknownUserDescription": to_json(self.unknown_user_description),
+            "registeredUserDescription": to_json(self.registered_user_description),
+            "unregisteredUserDescription": to_json(self.unregistered_user_description),
+            "unknownUserActionText": to_json(self.unknown_user_action_text),
+            "knownUserActionText": to_json(self.known_user_action_text),
+            "title": to_json(self.title),
+            "description": to_json(self.description),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -239,23 +460,44 @@ class EmailViewDefinition:
     consistently without further manual work.
     """
 
-    name: str  # The identifier for this view.
-    view_settings: t.Sequence[
-        "EmailViewDefinitionSetting"
-    ]  # The ordered list of settings to show in this view.
+    name: t.Optional[str] = None  # The identifier for this view.
+    view_settings: t.Optional[
+        t.Sequence["EmailViewDefinitionSetting"]
+    ] = None  # The ordered list of settings to show in this view.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "name": to_json(self.name),
+            "viewSettings": to_json(self.view_settings),
+        }
 
 
 @dt.dataclass(frozen=True)
 class EmailViewDefinitionSetting:
-    localization: t.Mapping[
-        str, "EMailSettingLocalization"
-    ]  # A dictionary of localized text for the EMail setting, keyed by the locale.
-    name: str  # The identifier for this UI Setting, which can be used to relate it to custom strings or other data as desired.
-    opt_in_aggregate_value: "OptInFlags"  # The OptInFlags value to set or clear if this setting is set or cleared in the UI. It is the aggregate of all underlying opt-in flags related to this setting.
-    set_by_default: bool  # If true, this setting should be set by default if the user hasn't chosen whether it's set or cleared yet.
-    subscriptions: t.Sequence[
-        "EmailSubscriptionDefinition"
-    ]  # The subscriptions to show as children of this setting, if any.
+    localization: t.Optional[
+        t.Mapping[str, "EMailSettingLocalization"]
+    ] = None  # A dictionary of localized text for the EMail setting, keyed by the locale.
+    name: t.Optional[
+        str
+    ] = None  # The identifier for this UI Setting, which can be used to relate it to custom strings or other data as desired.
+    opt_in_aggregate_value: t.Optional[
+        "OptInFlags"
+    ] = None  # The OptInFlags value to set or clear if this setting is set or cleared in the UI. It is the aggregate of all underlying opt-in flags related to this setting.
+    set_by_default: t.Optional[
+        bool
+    ] = None  # If true, this setting should be set by default if the user hasn't chosen whether it's set or cleared yet.
+    subscriptions: t.Optional[
+        t.Sequence["EmailSubscriptionDefinition"]
+    ] = None  # The subscriptions to show as children of this setting, if any.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "name": to_json(self.name),
+            "localization": to_json(self.localization),
+            "setByDefault": to_json(self.set_by_default),
+            "optInAggregateValue": to_json(self.opt_in_aggregate_value),
+            "subscriptions": to_json(self.subscriptions),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

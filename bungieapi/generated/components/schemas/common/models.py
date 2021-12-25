@@ -2,74 +2,159 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class CoreSettingsConfiguration:
-    clan_banner_decal_colors: t.Sequence["CoreSetting"]
-    clan_banner_decals: t.Sequence["CoreSetting"]
-    clan_banner_gonfalon_colors: t.Sequence["CoreSetting"]
-    clan_banner_gonfalon_detail_colors: t.Sequence["CoreSetting"]
-    clan_banner_gonfalon_details: t.Sequence["CoreSetting"]
-    clan_banner_gonfalons: t.Sequence["CoreSetting"]
-    clan_banner_standards: t.Sequence["CoreSetting"]
-    destiny2_core_settings: "Destiny2CoreSettings"
-    destiny_membership_types: t.Sequence["CoreSetting"]
-    email_settings: "EmailSettings"
-    environment: str
-    fireteam_activities: t.Sequence["CoreSetting"]
-    forum_categories: t.Sequence["CoreSetting"]
-    group_avatars: t.Sequence["CoreSetting"]
-    ignore_reasons: t.Sequence["CoreSetting"]
-    recruitment_activities: t.Sequence["CoreSetting"]
-    recruitment_misc_tags: t.Sequence["CoreSetting"]
-    recruitment_platform_tags: t.Sequence["CoreSetting"]
-    system_content_locales: t.Sequence["CoreSetting"]
-    systems: t.Mapping[str, "CoreSystem"]
-    user_content_locales: t.Sequence["CoreSetting"]
+    clan_banner_decal_colors: t.Optional[t.Sequence["CoreSetting"]] = None
+    clan_banner_decals: t.Optional[t.Sequence["CoreSetting"]] = None
+    clan_banner_gonfalon_colors: t.Optional[t.Sequence["CoreSetting"]] = None
+    clan_banner_gonfalon_detail_colors: t.Optional[t.Sequence["CoreSetting"]] = None
+    clan_banner_gonfalon_details: t.Optional[t.Sequence["CoreSetting"]] = None
+    clan_banner_gonfalons: t.Optional[t.Sequence["CoreSetting"]] = None
+    clan_banner_standards: t.Optional[t.Sequence["CoreSetting"]] = None
+    destiny2_core_settings: t.Optional["Destiny2CoreSettings"] = None
+    destiny_membership_types: t.Optional[t.Sequence["CoreSetting"]] = None
+    email_settings: t.Optional["EmailSettings"] = None
+    environment: t.Optional[str] = None
+    fireteam_activities: t.Optional[t.Sequence["CoreSetting"]] = None
+    forum_categories: t.Optional[t.Sequence["CoreSetting"]] = None
+    group_avatars: t.Optional[t.Sequence["CoreSetting"]] = None
+    ignore_reasons: t.Optional[t.Sequence["CoreSetting"]] = None
+    recruitment_activities: t.Optional[t.Sequence["CoreSetting"]] = None
+    recruitment_misc_tags: t.Optional[t.Sequence["CoreSetting"]] = None
+    recruitment_platform_tags: t.Optional[t.Sequence["CoreSetting"]] = None
+    system_content_locales: t.Optional[t.Sequence["CoreSetting"]] = None
+    systems: t.Optional[t.Mapping[str, "CoreSystem"]] = None
+    user_content_locales: t.Optional[t.Sequence["CoreSetting"]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "environment": to_json(self.environment),
+            "systems": to_json(self.systems),
+            "ignoreReasons": to_json(self.ignore_reasons),
+            "forumCategories": to_json(self.forum_categories),
+            "groupAvatars": to_json(self.group_avatars),
+            "destinyMembershipTypes": to_json(self.destiny_membership_types),
+            "recruitmentPlatformTags": to_json(self.recruitment_platform_tags),
+            "recruitmentMiscTags": to_json(self.recruitment_misc_tags),
+            "recruitmentActivities": to_json(self.recruitment_activities),
+            "userContentLocales": to_json(self.user_content_locales),
+            "systemContentLocales": to_json(self.system_content_locales),
+            "clanBannerDecals": to_json(self.clan_banner_decals),
+            "clanBannerDecalColors": to_json(self.clan_banner_decal_colors),
+            "clanBannerGonfalons": to_json(self.clan_banner_gonfalons),
+            "clanBannerGonfalonColors": to_json(self.clan_banner_gonfalon_colors),
+            "clanBannerGonfalonDetails": to_json(self.clan_banner_gonfalon_details),
+            "clanBannerGonfalonDetailColors": to_json(
+                self.clan_banner_gonfalon_detail_colors
+            ),
+            "clanBannerStandards": to_json(self.clan_banner_standards),
+            "destiny2CoreSettings": to_json(self.destiny2_core_settings),
+            "emailSettings": to_json(self.email_settings),
+            "fireteamActivities": to_json(self.fireteam_activities),
+        }
 
 
 @dt.dataclass(frozen=True)
 class CoreSystem:
-    enabled: bool
-    parameters: t.Mapping[str, str]
+    enabled: t.Optional[bool] = None
+    parameters: t.Optional[t.Mapping[str, str]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "enabled": to_json(self.enabled),
+            "parameters": to_json(self.parameters),
+        }
 
 
 @dt.dataclass(frozen=True)
 class CoreSetting:
-    child_settings: t.Sequence["CoreSetting"]
-    display_name: str
-    identifier: str
-    image_path: str
-    is_default: bool
-    summary: str
+    child_settings: t.Optional[t.Sequence["CoreSetting"]] = None
+    display_name: t.Optional[str] = None
+    identifier: t.Optional[str] = None
+    image_path: t.Optional[str] = None
+    is_default: t.Optional[bool] = None
+    summary: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "identifier": to_json(self.identifier),
+            "isDefault": to_json(self.is_default),
+            "displayName": to_json(self.display_name),
+            "summary": to_json(self.summary),
+            "imagePath": to_json(self.image_path),
+            "childSettings": to_json(self.child_settings),
+        }
 
 
 @dt.dataclass(frozen=True)
 class Destiny2CoreSettings:
-    active_seals_root_node_hash: int
-    active_triumphs_root_node_hash: int
-    ammo_type_heavy_icon: str
-    ammo_type_primary_icon: str
-    ammo_type_special_icon: str
-    badges_root_node: int
-    collection_root_node: int
-    current_rank_progression_hashes: t.Sequence[int]
-    current_season_hash: int
-    current_seasonal_artifact_hash: int
-    exotic_catalysts_root_node_hash: int
-    future_season_hashes: t.Sequence[int]
-    insert_plug_free_blocked_socket_type_hashes: t.Sequence[int]
-    insert_plug_free_protected_plug_item_hashes: t.Sequence[int]
-    legacy_seals_root_node_hash: int
-    legacy_triumphs_root_node_hash: int
-    lore_root_node_hash: int
-    medals_root_node: int
-    medals_root_node_hash: int
-    metrics_root_node: int
-    past_season_hashes: t.Sequence[int]
-    records_root_node: int
-    seasonal_challenges_presentation_node_hash: int
-    undiscovered_collectible_image: str
+    active_seals_root_node_hash: t.Optional[int] = None
+    active_triumphs_root_node_hash: t.Optional[int] = None
+    ammo_type_heavy_icon: t.Optional[str] = None
+    ammo_type_primary_icon: t.Optional[str] = None
+    ammo_type_special_icon: t.Optional[str] = None
+    badges_root_node: t.Optional[int] = None
+    collection_root_node: t.Optional[int] = None
+    current_rank_progression_hashes: t.Optional[t.Sequence[int]] = None
+    current_season_hash: t.Optional[int] = None
+    current_seasonal_artifact_hash: t.Optional[int] = None
+    exotic_catalysts_root_node_hash: t.Optional[int] = None
+    future_season_hashes: t.Optional[t.Sequence[int]] = None
+    insert_plug_free_blocked_socket_type_hashes: t.Optional[t.Sequence[int]] = None
+    insert_plug_free_protected_plug_item_hashes: t.Optional[t.Sequence[int]] = None
+    legacy_seals_root_node_hash: t.Optional[int] = None
+    legacy_triumphs_root_node_hash: t.Optional[int] = None
+    lore_root_node_hash: t.Optional[int] = None
+    medals_root_node: t.Optional[int] = None
+    medals_root_node_hash: t.Optional[int] = None
+    metrics_root_node: t.Optional[int] = None
+    past_season_hashes: t.Optional[t.Sequence[int]] = None
+    records_root_node: t.Optional[int] = None
+    seasonal_challenges_presentation_node_hash: t.Optional[int] = None
+    undiscovered_collectible_image: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "collectionRootNode": to_json(self.collection_root_node),
+            "badgesRootNode": to_json(self.badges_root_node),
+            "recordsRootNode": to_json(self.records_root_node),
+            "medalsRootNode": to_json(self.medals_root_node),
+            "metricsRootNode": to_json(self.metrics_root_node),
+            "activeTriumphsRootNodeHash": to_json(self.active_triumphs_root_node_hash),
+            "activeSealsRootNodeHash": to_json(self.active_seals_root_node_hash),
+            "legacyTriumphsRootNodeHash": to_json(self.legacy_triumphs_root_node_hash),
+            "legacySealsRootNodeHash": to_json(self.legacy_seals_root_node_hash),
+            "medalsRootNodeHash": to_json(self.medals_root_node_hash),
+            "exoticCatalystsRootNodeHash": to_json(
+                self.exotic_catalysts_root_node_hash
+            ),
+            "loreRootNodeHash": to_json(self.lore_root_node_hash),
+            "currentRankProgressionHashes": to_json(
+                self.current_rank_progression_hashes
+            ),
+            "insertPlugFreeProtectedPlugItemHashes": to_json(
+                self.insert_plug_free_protected_plug_item_hashes
+            ),
+            "insertPlugFreeBlockedSocketTypeHashes": to_json(
+                self.insert_plug_free_blocked_socket_type_hashes
+            ),
+            "undiscoveredCollectibleImage": to_json(
+                self.undiscovered_collectible_image
+            ),
+            "ammoTypeHeavyIcon": to_json(self.ammo_type_heavy_icon),
+            "ammoTypeSpecialIcon": to_json(self.ammo_type_special_icon),
+            "ammoTypePrimaryIcon": to_json(self.ammo_type_primary_icon),
+            "currentSeasonalArtifactHash": to_json(self.current_seasonal_artifact_hash),
+            "currentSeasonHash": to_json(self.current_season_hash),
+            "seasonalChallengesPresentationNodeHash": to_json(
+                self.seasonal_challenges_presentation_node_hash
+            ),
+            "futureSeasonHashes": to_json(self.future_season_hashes),
+            "pastSeasonHashes": to_json(self.past_season_hashes),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

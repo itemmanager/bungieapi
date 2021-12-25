@@ -45,7 +45,10 @@ types: ## run typecheck
 	mypy update bungieapi
 
 reformat: ## reformat code
-	isort . && autoflake -i -r . && black .
+	docformatter . -r -i
+	autoflake -i -r --remove-all-unused-imports .
+	isort .
+	black .
 
 clean: ## delete all generated files
 	rm -f source/openapi.json

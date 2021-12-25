@@ -6,6 +6,7 @@ from aiohttp import ClientResponse
 
 from bungieapi.forge import forge
 from bungieapi.generated.components.schemas.exceptions import PlatformErrorCodes
+from bungieapi.json import to_json
 
 QueryInput = t.Any  # t.Union[None, str, bool, int, t.Sequence[Enum]]
 
@@ -56,13 +57,16 @@ class BaseClient:
             return await response.json()
 
     async def post(
-        self, path: str, query: t.Optional[t.Mapping[str, QueryInput]]
+        self,
+        path: str,
+        query: t.Optional[t.Mapping[str, QueryInput]],
+        request: t.Any = None,
     ) -> t.Mapping[str, t.Any]:
         assert path[0] == "/"
         query = self._clean_query(query) if query else {}
 
         async with self._session.post(
-            f"{self._path}{path}", params=query, json={"DisplayNamePrefix": "the-the"}
+            f"{self._path}{path}", params=query, json=to_json(request)
         ) as response:
             response = await self.handle_error(response)
             return await response.json()

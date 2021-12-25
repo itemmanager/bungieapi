@@ -2,7 +2,14 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyStringVariablesComponent:
-    integer_values_by_hash: t.Mapping[str, int]
+    integer_values_by_hash: t.Optional[t.Mapping[str, int]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "integerValuesByHash": to_json(self.integer_values_by_hash),
+        }

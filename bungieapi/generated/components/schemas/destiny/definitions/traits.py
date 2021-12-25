@@ -2,25 +2,59 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyTraitDefinition:
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    trait_category_hash: int
-    trait_category_id: str
+    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
+    hash: t.Optional[
+        int
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    trait_category_hash: t.Optional[int] = None
+    trait_category_id: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayProperties": to_json(self.display_properties),
+            "traitCategoryId": to_json(self.trait_category_id),
+            "traitCategoryHash": to_json(self.trait_category_hash),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyTraitCategoryDefinition:
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    trait_category_id: str
-    trait_hashes: t.Sequence[int]
-    trait_ids: t.Sequence[str]
+    hash: t.Optional[
+        int
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    trait_category_id: t.Optional[str] = None
+    trait_hashes: t.Optional[t.Sequence[int]] = None
+    trait_ids: t.Optional[t.Sequence[str]] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "traitCategoryId": to_json(self.trait_category_id),
+            "traitHashes": to_json(self.trait_hashes),
+            "traitIds": to_json(self.trait_ids),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

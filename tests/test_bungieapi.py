@@ -2,6 +2,7 @@ import pytest
 
 from bungieapi import Client, __version__
 from bungieapi.generated.components.schemas.destiny.config import DestinyManifest
+from bungieapi.generated.components.schemas.user import ExactSearchRequest, UserInfoCard
 
 
 def test_version():
@@ -18,5 +19,8 @@ async def test_can_get_manifest(client: Client):
 @pytest.mark.asyncio
 async def test_can_search_by_player_name(client: Client):
     async with client as root:
-        result = await root.destiny2.search_destiny_player_by_bungie_name(-1)
-        assert result
+        result = await root.destiny2.search_destiny_player_by_bungie_name(
+            ExactSearchRequest(display_name="the-the-whistler", display_name_code=5666),
+            -1,
+        )
+        assert all(isinstance(r, UserInfoCard) for r in result.response)

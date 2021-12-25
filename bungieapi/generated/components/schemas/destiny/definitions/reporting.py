@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyReportReasonCategoryDefinition:
@@ -15,13 +17,28 @@ class DestinyReportReasonCategoryDefinition:
     hash: there are some reasons defined under multiple categories.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    reasons: t.Mapping[
-        str, "DestinyReportReasonDefinition"
-    ]  # The specific reasons for the report under this category.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
+    hash: t.Optional[
+        int
+    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: t.Optional[
+        int
+    ] = None  # The index of the entity as it was found in the investment tables.
+    reasons: t.Optional[
+        t.Mapping[str, "DestinyReportReasonDefinition"]
+    ] = None  # The specific reasons for the report under this category.
+    redacted: t.Optional[
+        bool
+    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayProperties": to_json(self.display_properties),
+            "reasons": to_json(self.reasons),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -35,8 +52,16 @@ class DestinyReportReasonDefinition:
     most categories for example.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    reason_hash: int  # The identifier for the reason: they are only guaranteed unique under the Category in which they are found.
+    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
+    reason_hash: t.Optional[
+        int
+    ] = None  # The identifier for the reason: they are only guaranteed unique under the Category in which they are found.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "reasonHash": to_json(self.reason_hash),
+            "displayProperties": to_json(self.display_properties),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations

@@ -2,6 +2,8 @@
 import dataclasses as dt
 import typing as t
 
+from bungieapi.json import to_json
+
 
 @dt.dataclass(frozen=True)
 class DestinyKiosksComponent:
@@ -19,19 +21,38 @@ class DestinyKiosksComponent:
     content manifest databases before using this data.
     """
 
-    kiosk_items: t.Mapping[
-        str, t.Sequence["DestinyKioskItem"]
-    ]  # A dictionary keyed by the Kiosk Vendor's hash identifier (use it to look up the DestinyVendorDefinition for the relevant kiosk vendor), and whose value is a list of all the items that the user can "see" in the Kiosk, and any other interesting metadata.
+    kiosk_items: t.Optional[
+        t.Mapping[str, t.Sequence["DestinyKioskItem"]]
+    ] = None  # A dictionary keyed by the Kiosk Vendor's hash identifier (use it to look up the DestinyVendorDefinition for the relevant kiosk vendor), and whose value is a list of all the items that the user can "see" in the Kiosk, and any other interesting metadata.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "kioskItems": to_json(self.kiosk_items),
+        }
 
 
 @dt.dataclass(frozen=True)
 class DestinyKioskItem:
-    can_acquire: bool  # If true, the user can not only see the item, but they can acquire it. It is possible that a user can see a kiosk item and not be able to acquire it.
-    failure_indexes: t.Sequence[
+    can_acquire: t.Optional[
+        bool
+    ] = None  # If true, the user can not only see the item, but they can acquire it. It is possible that a user can see a kiosk item and not be able to acquire it.
+    failure_indexes: t.Optional[
+        t.Sequence[int]
+    ] = None  # Indexes into failureStrings for the Vendor, indicating the reasons why it failed if any.
+    flavor_objective: t.Optional[
+        "DestinyObjectiveProgress"
+    ] = None  # I may regret naming it this way - but this represents when an item has an objective that doesn't serve a beneficial purpose, but rather is used for "flavor" or additional information. For instance, when Emblems track specific stats, those stats are represented as Objectives on the item.
+    index: t.Optional[
         int
-    ]  # Indexes into failureStrings for the Vendor, indicating the reasons why it failed if any.
-    flavor_objective: "DestinyObjectiveProgress"  # I may regret naming it this way - but this represents when an item has an objective that doesn't serve a beneficial purpose, but rather is used for "flavor" or additional information. For instance, when Emblems track specific stats, those stats are represented as Objectives on the item.
-    index: int  # The index of the item in the related DestinyVendorDefintion's itemList property, representing the sale.
+    ] = None  # The index of the item in the related DestinyVendorDefintion's itemList property, representing the sale.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "index": to_json(self.index),
+            "canAcquire": to_json(self.can_acquire),
+            "failureIndexes": to_json(self.failure_indexes),
+            "flavorObjective": to_json(self.flavor_objective),
+        }
 
 
 # imported at the end to do not case circular imports for type annotations
