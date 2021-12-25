@@ -6,8 +6,14 @@ repos:
         hooks:
         -   id: check-yaml
         -   id: check-json
+        -   id: check-toml
         -   id: debug-statements
         -   id: requirements-txt-fixer
+        -   id: check-merge-conflict
+    - repo: https://github.com/pycqa/flake8
+      rev: '4.0.1'
+      hooks:
+        - id: flake8
     - repo: local
       hooks:
           - id: tests
@@ -24,3 +30,10 @@ repos:
             entry: make reformat
             language: system
             types: [python]
+    - repo: local
+      hooks:
+        - id: typecheck
+          name: typecheck
+          entry: make typecheck
+          language: system
+          types: [ python ]

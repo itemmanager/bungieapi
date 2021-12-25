@@ -2,6 +2,8 @@ import dataclasses as dt
 
 from svarog import Svarog
 
+from bungieapi.forge import force_none
+
 
 svarog = Svarog(snake_case=True)
 
