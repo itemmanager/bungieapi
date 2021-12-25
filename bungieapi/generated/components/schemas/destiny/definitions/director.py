@@ -272,28 +272,20 @@ class DestinyLinkedGraphEntryDefinition:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     ActivityGraphNodeHighlightType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyGraphNodeState,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.definitions import (
     DestinyUnlockExpressionDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
-    DestinyDisplayPropertiesDefinition,
-    DestinyPositionDefinition,
-)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions.director import (  # noqa: E402
-    DestinyActivityGraphArtElementDefinition,
-    DestinyActivityGraphConnectionDefinition,
-    DestinyActivityGraphDisplayObjectiveDefinition,
-    DestinyActivityGraphDisplayProgressionDefinition,
-    DestinyActivityGraphNodeActivityDefinition,
-    DestinyActivityGraphNodeDefinition,
-    DestinyActivityGraphNodeFeaturingStateDefinition,
-    DestinyActivityGraphNodeStateEntry,
-    DestinyLinkedGraphDefinition,
-    DestinyLinkedGraphEntryDefinition,
-)
+from bungieapi.generated.components.schemas.destiny.definitions.common import (
+    DestinyDisplayPropertiesDefinition,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions.common import (
+    DestinyPositionDefinition,
+)  # noqa: E402

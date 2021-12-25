@@ -54,7 +54,7 @@ from bungieapi.generated.components.schemas.exceptions import (
 )  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.trending import TrendingDetail  # noqa: E402
 from bungieapi.generated.components.schemas.trending import (
     TrendingCategories,
 )  # noqa: E402
+from bungieapi.generated.components.schemas.trending import TrendingDetail  # noqa: E402

@@ -53,9 +53,3 @@ class DestinyPositionDefinition:
             "y": to_json(self.y),
             "z": to_json(self.z),
         }
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions.common import (
-    DestinyIconSequenceDefinition,
-)  # noqa: E402

@@ -87,20 +87,18 @@ class DestinyCollectibleStateBlock:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import (
     DestinyPresentationNodeType,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.collectibles import (  # noqa: E402
-    DestinyCollectibleAcquisitionBlock,
-    DestinyCollectibleStateBlock,
-)
+from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (
     DestinyPresentationChildBlock,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (
     DestinyPresentationNodeRequirementsBlock,
-)
+)  # noqa: E402

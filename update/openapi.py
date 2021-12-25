@@ -10,6 +10,7 @@ from .generator.tools import response_schema_name
 from .svarog import svarog
 from .tools import to_camel_case
 
+
 Method = t.Literal["get", "post"]
 
 
@@ -42,8 +43,7 @@ class Reference:
         return fix(data, {"$ref": "ref"})
 
     def local(self, module: t.Sequence[str]) -> bool:
-        *ref_module, class_name = self.class_name.split(".")
-        return module == ref_module
+        return module == self.module
 
     @property
     def name(self) -> str:
@@ -231,7 +231,7 @@ class Response:
 
     def __post_init__(self):
         self.schema.properties["DetailedErrorTrace"] = dt.replace(  # type: ignore
-            self.schema.properties["DetailedErrorTrace"],  #  type: ignore
+            self.schema.properties["DetailedErrorTrace"],  # type: ignore
             required=False,
         )
 

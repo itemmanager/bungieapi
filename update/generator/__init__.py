@@ -4,6 +4,7 @@ from pathlib import Path
 from ..openapi import OpenApi
 from .base import generator
 
+
 GeneratorType = t.Literal["asyncio"]
 
 

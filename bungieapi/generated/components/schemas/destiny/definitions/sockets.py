@@ -211,11 +211,15 @@ class DestinyPlugSetDefinition:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinySocketCategoryStyle,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinySocketVisibility,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     SocketTypeActionType,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.definitions import (
     DestinyItemSocketEntryPlugItemRandomizedDefinition,
 )  # noqa: E402
@@ -224,8 +228,3 @@ from bungieapi.generated.components.schemas.destiny.definitions import (
 from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.sockets import (  # noqa: E402
-    DestinyInsertPlugActionDefinition,
-    DestinyPlugWhitelistEntryDefinition,
-    DestinySocketTypeScalarMaterialRequirementEntry,
-)

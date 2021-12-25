@@ -1275,15 +1275,6 @@ class DestinyEquipItemResult:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import DestinyStat  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
-    DestinyActivityDifficultyTier,
-    DestinyEquipItemResult,
-    DestinyProgressionResetEntry,
-    DestinyProgressionRewardItemState,
-    DestinyTalentNodeStatBlock,
-    DestinyTalentNodeState,
-)
 from bungieapi.generated.components.schemas.destiny.challenges import (
     DestinyChallengeStatus,
 )  # noqa: E402

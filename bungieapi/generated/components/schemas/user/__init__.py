@@ -506,16 +506,3 @@ from bungieapi.generated.components.schemas.groups_v2 import (
     GroupUserInfoCard,
 )  # noqa: E402
 from bungieapi.generated.components.schemas.ignores import IgnoreResponse  # noqa: E402
-from bungieapi.generated.components.schemas.user import GeneralUser  # noqa: E402
-from bungieapi.generated.components.schemas.user import OptInFlags  # noqa: E402
-from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402
-from bungieapi.generated.components.schemas.user import UserToUserContext  # noqa: E402
-from bungieapi.generated.components.schemas.user import (  # noqa: E402
-    EmailOptInDefinition,
-    EMailSettingLocalization,
-    EMailSettingSubscriptionLocalization,
-    EmailSubscriptionDefinition,
-    EmailViewDefinition,
-    EmailViewDefinitionSetting,
-    UserSearchResponseDetail,
-)

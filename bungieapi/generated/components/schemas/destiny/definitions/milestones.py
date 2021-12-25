@@ -450,20 +450,3 @@ from bungieapi.generated.components.schemas.destiny import (
 from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.milestones import (  # noqa: E402
-    DestinyMilestoneActivityDefinition,
-    DestinyMilestoneActivityVariantDefinition,
-    DestinyMilestoneChallengeActivityDefinition,
-    DestinyMilestoneChallengeActivityGraphNodeEntry,
-    DestinyMilestoneChallengeActivityPhase,
-    DestinyMilestoneChallengeDefinition,
-    DestinyMilestoneDisplayPreference,
-    DestinyMilestoneQuestDefinition,
-    DestinyMilestoneQuestRewardItem,
-    DestinyMilestoneQuestRewardsDefinition,
-    DestinyMilestoneRewardCategoryDefinition,
-    DestinyMilestoneRewardEntryDefinition,
-    DestinyMilestoneType,
-    DestinyMilestoneValueDefinition,
-    DestinyMilestoneVendorDefinition,
-)

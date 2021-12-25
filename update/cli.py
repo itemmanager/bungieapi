@@ -5,10 +5,10 @@ from pathlib import Path
 
 import click
 
-from .cleanup import reformat_directory
 from .generator import generator
 from .openapi import OpenApi
 from .svarog import forge
+
 
 T = t.TypeVar("T")
 
@@ -43,5 +43,3 @@ def generate(fetch: bool) -> None:
         output.parent.mkdir(parents=True, exist_ok=True)
         with open(output, "wt") as f:
             f.writelines((f"{line}\n" for line in file_generator))
-
-    reformat_directory(DEST_DIR)

@@ -4,6 +4,7 @@ from svarog import Svarog
 from svarog.checks import has_annotated_init
 from svarog.forges import _clean_annotations
 
+
 svarog = Svarog(snake_case=True)
 
 svarog.register_mold(

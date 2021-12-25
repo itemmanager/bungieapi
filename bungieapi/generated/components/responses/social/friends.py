@@ -76,8 +76,12 @@ from bungieapi.generated.components.schemas.exceptions import (
 )  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.social.friends import (  # noqa: E402
+from bungieapi.generated.components.schemas.social.friends import (
     BungieFriendListResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.social.friends import (
     BungieFriendRequestListResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.social.friends import (
     PlatformFriendResponse,
-)
+)  # noqa: E402

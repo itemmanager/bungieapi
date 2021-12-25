@@ -1,5 +1,7 @@
 import dataclasses as dt
+import functools as ft
 import typing as t
+from enum import Enum
 
 import aiohttp
 from aiohttp import ClientResponse
@@ -8,11 +10,23 @@ from bungieapi.forge import forge
 from bungieapi.generated.components.schemas.exceptions import PlatformErrorCodes
 from bungieapi.json import to_json
 
+
 QueryInput = t.Any  # t.Union[None, str, bool, int, t.Sequence[Enum]]
 
 
+@ft.singledispatch
 def clean_query_value(in_: QueryInput) -> str:
-    raise NotImplementedError()
+    return str(in_)
+
+
+@clean_query_value.register
+def clean_enum_value(in_: Enum) -> str:
+    return in_.value
+
+
+@clean_query_value.register
+def clean_enum_bool(in_: bool) -> str:
+    return "true" if in_ else "false"
 
 
 @dt.dataclass(frozen=True)
@@ -38,7 +52,7 @@ class BaseClient:
         self._path = path
 
     def _clean_query(self, query: t.Mapping[str, QueryInput]) -> t.Mapping[str, str]:
-        return {k: clean_query_value(v) for k, v in query.items()}
+        return {k: clean_query_value(v) for k, v in query.items() if v is not None}
 
     async def handle_error(self, response: ClientResponse) -> ClientResponse:
         if response.status == 400:

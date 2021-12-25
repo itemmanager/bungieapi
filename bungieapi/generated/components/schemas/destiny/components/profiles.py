@@ -201,19 +201,17 @@ class DestinyProfileTransitoryTrackingEntry:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyGamePrivacySetting,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyJoinClosedReasons,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyPartyMemberStates,
-)
+)  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.artifacts import (
     DestinyArtifactProfileScoped,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.components.profiles import (  # noqa: E402
-    DestinyProfileTransitoryCurrentActivity,
-    DestinyProfileTransitoryJoinability,
-    DestinyProfileTransitoryPartyMember,
-    DestinyProfileTransitoryTrackingEntry,
-)

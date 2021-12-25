@@ -370,21 +370,25 @@ class DestinyItemTalentGridComponent:
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import DamageType  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyEnergyType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyProgression,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyStat  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyTalentNode,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    EquipFailureReason,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import ItemBindStatus  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import ItemLocation  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import ItemState  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
-    DestinyEnergyType,
-    DestinyProgression,
-    DestinyTalentNode,
-    EquipFailureReason,
+from bungieapi.generated.components.schemas.destiny import (
     TransferStatuses,
-)
-from bungieapi.generated.components.schemas.destiny.entities.items import (  # noqa: E402
-    DestinyItemInstanceEnergy,
-    DestinyItemSocketState,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.perks import (
     DestinyPerkReference,
 )  # noqa: E402

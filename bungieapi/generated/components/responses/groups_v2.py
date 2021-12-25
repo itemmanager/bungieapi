@@ -164,12 +164,22 @@ from bungieapi.generated.components.schemas.exceptions import (
 )  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.groups_v2 import GroupResponse  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GetGroupsForMemberResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupApplicationResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupMemberLeaveResult,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupMembershipSearchResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupPotentialMembershipSearchResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import GroupResponse  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupSearchResponse,
-)
+)  # noqa: E402

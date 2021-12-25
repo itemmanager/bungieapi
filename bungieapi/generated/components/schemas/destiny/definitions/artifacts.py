@@ -87,10 +87,6 @@ class DestinyArtifactTierItemDefinition:
 from bungieapi.generated.components.schemas.destiny.definitions import (
     DestinyItemTranslationBlockDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.artifacts import (  # noqa: E402
-    DestinyArtifactTierDefinition,
-    DestinyArtifactTierItemDefinition,
-)
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (

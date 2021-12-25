@@ -71,10 +71,5 @@ class CommentSummary:
         }
 
 
-from bungieapi.generated.components.schemas.content import CommentSummary  # noqa: E402
-from bungieapi.generated.components.schemas.content import (
-    ContentRepresentation,
-)  # noqa: E402
-
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.user import GeneralUser  # noqa: E402

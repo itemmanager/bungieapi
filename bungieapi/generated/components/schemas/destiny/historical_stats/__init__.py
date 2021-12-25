@@ -445,23 +445,6 @@ class DestinyAggregateActivityStats:
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.historical_stats import (  # noqa: E402
-    DestinyAggregateActivityStats,
-    DestinyHistoricalStatsActivity,
-    DestinyHistoricalStatsByPeriod,
-    DestinyHistoricalStatsPerCharacter,
-    DestinyHistoricalStatsPeriodGroup,
-    DestinyHistoricalStatsValue,
-    DestinyHistoricalStatsValuePair,
-    DestinyHistoricalStatsWithMerged,
-    DestinyHistoricalWeaponStats,
-    DestinyLeaderboard,
-    DestinyLeaderboardEntry,
-    DestinyPlayer,
-    DestinyPostGameCarnageReportEntry,
-    DestinyPostGameCarnageReportExtendedData,
-    DestinyPostGameCarnageReportTeamEntry,
-)
 from bungieapi.generated.components.schemas.destiny.historical_stats.definitions import (
     DestinyActivityModeType,
 )  # noqa: E402

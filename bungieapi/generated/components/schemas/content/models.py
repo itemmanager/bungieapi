@@ -252,15 +252,3 @@ class ContentTypePropertySection:
             "readableName": to_json(self.readable_name),
             "collapsed": to_json(self.collapsed),
         }
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.content.models import (  # noqa: E402
-    ContentPreview,
-    ContentPropertyDataTypeEnum,
-    ContentTypeDefaultValue,
-    ContentTypeProperty,
-    ContentTypePropertySection,
-    TagMetadataDefinition,
-    TagMetadataItem,
-)

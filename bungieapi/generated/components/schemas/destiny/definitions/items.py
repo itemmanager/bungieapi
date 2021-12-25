@@ -279,21 +279,15 @@ class DestinyEnergyCostEntry:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import PlugUiStyles  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyEnergyType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     PlugAvailabilityMode,
-)
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import PlugUiStyles  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.items import (  # noqa: E402
-    DestinyDerivedItemDefinition,
-    DestinyEnergyCapacityEntry,
-    DestinyEnergyCostEntry,
-    DestinyItemTierTypeInfusionBlock,
-    DestinyParentItemOverride,
-    DestinyPlugRuleDefinition,
-)

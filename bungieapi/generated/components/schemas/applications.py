@@ -145,11 +145,4 @@ class DeveloperRole(Enum):
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.applications import Datapoint  # noqa: E402
-from bungieapi.generated.components.schemas.applications import Series  # noqa: E402
-from bungieapi.generated.components.schemas.applications import (  # noqa: E402
-    ApplicationDeveloper,
-    ApplicationStatus,
-    DeveloperRole,
-)
 from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402

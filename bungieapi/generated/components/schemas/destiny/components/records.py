@@ -105,13 +105,9 @@ class DestinyCharacterRecordsComponent:
         }
 
 
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import (
     DestinyRecordState,
-)  # noqa: E402
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.components.records import (
-    DestinyRecordComponent,
 )  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.quests import (
     DestinyObjectiveProgress,

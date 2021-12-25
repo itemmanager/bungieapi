@@ -4611,150 +4611,109 @@ from bungieapi.generated.components.schemas import (
     SearchResultOfDestinyEntitySearchResultItem,
 )  # noqa: E402
 from bungieapi.generated.components.schemas.dates import DateRange  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import BucketCategory  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import BucketScope  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DamageType  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyActivityModeCategory,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyActivityNavPointType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyAmmunitionType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyBreakerType,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyClass  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyGatingScope,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyGender  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyItemQuantity,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyItemSortType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyItemSubType,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyItemType  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyObjectiveGrantStyle,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyProgressionRewardItemAcquisitionBehavior,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyProgressionScope,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyProgressionStepDisplayEffect,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyRace  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyStatAggregationType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyStatCategory,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyUnlockValueUIStyle,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyVendorInteractionRewardSelection,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyVendorItemRefundPolicy,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyVendorProgressionType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    DestinyVendorReplyType,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DyeReference  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    EquippingItemBlockAttributes,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import ItemLocation  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    ItemPerkVisibility,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
+    SocketPlugSources,
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import SpecialItemType  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import TierType  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
-    DestinyActivityModeCategory,
-    DestinyActivityNavPointType,
-    DestinyAmmunitionType,
-    DestinyBreakerType,
-    DestinyGatingScope,
-    DestinyItemQuantity,
-    DestinyItemSortType,
-    DestinyItemSubType,
-    DestinyObjectiveGrantStyle,
-    DestinyProgressionRewardItemAcquisitionBehavior,
-    DestinyProgressionScope,
-    DestinyProgressionStepDisplayEffect,
-    DestinyStatAggregationType,
-    DestinyStatCategory,
-    DestinyUnlockValueUIStyle,
-    DestinyVendorInteractionRewardSelection,
-    DestinyVendorItemRefundPolicy,
-    DestinyVendorProgressionType,
-    DestinyVendorReplyType,
-    EquippingItemBlockAttributes,
-    ItemPerkVisibility,
-    SocketPlugSources,
+from bungieapi.generated.components.schemas.destiny import (
     VendorDisplayCategorySortOrder,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     VendorInteractionType,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.constants import (
     DestinyEnvironmentLocationMapping,
 )  # noqa: E402
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
-    DestinyActivityChallengeDefinition,
-    DestinyActivityGraphListEntryDefinition,
-    DestinyActivityGuidedBlockDefinition,
-    DestinyActivityInsertionPointDefinition,
-    DestinyActivityLoadoutRequirement,
-    DestinyActivityLoadoutRequirementSet,
-    DestinyActivityMatchmakingBlockDefinition,
-    DestinyActivityModifierReferenceDefinition,
-    DestinyActivityPlaylistItemDefinition,
-    DestinyActivityRewardDefinition,
-    DestinyActivityUnlockStringDefinition,
-    DestinyArtDyeReference,
-    DestinyBubbleDefinition,
-    DestinyDestinationBubbleSettingDefinition,
-    DestinyDisplayCategoryDefinition,
-    DestinyEquippingBlockDefinition,
-    DestinyFactionVendorDefinition,
-    DestinyGearArtArrangementReference,
-    DestinyInventoryItemStatDefinition,
-    DestinyItemActionBlockDefinition,
-    DestinyItemActionRequiredItemDefinition,
-    DestinyItemCreationEntryLevelDefinition,
-    DestinyItemGearsetBlockDefinition,
-    DestinyItemIntrinsicSocketEntryDefinition,
-    DestinyItemInventoryBlockDefinition,
-    DestinyItemInvestmentStatDefinition,
-    DestinyItemMetricBlockDefinition,
-    DestinyItemObjectiveBlockDefinition,
-    DestinyItemPerkEntryDefinition,
-    DestinyItemPreviewBlockDefinition,
-    DestinyItemQualityBlockDefinition,
-    DestinyItemSackBlockDefinition,
-    DestinyItemSetBlockDefinition,
-    DestinyItemSetBlockEntryDefinition,
-    DestinyItemSocketBlockDefinition,
-    DestinyItemSocketCategoryDefinition,
-    DestinyItemSocketEntryDefinition,
-    DestinyItemSocketEntryPlugItemDefinition,
-    DestinyItemSourceBlockDefinition,
-    DestinyItemStatBlockDefinition,
-    DestinyItemSummaryBlockDefinition,
-    DestinyItemTalentGridBlockDefinition,
-    DestinyItemTooltipNotification,
-    DestinyItemTranslationBlockDefinition,
-    DestinyItemValueBlockDefinition,
-    DestinyItemVendorSourceReference,
-    DestinyItemVersionDefinition,
-    DestinyLocationReleaseDefinition,
-    DestinyMaterialRequirement,
-    DestinyNodeActivationRequirement,
-    DestinyNodeSocketReplaceResponse,
-    DestinyNodeStepDefinition,
-    DestinyObjectiveDisplayProperties,
-    DestinyObjectivePerkEntryDefinition,
-    DestinyObjectiveStatEntryDefinition,
-    DestinyProgressionDisplayPropertiesDefinition,
-    DestinyProgressionRewardDefinition,
-    DestinyProgressionRewardItemQuantity,
-    DestinyProgressionStepDefinition,
-    DestinyRewardSourceCategory,
-    DestinyStatDisplayDefinition,
-    DestinyStatOverrideDefinition,
-    DestinyTalentExclusiveGroup,
-    DestinyTalentNodeCategory,
-    DestinyTalentNodeDefinition,
-    DestinyTalentNodeExclusiveSetDefinition,
-    DestinyTalentNodeStepDamageTypes,
-    DestinyTalentNodeStepGroups,
-    DestinyTalentNodeStepGuardianAttributes,
-    DestinyTalentNodeStepImpactEffects,
-    DestinyTalentNodeStepLightAbilities,
-    DestinyTalentNodeStepWeaponPerformances,
-    DestinyVendorAcceptedItemDefinition,
-    DestinyVendorActionDefinition,
-    DestinyVendorCategoryEntryDefinition,
-    DestinyVendorCategoryOverlayDefinition,
-    DestinyVendorDisplayPropertiesDefinition,
-    DestinyVendorGroupReference,
-    DestinyVendorInteractionDefinition,
-    DestinyVendorInteractionReplyDefinition,
-    DestinyVendorInteractionSackEntryDefinition,
-    DestinyVendorInventoryFlyoutBucketDefinition,
-    DestinyVendorInventoryFlyoutDefinition,
-    DestinyVendorItemDefinition,
-    DestinyVendorItemQuantity,
-    DestinyVendorItemSocketOverride,
-    DestinyVendorRequirementDisplayEntryDefinition,
-    DestinyVendorSaleItemActionBlockDefinition,
-    DestinyVendorServiceDefinition,
-)
 from bungieapi.generated.components.schemas.destiny.definitions.animations import (
     DestinyAnimationReference,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyIconSequenceDefinition,
-)
-from bungieapi.generated.components.schemas.destiny.definitions.items import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions.items import (
     DestinyDerivedItemCategoryDefinition,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions.items import (
     DestinyItemPlugDefinition,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.definitions.sources import (
     DestinyItemSourceDefinition,
 )  # noqa: E402

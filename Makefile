@@ -46,7 +46,7 @@ types: ## run typecheck
 
 reformat: ## reformat code
 	docformatter . -r -i
-	autoflake -i -r --remove-all-unused-imports .
+	python -m autoflake -i -r --remove-all-unused-imports .
 	isort .
 	black .
 

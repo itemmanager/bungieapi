@@ -99,8 +99,8 @@ from bungieapi.generated.components.schemas.exceptions import (
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.user import GeneralUser  # noqa: E402
-from bungieapi.generated.components.schemas.user import UserMembershipData  # noqa: E402
-from bungieapi.generated.components.schemas.user import UserSearchResponse  # noqa: E402
 from bungieapi.generated.components.schemas.user import (
     HardLinkedUserMembership,
 )  # noqa: E402
+from bungieapi.generated.components.schemas.user import UserMembershipData  # noqa: E402
+from bungieapi.generated.components.schemas.user import UserSearchResponse  # noqa: E402

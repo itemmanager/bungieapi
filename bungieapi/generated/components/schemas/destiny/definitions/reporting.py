@@ -68,6 +68,3 @@ class DestinyReportReasonDefinition:
 from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.reporting import (
-    DestinyReportReasonDefinition,
-)  # noqa: E402

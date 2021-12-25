@@ -41,7 +41,3 @@ class IgnoreLength(Enum):
     THREE_MINUTES = 9
     HOUR = 10
     THIRTY_DAYS = 11
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.ignores import IgnoreStatus  # noqa: E402

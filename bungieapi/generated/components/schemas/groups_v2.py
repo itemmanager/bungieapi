@@ -880,32 +880,6 @@ from bungieapi.generated.components.schemas import BungieMembershipType  # noqa:
 from bungieapi.generated.components.schemas.destiny import (
     DestinyProgression,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import Capabilities  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import ClanBanner  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupFeatures  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupHomepage  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupMember  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupSortBy  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupType  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupV2  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupV2Card  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (  # noqa: E402
-    ChatSecuritySetting,
-    GroupAllianceStatus,
-    GroupApplicationResolveState,
-    GroupDateRange,
-    GroupMembership,
-    GroupPostPublicity,
-    GroupPotentialMember,
-    GroupPotentialMembership,
-    GroupPotentialMemberStatus,
-    GroupUserInfoCard,
-    GroupV2ClanInfo,
-    GroupV2ClanInfoAndInvestment,
-    HostGuidedGamesPermissionLevel,
-    MembershipOption,
-    RuntimeGroupMemberType,
-)
 from bungieapi.generated.components.schemas.ignores import IgnoreLength  # noqa: E402
 from bungieapi.generated.components.schemas.queries import PagedQuery  # noqa: E402
 from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402

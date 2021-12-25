@@ -5,6 +5,7 @@ import aiohttp
 
 from bungieapi.generated.clients.root import Client as RootClient
 
+
 BASE_URL = "https://www.bungie.net"
 BASE_PATH = "/Platform"
 

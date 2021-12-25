@@ -52,7 +52,9 @@ class DestinyVendorReceipt:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyItemQuantity,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyVendorItemRefundPolicy,
-)
+)  # noqa: E402

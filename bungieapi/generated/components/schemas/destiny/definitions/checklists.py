@@ -105,9 +105,6 @@ class DestinyChecklistEntryDefinition:
 
 
 from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.checklists import (
-    DestinyChecklistEntryDefinition,
-)  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (

@@ -63,9 +63,3 @@ class PartnerOfferHistoryResponse:
             "QuantityApplied": to_json(self.quantity_applied),
             "ApplyDate": to_json(self.apply_date),
         }
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.tokens import (
-    PartnerOfferHistoryResponse,
-)  # noqa: E402

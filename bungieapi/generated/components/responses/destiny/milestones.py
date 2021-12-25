@@ -50,10 +50,12 @@ class DestinyMilestoneContentClientResponse:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.milestones import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.milestones import (
     DestinyMilestone,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.milestones import (
     DestinyMilestoneContent,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.exceptions import (
     PlatformErrorCodes,
 )  # noqa: E402

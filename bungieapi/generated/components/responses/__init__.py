@@ -644,15 +644,25 @@ class CEListOfGlobalAlertClientResponse:
 
 
 from bungieapi.generated.components.schemas import GlobalAlert  # noqa: E402
-from bungieapi.generated.components.schemas import SearchResultOfGroupBan  # noqa: E402
-from bungieapi.generated.components.schemas import (  # noqa: E402
+from bungieapi.generated.components.schemas import (
     SearchResultOfContentItemPublicContract,
+)  # noqa: E402
+from bungieapi.generated.components.schemas import (
     SearchResultOfFireteamResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas import (
     SearchResultOfFireteamSummary,
+)  # noqa: E402
+from bungieapi.generated.components.schemas import SearchResultOfGroupBan  # noqa: E402
+from bungieapi.generated.components.schemas import (
     SearchResultOfGroupMember,
+)  # noqa: E402
+from bungieapi.generated.components.schemas import (
     SearchResultOfGroupMemberApplication,
+)  # noqa: E402
+from bungieapi.generated.components.schemas import (
     SearchResultOfTrendingEntry,
-)
+)  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.applications import (
@@ -681,10 +691,10 @@ from bungieapi.generated.components.schemas.exceptions import (
 from bungieapi.generated.components.schemas.forum import (
     ForumRecruitmentDetail,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupV2Card  # noqa: E402
 from bungieapi.generated.components.schemas.groups_v2 import (
     GroupOptionalConversation,
 )  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import GroupV2Card  # noqa: E402
 from bungieapi.generated.components.schemas.tags.models.contracts import (
     TagResponse,
 )  # noqa: E402

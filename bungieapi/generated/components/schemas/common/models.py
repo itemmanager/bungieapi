@@ -158,9 +158,4 @@ class Destiny2CoreSettings:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.common.models import (  # noqa: E402
-    CoreSetting,
-    CoreSystem,
-    Destiny2CoreSettings,
-)
 from bungieapi.generated.components.schemas.user import EmailSettings  # noqa: E402

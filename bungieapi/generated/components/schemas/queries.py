@@ -39,7 +39,3 @@ class PagedQuery:
             "currentPage": to_json(self.current_page),
             "requestContinuationToken": to_json(self.request_continuation_token),
         }
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.queries import PagedQuery  # noqa: E402

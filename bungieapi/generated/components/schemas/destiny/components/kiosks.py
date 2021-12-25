@@ -56,9 +56,6 @@ class DestinyKioskItem:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.components.kiosks import (
-    DestinyKioskItem,
-)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.quests import (
     DestinyObjectiveProgress,
 )  # noqa: E402

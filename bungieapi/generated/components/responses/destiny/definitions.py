@@ -50,10 +50,12 @@ class DestinyEntitySearchResultClientResponse:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions import (
     DestinyDefinition,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions import (
     DestinyEntitySearchResult,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.exceptions import (
     PlatformErrorCodes,
 )  # noqa: E402

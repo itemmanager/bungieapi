@@ -2,6 +2,7 @@ import pytest
 
 from bungieapi import Client, __version__
 from bungieapi.generated.components.schemas.destiny.config import DestinyManifest
+from bungieapi.generated.components.schemas.exceptions import PlatformErrorCodes
 from bungieapi.generated.components.schemas.user import ExactSearchRequest, UserInfoCard
 
 
@@ -24,3 +25,18 @@ async def test_can_search_by_player_name(client: Client):
             -1,
         )
         assert all(isinstance(r, UserInfoCard) for r in result.response)
+
+
+@pytest.mark.asyncio
+@pytest.mark.skip("Need token")
+async def test_can_get_application_api_usage(client: Client, application_id: int):
+    async with client as root:
+        result = await root.app.get_application_api_usage(application_id)
+        assert result.response
+
+
+@pytest.mark.asyncio
+async def test_can_get_global_alerts(client: Client):
+    async with client as root:
+        result = await root.get_global_alerts(includestreaming=True)
+        assert result.error_code == PlatformErrorCodes.SUCCESS

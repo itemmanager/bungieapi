@@ -184,11 +184,4 @@ class FireteamPlatformInviteResult(Enum):
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.fireteam import FireteamMember  # noqa: E402
-from bungieapi.generated.components.schemas.fireteam import (  # noqa: E402
-    FireteamPlatform,
-    FireteamPlatformInviteResult,
-    FireteamSummary,
-    FireteamUserInfoCard,
-)
 from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402

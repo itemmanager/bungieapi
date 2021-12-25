@@ -207,13 +207,3 @@ class PeriodType(Enum):
     DAILY = 1
     ALL_TIME = 2
     ACTIVITY = 3
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.historical_stats.definitions import (  # noqa: E402
-    DestinyActivityModeType,
-    DestinyStatsCategoryType,
-    DestinyStatsGroupType,
-    PeriodType,
-    UnitType,
-)

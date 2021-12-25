@@ -224,6 +224,7 @@ class TrendingEntryCommunityCreation:
         }
 
 
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas import (
     SearchResultOfTrendingEntry,
 )  # noqa: E402
@@ -233,20 +234,9 @@ from bungieapi.generated.components.schemas.content import (
 from bungieapi.generated.components.schemas.destiny.activities import (
     DestinyPublicActivityStatus,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.milestones import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.milestones import (
     DestinyMilestoneContent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.milestones import (
     DestinyPublicMilestone,
-)
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.trending import TrendingEntry  # noqa: E402
-from bungieapi.generated.components.schemas.trending import (  # noqa: E402
-    TrendingCategory,
-    TrendingEntryCommunityCreation,
-    TrendingEntryDestinyActivity,
-    TrendingEntryDestinyItem,
-    TrendingEntryDestinyRitual,
-    TrendingEntryNews,
-    TrendingEntrySupportArticle,
-    TrendingEntryType,
-)
+)  # noqa: E402

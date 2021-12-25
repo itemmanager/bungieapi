@@ -90,9 +90,3 @@ class DestinyQuestStatus:
             "started": to_json(self.started),
             "vendorHash": to_json(self.vendor_hash),
         }
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.quests import (
-    DestinyObjectiveProgress,
-)  # noqa: E402

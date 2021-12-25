@@ -72,10 +72,3 @@ class ImagePyramidEntry:
             "name": to_json(self.name),
             "factor": to_json(self.factor),
         }
-
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.config import (  # noqa: E402
-    GearAssetDataBaseDefinition,
-    ImagePyramidEntry,
-)

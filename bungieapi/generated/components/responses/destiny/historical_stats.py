@@ -160,15 +160,27 @@ class DestinyAggregateActivityResultsClientResponse:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.historical_stats import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyActivityHistoryResults,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyAggregateActivityResults,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyHistoricalStatsAccountResult,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyHistoricalStatsByPeriod,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyHistoricalWeaponStatsData,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyLeaderboard,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyPostGameCarnageReportData,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.exceptions import (
     PlatformErrorCodes,
 )  # noqa: E402

@@ -210,18 +210,9 @@ class CommunityContentSortMode(Enum):
     HIGHEST_RATED = 2
 
 
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.forum import ForumMediaType  # noqa: E402
-from bungieapi.generated.components.schemas.forum import PollResponse  # noqa: E402
-from bungieapi.generated.components.schemas.forum import PollResult  # noqa: E402
-from bungieapi.generated.components.schemas.forum import PostResponse  # noqa: E402
-from bungieapi.generated.components.schemas.forum import (  # noqa: E402
-    ForumPostPopularity,
-    ForumRecruitmentDetail,
-    ForumRecruitmentIntensityLabel,
-    ForumRecruitmentToneLabel,
-)
 from bungieapi.generated.components.schemas.groups_v2 import GroupResponse  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.ignores import IgnoreResponse  # noqa: E402
 from bungieapi.generated.components.schemas.queries import PagedQuery  # noqa: E402
 from bungieapi.generated.components.schemas.tags.models.contracts import (

@@ -153,13 +153,18 @@ class DestinyVendorSaleItemComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyItemQuantity,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyProgression,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyUnlockStatus,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyVendorItemState,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     VendorItemStatus,
-)
-from bungieapi.generated.components.schemas.destiny.entities.vendors import (
-    DestinyVendorCategory,
 )  # noqa: E402

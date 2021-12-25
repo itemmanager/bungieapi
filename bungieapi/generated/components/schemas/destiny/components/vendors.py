@@ -175,11 +175,7 @@ class DestinyPublicVendorSaleItemComponent:
         }
 
 
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import (
     DestinyItemQuantity,
-)  # noqa: E402
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.components.vendors import (
-    DestinyVendorGroup,
 )  # noqa: E402

@@ -69,11 +69,7 @@ class DestinyProfileCollectiblesComponent:
         }
 
 
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import (
     DestinyCollectibleState,
-)  # noqa: E402
-
-# imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.components.collectibles import (
-    DestinyCollectibleComponent,
 )  # noqa: E402

@@ -11,6 +11,11 @@ def api_key() -> str:
 
 
 @pytest.fixture
+def application_id() -> int:
+    return 40154
+
+
+@pytest.fixture
 def credentials(api_key) -> Credentials:
     return Credentials(api_key=api_key)
 

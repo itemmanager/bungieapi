@@ -539,24 +539,6 @@ from bungieapi.generated.components.schemas.destiny.challenges import (
 )  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.milestones import (  # noqa: E402
-    DestinyMilestoneActivity,
-    DestinyMilestoneActivityCompletionStatus,
-    DestinyMilestoneActivityPhase,
-    DestinyMilestoneActivityVariant,
-    DestinyMilestoneChallengeActivity,
-    DestinyMilestoneContentItemCategory,
-    DestinyMilestoneQuest,
-    DestinyMilestoneRewardCategory,
-    DestinyMilestoneRewardEntry,
-    DestinyMilestoneVendor,
-    DestinyPublicMilestoneActivity,
-    DestinyPublicMilestoneActivityVariant,
-    DestinyPublicMilestoneChallenge,
-    DestinyPublicMilestoneChallengeActivity,
-    DestinyPublicMilestoneQuest,
-    DestinyPublicMilestoneVendor,
-)
 from bungieapi.generated.components.schemas.destiny.quests import (
     DestinyQuestStatus,
 )  # noqa: E402

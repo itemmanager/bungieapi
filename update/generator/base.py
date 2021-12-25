@@ -3,7 +3,6 @@ import typing as t
 from pathlib import Path
 
 from svarog.tools import camel_to_snake
-
 from update.generator.clients import client, generate_clients_init
 from update.generator.imports import generate_imports
 from update.generator.schema import generate_schema
@@ -72,7 +71,7 @@ def tree_generator(
     tree: Tree[T],
     module_generator: t.Callable[[Tree[T], t.Sequence[str]], t.Iterator[str]],
 ) -> t.Iterator[t.Tuple[Path, t.Iterator[str]]]:
-    module = str(path / Path(tree.name)).split("/")
+    module = ["bungieapi", "generated", *str(path / Path(tree.name)).split("/")]
 
     if any(tree.child_nodes()):
         yield path / Path(tree.name) / Path("__init__.py"), with_preamble(

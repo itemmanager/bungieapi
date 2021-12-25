@@ -52,7 +52,7 @@ def generate_object(
     if object.additional_properties:
         yield f"    additional: t.Mapping[str, {literal_bare(object.additional_properties, [])}]  = dt.field(default_factory=dict)"
 
-    yield f"    def to_json(self) -> t.Mapping[str, t.Any]:"
+    yield "    def to_json(self) -> t.Mapping[str, t.Any]:"
     yield "        return {"
     for name, property in (object.properties or {}).items():
         yield f'"{name}": to_json(self.{camel_to_snake(name)}),'

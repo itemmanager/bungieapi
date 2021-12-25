@@ -30,9 +30,6 @@ class DestinyMetricComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.components.metrics import (
-    DestinyMetricComponent,
-)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.quests import (
     DestinyObjectiveProgress,
 )  # noqa: E402

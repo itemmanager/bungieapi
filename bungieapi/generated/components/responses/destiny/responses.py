@@ -204,17 +204,33 @@ class DestinyItemChangeClientResponse:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.responses import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyCharacterResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyCollectibleNodeDetailResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyItemChangeResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyItemResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyLinkedProfilesResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyProfileResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyPublicVendorsResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyVendorResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     DestinyVendorsResponse,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.exceptions import (
     PlatformErrorCodes,
 )  # noqa: E402

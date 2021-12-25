@@ -234,18 +234,20 @@ from bungieapi.generated.components.schemas import BungieMembershipType  # noqa:
 from bungieapi.generated.components.schemas.destiny import DestinyActivity  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyClass  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyGender  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import DestinyRace  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import DyeReference  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import (
     DestinyProgression,
 )  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import DestinyRace  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import DyeReference  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.artifacts import (
     DestinyArtifactCharacterScoped,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.character import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.character import (
     DestinyCharacterCustomization,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.character import (
     DestinyCharacterPeerView,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemPerksComponent,
 )  # noqa: E402
@@ -261,7 +263,9 @@ from bungieapi.generated.components.schemas.destiny.misc import (
 from bungieapi.generated.components.schemas.destiny.progression import (
     DestinyFactionProgression,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.quests import (
     DestinyObjectiveProgress,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.quests import (
     DestinyQuestStatus,
-)
+)  # noqa: E402

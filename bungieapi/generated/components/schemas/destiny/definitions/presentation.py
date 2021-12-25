@@ -265,20 +265,16 @@ class DestinyPresentationNodeMetricChildEntry:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyPresentationDisplayStyle,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyPresentationNodeType,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (
     DestinyPresentationScreenStyle,
-)
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
-    DestinyPresentationNodeChildEntry,
-    DestinyPresentationNodeChildrenBlock,
-    DestinyPresentationNodeCollectibleChildEntry,
-    DestinyPresentationNodeMetricChildEntry,
-    DestinyPresentationNodeRecordChildEntry,
-    DestinyPresentationNodeRequirementsBlock,
-)

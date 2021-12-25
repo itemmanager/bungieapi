@@ -133,7 +133,3 @@ class DestinySeasonPassDefinition:
 from bungieapi.generated.components.schemas.destiny.definitions.common import (
     DestinyDisplayPropertiesDefinition,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.seasons import (  # noqa: E402
-    DestinySeasonPreviewDefinition,
-    DestinySeasonPreviewImageDefinition,
-)

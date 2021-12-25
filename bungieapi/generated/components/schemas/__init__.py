@@ -1703,40 +1703,6 @@ class StreamInfo:
         }
 
 
-from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
-from bungieapi.generated.components.schemas import GlobalAlertLevel  # noqa: E402
-from bungieapi.generated.components.schemas import GlobalAlertType  # noqa: E402
-from bungieapi.generated.components.schemas import StreamInfo  # noqa: E402
-from bungieapi.generated.components.schemas import (  # noqa: E402
-    DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemPerksComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemRenderComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemStatsComponent,
-    DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemPerksComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemRenderComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemStatsComponent,
-    DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent,
-    DictionaryComponentResponseOfuint32AndDestinyItemTalentGridComponent,
-)
 from bungieapi.generated.components.schemas.components import (
     ComponentPrivacySetting,
 )  # noqa: E402
@@ -1745,19 +1711,27 @@ from bungieapi.generated.components.schemas.components import (
 from bungieapi.generated.components.schemas.content import (
     ContentItemPublicContract,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.components.collectibles import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.collectibles import (
     DestinyCollectiblesComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.collectibles import (
     DestinyProfileCollectiblesComponent,
-)
-from bungieapi.generated.components.schemas.destiny.components.inventory import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.inventory import (
     DestinyCurrenciesComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.inventory import (
     DestinyPlatformSilverComponent,
-)
-from bungieapi.generated.components.schemas.destiny.components.items import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.items import (
     DestinyItemPlugComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.items import (
     DestinyItemPlugObjectivesComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.items import (
     DestinyItemReusablePlugsComponent,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.components.kiosks import (
     DestinyKiosksComponent,
 )  # noqa: E402
@@ -1770,69 +1744,111 @@ from bungieapi.generated.components.schemas.destiny.components.plug_sets import 
 from bungieapi.generated.components.schemas.destiny.components.presentation import (
     DestinyPresentationNodesComponent,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.components.profiles import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.profiles import (
     DestinyProfileProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.profiles import (
     DestinyProfileTransitoryComponent,
-)
-from bungieapi.generated.components.schemas.destiny.components.records import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.records import (
     DestinyCharacterRecordsComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.records import (
     DestinyProfileRecordsComponent,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.components.string_variables import (
     DestinyStringVariablesComponent,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.components.vendors import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.vendors import (
     DestinyPublicVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.vendors import (
     DestinyPublicVendorSaleItemComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.components.vendors import (
     DestinyVendorGroupComponent,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.definitions import (
     DestinyEntitySearchResultItem,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.entities.characters import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.characters import (
     DestinyCharacterActivitiesComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.characters import (
     DestinyCharacterComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.characters import (
     DestinyCharacterProgressionComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.characters import (
     DestinyCharacterRenderComponent,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.entities.inventory import (
     DestinyInventoryComponent,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.entities.items import (  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemInstanceComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemObjectivesComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemPerksComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemRenderComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemSocketsComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemStatsComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.items import (
     DestinyItemTalentGridComponent,
-)
-from bungieapi.generated.components.schemas.destiny.entities.profiles import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.profiles import (
     DestinyProfileComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.profiles import (
     DestinyVendorReceiptsComponent,
-)
-from bungieapi.generated.components.schemas.destiny.entities.vendors import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.vendors import (
     DestinyVendorCategoriesComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.vendors import (
     DestinyVendorComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.entities.vendors import (
     DestinyVendorSaleItemComponent,
-)
-from bungieapi.generated.components.schemas.destiny.responses import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     PersonalDestinyVendorSaleItemSetComponent,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.responses import (
     PublicDestinyVendorSaleItemSetComponent,
-)
-from bungieapi.generated.components.schemas.fireteam import (  # noqa: E402
+)  # noqa: E402
+from bungieapi.generated.components.schemas.fireteam import (
     FireteamResponse,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.fireteam import (
     FireteamSummary,
-)
+)  # noqa: E402
 from bungieapi.generated.components.schemas.forum import PostResponse  # noqa: E402
 from bungieapi.generated.components.schemas.groups_v2 import GroupBan  # noqa: E402
 from bungieapi.generated.components.schemas.groups_v2 import GroupMember  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import GroupV2Card  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupMemberApplication,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupMembership,
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import (
     GroupPotentialMembership,
-)
+)  # noqa: E402
+from bungieapi.generated.components.schemas.groups_v2 import GroupV2Card  # noqa: E402
 from bungieapi.generated.components.schemas.queries import PagedQuery  # noqa: E402
 from bungieapi.generated.components.schemas.trending import TrendingEntry  # noqa: E402

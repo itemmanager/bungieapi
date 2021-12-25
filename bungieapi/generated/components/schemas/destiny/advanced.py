@@ -116,11 +116,5 @@ class AwaResponseReason(Enum):
     REPLACED = 3  # This request was replaced by another request.
 
 
-from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
-
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.advanced import (  # noqa: E402
-    AwaResponseReason,
-    AwaType,
-    AwaUserSelection,
-)
+from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402

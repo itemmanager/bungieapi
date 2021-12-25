@@ -79,7 +79,3 @@ class DestinyArtifactTierItem:
 from bungieapi.generated.components.schemas.destiny import (
     DestinyProgression,
 )  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.artifacts import (  # noqa: E402
-    DestinyArtifactTier,
-    DestinyArtifactTierItem,
-)

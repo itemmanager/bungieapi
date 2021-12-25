@@ -121,15 +121,6 @@ class PlatformFriend:
         }
 
 
-from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
-
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.social.friends import (  # noqa: E402
-    BungieFriend,
-    FriendRelationshipState,
-    PlatformFriend,
-    PlatformFriendType,
-    PresenceOnlineStateFlags,
-    PresenceStatus,
-)
+from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
 from bungieapi.generated.components.schemas.user import GeneralUser  # noqa: E402

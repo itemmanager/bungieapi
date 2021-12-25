@@ -38,7 +38,5 @@ def generate_imports_schema(
 def generate_import(
     reference: api.Reference, module: t.Sequence[str]
 ) -> t.Iterator[str]:
-    *ref_module, class_name = reference.class_name.split(".")
     if not reference.local(module):
-        name = reference.name
         yield f"from {'.'.join(reference.module)} import {reference.name}"

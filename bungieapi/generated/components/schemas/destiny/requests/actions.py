@@ -184,7 +184,3 @@ class DestinyInsertPlugsFreeActionRequest:
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.requests.actions import (  # noqa: E402
-    DestinyInsertPlugsRequestEntry,
-    DestinySocketArrayType,
-)
