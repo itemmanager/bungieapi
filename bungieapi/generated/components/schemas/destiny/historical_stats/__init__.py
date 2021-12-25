@@ -7,19 +7,15 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportData:
-    activity_details: t.Optional[
-        "DestinyHistoricalStatsActivity"
-    ] = None  # Details about the activity.
-    entries: t.Optional[
-        t.Sequence["DestinyPostGameCarnageReportEntry"]
-    ] = None  # Collection of players and their data for this activity.
-    period: t.Optional[str] = None  # Date and time for the activity.
-    starting_phase_index: t.Optional[
-        int
-    ] = None  # If this activity has "phases", this is the phase at which the activity was started.
-    teams: t.Optional[
-        t.Sequence["DestinyPostGameCarnageReportTeamEntry"]
-    ] = None  # Collection of stats for the player in this activity.
+    activity_details: "DestinyHistoricalStatsActivity"  # Details about the activity.
+    entries: t.Sequence[
+        "DestinyPostGameCarnageReportEntry"
+    ]  # Collection of players and their data for this activity.
+    period: str  # Date and time for the activity.
+    starting_phase_index: int  # If this activity has "phases", this is the phase at which the activity was started.
+    teams: t.Sequence[
+        "DestinyPostGameCarnageReportTeamEntry"
+    ]  # Collection of stats for the player in this activity.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -35,25 +31,15 @@ class DestinyPostGameCarnageReportData:
 class DestinyHistoricalStatsActivity:
     """Summary information about the activity that was played."""
 
-    director_activity_hash: t.Optional[
-        int
-    ] = None  # The unique hash identifier of the DestinyActivityDefinition that was played.
-    instance_id: t.Optional[
-        int
-    ] = None  # The unique identifier for this *specific* match that was played. This value can be used to get additional data about this activity such as who else was playing via the GetPostGameCarnageReport endpoint.
-    is_private: t.Optional[bool] = None  # Whether or not the match was a private match.
-    membership_type: t.Optional[
-        "BungieMembershipType"
-    ] = None  # The Membership Type indicating the platform on which this match was played.
-    mode: t.Optional[
+    director_activity_hash: int  # The unique hash identifier of the DestinyActivityDefinition that was played.
+    instance_id: int  # The unique identifier for this *specific* match that was played. This value can be used to get additional data about this activity such as who else was playing via the GetPostGameCarnageReport endpoint.
+    is_private: bool  # Whether or not the match was a private match.
+    membership_type: "BungieMembershipType"  # The Membership Type indicating the platform on which this match was played.
+    mode: "DestinyActivityModeType"  # Indicates the most specific game mode of the activity that we could find.
+    modes: t.Sequence[
         "DestinyActivityModeType"
-    ] = None  # Indicates the most specific game mode of the activity that we could find.
-    modes: t.Optional[
-        t.Sequence["DestinyActivityModeType"]
-    ] = None  # The list of all Activity Modes to which this activity applies, including aggregates. This will let you see, for example, whether the activity was both Clash and part of the Trials of the Nine event.
-    reference_id: t.Optional[
-        int
-    ] = None  # The unique hash identifier of the DestinyActivityDefinition that was played. If I had this to do over, it'd be named activityHash. Too late now.
+    ]  # The list of all Activity Modes to which this activity applies, including aggregates. This will let you see, for example, whether the activity was both Clash and part of the Trials of the Nine event.
+    reference_id: int  # The unique hash identifier of the DestinyActivityDefinition that was played. If I had this to do over, it'd be named activityHash. Too late now.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -69,20 +55,14 @@ class DestinyHistoricalStatsActivity:
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportEntry:
-    character_id: t.Optional[
-        int
-    ] = None  # ID of the player's character used in the activity.
-    extended: t.Optional[
-        "DestinyPostGameCarnageReportExtendedData"
-    ] = None  # Extended data extracted from the activity blob.
-    player: t.Optional["DestinyPlayer"] = None  # Identity details of the player
-    score: t.Optional[
-        "DestinyHistoricalStatsValue"
-    ] = None  # Score of the player if available
-    standing: t.Optional[int] = None  # Standing of the player
-    values: t.Optional[
-        t.Mapping[str, "DestinyHistoricalStatsValue"]
-    ] = None  # Collection of stats for the player in this activity.
+    character_id: int  # ID of the player's character used in the activity.
+    extended: "DestinyPostGameCarnageReportExtendedData"  # Extended data extracted from the activity blob.
+    player: "DestinyPlayer"  # Identity details of the player
+    score: "DestinyHistoricalStatsValue"  # Score of the player if available
+    standing: int  # Standing of the player
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the player in this activity.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -97,17 +77,11 @@ class DestinyPostGameCarnageReportEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValue:
-    activity_id: t.Optional[
-        int
-    ] = None  # When a stat represents the best, most, longest, fastest or some other personal best, the actual activity ID where that personal best was established is available on this property.
-    basic: t.Optional["DestinyHistoricalStatsValuePair"] = None  # Basic stat value.
-    pga: t.Optional[
-        "DestinyHistoricalStatsValuePair"
-    ] = None  # Per game average for the statistic, if applicable
-    stat_id: t.Optional[str] = None  # Unique ID for this stat
-    weighted: t.Optional[
-        "DestinyHistoricalStatsValuePair"
-    ] = None  # Weighted value of the stat if a weight greater than 1 has been assigned.
+    activity_id: int  # When a stat represents the best, most, longest, fastest or some other personal best, the actual activity ID where that personal best was established is available on this property.
+    basic: "DestinyHistoricalStatsValuePair"  # Basic stat value.
+    pga: "DestinyHistoricalStatsValuePair"  # Per game average for the statistic, if applicable
+    stat_id: str  # Unique ID for this stat
+    weighted: "DestinyHistoricalStatsValuePair"  # Weighted value of the stat if a weight greater than 1 has been assigned.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -121,8 +95,8 @@ class DestinyHistoricalStatsValue:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValuePair:
-    display_value: t.Optional[str] = None  # Localized formated version of the value.
-    value: t.Optional[float] = None  # Raw value of the statistic
+    display_value: str  # Localized formated version of the value.
+    value: float  # Raw value of the statistic
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -133,33 +107,17 @@ class DestinyHistoricalStatsValuePair:
 
 @dt.dataclass(frozen=True)
 class DestinyPlayer:
-    bungie_net_user_info: t.Optional[
-        "UserInfoCard"
-    ] = None  # Details about the player as they are known on BungieNet. This will be undefined if the player has marked their credential private, or does not have a BungieNet account.
-    character_class: t.Optional[
-        str
-    ] = None  # Class of the character if applicable and available.
-    character_level: t.Optional[
-        int
-    ] = None  # Level of the character if available. Zero if it is not available.
-    clan_name: t.Optional[
-        str
-    ] = None  # Current clan name for the player. This value may be null or an empty string if the user does not have a clan.
-    clan_tag: t.Optional[
-        str
-    ] = None  # Current clan tag for the player. This value may be null or an empty string if the user does not have a clan.
-    class_hash: t.Optional[int] = None
-    destiny_user_info: t.Optional[
-        "UserInfoCard"
-    ] = None  # Details about the player as they are known in game (platform display name, Destiny emblem)
-    emblem_hash: t.Optional[
-        int
-    ] = None  # If we know the emblem's hash, this can be used to look up the player's emblem at the time of a match when receiving PGCR data, or otherwise their currently equipped emblem (if we are able to obtain it).
-    gender_hash: t.Optional[int] = None
-    light_level: t.Optional[
-        int
-    ] = None  # Light Level of the character if available. Zero if it is not available.
-    race_hash: t.Optional[int] = None
+    bungie_net_user_info: "UserInfoCard"  # Details about the player as they are known on BungieNet. This will be undefined if the player has marked their credential private, or does not have a BungieNet account.
+    character_class: str  # Class of the character if applicable and available.
+    character_level: int  # Level of the character if available. Zero if it is not available.
+    clan_name: str  # Current clan name for the player. This value may be null or an empty string if the user does not have a clan.
+    clan_tag: str  # Current clan tag for the player. This value may be null or an empty string if the user does not have a clan.
+    class_hash: int
+    destiny_user_info: "UserInfoCard"  # Details about the player as they are known in game (platform display name, Destiny emblem)
+    emblem_hash: int  # If we know the emblem's hash, this can be used to look up the player's emblem at the time of a match when receiving PGCR data, or otherwise their currently equipped emblem (if we are able to obtain it).
+    gender_hash: int
+    light_level: int  # Light Level of the character if available. Zero if it is not available.
+    race_hash: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -179,12 +137,12 @@ class DestinyPlayer:
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportExtendedData:
-    values: t.Optional[
-        t.Mapping[str, "DestinyHistoricalStatsValue"]
-    ] = None  # Collection of stats for the player in this activity.
-    weapons: t.Optional[
-        t.Sequence["DestinyHistoricalWeaponStats"]
-    ] = None  # List of weapons and their perspective values.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the player in this activity.
+    weapons: t.Sequence[
+        "DestinyHistoricalWeaponStats"
+    ]  # List of weapons and their perspective values.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -195,12 +153,10 @@ class DestinyPostGameCarnageReportExtendedData:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStats:
-    reference_id: t.Optional[
-        int
-    ] = None  # The hash ID of the item definition that describes the weapon.
-    values: t.Optional[
-        t.Mapping[str, "DestinyHistoricalStatsValue"]
-    ] = None  # Collection of stats for the period.
+    reference_id: int  # The hash ID of the item definition that describes the weapon.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the period.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -211,12 +167,10 @@ class DestinyHistoricalWeaponStats:
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportTeamEntry:
-    score: t.Optional["DestinyHistoricalStatsValue"] = None  # Score earned by the team
-    standing: t.Optional[
-        "DestinyHistoricalStatsValue"
-    ] = None  # Team's standing relative to other teams.
-    team_id: t.Optional[int] = None  # Integer ID for the team.
-    team_name: t.Optional[str] = None  # Alpha or Bravo
+    score: "DestinyHistoricalStatsValue"  # Score earned by the team
+    standing: "DestinyHistoricalStatsValue"  # Team's standing relative to other teams.
+    team_id: int  # Integer ID for the team.
+    team_name: str  # Alpha or Bravo
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -229,8 +183,8 @@ class DestinyPostGameCarnageReportTeamEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboard:
-    entries: t.Optional[t.Sequence["DestinyLeaderboardEntry"]] = None
-    stat_id: t.Optional[str] = None
+    entries: t.Sequence["DestinyLeaderboardEntry"]
+    stat_id: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -241,16 +195,10 @@ class DestinyLeaderboard:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardEntry:
-    character_id: t.Optional[
-        int
-    ] = None  # ID of the player's best character for the reported stat.
-    player: t.Optional["DestinyPlayer"] = None  # Identity details of the player
-    rank: t.Optional[
-        int
-    ] = None  # Where this player ranks on the leaderboard. A value of 1 is the top rank.
-    value: t.Optional[
-        "DestinyHistoricalStatsValue"
-    ] = None  # Value of the stat for this player
+    character_id: int  # ID of the player's best character for the reported stat.
+    player: "DestinyPlayer"  # Identity details of the player
+    rank: int  # Where this player ranks on the leaderboard. A value of 1 is the top rank.
+    value: "DestinyHistoricalStatsValue"  # Value of the stat for this player
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -263,12 +211,8 @@ class DestinyLeaderboardEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardResults:
-    focus_character_id: t.Optional[
-        int
-    ] = None  # Indicate the character ID of the character that is the focal point of the provided leaderboards. May be null, in which case any character from the focus membership can appear in the provided leaderboards.
-    focus_membership_id: t.Optional[
-        int
-    ] = None  # Indicate the membership ID of the account that is the focal point of the provided leaderboards.
+    focus_character_id: int  # Indicate the character ID of the character that is the focal point of the provided leaderboards. May be null, in which case any character from the focus membership can appear in the provided leaderboards.
+    focus_membership_id: int  # Indicate the membership ID of the account that is the focal point of the provided leaderboards.
     additional: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]] = dt.field(
         default_factory=dict
     )
@@ -282,13 +226,9 @@ class DestinyLeaderboardResults:
 
 @dt.dataclass(frozen=True)
 class DestinyClanAggregateStat:
-    mode: t.Optional[
-        "DestinyActivityModeType"
-    ] = None  # The id of the mode of stats (allPvp, allPvE, etc)
-    stat_id: t.Optional[str] = None  # The id of the stat
-    value: t.Optional[
-        "DestinyHistoricalStatsValue"
-    ] = None  # Value of the stat for this player
+    mode: "DestinyActivityModeType"  # The id of the mode of stats (allPvp, allPvE, etc)
+    stat_id: str  # The id of the stat
+    value: "DestinyHistoricalStatsValue"  # Value of the stat for this player
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -300,12 +240,12 @@ class DestinyClanAggregateStat:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsByPeriod:
-    all_time: t.Optional[t.Mapping[str, "DestinyHistoricalStatsValue"]] = None
-    all_time_tier1: t.Optional[t.Mapping[str, "DestinyHistoricalStatsValue"]] = None
-    all_time_tier2: t.Optional[t.Mapping[str, "DestinyHistoricalStatsValue"]] = None
-    all_time_tier3: t.Optional[t.Mapping[str, "DestinyHistoricalStatsValue"]] = None
-    daily: t.Optional[t.Sequence["DestinyHistoricalStatsPeriodGroup"]] = None
-    monthly: t.Optional[t.Sequence["DestinyHistoricalStatsPeriodGroup"]] = None
+    all_time: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    all_time_tier1: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    all_time_tier2: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    all_time_tier3: t.Mapping[str, "DestinyHistoricalStatsValue"]
+    daily: t.Sequence["DestinyHistoricalStatsPeriodGroup"]
+    monthly: t.Sequence["DestinyHistoricalStatsPeriodGroup"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -320,15 +260,11 @@ class DestinyHistoricalStatsByPeriod:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsPeriodGroup:
-    activity_details: t.Optional[
-        "DestinyHistoricalStatsActivity"
-    ] = None  # If the period group is for a specific activity, this property will be set.
-    period: t.Optional[
-        str
-    ] = None  # Period for the group. If the stat periodType is day, then this will have a specific day. If the type is monthly, then this value will be the first day of the applicable month. This value is not set when the periodType is 'all time'.
-    values: t.Optional[
-        t.Mapping[str, "DestinyHistoricalStatsValue"]
-    ] = None  # Collection of stats for the period.
+    activity_details: "DestinyHistoricalStatsActivity"  # If the period group is for a specific activity, this property will be set.
+    period: str  # Period for the group. If the stat periodType is day, then this will have a specific day. If the type is monthly, then this value will be the first day of the applicable month. This value is not set when the periodType is 'all time'.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the period.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -350,9 +286,9 @@ class DestinyHistoricalStatsResults:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsAccountResult:
-    characters: t.Optional[t.Sequence["DestinyHistoricalStatsPerCharacter"]] = None
-    merged_all_characters: t.Optional["DestinyHistoricalStatsWithMerged"] = None
-    merged_deleted_characters: t.Optional["DestinyHistoricalStatsWithMerged"] = None
+    characters: t.Sequence["DestinyHistoricalStatsPerCharacter"]
+    merged_all_characters: "DestinyHistoricalStatsWithMerged"
+    merged_deleted_characters: "DestinyHistoricalStatsWithMerged"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -364,8 +300,8 @@ class DestinyHistoricalStatsAccountResult:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsWithMerged:
-    merged: t.Optional["DestinyHistoricalStatsByPeriod"] = None
-    results: t.Optional[t.Mapping[str, "DestinyHistoricalStatsByPeriod"]] = None
+    merged: "DestinyHistoricalStatsByPeriod"
+    results: t.Mapping[str, "DestinyHistoricalStatsByPeriod"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -376,10 +312,10 @@ class DestinyHistoricalStatsWithMerged:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsPerCharacter:
-    character_id: t.Optional[int] = None
-    deleted: t.Optional[bool] = None
-    merged: t.Optional["DestinyHistoricalStatsByPeriod"] = None
-    results: t.Optional[t.Mapping[str, "DestinyHistoricalStatsByPeriod"]] = None
+    character_id: int
+    deleted: bool
+    merged: "DestinyHistoricalStatsByPeriod"
+    results: t.Mapping[str, "DestinyHistoricalStatsByPeriod"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -392,9 +328,9 @@ class DestinyHistoricalStatsPerCharacter:
 
 @dt.dataclass(frozen=True)
 class DestinyActivityHistoryResults:
-    activities: t.Optional[
-        t.Sequence["DestinyHistoricalStatsPeriodGroup"]
-    ] = None  # List of activities, the most recent activity first.
+    activities: t.Sequence[
+        "DestinyHistoricalStatsPeriodGroup"
+    ]  # List of activities, the most recent activity first.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -404,9 +340,9 @@ class DestinyActivityHistoryResults:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStatsData:
-    weapons: t.Optional[
-        t.Sequence["DestinyHistoricalWeaponStats"]
-    ] = None  # List of weapons and their perspective values.
+    weapons: t.Sequence[
+        "DestinyHistoricalWeaponStats"
+    ]  # List of weapons and their perspective values.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -416,9 +352,9 @@ class DestinyHistoricalWeaponStatsData:
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityResults:
-    activities: t.Optional[
-        t.Sequence["DestinyAggregateActivityStats"]
-    ] = None  # List of all activities the player has participated in.
+    activities: t.Sequence[
+        "DestinyAggregateActivityStats"
+    ]  # List of all activities the player has participated in.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -428,12 +364,10 @@ class DestinyAggregateActivityResults:
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityStats:
-    activity_hash: t.Optional[
-        int
-    ] = None  # Hash ID that can be looked up in the DestinyActivityTable.
-    values: t.Optional[
-        t.Mapping[str, "DestinyHistoricalStatsValue"]
-    ] = None  # Collection of stats for the player in this activity.
+    activity_hash: int  # Hash ID that can be looked up in the DestinyActivityTable.
+    values: t.Mapping[
+        str, "DestinyHistoricalStatsValue"
+    ]  # Collection of stats for the player in this activity.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -445,7 +379,7 @@ class DestinyAggregateActivityStats:
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.historical_stats.definitions import (
+from bungieapi.generated.components.schemas.destiny.historical_stats.definitions import (  # noqa: E402
     DestinyActivityModeType,
-)  # noqa: E402
+)
 from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402

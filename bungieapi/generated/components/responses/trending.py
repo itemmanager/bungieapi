@@ -7,13 +7,13 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class TrendingCategoriesClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["TrendingCategories"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "TrendingCategories"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -29,13 +29,13 @@ class TrendingCategoriesClientResponse:
 
 @dt.dataclass(frozen=True)
 class TrendingDetailClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["TrendingDetail"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "TrendingDetail"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -49,12 +49,12 @@ class TrendingDetailClientResponse:
         }
 
 
-from bungieapi.generated.components.schemas.exceptions import (
+from bungieapi.generated.components.schemas.exceptions import (  # noqa: E402
     PlatformErrorCodes,
-)  # noqa: E402
+)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.trending import (
-    TrendingCategories,
-)  # noqa: E402
 from bungieapi.generated.components.schemas.trending import TrendingDetail  # noqa: E402
+from bungieapi.generated.components.schemas.trending import (  # noqa: E402
+    TrendingCategories,
+)

@@ -7,19 +7,11 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyBreakerTypeDefinition:
-    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
-    enum_value: t.Optional[
-        "DestinyBreakerType"
-    ] = None  # We have an enumeration for Breaker types for quick reference. This is the current definition's breaker type enum value.
-    hash: t.Optional[
-        int
-    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: t.Optional[
-        int
-    ] = None  # The index of the entity as it was found in the investment tables.
-    redacted: t.Optional[
-        bool
-    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    enum_value: "DestinyBreakerType"  # We have an enumeration for Breaker types for quick reference. This is the current definition's breaker type enum value.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -31,11 +23,11 @@ class DestinyBreakerTypeDefinition:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyBreakerType,
-)  # noqa: E402
+)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions.common import (
+from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
-)  # noqa: E402
+)

@@ -7,13 +7,11 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class SearchResult:
-    has_more: t.Optional[bool] = None
-    query: t.Optional["PagedQuery"] = None
-    replacement_continuation_token: t.Optional[str] = None
-    total_results: t.Optional[int] = None
-    use_total_results: t.Optional[
-        bool
-    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: bool
+    query: "PagedQuery"
+    replacement_continuation_token: str
+    total_results: int
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -29,9 +27,9 @@ class SearchResult:
 
 @dt.dataclass(frozen=True)
 class PagedQuery:
-    current_page: t.Optional[int] = None
-    items_per_page: t.Optional[int] = None
-    request_continuation_token: t.Optional[str] = None
+    current_page: int
+    items_per_page: int
+    request_continuation_token: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

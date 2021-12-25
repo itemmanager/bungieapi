@@ -7,13 +7,13 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class IEnumerableOfApplicationClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["Application"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["Application"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -29,13 +29,13 @@ class IEnumerableOfApplicationClientResponse:
 
 @dt.dataclass(frozen=True)
 class ListOfGetCredentialTypesForAccountClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["GetCredentialTypesForAccountResponse"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["GetCredentialTypesForAccountResponse"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -51,13 +51,13 @@ class ListOfGetCredentialTypesForAccountClientResponse:
 
 @dt.dataclass(frozen=True)
 class ListOfUserThemeClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["UserTheme"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["UserTheme"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -73,13 +73,13 @@ class ListOfUserThemeClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchResultOfContentItemPublicContractClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["SearchResultOfContentItemPublicContract"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "SearchResultOfContentItemPublicContract"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -95,13 +95,13 @@ class SearchResultOfContentItemPublicContractClientResponse:
 
 @dt.dataclass(frozen=True)
 class IReadOnlyCollectionOfContentItemPublicContractClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Any] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Any
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -117,13 +117,13 @@ class IReadOnlyCollectionOfContentItemPublicContractClientResponse:
 
 @dt.dataclass(frozen=True)
 class int64ClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[int] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: int
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -139,13 +139,13 @@ class int64ClientResponse:
 
 @dt.dataclass(frozen=True)
 class ListOfTagClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["TagResponse"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["TagResponse"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -161,13 +161,13 @@ class ListOfTagClientResponse:
 
 @dt.dataclass(frozen=True)
 class CEListOfForumRecruitmentDetailClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["ForumRecruitmentDetail"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["ForumRecruitmentDetail"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -183,13 +183,13 @@ class CEListOfForumRecruitmentDetailClientResponse:
 
 @dt.dataclass(frozen=True)
 class DictionaryOfint32AndstringClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Mapping[str, str]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, str]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -205,13 +205,13 @@ class DictionaryOfint32AndstringClientResponse:
 
 @dt.dataclass(frozen=True)
 class ListOfGroupThemeClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["GroupTheme"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["GroupTheme"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -227,13 +227,13 @@ class ListOfGroupThemeClientResponse:
 
 @dt.dataclass(frozen=True)
 class booleanClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[bool] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: bool
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -249,13 +249,13 @@ class booleanClientResponse:
 
 @dt.dataclass(frozen=True)
 class ListOfGroupV2CardClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["GroupV2Card"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["GroupV2Card"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -271,13 +271,13 @@ class ListOfGroupV2CardClientResponse:
 
 @dt.dataclass(frozen=True)
 class CEListOfGroupOptionalConversationClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["GroupOptionalConversation"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["GroupOptionalConversation"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -293,13 +293,13 @@ class CEListOfGroupOptionalConversationClientResponse:
 
 @dt.dataclass(frozen=True)
 class int32ClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[int] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: int
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -315,13 +315,13 @@ class int32ClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMemberClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["SearchResultOfGroupMember"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "SearchResultOfGroupMember"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -337,13 +337,13 @@ class SearchResultOfGroupMemberClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupBanClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["SearchResultOfGroupBan"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "SearchResultOfGroupBan"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -359,13 +359,13 @@ class SearchResultOfGroupBanClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchResultOfGroupMemberApplicationClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["SearchResultOfGroupMemberApplication"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "SearchResultOfGroupMemberApplication"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -381,13 +381,13 @@ class SearchResultOfGroupMemberApplicationClientResponse:
 
 @dt.dataclass(frozen=True)
 class ListOfEntityActionResultClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["EntityActionResult"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["EntityActionResult"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -403,13 +403,13 @@ class ListOfEntityActionResultClientResponse:
 
 @dt.dataclass(frozen=True)
 class CEListOfPartnerOfferSkuHistoryClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["PartnerOfferSkuHistoryResponse"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["PartnerOfferSkuHistoryResponse"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -425,13 +425,13 @@ class CEListOfPartnerOfferSkuHistoryClientResponse:
 
 @dt.dataclass(frozen=True)
 class IEnumerableOfUserInfoCardClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["UserInfoCard"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["UserInfoCard"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -447,13 +447,13 @@ class IEnumerableOfUserInfoCardClientResponse:
 
 @dt.dataclass(frozen=True)
 class ReadOnlyDictionaryOfstringAndDestinyHistoricalStatsDefinitionClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Mapping[str, "DestinyHistoricalStatsDefinition"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, "DestinyHistoricalStatsDefinition"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -469,13 +469,13 @@ class ReadOnlyDictionaryOfstringAndDestinyHistoricalStatsDefinitionClientRespons
 
 @dt.dataclass(frozen=True)
 class ListOfDestinyClanAggregateStatClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["DestinyClanAggregateStat"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["DestinyClanAggregateStat"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -491,13 +491,13 @@ class ListOfDestinyClanAggregateStatClientResponse:
 
 @dt.dataclass(frozen=True)
 class DictionaryOfuint32AndDestinyPublicMilestoneClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Mapping[str, "DestinyPublicMilestone"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, "DestinyPublicMilestone"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -513,13 +513,13 @@ class DictionaryOfuint32AndDestinyPublicMilestoneClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchResultOfTrendingEntryClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["SearchResultOfTrendingEntry"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "SearchResultOfTrendingEntry"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -535,13 +535,13 @@ class SearchResultOfTrendingEntryClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchResultOfFireteamSummaryClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["SearchResultOfFireteamSummary"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "SearchResultOfFireteamSummary"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -557,13 +557,13 @@ class SearchResultOfFireteamSummaryClientResponse:
 
 @dt.dataclass(frozen=True)
 class SearchResultOfFireteamClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["SearchResultOfFireteamResponse"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "SearchResultOfFireteamResponse"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -579,13 +579,13 @@ class SearchResultOfFireteamClientResponse:
 
 @dt.dataclass(frozen=True)
 class CEDictionaryOfstringAndstringClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Mapping[str, str]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, str]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -601,13 +601,13 @@ class CEDictionaryOfstringAndstringClientResponse:
 
 @dt.dataclass(frozen=True)
 class DictionaryOfstringAndCoreSystemClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Mapping[str, "CoreSystem"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, "CoreSystem"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -623,13 +623,13 @@ class DictionaryOfstringAndCoreSystemClientResponse:
 
 @dt.dataclass(frozen=True)
 class CEListOfGlobalAlertClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Sequence["GlobalAlert"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Sequence["GlobalAlert"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -644,64 +644,54 @@ class CEListOfGlobalAlertClientResponse:
 
 
 from bungieapi.generated.components.schemas import GlobalAlert  # noqa: E402
-from bungieapi.generated.components.schemas import (
-    SearchResultOfContentItemPublicContract,
-)  # noqa: E402
-from bungieapi.generated.components.schemas import (
-    SearchResultOfFireteamResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas import (
-    SearchResultOfFireteamSummary,
-)  # noqa: E402
 from bungieapi.generated.components.schemas import SearchResultOfGroupBan  # noqa: E402
-from bungieapi.generated.components.schemas import (
+from bungieapi.generated.components.schemas import (  # noqa: E402
+    SearchResultOfContentItemPublicContract,
+    SearchResultOfFireteamResponse,
+    SearchResultOfFireteamSummary,
     SearchResultOfGroupMember,
-)  # noqa: E402
-from bungieapi.generated.components.schemas import (
     SearchResultOfGroupMemberApplication,
-)  # noqa: E402
-from bungieapi.generated.components.schemas import (
     SearchResultOfTrendingEntry,
-)  # noqa: E402
+)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.applications import (
+from bungieapi.generated.components.schemas.applications import (  # noqa: E402
     Application,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.common.models import (
+)
+from bungieapi.generated.components.schemas.common.models import (  # noqa: E402
     CoreSystem,
-)  # noqa: E402
+)
 from bungieapi.generated.components.schemas.config import GroupTheme  # noqa: E402
 from bungieapi.generated.components.schemas.config import UserTheme  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
+from bungieapi.generated.components.schemas.destiny.historical_stats import (  # noqa: E402
     DestinyClanAggregateStat,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats.definitions import (
+)
+from bungieapi.generated.components.schemas.destiny.historical_stats.definitions import (  # noqa: E402
     DestinyHistoricalStatsDefinition,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.milestones import (
+)
+from bungieapi.generated.components.schemas.destiny.milestones import (  # noqa: E402
     DestinyPublicMilestone,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.entities import (
+)
+from bungieapi.generated.components.schemas.entities import (  # noqa: E402
     EntityActionResult,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.exceptions import (
+)
+from bungieapi.generated.components.schemas.exceptions import (  # noqa: E402
     PlatformErrorCodes,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.forum import (
+)
+from bungieapi.generated.components.schemas.forum import (  # noqa: E402
     ForumRecruitmentDetail,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.groups_v2 import (
-    GroupOptionalConversation,
-)  # noqa: E402
+)
 from bungieapi.generated.components.schemas.groups_v2 import GroupV2Card  # noqa: E402
-from bungieapi.generated.components.schemas.tags.models.contracts import (
+from bungieapi.generated.components.schemas.groups_v2 import (  # noqa: E402
+    GroupOptionalConversation,
+)
+from bungieapi.generated.components.schemas.tags.models.contracts import (  # noqa: E402
     TagResponse,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.tokens import (
+)
+from bungieapi.generated.components.schemas.tokens import (  # noqa: E402
     PartnerOfferSkuHistoryResponse,
-)  # noqa: E402
+)
 from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402
-from bungieapi.generated.components.schemas.user.models import (
+from bungieapi.generated.components.schemas.user.models import (  # noqa: E402
     GetCredentialTypesForAccountResponse,
-)  # noqa: E402
+)

@@ -39,20 +39,20 @@ class ForumTopicsSortEnum(Enum):
 
 @dt.dataclass(frozen=True)
 class PostResponse:
-    is_pinned: t.Optional[bool] = None
-    ignore_status: t.Optional["IgnoreResponse"] = None
-    is_active: t.Optional[bool] = None
-    is_announcement: t.Optional[bool] = None
-    last_reply_timestamp: t.Optional[str] = None
-    latest_reply_author_id: t.Optional[int] = None
-    latest_reply_post_id: t.Optional[int] = None
-    locale: t.Optional[str] = None
-    popularity: t.Optional["ForumPostPopularity"] = None
-    thumbnail: t.Optional[str] = None
-    url_media_type: t.Optional["ForumMediaType"] = None
-    user_has_muted_post: t.Optional[bool] = None
-    user_has_rated: t.Optional[bool] = None
-    user_rating: t.Optional[int] = None
+    is_pinned: bool
+    ignore_status: "IgnoreResponse"
+    is_active: bool
+    is_announcement: bool
+    last_reply_timestamp: str
+    latest_reply_author_id: int
+    latest_reply_post_id: int
+    locale: str
+    popularity: "ForumPostPopularity"
+    thumbnail: str
+    url_media_type: "ForumMediaType"
+    user_has_muted_post: bool
+    user_has_rated: bool
+    user_rating: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -91,21 +91,19 @@ class ForumPostPopularity(Enum):
 
 @dt.dataclass(frozen=True)
 class PostSearchResponse:
-    authors: t.Optional[t.Sequence["GeneralUser"]] = None
-    available_pages: t.Optional[int] = None
-    groups: t.Optional[t.Sequence["GroupResponse"]] = None
-    has_more: t.Optional[bool] = None
-    polls: t.Optional[t.Sequence["PollResponse"]] = None
-    query: t.Optional["PagedQuery"] = None
-    recruitment_details: t.Optional[t.Sequence["ForumRecruitmentDetail"]] = None
-    related_posts: t.Optional[t.Sequence["PostResponse"]] = None
-    replacement_continuation_token: t.Optional[str] = None
-    results: t.Optional[t.Sequence["PostResponse"]] = None
-    searched_tags: t.Optional[t.Sequence["TagResponse"]] = None
-    total_results: t.Optional[int] = None
-    use_total_results: t.Optional[
-        bool
-    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    authors: t.Sequence["GeneralUser"]
+    available_pages: int
+    groups: t.Sequence["GroupResponse"]
+    has_more: bool
+    polls: t.Sequence["PollResponse"]
+    query: "PagedQuery"
+    recruitment_details: t.Sequence["ForumRecruitmentDetail"]
+    related_posts: t.Sequence["PostResponse"]
+    replacement_continuation_token: str
+    results: t.Sequence["PostResponse"]
+    searched_tags: t.Sequence["TagResponse"]
+    total_results: int
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -129,9 +127,9 @@ class PostSearchResponse:
 
 @dt.dataclass(frozen=True)
 class PollResponse:
-    results: t.Optional[t.Sequence["PollResult"]] = None
-    topic_id: t.Optional[int] = None
-    total_votes: t.Optional[int] = None
+    results: t.Sequence["PollResult"]
+    topic_id: int
+    total_votes: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -143,11 +141,11 @@ class PollResponse:
 
 @dt.dataclass(frozen=True)
 class PollResult:
-    answer_slot: t.Optional[int] = None
-    answer_text: t.Optional[str] = None
-    last_vote_date: t.Optional[str] = None
-    requesting_user_voted: t.Optional[bool] = None
-    votes: t.Optional[int] = None
+    answer_slot: int
+    answer_text: str
+    last_vote_date: str
+    requesting_user_voted: bool
+    votes: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -161,16 +159,16 @@ class PollResult:
 
 @dt.dataclass(frozen=True)
 class ForumRecruitmentDetail:
-    fireteam: t.Optional[t.Sequence["GeneralUser"]] = None
-    approved: t.Optional[bool] = None
-    conversation_id: t.Optional[int] = None
-    intensity: t.Optional["ForumRecruitmentIntensityLabel"] = None
-    kicked_player_ids: t.Optional[t.Sequence[int]] = None
-    microphone_required: t.Optional[bool] = None
-    player_slots_remaining: t.Optional[int] = None
-    player_slots_total: t.Optional[int] = None
-    tone: t.Optional["ForumRecruitmentToneLabel"] = None
-    topic_id: t.Optional[int] = None
+    fireteam: t.Sequence["GeneralUser"]
+    approved: bool
+    conversation_id: int
+    intensity: "ForumRecruitmentIntensityLabel"
+    kicked_player_ids: t.Sequence[int]
+    microphone_required: bool
+    player_slots_remaining: int
+    player_slots_total: int
+    tone: "ForumRecruitmentToneLabel"
+    topic_id: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -215,7 +213,7 @@ from bungieapi.generated.components.schemas.groups_v2 import GroupResponse  # no
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.ignores import IgnoreResponse  # noqa: E402
 from bungieapi.generated.components.schemas.queries import PagedQuery  # noqa: E402
-from bungieapi.generated.components.schemas.tags.models.contracts import (
+from bungieapi.generated.components.schemas.tags.models.contracts import (  # noqa: E402
     TagResponse,
-)  # noqa: E402
+)
 from bungieapi.generated.components.schemas.user import GeneralUser  # noqa: E402

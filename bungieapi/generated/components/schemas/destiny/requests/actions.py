@@ -8,7 +8,7 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyActionRequest:
-    membership_type: t.Optional["BungieMembershipType"] = None
+    membership_type: "BungieMembershipType"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -18,8 +18,8 @@ class DestinyActionRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyCharacterActionRequest:
-    character_id: t.Optional[int] = None
-    membership_type: t.Optional["BungieMembershipType"] = None
+    character_id: int
+    membership_type: "BungieMembershipType"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -30,11 +30,9 @@ class DestinyCharacterActionRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyItemActionRequest:
-    character_id: t.Optional[int] = None
-    item_id: t.Optional[
-        int
-    ] = None  # The instance ID of the item for this action request.
-    membership_type: t.Optional["BungieMembershipType"] = None
+    character_id: int
+    item_id: int  # The instance ID of the item for this action request.
+    membership_type: "BungieMembershipType"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -46,13 +44,11 @@ class DestinyItemActionRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyPostmasterTransferRequest:
-    character_id: t.Optional[int] = None
-    item_id: t.Optional[
-        int
-    ] = None  # The instance ID of the item for this action request.
-    item_reference_hash: t.Optional[int] = None
-    membership_type: t.Optional["BungieMembershipType"] = None
-    stack_size: t.Optional[int] = None
+    character_id: int
+    item_id: int  # The instance ID of the item for this action request.
+    item_reference_hash: int
+    membership_type: "BungieMembershipType"
+    stack_size: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -66,9 +62,9 @@ class DestinyPostmasterTransferRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyItemSetActionRequest:
-    character_id: t.Optional[int] = None
-    item_ids: t.Optional[t.Sequence[int]] = None
-    membership_type: t.Optional["BungieMembershipType"] = None
+    character_id: int
+    item_ids: t.Sequence[int]
+    membership_type: "BungieMembershipType"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -80,12 +76,10 @@ class DestinyItemSetActionRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyItemStateRequest:
-    character_id: t.Optional[int] = None
-    item_id: t.Optional[
-        int
-    ] = None  # The instance ID of the item for this action request.
-    membership_type: t.Optional["BungieMembershipType"] = None
-    state: t.Optional[bool] = None
+    character_id: int
+    item_id: int  # The instance ID of the item for this action request.
+    membership_type: "BungieMembershipType"
+    state: bool
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -98,17 +92,11 @@ class DestinyItemStateRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsActionRequest:
-    action_token: t.Optional[
-        str
-    ] = None  # Action token provided by the AwaGetActionToken API call.
-    character_id: t.Optional[int] = None
-    item_instance_id: t.Optional[
-        int
-    ] = None  # The instance ID of the item having a plug inserted. Only instanced items can have sockets.
-    membership_type: t.Optional["BungieMembershipType"] = None
-    plug: t.Optional[
-        "DestinyInsertPlugsRequestEntry"
-    ] = None  # The plugs being inserted.
+    action_token: str  # Action token provided by the AwaGetActionToken API call.
+    character_id: int
+    item_instance_id: int  # The instance ID of the item having a plug inserted. Only instanced items can have sockets.
+    membership_type: "BungieMembershipType"
+    plug: "DestinyInsertPlugsRequestEntry"  # The plugs being inserted.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -129,15 +117,9 @@ class DestinyInsertPlugsRequestEntry:
     guys, let's play nice.
     """
 
-    plug_item_hash: t.Optional[
-        int
-    ] = None  # Plugs are never instanced (except in infusion). So with the hash alone, we should be able to: 1) Infer whether the player actually needs to have the item, or if it's a reusable plug 2) Perform any operation needed to use the Plug, including removing the plug item and running reward sheets.
-    socket_array_type: t.Optional[
-        "DestinySocketArrayType"
-    ] = None  # This property, combined with the socketIndex, tells us which socket we are referring to (since operations can be performed on both Intrinsic and "default" sockets, and they occupy different arrays in the Inventory Item Definition). I know, I know. Don't give me that look.
-    socket_index: t.Optional[
-        int
-    ] = None  # The index into the socket array, which identifies the specific socket being operated on. We also need to know the socketArrayType in order to uniquely identify the socket. Don't point to or try to insert a plug into an infusion socket. It won't work.
+    plug_item_hash: int  # Plugs are never instanced (except in infusion). So with the hash alone, we should be able to: 1) Infer whether the player actually needs to have the item, or if it's a reusable plug 2) Perform any operation needed to use the Plug, including removing the plug item and running reward sheets.
+    socket_array_type: "DestinySocketArrayType"  # This property, combined with the socketIndex, tells us which socket we are referring to (since operations can be performed on both Intrinsic and "default" sockets, and they occupy different arrays in the Inventory Item Definition). I know, I know. Don't give me that look.
+    socket_index: int  # The index into the socket array, which identifies the specific socket being operated on. We also need to know the socketArrayType in order to uniquely identify the socket. Don't point to or try to insert a plug into an infusion socket. It won't work.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -164,14 +146,10 @@ class DestinySocketArrayType(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsFreeActionRequest:
-    character_id: t.Optional[int] = None
-    item_id: t.Optional[
-        int
-    ] = None  # The instance ID of the item for this action request.
-    membership_type: t.Optional["BungieMembershipType"] = None
-    plug: t.Optional[
-        "DestinyInsertPlugsRequestEntry"
-    ] = None  # The plugs being inserted.
+    character_id: int
+    item_id: int  # The instance ID of the item for this action request.
+    membership_type: "BungieMembershipType"
+    plug: "DestinyInsertPlugsRequestEntry"  # The plugs being inserted.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

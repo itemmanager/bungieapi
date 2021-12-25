@@ -7,7 +7,7 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyStringVariablesComponent:
-    integer_values_by_hash: t.Optional[t.Mapping[str, int]] = None
+    integer_values_by_hash: t.Mapping[str, int]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

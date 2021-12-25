@@ -7,9 +7,9 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class PartnerOfferClaimRequest:
-    bungie_net_membership_id: t.Optional[int] = None
-    partner_offer_id: t.Optional[str] = None
-    transaction_id: t.Optional[str] = None
+    bungie_net_membership_id: int
+    partner_offer_id: str
+    transaction_id: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -21,13 +21,13 @@ class PartnerOfferClaimRequest:
 
 @dt.dataclass(frozen=True)
 class PartnerOfferSkuHistoryResponse:
-    all_offers_applied: t.Optional[bool] = None
-    claim_date: t.Optional[str] = None
-    localized_description: t.Optional[str] = None
-    localized_name: t.Optional[str] = None
-    sku_identifier: t.Optional[str] = None
-    sku_offers: t.Optional[t.Sequence["PartnerOfferHistoryResponse"]] = None
-    transaction_id: t.Optional[str] = None
+    all_offers_applied: bool
+    claim_date: str
+    localized_description: str
+    localized_name: str
+    sku_identifier: str
+    sku_offers: t.Sequence["PartnerOfferHistoryResponse"]
+    transaction_id: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -43,14 +43,14 @@ class PartnerOfferSkuHistoryResponse:
 
 @dt.dataclass(frozen=True)
 class PartnerOfferHistoryResponse:
-    apply_date: t.Optional[str] = None
-    is_consumable: t.Optional[bool] = None
-    localized_description: t.Optional[str] = None
-    localized_name: t.Optional[str] = None
-    membership_id: t.Optional[int] = None
-    membership_type: t.Optional[int] = None
-    partner_offer_key: t.Optional[str] = None
-    quantity_applied: t.Optional[int] = None
+    apply_date: str
+    is_consumable: bool
+    localized_description: str
+    localized_name: str
+    membership_id: int
+    membership_type: int
+    partner_offer_key: str
+    quantity_applied: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

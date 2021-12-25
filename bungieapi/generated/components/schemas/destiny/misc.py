@@ -10,10 +10,10 @@ class DestinyColor:
     """Represents a color whose RGBA values are all represented as values
     between 0 and 255."""
 
-    alpha: t.Optional[str] = None
-    blue: t.Optional[str] = None
-    green: t.Optional[str] = None
-    red: t.Optional[str] = None
+    alpha: str
+    blue: str
+    green: str
+    red: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

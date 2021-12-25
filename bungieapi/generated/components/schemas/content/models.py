@@ -8,27 +8,27 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class ContentTypeDescription:
-    allow_comments: t.Optional[bool] = None
-    auto_english_property_fallback: t.Optional[bool] = None
-    bind_identifier_to_property: t.Optional[str] = None
-    bound_regex: t.Optional[str] = None
-    bulk_uploadable: t.Optional[bool] = None
-    c_type: t.Optional[str] = None
-    content_description: t.Optional[str] = None
-    force_identifier_binding: t.Optional[bool] = None
-    name: t.Optional[str] = None
-    preview_image: t.Optional[str] = None
-    previews: t.Optional[t.Sequence["ContentPreview"]] = None
-    priority: t.Optional[int] = None
-    properties: t.Optional[t.Sequence["ContentTypeProperty"]] = None
-    property_sections: t.Optional[t.Sequence["ContentTypePropertySection"]] = None
-    reminder: t.Optional[str] = None
-    show_in_content_editor: t.Optional[bool] = None
-    suppress_cms_path: t.Optional[bool] = None
-    tag_metadata: t.Optional[t.Sequence["TagMetadataDefinition"]] = None
-    tag_metadata_items: t.Optional[t.Mapping[str, "TagMetadataItem"]] = None
-    type_of: t.Optional[str] = None
-    usage_examples: t.Optional[t.Sequence[str]] = None
+    allow_comments: bool
+    auto_english_property_fallback: bool
+    bind_identifier_to_property: str
+    bound_regex: str
+    bulk_uploadable: bool
+    c_type: str
+    content_description: str
+    force_identifier_binding: bool
+    name: str
+    preview_image: str
+    previews: t.Sequence["ContentPreview"]
+    priority: int
+    properties: t.Sequence["ContentTypeProperty"]
+    property_sections: t.Sequence["ContentTypePropertySection"]
+    reminder: str
+    show_in_content_editor: bool
+    suppress_cms_path: bool
+    tag_metadata: t.Sequence["TagMetadataDefinition"]
+    tag_metadata_items: t.Mapping[str, "TagMetadataItem"]
+    type_of: str
+    usage_examples: t.Sequence[str]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -58,48 +58,48 @@ class ContentTypeDescription:
 
 @dt.dataclass(frozen=True)
 class ContentTypeProperty:
-    attributes: t.Optional[t.Mapping[str, str]] = None
-    bind_to_property: t.Optional[str] = None
-    bound_regex: t.Optional[str] = None
-    child_properties: t.Optional[t.Sequence["ContentTypeProperty"]] = None
-    content_type_allowed: t.Optional[str] = None
-    datatype: t.Optional["ContentPropertyDataTypeEnum"] = None
-    default_values: t.Optional[t.Sequence["ContentTypeDefaultValue"]] = None
-    enabled: t.Optional[bool] = None
-    entitytype: t.Optional[str] = None
-    fallback: t.Optional[bool] = None
-    is_combo: t.Optional[bool] = None
-    is_external_allowed: t.Optional[bool] = None
-    is_image: t.Optional[bool] = None
-    is_title: t.Optional[bool] = None
-    is_video: t.Optional[bool] = None
-    legal_content_types: t.Optional[t.Sequence[str]] = None
-    localizable: t.Optional[bool] = None
-    max_byte_length: t.Optional[int] = None
-    max_file_size: t.Optional[int] = None
-    max_height: t.Optional[int] = None
-    max_length: t.Optional[int] = None
-    max_width: t.Optional[int] = None
-    min_height: t.Optional[int] = None
-    min_width: t.Optional[int] = None
-    name: t.Optional[str] = None
-    order: t.Optional[int] = None
-    property_description: t.Optional[str] = None
-    property_section: t.Optional[str] = None
-    readable_name: t.Optional[str] = None
-    regexp: t.Optional[str] = None
-    representation_selection: t.Optional[t.Mapping[str, str]] = None
-    representation_validation_string: t.Optional[str] = None
-    required: t.Optional[bool] = None
-    root_property_name: t.Optional[str] = None
-    rss_attribute: t.Optional[str] = None
-    suppress_property: t.Optional[bool] = None
-    validate_as: t.Optional[str] = None
-    value: t.Optional[str] = None
-    visible: t.Optional[bool] = None
-    visible_dependency: t.Optional[str] = None
-    visible_on: t.Optional[str] = None
-    weight: t.Optional[int] = None
+    attributes: t.Mapping[str, str]
+    bind_to_property: str
+    bound_regex: str
+    child_properties: t.Sequence["ContentTypeProperty"]
+    content_type_allowed: str
+    datatype: "ContentPropertyDataTypeEnum"
+    default_values: t.Sequence["ContentTypeDefaultValue"]
+    enabled: bool
+    entitytype: str
+    fallback: bool
+    is_combo: bool
+    is_external_allowed: bool
+    is_image: bool
+    is_title: bool
+    is_video: bool
+    legal_content_types: t.Sequence[str]
+    localizable: bool
+    max_byte_length: int
+    max_file_size: int
+    max_height: int
+    max_length: int
+    max_width: int
+    min_height: int
+    min_width: int
+    name: str
+    order: int
+    property_description: str
+    property_section: str
+    readable_name: str
+    regexp: str
+    representation_selection: t.Mapping[str, str]
+    representation_validation_string: str
+    required: bool
+    root_property_name: str
+    rss_attribute: str
+    suppress_property: bool
+    validate_as: str
+    value: str
+    visible: bool
+    visible_dependency: str
+    visible_on: str
+    weight: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -170,9 +170,9 @@ class ContentPropertyDataTypeEnum(Enum):
 
 @dt.dataclass(frozen=True)
 class ContentTypeDefaultValue:
-    default_value: t.Optional[str] = None
-    when_clause: t.Optional[str] = None
-    when_value: t.Optional[str] = None
+    default_value: str
+    when_clause: str
+    when_value: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -184,12 +184,12 @@ class ContentTypeDefaultValue:
 
 @dt.dataclass(frozen=True)
 class TagMetadataDefinition:
-    datatype: t.Optional[str] = None
-    description: t.Optional[str] = None
-    is_required: t.Optional[bool] = None
-    items: t.Optional[t.Sequence["TagMetadataItem"]] = None
-    name: t.Optional[str] = None
-    order: t.Optional[int] = None
+    datatype: str
+    description: str
+    is_required: bool
+    items: t.Sequence["TagMetadataItem"]
+    name: str
+    order: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -204,11 +204,11 @@ class TagMetadataDefinition:
 
 @dt.dataclass(frozen=True)
 class TagMetadataItem:
-    description: t.Optional[str] = None
-    groups: t.Optional[t.Sequence[str]] = None
-    is_default: t.Optional[bool] = None
-    name: t.Optional[str] = None
-    tag_text: t.Optional[str] = None
+    description: str
+    groups: t.Sequence[str]
+    is_default: bool
+    name: str
+    tag_text: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -222,12 +222,12 @@ class TagMetadataItem:
 
 @dt.dataclass(frozen=True)
 class ContentPreview:
-    item_in_set: t.Optional[bool] = None
-    name: t.Optional[str] = None
-    path: t.Optional[str] = None
-    set_nesting: t.Optional[int] = None
-    set_tag: t.Optional[str] = None
-    use_set_id: t.Optional[int] = None
+    item_in_set: bool
+    name: str
+    path: str
+    set_nesting: int
+    set_tag: str
+    use_set_id: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -242,9 +242,9 @@ class ContentPreview:
 
 @dt.dataclass(frozen=True)
 class ContentTypePropertySection:
-    collapsed: t.Optional[bool] = None
-    name: t.Optional[str] = None
-    readable_name: t.Optional[str] = None
+    collapsed: bool
+    name: str
+    readable_name: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -3,6 +3,7 @@ import typing as t
 from pathlib import Path
 
 from svarog.tools import camel_to_snake
+
 from update.generator.clients import client, generate_clients_init
 from update.generator.imports import generate_imports
 from update.generator.schema import generate_schema

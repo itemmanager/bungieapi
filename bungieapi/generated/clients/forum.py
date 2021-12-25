@@ -20,14 +20,14 @@ from bungieapi.generated.components.schemas.forum import (
 class Client(BaseClient):
     async def get_topics_paged(
         self,
-        category_filter: t.Optional["ForumTopicsCategoryFiltersEnum"] = None,
-        group: t.Optional[int] = None,
-        locales: t.Optional[str] = None,
-        page: t.Optional[int] = None,
-        page_size: t.Optional[int] = None,
-        quick_date: t.Optional["ForumTopicsQuickDateEnum"] = None,
-        sort: t.Optional["ForumTopicsSortEnum"] = None,
-        tagstring: t.Optional[str] = None,
+        category_filter: "ForumTopicsCategoryFiltersEnum",
+        group: int,
+        locales: str,
+        page: int,
+        page_size: int,
+        quick_date: "ForumTopicsQuickDateEnum",
+        sort: "ForumTopicsSortEnum",
+        tagstring: str,
     ) -> PostSearchClientResponse:
         """Get topics from any forum.
 
@@ -50,11 +50,11 @@ class Client(BaseClient):
 
     async def get_core_topics_paged(
         self,
-        category_filter: t.Optional["ForumTopicsCategoryFiltersEnum"] = None,
-        locales: t.Optional[str] = None,
-        page: t.Optional[int] = None,
-        quick_date: t.Optional["ForumTopicsQuickDateEnum"] = None,
-        sort: t.Optional["ForumTopicsSortEnum"] = None,
+        category_filter: "ForumTopicsCategoryFiltersEnum",
+        locales: str,
+        page: int,
+        quick_date: "ForumTopicsQuickDateEnum",
+        sort: "ForumTopicsSortEnum",
     ) -> PostSearchClientResponse:
         """Gets a listing of all topics marked as part of the core group.
 
@@ -74,14 +74,14 @@ class Client(BaseClient):
 
     async def get_posts_threaded_paged(
         self,
-        get_parent_post: t.Optional[bool] = None,
-        page: t.Optional[int] = None,
-        page_size: t.Optional[int] = None,
-        parent_post_id: t.Optional[int] = None,
-        reply_size: t.Optional[int] = None,
-        root_thread_mode: t.Optional[bool] = None,
-        showbanned: t.Optional[str] = None,
-        sort_mode: t.Optional["ForumPostSortEnum"] = None,
+        get_parent_post: bool,
+        page: int,
+        page_size: int,
+        parent_post_id: int,
+        reply_size: int,
+        root_thread_mode: bool,
+        showbanned: str,
+        sort_mode: "ForumPostSortEnum",
     ) -> PostSearchClientResponse:
         """Returns a thread of posts at the given parent, optionally returning
         replies to those posts as well as the original parent.
@@ -98,13 +98,13 @@ class Client(BaseClient):
 
     async def get_posts_threaded_paged_from_child(
         self,
-        child_post_id: t.Optional[int] = None,
-        page: t.Optional[int] = None,
-        page_size: t.Optional[int] = None,
-        reply_size: t.Optional[int] = None,
-        root_thread_mode: t.Optional[bool] = None,
-        showbanned: t.Optional[str] = None,
-        sort_mode: t.Optional["ForumPostSortEnum"] = None,
+        child_post_id: int,
+        page: int,
+        page_size: int,
+        reply_size: int,
+        root_thread_mode: bool,
+        showbanned: str,
+        sort_mode: "ForumPostSortEnum",
     ) -> PostSearchClientResponse:
         """Returns a thread of posts starting at the topicId of the input
         childPostId, optionally returning replies to those posts as well as the
@@ -122,8 +122,8 @@ class Client(BaseClient):
 
     async def get_post_and_parent(
         self,
-        child_post_id: t.Optional[int] = None,
-        showbanned: t.Optional[str] = None,
+        child_post_id: int,
+        showbanned: str,
     ) -> PostSearchClientResponse:
         """Returns the post specified and its immediate parent.
 
@@ -139,8 +139,8 @@ class Client(BaseClient):
 
     async def get_post_and_parent_awaiting_approval(
         self,
-        child_post_id: t.Optional[int] = None,
-        showbanned: t.Optional[str] = None,
+        child_post_id: int,
+        showbanned: str,
     ) -> PostSearchClientResponse:
         """Returns the post specified and its immediate parent of posts that
         are awaiting approval.
@@ -157,7 +157,7 @@ class Client(BaseClient):
 
     async def get_topic_for_content(
         self,
-        content_id: t.Optional[int] = None,
+        content_id: int,
     ) -> int64ClientResponse:
         """Gets the post Id for the given content item's comments, if it
         exists."""
@@ -170,7 +170,7 @@ class Client(BaseClient):
 
     async def get_forum_tag_suggestions(
         self,
-        partialtag: t.Optional[str] = None,
+        partialtag: str,
     ) -> ListOfTagClientResponse:
         """Gets tag suggestions based on partial text entry, matching them with
         other tags previously used in the forums.
@@ -187,7 +187,7 @@ class Client(BaseClient):
 
     async def get_poll(
         self,
-        topic_id: t.Optional[int] = None,
+        topic_id: int,
     ) -> PostSearchClientResponse:
         """Gets the specified forum poll.
 
@@ -203,7 +203,7 @@ class Client(BaseClient):
 
     async def get_recruitment_thread_summaries(
         self,
-        request: t.Optional[t.Sequence[int]],
+        request: t.Sequence[int],
     ) -> CEListOfForumRecruitmentDetailClientResponse:
         """Allows the caller to get a list of to 25 recruitment thread summary
         information objects."""

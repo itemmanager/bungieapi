@@ -7,8 +7,8 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class InterpolationPoint:
-    value: t.Optional[int] = None
-    weight: t.Optional[int] = None
+    value: int
+    weight: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -19,8 +19,8 @@ class InterpolationPoint:
 
 @dt.dataclass(frozen=True)
 class InterpolationPointFloat:
-    value: t.Optional[float] = None
-    weight: t.Optional[float] = None
+    value: float
+    weight: float
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

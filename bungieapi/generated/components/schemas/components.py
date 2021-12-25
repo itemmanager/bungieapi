@@ -11,8 +11,8 @@ class ComponentResponse:
     """The base class for any component-returning object that may need to
     indicate information about the state of the component being returned."""
 
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
-    privacy: t.Optional["ComponentPrivacySetting"] = None
+    disabled: bool  # If true, this component is disabled.
+    privacy: "ComponentPrivacySetting"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

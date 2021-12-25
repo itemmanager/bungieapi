@@ -19,9 +19,9 @@ class DestinyInventoryComponent:
     for more info.
     """
 
-    items: t.Optional[
-        t.Sequence["DestinyItemComponent"]
-    ] = None  # The items in this inventory. If you care to bucket them, use the item's bucketHash property to group them.
+    items: t.Sequence[
+        "DestinyItemComponent"
+    ]  # The items in this inventory. If you care to bucket them, use the item's bucketHash property to group them.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -30,6 +30,6 @@ class DestinyInventoryComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.entities.items import (
+from bungieapi.generated.components.schemas.destiny.entities.items import (  # noqa: E402
     DestinyItemComponent,
-)  # noqa: E402
+)

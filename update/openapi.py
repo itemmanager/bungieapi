@@ -6,8 +6,8 @@ from enum import Enum
 from svarog.tools import camel_to_snake
 from svarog.types import Forge
 
+from .forge import svarog
 from .generator.tools import response_schema_name
-from .svarog import svarog
 from .tools import to_camel_case
 
 
@@ -228,12 +228,6 @@ class Response:
             "description": data["description"],
             "schema": data["content"]["application/json"]["schema"],
         }
-
-    def __post_init__(self):
-        self.schema.properties["DetailedErrorTrace"] = dt.replace(  # type: ignore
-            self.schema.properties["DetailedErrorTrace"],  # type: ignore
-            required=False,
-        )
 
 
 @dt.dataclass(frozen=True)

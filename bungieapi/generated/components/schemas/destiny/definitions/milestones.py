@@ -25,65 +25,37 @@ class DestinyMilestoneDefinition:
     This approach will let you avoid, whenever possible, the even less useful (and sometimes nonexistant) milestone-level names and descriptions.
     """
 
-    activities: t.Optional[
-        t.Sequence["DestinyMilestoneChallengeActivityDefinition"]
-    ] = None  # A Milestone can now be represented by one or more activities directly (without a backing Quest), and that activity can have many challenges, modifiers, and related to it.
-    default_order: t.Optional[int] = None
-    display_preference: t.Optional[
-        "DestinyMilestoneDisplayPreference"
-    ] = None  # A hint to the UI to indicate what to show as the display properties for this Milestone when showing "Live" milestone data. Feel free to show more than this if desired: this hint is meant to simplify our own UI, but it may prove useful to you as well.
-    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
-    explore_prioritizes_activity_image: t.Optional[
-        bool
-    ] = None  # If TRUE, "Explore Destiny" (the front page of BNet and the companion app) prioritize using the activity image over any overriding Quest or Milestone image provided. This unfortunate hack is brought to you by Trials of The Nine.
-    friendly_name: t.Optional[
-        str
-    ] = None  # If the milestone has a friendly identifier for association with other features - such as Recruiting - that identifier can be found here. This is "friendly" in that it looks better in a URL than whatever the identifier for the Milestone actually is.
-    has_predictable_dates: t.Optional[
-        bool
-    ] = None  # A shortcut for clients - and the server - to understand whether we can predict the start and end dates for this event. In practice, there are multiple ways that an event could have predictable date ranges, but not all events will be able to be predicted via any mechanism (for instance, events that are manually triggered on and off)
-    hash: t.Optional[
-        int
-    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    image: t.Optional[
-        str
-    ] = None  # A custom image someone made just for the milestone. Isn't that special?
-    index: t.Optional[
-        int
-    ] = None  # The index of the entity as it was found in the investment tables.
-    is_in_game_milestone: t.Optional[
-        bool
-    ] = None  # Some milestones are explicit objectives that you can see and interact with in the game. Some milestones are more conceptual, built by BNet to help advise you on activities and events that happen in-game but that aren't explicitly shown in game as Milestones. If this is TRUE, you can see this as a milestone in the game. If this is FALSE, it's an event or activity you can participate in, but you won't see it as a Milestone in the game's UI.
-    milestone_type: t.Optional[
-        "DestinyMilestoneType"
-    ] = None  # An enumeration listing one of the possible types of milestones. Check out the DestinyMilestoneType enum for more info!
-    quests: t.Optional[
-        t.Mapping[str, "DestinyMilestoneQuestDefinition"]
-    ] = None  # The full set of possible Quests that give the overview of the Milestone event/activity in question. Only one of these can be active at a time for a given Conceptual Milestone, but many of them may be "available" for the user to choose from. (for instance, with Milestones you can choose from the three available Quests, but only one can be active at a time) Keyed by the quest item. As of Forsaken (~September 2018), Quest-style Milestones are being removed for many types of activities. There will likely be further revisions to the Milestone concept in the future.
-    recruitable: t.Optional[
-        bool
-    ] = None  # If True, then the Milestone has been integrated with BNet's recruiting feature.
-    redacted: t.Optional[
-        bool
-    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    rewards: t.Optional[
-        t.Mapping[str, "DestinyMilestoneRewardCategoryDefinition"]
-    ] = None  # If this milestone can provide rewards, this will define the categories into which the individual reward entries are placed. This is keyed by the Category's hash, which is only guaranteed to be unique within a given Milestone.
-    show_in_explorer: t.Optional[
-        bool
-    ] = None  # If TRUE, this entry should be returned in the list of milestones for the "Explore Destiny" (i.e. new BNet homepage) features of Bungie.net (as long as the underlying event is active) Note that this is a property specifically used by BNet and the companion app for the "Live Events" feature of the front page/welcome view: it's not a reflection of what you see in-game.
-    show_in_milestones: t.Optional[
-        bool
-    ] = None  # Determines whether we'll show this Milestone in the user's personal Milestones list.
-    values: t.Optional[
-        t.Mapping[str, "DestinyMilestoneValueDefinition"]
-    ] = None  # Sometimes, milestones will have arbitrary values associated with them that are of interest to us or to third party developers. This is the collection of those values' definitions, keyed by the identifier of the value and providing useful definition information such as localizable names and descriptions for the value.
-    vendors: t.Optional[
-        t.Sequence["DestinyMilestoneVendorDefinition"]
-    ] = None  # Sometimes, milestones will have rewards provided by Vendors. This definition gives the information needed to understand which vendors are relevant, the order in which they should be returned if order matters, and the conditions under which the Vendor is relevant to the user.
-    vendors_display_title: t.Optional[
-        str
-    ] = None  # If you're going to show Vendors for the Milestone, you can use this as a localized "header" for the section where you show that vendor data. It'll provide a more context-relevant clue about what the vendor's role is in the Milestone.
+    activities: t.Sequence[
+        "DestinyMilestoneChallengeActivityDefinition"
+    ]  # A Milestone can now be represented by one or more activities directly (without a backing Quest), and that activity can have many challenges, modifiers, and related to it.
+    default_order: int
+    display_preference: "DestinyMilestoneDisplayPreference"  # A hint to the UI to indicate what to show as the display properties for this Milestone when showing "Live" milestone data. Feel free to show more than this if desired: this hint is meant to simplify our own UI, but it may prove useful to you as well.
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    explore_prioritizes_activity_image: bool  # If TRUE, "Explore Destiny" (the front page of BNet and the companion app) prioritize using the activity image over any overriding Quest or Milestone image provided. This unfortunate hack is brought to you by Trials of The Nine.
+    friendly_name: str  # If the milestone has a friendly identifier for association with other features - such as Recruiting - that identifier can be found here. This is "friendly" in that it looks better in a URL than whatever the identifier for the Milestone actually is.
+    has_predictable_dates: bool  # A shortcut for clients - and the server - to understand whether we can predict the start and end dates for this event. In practice, there are multiple ways that an event could have predictable date ranges, but not all events will be able to be predicted via any mechanism (for instance, events that are manually triggered on and off)
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    image: str  # A custom image someone made just for the milestone. Isn't that special?
+    index: int  # The index of the entity as it was found in the investment tables.
+    is_in_game_milestone: bool  # Some milestones are explicit objectives that you can see and interact with in the game. Some milestones are more conceptual, built by BNet to help advise you on activities and events that happen in-game but that aren't explicitly shown in game as Milestones. If this is TRUE, you can see this as a milestone in the game. If this is FALSE, it's an event or activity you can participate in, but you won't see it as a Milestone in the game's UI.
+    milestone_type: "DestinyMilestoneType"  # An enumeration listing one of the possible types of milestones. Check out the DestinyMilestoneType enum for more info!
+    quests: t.Mapping[
+        str, "DestinyMilestoneQuestDefinition"
+    ]  # The full set of possible Quests that give the overview of the Milestone event/activity in question. Only one of these can be active at a time for a given Conceptual Milestone, but many of them may be "available" for the user to choose from. (for instance, with Milestones you can choose from the three available Quests, but only one can be active at a time) Keyed by the quest item. As of Forsaken (~September 2018), Quest-style Milestones are being removed for many types of activities. There will likely be further revisions to the Milestone concept in the future.
+    recruitable: bool  # If True, then the Milestone has been integrated with BNet's recruiting feature.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    rewards: t.Mapping[
+        str, "DestinyMilestoneRewardCategoryDefinition"
+    ]  # If this milestone can provide rewards, this will define the categories into which the individual reward entries are placed. This is keyed by the Category's hash, which is only guaranteed to be unique within a given Milestone.
+    show_in_explorer: bool  # If TRUE, this entry should be returned in the list of milestones for the "Explore Destiny" (i.e. new BNet homepage) features of Bungie.net (as long as the underlying event is active) Note that this is a property specifically used by BNet and the companion app for the "Live Events" feature of the front page/welcome view: it's not a reflection of what you see in-game.
+    show_in_milestones: bool  # Determines whether we'll show this Milestone in the user's personal Milestones list.
+    values: t.Mapping[
+        str, "DestinyMilestoneValueDefinition"
+    ]  # Sometimes, milestones will have arbitrary values associated with them that are of interest to us or to third party developers. This is the collection of those values' definitions, keyed by the identifier of the value and providing useful definition information such as localizable names and descriptions for the value.
+    vendors: t.Sequence[
+        "DestinyMilestoneVendorDefinition"
+    ]  # Sometimes, milestones will have rewards provided by Vendors. This definition gives the information needed to understand which vendors are relevant, the order in which they should be returned if order matters, and the conditions under which the Vendor is relevant to the user.
+    vendors_display_title: str  # If you're going to show Vendors for the Milestone, you can use this as a localized "header" for the section where you show that vendor data. It'll provide a more context-relevant clue about what the vendor's role is in the Milestone.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -151,24 +123,14 @@ class DestinyMilestoneQuestDefinition:
     Even just typing this description, I already regret it.
     """
 
-    activities: t.Optional[
-        t.Mapping[str, "DestinyMilestoneActivityDefinition"]
-    ] = None  # The full set of all possible "conceptual activities" that are related to this Milestone. Tiers or alternative modes of play within these conceptual activities will be defined as sub-entities. Keyed by the Conceptual Activity Hash. Use the key to look up DestinyActivityDefinition.
-    destination_hash: t.Optional[
-        int
-    ] = None  # Sometimes, a Milestone's quest is related to an entire Destination rather than a specific activity. In that situation, this will be the hash of that Destination. Hotspots are currently the only Milestones that expose this data, but that does not preclude this data from being returned for other Milestones in the future.
-    display_properties: t.Optional[
-        "DestinyDisplayPropertiesDefinition"
-    ] = None  # The individual quests may have different definitions from the overall milestone: if there's a specific active quest, use these displayProperties instead of that of the overall DestinyMilestoneDefinition.
-    override_image: t.Optional[
-        str
-    ] = None  # If populated, this image can be shown instead of the generic milestone's image when this quest is live, or it can be used to show a background image for the quest itself that differs from that of the Activity or the Milestone.
-    quest_item_hash: t.Optional[
-        int
-    ] = None  # The item representing this Milestone quest. Use this hash to look up the DestinyInventoryItemDefinition for the quest to find its steps and human readable data.
-    quest_rewards: t.Optional[
-        "DestinyMilestoneQuestRewardsDefinition"
-    ] = None  # The rewards you will get for completing this quest, as best as we could extract them from our data. Sometimes, it'll be a decent amount of data. Sometimes, it's going to be sucky. Sorry.
+    activities: t.Mapping[
+        str, "DestinyMilestoneActivityDefinition"
+    ]  # The full set of all possible "conceptual activities" that are related to this Milestone. Tiers or alternative modes of play within these conceptual activities will be defined as sub-entities. Keyed by the Conceptual Activity Hash. Use the key to look up DestinyActivityDefinition.
+    destination_hash: int  # Sometimes, a Milestone's quest is related to an entire Destination rather than a specific activity. In that situation, this will be the hash of that Destination. Hotspots are currently the only Milestones that expose this data, but that does not preclude this data from being returned for other Milestones in the future.
+    display_properties: "DestinyDisplayPropertiesDefinition"  # The individual quests may have different definitions from the overall milestone: if there's a specific active quest, use these displayProperties instead of that of the overall DestinyMilestoneDefinition.
+    override_image: str  # If populated, this image can be shown instead of the generic milestone's image when this quest is live, or it can be used to show a background image for the quest itself that differs from that of the Activity or the Milestone.
+    quest_item_hash: int  # The item representing this Milestone quest. Use this hash to look up the DestinyInventoryItemDefinition for the quest to find its steps and human readable data.
+    quest_rewards: "DestinyMilestoneQuestRewardsDefinition"  # The rewards you will get for completing this quest, as best as we could extract them from our data. Sometimes, it'll be a decent amount of data. Sometimes, it's going to be sucky. Sorry.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -185,9 +147,9 @@ class DestinyMilestoneQuestDefinition:
 class DestinyMilestoneQuestRewardsDefinition:
     '''If rewards are given in a quest - as opposed to overall in the entire Milestone - there's way less to track. We're going to simplify this contract as a result. However, this also gives us the opportunity to potentially put more than just item information into the reward data if we're able to mine it out in the future. Remember this if you come back and ask "why are quest reward items nested inside of their own class?"'''
 
-    items: t.Optional[
-        t.Sequence["DestinyMilestoneQuestRewardItem"]
-    ] = None  # The items that represent your reward for completing the quest. Be warned, these could be "dummy" items: items that are only used to render a good-looking in-game tooltip, but aren't the actual items themselves. For instance, when experience is given there's often a dummy item representing "experience", with quantity being the amount of experience you got. We don't have a programmatic association between those and whatever Progression is actually getting that experience... yet.
+    items: t.Sequence[
+        "DestinyMilestoneQuestRewardItem"
+    ]  # The items that represent your reward for completing the quest. Be warned, these could be "dummy" items: items that are only used to render a good-looking in-game tooltip, but aren't the actual items themselves. For instance, when experience is given there's often a dummy item representing "experience", with quantity being the amount of experience you got. We don't have a programmatic association between those and whatever Progression is actually getting that experience... yet.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -200,24 +162,12 @@ class DestinyMilestoneQuestRewardItem:
     """A subclass of DestinyItemQuantity, that provides not just the item and its quantity but also information that BNet can - at some point - use internally to provide more robust runtime information about the item's qualities.
     If you want it, please ask! We're just out of time to wire it up right now. Or a clever person just may do it with our existing endpoints."""
 
-    has_conditional_visibility: t.Optional[
-        bool
-    ] = None  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
-    item_hash: t.Optional[
-        int
-    ] = None  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    item_instance_id: t.Optional[
-        int
-    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
-    quantity: t.Optional[
-        int
-    ] = None  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
-    vendor_hash: t.Optional[
-        int
-    ] = None  # The quest reward item *may* be associated with a vendor. If so, this is that vendor. Use this hash to look up the DestinyVendorDefinition.
-    vendor_item_index: t.Optional[
-        int
-    ] = None  # The quest reward item *may* be associated with a vendor. If so, this is the index of the item being sold, which we can use at runtime to find instanced item information for the reward item.
+    has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
+    item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
+    item_instance_id: int  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
+    quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
+    vendor_hash: int  # The quest reward item *may* be associated with a vendor. If so, this is that vendor. Use this hash to look up the DestinyVendorDefinition.
+    vendor_item_index: int  # The quest reward item *may* be associated with a vendor. If so, this is the index of the item being sold, which we can use at runtime to find instanced item information for the reward item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -241,12 +191,10 @@ class DestinyMilestoneActivityDefinition:
     and variants.
     """
 
-    conceptual_activity_hash: t.Optional[
-        int
-    ] = None  # The "Conceptual" activity hash. Basically, we picked the lowest level activity and are treating it as the canonical definition of the activity for rendering purposes. If you care about the specific difficulty modes and variations, use the activities under "Variants".
-    variants: t.Optional[
-        t.Mapping[str, "DestinyMilestoneActivityVariantDefinition"]
-    ] = None  # A milestone-referenced activity can have many variants, such as Tiers or alternative modes of play. Even if there is only a single variant, the details for these are represented within as a variant definition. It is assumed that, if this DestinyMilestoneActivityDefinition is active, then all variants should be active. If a Milestone could ever split the variants' active status conditionally, they should all have their own DestinyMilestoneActivityDefinition instead! The potential duplication will be worth it for the obviousness of processing and use.
+    conceptual_activity_hash: int  # The "Conceptual" activity hash. Basically, we picked the lowest level activity and are treating it as the canonical definition of the activity for rendering purposes. If you care about the specific difficulty modes and variations, use the activities under "Variants".
+    variants: t.Mapping[
+        str, "DestinyMilestoneActivityVariantDefinition"
+    ]  # A milestone-referenced activity can have many variants, such as Tiers or alternative modes of play. Even if there is only a single variant, the details for these are represented within as a variant definition. It is assumed that, if this DestinyMilestoneActivityDefinition is active, then all variants should be active. If a Milestone could ever split the variants' active status conditionally, they should all have their own DestinyMilestoneActivityDefinition instead! The potential duplication will be worth it for the obviousness of processing and use.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -265,12 +213,8 @@ class DestinyMilestoneActivityVariantDefinition:
     values.
     """
 
-    activity_hash: t.Optional[
-        int
-    ] = None  # The hash to use for looking up the variant Activity's definition (DestinyActivityDefinition), where you can find its distinguishing characteristics such as difficulty level and recommended light level.  Frequently, that will be the only distinguishing characteristics in practice, which is somewhat of a bummer.
-    order: t.Optional[
-        int
-    ] = None  # If you care to do so, render the variants in the order prescribed by this value. When you combine live Milestone data with the definition, the order becomes more useful because you'll be cross-referencing between the definition and live data.
+    activity_hash: int  # The hash to use for looking up the variant Activity's definition (DestinyActivityDefinition), where you can find its distinguishing characteristics such as difficulty level and recommended light level.  Frequently, that will be the only distinguishing characteristics in practice, which is somewhat of a bummer.
+    order: int  # If you care to do so, render the variants in the order prescribed by this value. When you combine live Milestone data with the definition, the order becomes more useful because you'll be cross-referencing between the definition and live data.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -284,21 +228,13 @@ class DestinyMilestoneRewardCategoryDefinition:
     """The definition of a category of rewards, that contains many individual
     rewards."""
 
-    category_hash: t.Optional[
-        int
-    ] = None  # Identifies the reward category. Only guaranteed unique within this specific component!
-    category_identifier: t.Optional[
-        str
-    ] = None  # The string identifier for the category, if you want to use it for some end. Guaranteed unique within the specific component.
-    display_properties: t.Optional[
-        "DestinyDisplayPropertiesDefinition"
-    ] = None  # Hopefully this is obvious by now.
-    order: t.Optional[
-        int
-    ] = None  # If you want to use BNet's recommended order for rendering categories programmatically, use this value and compare it to other categories to determine the order in which they should be rendered. I don't feel great about putting this here, I won't lie.
-    reward_entries: t.Optional[
-        t.Mapping[str, "DestinyMilestoneRewardEntryDefinition"]
-    ] = None  # If this milestone can provide rewards, this will define the sets of rewards that can be earned, the conditions under which they can be acquired, internal data that we'll use at runtime to determine whether you've already earned or redeemed this set of rewards, and the category that this reward should be placed under.
+    category_hash: int  # Identifies the reward category. Only guaranteed unique within this specific component!
+    category_identifier: str  # The string identifier for the category, if you want to use it for some end. Guaranteed unique within the specific component.
+    display_properties: "DestinyDisplayPropertiesDefinition"  # Hopefully this is obvious by now.
+    order: int  # If you want to use BNet's recommended order for rendering categories programmatically, use this value and compare it to other categories to determine the order in which they should be rendered. I don't feel great about putting this here, I won't lie.
+    reward_entries: t.Mapping[
+        str, "DestinyMilestoneRewardEntryDefinition"
+    ]  # If this milestone can provide rewards, this will define the sets of rewards that can be earned, the conditions under which they can be acquired, internal data that we'll use at runtime to determine whether you've already earned or redeemed this set of rewards, and the category that this reward should be placed under.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -316,24 +252,14 @@ class DestinyMilestoneRewardEntryDefinition:
     category of rewards and that has optional information about how it is
     obtained."""
 
-    display_properties: t.Optional[
-        "DestinyDisplayPropertiesDefinition"
-    ] = None  # For us to bother returning this info, we should be able to return some kind of information about why these rewards are grouped together. This is ideally that information. Look at how confident I am that this will always remain true.
-    items: t.Optional[
-        t.Sequence["DestinyItemQuantity"]
-    ] = None  # The items you will get as rewards, and how much of it you'll get.
-    order: t.Optional[
-        int
-    ] = None  # If you want to follow BNet's ordering of these rewards, use this number within a given category to order the rewards. Yeah, I know. I feel dirty too.
-    reward_entry_hash: t.Optional[
-        int
-    ] = None  # The identifier for this reward entry. Runtime data will refer to reward entries by this hash. Only guaranteed unique within the specific Milestone.
-    reward_entry_identifier: t.Optional[
-        str
-    ] = None  # The string identifier, if you care about it. Only guaranteed unique within the specific Milestone.
-    vendor_hash: t.Optional[
-        int
-    ] = None  # If this reward is redeemed at a Vendor, this is the hash of the Vendor to go to in order to redeem the reward. Use this hash to look up the DestinyVendorDefinition.
+    display_properties: "DestinyDisplayPropertiesDefinition"  # For us to bother returning this info, we should be able to return some kind of information about why these rewards are grouped together. This is ideally that information. Look at how confident I am that this will always remain true.
+    items: t.Sequence[
+        "DestinyItemQuantity"
+    ]  # The items you will get as rewards, and how much of it you'll get.
+    order: int  # If you want to follow BNet's ordering of these rewards, use this number within a given category to order the rewards. Yeah, I know. I feel dirty too.
+    reward_entry_hash: int  # The identifier for this reward entry. Runtime data will refer to reward entries by this hash. Only guaranteed unique within the specific Milestone.
+    reward_entry_identifier: str  # The string identifier, if you care about it. Only guaranteed unique within the specific Milestone.
+    vendor_hash: int  # If this reward is redeemed at a Vendor, this is the hash of the Vendor to go to in order to redeem the reward. Use this hash to look up the DestinyVendorDefinition.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -357,9 +283,7 @@ class DestinyMilestoneVendorDefinition:
     state.
     """
 
-    vendor_hash: t.Optional[
-        int
-    ] = None  # The hash of the vendor whose wares should be shown as associated with the Milestone.
+    vendor_hash: int  # The hash of the vendor whose wares should be shown as associated with the Milestone.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -376,8 +300,8 @@ class DestinyMilestoneValueDefinition:
     someone, even if it's not necessarily us.
     """
 
-    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
-    key: t.Optional[str] = None
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    key: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -388,16 +312,14 @@ class DestinyMilestoneValueDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeActivityDefinition:
-    activity_graph_nodes: t.Optional[
-        t.Sequence["DestinyMilestoneChallengeActivityGraphNodeEntry"]
-    ] = None  # If the activity and its challenge is visible on any of these nodes, it will be returned.
-    activity_hash: t.Optional[
-        int
-    ] = None  # The activity for which this challenge is active.
-    challenges: t.Optional[t.Sequence["DestinyMilestoneChallengeDefinition"]] = None
-    phases: t.Optional[
-        t.Sequence["DestinyMilestoneChallengeActivityPhase"]
-    ] = None  # Phases related to this activity, if there are any. These will be listed in the order in which they will appear in the actual activity.
+    activity_graph_nodes: t.Sequence[
+        "DestinyMilestoneChallengeActivityGraphNodeEntry"
+    ]  # If the activity and its challenge is visible on any of these nodes, it will be returned.
+    activity_hash: int  # The activity for which this challenge is active.
+    challenges: t.Sequence["DestinyMilestoneChallengeDefinition"]
+    phases: t.Sequence[
+        "DestinyMilestoneChallengeActivityPhase"
+    ]  # Phases related to this activity, if there are any. These will be listed in the order in which they will appear in the actual activity.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -410,9 +332,7 @@ class DestinyMilestoneChallengeActivityDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeDefinition:
-    challenge_objective_hash: t.Optional[
-        int
-    ] = None  # The challenge related to this milestone.
+    challenge_objective_hash: int  # The challenge related to this milestone.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -422,8 +342,8 @@ class DestinyMilestoneChallengeDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeActivityGraphNodeEntry:
-    activity_graph_hash: t.Optional[int] = None
-    activity_graph_node_hash: t.Optional[int] = None
+    activity_graph_hash: int
+    activity_graph_node_hash: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -434,7 +354,7 @@ class DestinyMilestoneChallengeActivityGraphNodeEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeActivityPhase:
-    phase_hash: t.Optional[int] = None  # The hash identifier of the activity's phase.
+    phase_hash: int  # The hash identifier of the activity's phase.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -442,11 +362,11 @@ class DestinyMilestoneChallengeActivityPhase:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyItemQuantity,
-)  # noqa: E402
+)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions.common import (
+from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
-)  # noqa: E402
+)

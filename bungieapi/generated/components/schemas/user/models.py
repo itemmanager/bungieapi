@@ -7,10 +7,10 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class GetCredentialTypesForAccountResponse:
-    credential_as_string: t.Optional[str] = None
-    credential_display_name: t.Optional[str] = None
-    credential_type: t.Optional["BungieCredentialType"] = None
-    is_public: t.Optional[bool] = None
+    credential_as_string: str
+    credential_display_name: str
+    credential_type: "BungieCredentialType"
+    is_public: bool
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

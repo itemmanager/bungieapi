@@ -7,13 +7,13 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportDataClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyPostGameCarnageReportData"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyPostGameCarnageReportData"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -29,13 +29,13 @@ class DestinyPostGameCarnageReportDataClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardResultsClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -51,13 +51,13 @@ class DestinyLeaderboardResultsClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsResultsClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional[t.Mapping[str, "DestinyHistoricalStatsByPeriod"]] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, "DestinyHistoricalStatsByPeriod"]
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -73,13 +73,13 @@ class DestinyHistoricalStatsResultsClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsAccountResultClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyHistoricalStatsAccountResult"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyHistoricalStatsAccountResult"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -95,13 +95,13 @@ class DestinyHistoricalStatsAccountResultClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyActivityHistoryResultsClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyActivityHistoryResults"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyActivityHistoryResults"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -117,13 +117,13 @@ class DestinyActivityHistoryResultsClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStatsDataClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyHistoricalWeaponStatsData"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyHistoricalWeaponStatsData"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -139,13 +139,13 @@ class DestinyHistoricalWeaponStatsDataClientResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityResultsClientResponse:
-    detailed_error_trace: t.Optional[str] = None
-    error_code: t.Optional["PlatformErrorCodes"] = None
-    error_status: t.Optional[str] = None
-    message: t.Optional[str] = None
-    message_data: t.Optional[t.Mapping[str, str]] = None
-    response: t.Optional["DestinyAggregateActivityResults"] = None
-    throttle_seconds: t.Optional[int] = None
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: "DestinyAggregateActivityResults"
+    throttle_seconds: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -160,27 +160,15 @@ class DestinyAggregateActivityResultsClientResponse:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
+from bungieapi.generated.components.schemas.destiny.historical_stats import (  # noqa: E402
     DestinyActivityHistoryResults,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyAggregateActivityResults,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyHistoricalStatsAccountResult,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyHistoricalStatsByPeriod,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyHistoricalWeaponStatsData,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyLeaderboard,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.historical_stats import (
     DestinyPostGameCarnageReportData,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.exceptions import (
+)
+from bungieapi.generated.components.schemas.exceptions import (  # noqa: E402
     PlatformErrorCodes,
-)  # noqa: E402
+)

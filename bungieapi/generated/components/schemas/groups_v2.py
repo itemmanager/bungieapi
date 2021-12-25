@@ -8,38 +8,20 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class GroupUserInfoCard:
-    last_seen_display_name: t.Optional[
-        str
-    ] = None  # This will be the display name the clan server last saw the user as. If the account is an active cross save override, this will be the display name to use. Otherwise, this will match the displayName property.
-    last_seen_display_name_type: t.Optional[
+    last_seen_display_name: str  # This will be the display name the clan server last saw the user as. If the account is an active cross save override, this will be the display name to use. Otherwise, this will match the displayName property.
+    last_seen_display_name_type: "BungieMembershipType"  # The platform of the LastSeenDisplayName
+    applicable_membership_types: t.Sequence[
         "BungieMembershipType"
-    ] = None  # The platform of the LastSeenDisplayName
-    applicable_membership_types: t.Optional[
-        t.Sequence["BungieMembershipType"]
-    ] = None  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: t.Optional[
-        str
-    ] = None  # The bungie global display name, if set.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
-    cross_save_override: t.Optional[
-        "BungieMembershipType"
-    ] = None  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: t.Optional[
-        str
-    ] = None  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    icon_path: t.Optional[str] = None  # URL the Icon if available.
-    is_public: t.Optional[bool] = None  # If True, this is a public user membership.
-    membership_id: t.Optional[
-        int
-    ] = None  # Membership ID as they user is known in the Accounts service
-    membership_type: t.Optional[
-        "BungieMembershipType"
-    ] = None  # Type of the membership. Not necessarily the native type.
-    supplemental_display_name: t.Optional[
-        str
-    ] = None  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
+    bungie_global_display_name: str  # The bungie global display name, if set.
+    bungie_global_display_name_code: int  # The bungie global display name code, if set.
+    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
+    icon_path: str  # URL the Icon if available.
+    is_public: bool  # If True, this is a public user membership.
+    membership_id: int  # Membership ID as they user is known in the Accounts service
+    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -62,21 +44,19 @@ class GroupUserInfoCard:
 
 @dt.dataclass(frozen=True)
 class GroupResponse:
-    alliance_status: t.Optional["GroupAllianceStatus"] = None
-    allied_ids: t.Optional[t.Sequence[int]] = None
-    current_user_member_map: t.Optional[
-        t.Mapping[str, "GroupMember"]
-    ] = None  # This property will be populated if the authenticated user is a member of the group. Note that because of account linking, a user can sometimes be part of a clan more than once. As such, this returns the highest member type available.
-    current_user_memberships_inactive_for_destiny: t.Optional[
-        bool
-    ] = None  # A convenience property that indicates if every membership you (the current user) have that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.
-    current_user_potential_member_map: t.Optional[
-        t.Mapping[str, "GroupPotentialMember"]
-    ] = None  # This property will be populated if the authenticated user is an applicant or has an outstanding invitation to join. Note that because of account linking, a user can sometimes be part of a clan more than once.
-    detail: t.Optional["GroupV2"] = None
-    founder: t.Optional["GroupMember"] = None
-    group_join_invite_count: t.Optional[int] = None
-    parent_group: t.Optional["GroupV2"] = None
+    alliance_status: "GroupAllianceStatus"
+    allied_ids: t.Sequence[int]
+    current_user_member_map: t.Mapping[
+        str, "GroupMember"
+    ]  # This property will be populated if the authenticated user is a member of the group. Note that because of account linking, a user can sometimes be part of a clan more than once. As such, this returns the highest member type available.
+    current_user_memberships_inactive_for_destiny: bool  # A convenience property that indicates if every membership you (the current user) have that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.
+    current_user_potential_member_map: t.Mapping[
+        str, "GroupPotentialMember"
+    ]  # This property will be populated if the authenticated user is an applicant or has an outstanding invitation to join. Note that because of account linking, a user can sometimes be part of a clan more than once.
+    detail: "GroupV2"
+    founder: "GroupMember"
+    group_join_invite_count: int
+    parent_group: "GroupV2"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -98,34 +78,34 @@ class GroupResponse:
 
 @dt.dataclass(frozen=True)
 class GroupV2:
-    about: t.Optional[str] = None
-    allow_chat: t.Optional[bool] = None
-    avatar_image_index: t.Optional[int] = None
-    avatar_path: t.Optional[str] = None
-    ban_expire_date: t.Optional[str] = None
-    banner_path: t.Optional[str] = None
-    chat_security: t.Optional["ChatSecuritySetting"] = None
-    clan_info: t.Optional["GroupV2ClanInfoAndInvestment"] = None
-    conversation_id: t.Optional[int] = None
-    creation_date: t.Optional[str] = None
-    default_publicity: t.Optional["GroupPostPublicity"] = None
-    enable_invitation_messaging_for_admins: t.Optional[bool] = None
-    features: t.Optional["GroupFeatures"] = None
-    group_id: t.Optional[int] = None
-    group_type: t.Optional["GroupType"] = None
-    homepage: t.Optional["GroupHomepage"] = None
-    is_default_post_public: t.Optional[bool] = None
-    is_public: t.Optional[bool] = None
-    is_public_topic_admin_only: t.Optional[bool] = None
-    locale: t.Optional[str] = None
-    member_count: t.Optional[int] = None
-    membership_id_created: t.Optional[int] = None
-    membership_option: t.Optional["MembershipOption"] = None
-    modification_date: t.Optional[str] = None
-    motto: t.Optional[str] = None
-    name: t.Optional[str] = None
-    tags: t.Optional[t.Sequence[str]] = None
-    theme: t.Optional[str] = None
+    about: str
+    allow_chat: bool
+    avatar_image_index: int
+    avatar_path: str
+    ban_expire_date: str
+    banner_path: str
+    chat_security: "ChatSecuritySetting"
+    clan_info: "GroupV2ClanInfoAndInvestment"
+    conversation_id: int
+    creation_date: str
+    default_publicity: "GroupPostPublicity"
+    enable_invitation_messaging_for_admins: bool
+    features: "GroupFeatures"
+    group_id: int
+    group_type: "GroupType"
+    homepage: "GroupHomepage"
+    is_default_post_public: bool
+    is_public: bool
+    is_public_topic_admin_only: bool
+    locale: str
+    member_count: int
+    membership_id_created: int
+    membership_option: "MembershipOption"
+    modification_date: str
+    motto: str
+    name: str
+    tags: t.Sequence[str]
+    theme: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -192,27 +172,15 @@ class GroupPostPublicity(Enum):
 
 @dt.dataclass(frozen=True)
 class GroupFeatures:
-    capabilities: t.Optional["Capabilities"] = None
-    host_guided_game_permission_override: t.Optional[
-        "HostGuidedGamesPermissionLevel"
-    ] = None  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
-    invite_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    join_level: t.Optional[
-        "RuntimeGroupMemberType"
-    ] = None  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
-    maximum_members: t.Optional[int] = None
-    maximum_memberships_of_group_type: t.Optional[
-        int
-    ] = None  # Maximum number of groups of this type a typical membership may join. For example, a user may join about 50 General groups with their Bungie.net account. They may join one clan per Destiny membership.
-    membership_types: t.Optional[t.Sequence["BungieMembershipType"]] = None
-    update_banner_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    update_culture_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    capabilities: "Capabilities"
+    host_guided_game_permission_override: "HostGuidedGamesPermissionLevel"  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
+    invite_permission_override: bool  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    join_level: "RuntimeGroupMemberType"  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
+    maximum_members: int
+    maximum_memberships_of_group_type: int  # Maximum number of groups of this type a typical membership may join. For example, a user may join about 50 General groups with their Bungie.net account. They may join one clan per Destiny membership.
+    membership_types: t.Sequence["BungieMembershipType"]
+    update_banner_permission_override: bool  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    update_culture_permission_override: bool  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -281,8 +249,8 @@ class GroupV2ClanInfo:
     It does not include any investment data.
     """
 
-    clan_banner_data: t.Optional["ClanBanner"] = None
-    clan_callsign: t.Optional[str] = None
+    clan_banner_data: "ClanBanner"
+    clan_callsign: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -293,13 +261,13 @@ class GroupV2ClanInfo:
 
 @dt.dataclass(frozen=True)
 class ClanBanner:
-    decal_background_color_id: t.Optional[int] = None
-    decal_color_id: t.Optional[int] = None
-    decal_id: t.Optional[int] = None
-    gonfalon_color_id: t.Optional[int] = None
-    gonfalon_detail_color_id: t.Optional[int] = None
-    gonfalon_detail_id: t.Optional[int] = None
-    gonfalon_id: t.Optional[int] = None
+    decal_background_color_id: int
+    decal_color_id: int
+    decal_id: int
+    gonfalon_color_id: int
+    gonfalon_detail_color_id: int
+    gonfalon_detail_id: int
+    gonfalon_id: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -317,9 +285,9 @@ class ClanBanner:
 class GroupV2ClanInfoAndInvestment:
     """The same as GroupV2ClanInfo, but includes any investment data."""
 
-    clan_banner_data: t.Optional["ClanBanner"] = None
-    clan_callsign: t.Optional[str] = None
-    d2_clan_progressions: t.Optional[t.Mapping[str, "DestinyProgression"]] = None
+    clan_banner_data: "ClanBanner"
+    clan_callsign: str
+    d2_clan_progressions: t.Mapping[str, "DestinyProgression"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -331,10 +299,10 @@ class GroupV2ClanInfoAndInvestment:
 
 @dt.dataclass(frozen=True)
 class GroupUserBase:
-    bungie_net_user_info: t.Optional["UserInfoCard"] = None
-    destiny_user_info: t.Optional["GroupUserInfoCard"] = None
-    group_id: t.Optional[int] = None
-    join_date: t.Optional[str] = None
+    bungie_net_user_info: "UserInfoCard"
+    destiny_user_info: "GroupUserInfoCard"
+    group_id: int
+    join_date: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -347,13 +315,13 @@ class GroupUserBase:
 
 @dt.dataclass(frozen=True)
 class GroupMember:
-    bungie_net_user_info: t.Optional["UserInfoCard"] = None
-    destiny_user_info: t.Optional["GroupUserInfoCard"] = None
-    group_id: t.Optional[int] = None
-    is_online: t.Optional[bool] = None
-    join_date: t.Optional[str] = None
-    last_online_status_change: t.Optional[int] = None
-    member_type: t.Optional["RuntimeGroupMemberType"] = None
+    bungie_net_user_info: "UserInfoCard"
+    destiny_user_info: "GroupUserInfoCard"
+    group_id: int
+    is_online: bool
+    join_date: str
+    last_online_status_change: int
+    member_type: "RuntimeGroupMemberType"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -375,11 +343,11 @@ class GroupAllianceStatus(Enum):
 
 @dt.dataclass(frozen=True)
 class GroupPotentialMember:
-    bungie_net_user_info: t.Optional["UserInfoCard"] = None
-    destiny_user_info: t.Optional["GroupUserInfoCard"] = None
-    group_id: t.Optional[int] = None
-    join_date: t.Optional[str] = None
-    potential_status: t.Optional["GroupPotentialMemberStatus"] = None
+    bungie_net_user_info: "UserInfoCard"
+    destiny_user_info: "GroupUserInfoCard"
+    group_id: int
+    join_date: str
+    potential_status: "GroupPotentialMemberStatus"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -410,19 +378,19 @@ class GroupV2Card:
     """A small infocard of group information, usually used for when a list of
     groups are returned."""
 
-    about: t.Optional[str] = None
-    avatar_path: t.Optional[str] = None
-    capabilities: t.Optional["Capabilities"] = None
-    clan_info: t.Optional["GroupV2ClanInfo"] = None
-    creation_date: t.Optional[str] = None
-    group_id: t.Optional[int] = None
-    group_type: t.Optional["GroupType"] = None
-    locale: t.Optional[str] = None
-    member_count: t.Optional[int] = None
-    membership_option: t.Optional["MembershipOption"] = None
-    motto: t.Optional[str] = None
-    name: t.Optional[str] = None
-    theme: t.Optional[str] = None
+    about: str
+    avatar_path: str
+    capabilities: "Capabilities"
+    clan_info: "GroupV2ClanInfo"
+    creation_date: str
+    group_id: int
+    group_type: "GroupType"
+    locale: str
+    member_count: int
+    membership_option: "MembershipOption"
+    motto: str
+    name: str
+    theme: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -444,14 +412,12 @@ class GroupV2Card:
 
 @dt.dataclass(frozen=True)
 class GroupSearchResponse:
-    has_more: t.Optional[bool] = None
-    query: t.Optional["PagedQuery"] = None
-    replacement_continuation_token: t.Optional[str] = None
-    results: t.Optional[t.Sequence["GroupV2Card"]] = None
-    total_results: t.Optional[int] = None
-    use_total_results: t.Optional[
-        bool
-    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: bool
+    query: "PagedQuery"
+    replacement_continuation_token: str
+    results: t.Sequence["GroupV2Card"]
+    total_results: int
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -474,16 +440,16 @@ class GroupQuery:
     - groupMemberCountFilter - localeFilter - tagText
     If you pass these, you will get a useless InvalidParameters error."""
 
-    creation_date: t.Optional["GroupDateRange"] = None
-    current_page: t.Optional[int] = None
-    group_member_count_filter: t.Optional[int] = None
-    group_type: t.Optional["GroupType"] = None
-    items_per_page: t.Optional[int] = None
-    locale_filter: t.Optional[str] = None
-    name: t.Optional[str] = None
-    request_continuation_token: t.Optional[str] = None
-    sort_by: t.Optional["GroupSortBy"] = None
-    tag_text: t.Optional[str] = None
+    creation_date: "GroupDateRange"
+    current_page: int
+    group_member_count_filter: int
+    group_type: "GroupType"
+    items_per_page: int
+    locale_filter: str
+    name: str
+    request_continuation_token: str
+    sort_by: "GroupSortBy"
+    tag_text: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -516,8 +482,8 @@ class GroupMemberCountFilter(Enum):
 
 @dt.dataclass(frozen=True)
 class GroupNameSearchRequest:
-    group_name: t.Optional[str] = None
-    group_type: t.Optional["GroupType"] = None
+    group_name: str
+    group_type: "GroupType"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -528,11 +494,11 @@ class GroupNameSearchRequest:
 
 @dt.dataclass(frozen=True)
 class GroupOptionalConversation:
-    chat_enabled: t.Optional[bool] = None
-    chat_name: t.Optional[str] = None
-    chat_security: t.Optional["ChatSecuritySetting"] = None
-    conversation_id: t.Optional[int] = None
-    group_id: t.Optional[int] = None
+    chat_enabled: bool
+    chat_name: str
+    chat_security: "ChatSecuritySetting"
+    conversation_id: int
+    group_id: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -546,22 +512,22 @@ class GroupOptionalConversation:
 
 @dt.dataclass(frozen=True)
 class GroupEditAction:
-    about: t.Optional[str] = None
-    allow_chat: t.Optional[bool] = None
-    avatar_image_index: t.Optional[int] = None
-    callsign: t.Optional[str] = None
-    chat_security: t.Optional[int] = None
-    default_publicity: t.Optional[int] = None
-    enable_invitation_messaging_for_admins: t.Optional[bool] = None
-    homepage: t.Optional[int] = None
-    is_public: t.Optional[bool] = None
-    is_public_topic_admin_only: t.Optional[bool] = None
-    locale: t.Optional[str] = None
-    membership_option: t.Optional[int] = None
-    motto: t.Optional[str] = None
-    name: t.Optional[str] = None
-    tags: t.Optional[str] = None
-    theme: t.Optional[str] = None
+    about: str
+    allow_chat: bool
+    avatar_image_index: int
+    callsign: str
+    chat_security: int
+    default_publicity: int
+    enable_invitation_messaging_for_admins: bool
+    homepage: int
+    is_public: bool
+    is_public_topic_admin_only: bool
+    locale: str
+    membership_option: int
+    motto: str
+    name: str
+    tags: str
+    theme: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -588,21 +554,11 @@ class GroupEditAction:
 
 @dt.dataclass(frozen=True)
 class GroupOptionsEditAction:
-    host_guided_game_permission_override: t.Optional[
-        int
-    ] = None  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
-    invite_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    join_level: t.Optional[
-        int
-    ] = None  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
-    update_banner_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    update_culture_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    host_guided_game_permission_override: int  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
+    invite_permission_override: bool  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    join_level: int  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
+    update_banner_permission_override: bool  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    update_culture_permission_override: bool  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -622,8 +578,8 @@ class GroupOptionsEditAction:
 
 @dt.dataclass(frozen=True)
 class GroupOptionalConversationAddRequest:
-    chat_name: t.Optional[str] = None
-    chat_security: t.Optional["ChatSecuritySetting"] = None
+    chat_name: str
+    chat_security: "ChatSecuritySetting"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -634,9 +590,9 @@ class GroupOptionalConversationAddRequest:
 
 @dt.dataclass(frozen=True)
 class GroupOptionalConversationEditRequest:
-    chat_enabled: t.Optional[bool] = None
-    chat_name: t.Optional[str] = None
-    chat_security: t.Optional[int] = None
+    chat_enabled: bool
+    chat_name: str
+    chat_security: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -648,8 +604,8 @@ class GroupOptionalConversationEditRequest:
 
 @dt.dataclass(frozen=True)
 class GroupMemberLeaveResult:
-    group: t.Optional["GroupV2"] = None
-    group_deleted: t.Optional[bool] = None
+    group: "GroupV2"
+    group_deleted: bool
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -660,8 +616,8 @@ class GroupMemberLeaveResult:
 
 @dt.dataclass(frozen=True)
 class GroupBanRequest:
-    comment: t.Optional[str] = None
-    length: t.Optional["IgnoreLength"] = None
+    comment: str
+    length: "IgnoreLength"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -672,14 +628,14 @@ class GroupBanRequest:
 
 @dt.dataclass(frozen=True)
 class GroupBan:
-    bungie_net_user_info: t.Optional["UserInfoCard"] = None
-    comment: t.Optional[str] = None
-    created_by: t.Optional["UserInfoCard"] = None
-    date_banned: t.Optional[str] = None
-    date_expires: t.Optional[str] = None
-    destiny_user_info: t.Optional["GroupUserInfoCard"] = None
-    group_id: t.Optional[int] = None
-    last_modified_by: t.Optional["UserInfoCard"] = None
+    bungie_net_user_info: "UserInfoCard"
+    comment: str
+    created_by: "UserInfoCard"
+    date_banned: str
+    date_expires: str
+    destiny_user_info: "GroupUserInfoCard"
+    group_id: int
+    last_modified_by: "UserInfoCard"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -696,15 +652,15 @@ class GroupBan:
 
 @dt.dataclass(frozen=True)
 class GroupMemberApplication:
-    bungie_net_user_info: t.Optional["UserInfoCard"] = None
-    creation_date: t.Optional[str] = None
-    destiny_user_info: t.Optional["GroupUserInfoCard"] = None
-    group_id: t.Optional[int] = None
-    request_message: t.Optional[str] = None
-    resolve_date: t.Optional[str] = None
-    resolve_message: t.Optional[str] = None
-    resolve_state: t.Optional["GroupApplicationResolveState"] = None
-    resolved_by_membership_id: t.Optional[int] = None
+    bungie_net_user_info: "UserInfoCard"
+    creation_date: str
+    destiny_user_info: "GroupUserInfoCard"
+    group_id: int
+    request_message: str
+    resolve_date: str
+    resolve_message: str
+    resolve_state: "GroupApplicationResolveState"
+    resolved_by_membership_id: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -729,7 +685,7 @@ class GroupApplicationResolveState(Enum):
 
 @dt.dataclass(frozen=True)
 class GroupApplicationRequest:
-    message: t.Optional[str] = None
+    message: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -739,8 +695,8 @@ class GroupApplicationRequest:
 
 @dt.dataclass(frozen=True)
 class GroupApplicationListRequest:
-    memberships: t.Optional[t.Sequence["UserMembership"]] = None
-    message: t.Optional[str] = None
+    memberships: t.Sequence["UserMembership"]
+    message: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -757,7 +713,7 @@ class GroupsForMemberFilter(Enum):
 
 @dt.dataclass(frozen=True)
 class GroupMembershipBase:
-    group: t.Optional["GroupV2"] = None
+    group: "GroupV2"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -767,8 +723,8 @@ class GroupMembershipBase:
 
 @dt.dataclass(frozen=True)
 class GroupMembership:
-    group: t.Optional["GroupV2"] = None
-    member: t.Optional["GroupMember"] = None
+    group: "GroupV2"
+    member: "GroupMember"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -779,14 +735,12 @@ class GroupMembership:
 
 @dt.dataclass(frozen=True)
 class GroupMembershipSearchResponse:
-    has_more: t.Optional[bool] = None
-    query: t.Optional["PagedQuery"] = None
-    replacement_continuation_token: t.Optional[str] = None
-    results: t.Optional[t.Sequence["GroupMembership"]] = None
-    total_results: t.Optional[int] = None
-    use_total_results: t.Optional[
-        bool
-    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: bool
+    query: "PagedQuery"
+    replacement_continuation_token: str
+    results: t.Sequence["GroupMembership"]
+    total_results: int
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -803,17 +757,15 @@ class GroupMembershipSearchResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupsForMemberResponse:
-    are_all_memberships_inactive: t.Optional[
-        t.Mapping[str, bool]
-    ] = None  # A convenience property that indicates if every membership this user has that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.  The key is the Group ID for the group being checked, and the value is true if the users' memberships for that group are all inactive.
-    has_more: t.Optional[bool] = None
-    query: t.Optional["PagedQuery"] = None
-    replacement_continuation_token: t.Optional[str] = None
-    results: t.Optional[t.Sequence["GroupMembership"]] = None
-    total_results: t.Optional[int] = None
-    use_total_results: t.Optional[
-        bool
-    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    are_all_memberships_inactive: t.Mapping[
+        str, bool
+    ]  # A convenience property that indicates if every membership this user has that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.  The key is the Group ID for the group being checked, and the value is true if the users' memberships for that group are all inactive.
+    has_more: bool
+    query: "PagedQuery"
+    replacement_continuation_token: str
+    results: t.Sequence["GroupMembership"]
+    total_results: int
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -831,8 +783,8 @@ class GetGroupsForMemberResponse:
 
 @dt.dataclass(frozen=True)
 class GroupPotentialMembership:
-    group: t.Optional["GroupV2"] = None
-    member: t.Optional["GroupPotentialMember"] = None
+    group: "GroupV2"
+    member: "GroupPotentialMember"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -843,14 +795,12 @@ class GroupPotentialMembership:
 
 @dt.dataclass(frozen=True)
 class GroupPotentialMembershipSearchResponse:
-    has_more: t.Optional[bool] = None
-    query: t.Optional["PagedQuery"] = None
-    replacement_continuation_token: t.Optional[str] = None
-    results: t.Optional[t.Sequence["GroupPotentialMembership"]] = None
-    total_results: t.Optional[int] = None
-    use_total_results: t.Optional[
-        bool
-    ] = None  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    has_more: bool
+    query: "PagedQuery"
+    replacement_continuation_token: str
+    results: t.Sequence["GroupPotentialMembership"]
+    total_results: int
+    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -867,7 +817,7 @@ class GroupPotentialMembershipSearchResponse:
 
 @dt.dataclass(frozen=True)
 class GroupApplicationResponse:
-    resolution: t.Optional["GroupApplicationResolveState"] = None
+    resolution: "GroupApplicationResolveState"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -877,9 +827,9 @@ class GroupApplicationResponse:
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
-from bungieapi.generated.components.schemas.destiny import (
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyProgression,
-)  # noqa: E402
+)
 from bungieapi.generated.components.schemas.ignores import IgnoreLength  # noqa: E402
 from bungieapi.generated.components.schemas.queries import PagedQuery  # noqa: E402
 from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402

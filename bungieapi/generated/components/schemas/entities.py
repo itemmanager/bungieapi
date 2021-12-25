@@ -7,8 +7,8 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class EntityActionResult:
-    entity_id: t.Optional[int] = None
-    result: t.Optional["PlatformErrorCodes"] = None
+    entity_id: int
+    result: "PlatformErrorCodes"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -18,6 +18,6 @@ class EntityActionResult:
 
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.exceptions import (
+from bungieapi.generated.components.schemas.exceptions import (  # noqa: E402
     PlatformErrorCodes,
-)  # noqa: E402
+)

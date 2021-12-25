@@ -96,28 +96,22 @@ class DestinyActivityModeType(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsDefinition:
-    category: t.Optional["DestinyStatsCategoryType"] = None  # Category for the stat.
-    group: t.Optional["DestinyStatsGroupType"] = None  # Statistic group
-    icon_image: t.Optional[str] = None  # Optional URI to an icon for the statistic
-    medal_tier_hash: t.Optional[
-        int
-    ] = None  # The tier associated with this medal - be it implicitly or explicitly.
-    merge_method: t.Optional[int] = None  # Optional icon for the statistic
-    modes: t.Optional[
-        t.Sequence["DestinyActivityModeType"]
-    ] = None  # Game modes where this statistic can be reported.
-    period_types: t.Optional[
-        t.Sequence["PeriodType"]
-    ] = None  # Time periods the statistic covers
-    stat_description: t.Optional[str] = None  # Description of a stat if applicable.
-    stat_id: t.Optional[str] = None  # Unique programmer friendly ID for this stat
-    stat_name: t.Optional[str] = None  # Display name
-    stat_name_abbr: t.Optional[str] = None  # Display name abbreviated
-    unit_label: t.Optional[str] = None  # Localized Unit Name for the stat.
-    unit_type: t.Optional["UnitType"] = None  # Unit, if any, for the statistic
-    weight: t.Optional[
-        int
-    ] = None  # Weight assigned to this stat indicating its relative impressiveness.
+    category: "DestinyStatsCategoryType"  # Category for the stat.
+    group: "DestinyStatsGroupType"  # Statistic group
+    icon_image: str  # Optional URI to an icon for the statistic
+    medal_tier_hash: int  # The tier associated with this medal - be it implicitly or explicitly.
+    merge_method: int  # Optional icon for the statistic
+    modes: t.Sequence[
+        "DestinyActivityModeType"
+    ]  # Game modes where this statistic can be reported.
+    period_types: t.Sequence["PeriodType"]  # Time periods the statistic covers
+    stat_description: str  # Description of a stat if applicable.
+    stat_id: str  # Unique programmer friendly ID for this stat
+    stat_name: str  # Display name
+    stat_name_abbr: str  # Display name abbreviated
+    unit_label: str  # Localized Unit Name for the stat.
+    unit_type: "UnitType"  # Unit, if any, for the statistic
+    weight: int  # Weight assigned to this stat indicating its relative impressiveness.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

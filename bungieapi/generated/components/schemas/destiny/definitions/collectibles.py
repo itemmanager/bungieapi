@@ -9,35 +9,23 @@ from bungieapi.json import to_json
 class DestinyCollectibleDefinition:
     """Defines a."""
 
-    acquisition_info: t.Optional["DestinyCollectibleAcquisitionBlock"] = None
-    display_properties: t.Optional["DestinyDisplayPropertiesDefinition"] = None
-    hash: t.Optional[
+    acquisition_info: "DestinyCollectibleAcquisitionBlock"
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    item_hash: int
+    parent_node_hashes: t.Sequence[
         int
-    ] = None  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: t.Optional[
-        int
-    ] = None  # The index of the entity as it was found in the investment tables.
-    item_hash: t.Optional[int] = None
-    parent_node_hashes: t.Optional[
-        t.Sequence[int]
-    ] = None  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
-    presentation_info: t.Optional["DestinyPresentationChildBlock"] = None
-    presentation_node_type: t.Optional["DestinyPresentationNodeType"] = None
-    redacted: t.Optional[
-        bool
-    ] = None  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    scope: t.Optional[
-        "DestinyScope"
-    ] = None  # Indicates whether the state of this Collectible is determined on a per-character or on an account-wide basis.
-    source_hash: t.Optional[
-        int
-    ] = None  # This is a hash identifier we are building on the BNet side in an attempt to let people group collectibles by similar sources. I can't promise that it's going to be 100% accurate, but if the designers were consistent in assigning the same source strings to items with the same sources, it *ought to* be. No promises though. This hash also doesn't relate to an actual definition, just to note: we've got nothing useful other than the source string for this data.
-    source_string: t.Optional[
-        str
-    ] = None  # A human readable string for a hint about how to acquire the item.
-    state_info: t.Optional["DestinyCollectibleStateBlock"] = None
-    trait_hashes: t.Optional[t.Sequence[int]] = None
-    trait_ids: t.Optional[t.Sequence[str]] = None
+    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    presentation_info: "DestinyPresentationChildBlock"
+    presentation_node_type: "DestinyPresentationNodeType"
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    scope: "DestinyScope"  # Indicates whether the state of this Collectible is determined on a per-character or on an account-wide basis.
+    source_hash: int  # This is a hash identifier we are building on the BNet side in an attempt to let people group collectibles by similar sources. I can't promise that it's going to be 100% accurate, but if the designers were consistent in assigning the same source strings to items with the same sources, it *ought to* be. No promises though. This hash also doesn't relate to an actual definition, just to note: we've got nothing useful other than the source string for this data.
+    source_string: str  # A human readable string for a hint about how to acquire the item.
+    state_info: "DestinyCollectibleStateBlock"
+    trait_hashes: t.Sequence[int]
+    trait_ids: t.Sequence[str]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -61,8 +49,8 @@ class DestinyCollectibleDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleAcquisitionBlock:
-    acquire_material_requirement_hash: t.Optional[int] = None
-    acquire_timestamp_unlock_value_hash: t.Optional[int] = None
+    acquire_material_requirement_hash: int
+    acquire_timestamp_unlock_value_hash: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -77,8 +65,8 @@ class DestinyCollectibleAcquisitionBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleStateBlock:
-    obscured_override_item_hash: t.Optional[int] = None
-    requirements: t.Optional["DestinyPresentationNodeRequirementsBlock"] = None
+    obscured_override_item_hash: int
+    requirements: "DestinyPresentationNodeRequirementsBlock"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -87,18 +75,16 @@ class DestinyCollectibleStateBlock:
         }
 
 
-from bungieapi.generated.components.schemas.destiny import (
-    DestinyPresentationNodeType,
-)  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
+from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
+    DestinyPresentationNodeType,
+)
 
 # imported at the end to do not case circular imports for type annotations
-from bungieapi.generated.components.schemas.destiny.definitions.common import (
+from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.presentation import (
+)
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
     DestinyPresentationChildBlock,
-)  # noqa: E402
-from bungieapi.generated.components.schemas.destiny.definitions.presentation import (
     DestinyPresentationNodeRequirementsBlock,
-)  # noqa: E402
+)

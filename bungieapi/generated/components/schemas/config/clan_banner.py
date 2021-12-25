@@ -15,9 +15,9 @@ class ClanBannerSource:
 
 @dt.dataclass(frozen=True)
 class ClanBannerDecal:
-    background_path: t.Optional[str] = None
-    foreground_path: t.Optional[str] = None
-    identifier: t.Optional[str] = None
+    background_path: str
+    foreground_path: str
+    identifier: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
