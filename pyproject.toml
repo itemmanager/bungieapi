@@ -1,8 +1,10 @@
 [tool.poetry]
 name = "bungieapi"
 version = "0.1.0"
-description = ""
+description = "Python client for bungie api"
 authors = ["Damian Świstowski <damian@swistowski.org>"]
+include = ["bungieapi/py.typed"]
+
 
 [tool.poetry.dependencies]
 python = "^3.10"

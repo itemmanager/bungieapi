@@ -28,6 +28,22 @@ bungieapi.client module
    :undoc-members:
    :show-inheritance:
 
+bungieapi.forge module
+----------------------
+
+.. automodule:: bungieapi.forge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+bungieapi.json module
+---------------------
+
+.. automodule:: bungieapi.json
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

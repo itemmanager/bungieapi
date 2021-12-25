@@ -8,7 +8,7 @@ Subpackages
    :maxdepth: 4
 
    bungieapi.generated.clients
-   bungieapi.generated.types
+   bungieapi.generated.components
 
 Module contents
 ---------------

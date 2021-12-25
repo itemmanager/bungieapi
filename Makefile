@@ -1,7 +1,7 @@
-.PHONY: lint test all types clean generate reformat
+.PHONY: lint test all typecheck clean generate reformat
 .DEFAULT_GOAL := help
 
-all: lint types test
+all: lint typecheck test
 
 define PRINT_HELP_PYSCRIPT
 import re, sys
@@ -27,6 +27,7 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
 
 doc: ## generate documentation
+	rm -rf docs/bungieapi.*
 	sphinx-apidoc -o docs/ bungieapi
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
@@ -41,7 +42,7 @@ lint: ## use flake8 and black to lint code
 test: ## run tests
 	pytest tests
 
-types: ## run typecheck
+typecheck: ## run typecheck
 	mypy update bungieapi
 
 reformat: ## reformat code
