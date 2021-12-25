@@ -1,0 +1,6 @@
+.idea/
+.python-version
+__pycache__
+dist/
+.env
+docs/_build/
