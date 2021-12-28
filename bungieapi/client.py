@@ -13,6 +13,7 @@ BASE_PATH = "/Platform"
 @dt.dataclass
 class Credentials:
     api_key: str
+    token: t.Optional[str] = None
 
 
 class Client:
@@ -24,9 +25,10 @@ class Client:
         self._credentials = credentials
 
     async def __aenter__(self) -> RootClient:
-        self._session = aiohttp.ClientSession(
-            base_url=self._base_url, headers={"X-Api-Key": self._credentials.api_key}
-        )
+        headers = {"X-Api-Key": self._credentials.api_key}
+        if self._credentials.token:
+            headers["Authorization"] = f"Bearer {self._credentials.token}"
+        self._session = aiohttp.ClientSession(base_url=self._base_url, headers=headers)
         return RootClient(self._session, BASE_PATH)
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
@@ -34,5 +36,5 @@ class Client:
         await self._session.close()  # type: ignore
 
     @classmethod
-    def from_credentials(cls, api_key: str) -> "Client":
-        return cls(Credentials(api_key=api_key))
+    def from_credentials(cls, api_key: str, token: t.Optional[str] = None) -> "Client":
+        return cls(Credentials(api_key=api_key, token=token))

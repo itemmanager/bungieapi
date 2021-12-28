@@ -3,7 +3,7 @@ name = "bungieapi"
 version = "0.1.0"
 description = "Python client for bungie api"
 authors = ["Damian Świstowski <damian@swistowski.org>"]
-include = ["bungieapi/py.typed"]
+include = ["bungieapi/py.typed", "bungieapi/certs/localhost.pem", "bungieapi/certs/localhost-key.pem"]
 
 
 [tool.poetry.dependencies]

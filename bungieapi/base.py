@@ -1,3 +1,4 @@
+import base64
 import dataclasses as dt
 import functools as ft
 import typing as t
@@ -84,3 +85,75 @@ class BaseClient:
         ) as response:
             response = await self.handle_error(response)
             return await response.json()
+
+
+@dt.dataclass
+class Token:
+    access_token: str
+    token_type: t.Literal["Bearer"]
+    expires_in: int
+    refresh_token: str
+    refresh_expires_in: int
+    membership_id: str
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "accessToken": self.access_token,
+            "tokenType": self.token_type,
+            "expiresIn": self.expires_in,
+            "refreshToken": self.refresh_token,
+            "refreshExpiresIn": self.refresh_expires_in,
+            "membershipId": self.membership_id,
+        }
+
+
+class AppClient(BaseClient):
+    async def from_refresh_token(
+        self, refresh_token: str, client_id: int, client_secret: str
+    ) -> Token:
+        """Get token and refresh token from refresh token."""
+        return await self._authorize(
+            grant_type="refresh_token",
+            secret=refresh_token,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
+
+    async def from_authorization_code(
+        self, code: str, client_id: int, client_secret: str
+    ) -> Token:
+        """Get token and refresh token from oouth code."""
+        return await self._authorize(
+            grant_type="authorization_code",
+            secret=code,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
+
+    async def _authorize(
+        self,
+        grant_type: t.Literal["authorization_code", "refresh_token"],
+        secret: str,
+        client_id: int,
+        client_secret: str,
+    ) -> Token:
+        auth_token = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+        headers = {
+            "Authorization": f"Basic {auth_token}",
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+        path = "/App/OAuth/Token/"
+        grant_type_to_name: t.Mapping[
+            t.Literal["authorization_code", "refresh_token"], str
+        ] = {"authorization_code": "code", "refresh_token": "refresh_token"}
+        data = {
+            "grant_type": grant_type,
+            grant_type_to_name[grant_type]: secret,
+        }
+        async with aiohttp.ClientSession(
+            base_url=self._session._base_url, headers=headers
+        ) as session:
+            async with session.post(f"{self._path}{path}", data=data) as response:
+                response = await self.handle_error(response)
+                result = await response.json()
+        return forge(Token, result)

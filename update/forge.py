@@ -1,8 +1,7 @@
 import dataclasses as dt
+import typing as t
 
 from svarog import Svarog
-
-from bungieapi.forge import force_none
 
 
 svarog = Svarog(snake_case=True)
@@ -13,7 +12,16 @@ svarog.register_mold(
 svarog.add_filter(lambda t: hasattr(t, "filter"), lambda t, data: t.filter(t, data))
 
 
-# TODO: client svarog to forge with force_none
+def force_none(type_: t.Type, data: t.Mapping) -> t.Mapping:
+    no_defaults = {
+        f.name
+        for f in dt.fields(type_)
+        if f.default is dt.MISSING and f.default_factory is dt.MISSING  # type: ignore
+    }
+    not_provided = {name: None for name in no_defaults if name not in data}
+    return {**not_provided, **data}
+
+
 svarog.add_filter(dt.is_dataclass, force_none)
 
 forge = svarog.forge
