@@ -38,6 +38,7 @@ jobs:
     env:
       BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+      BUNGIE_API_CLIENT_ID: ${{ secrets.BUNGIE_API_CLIENT_ID }}
 
     steps:
     - uses: actions/checkout@v2
