@@ -10,18 +10,21 @@ from update.tools import camel_to_snake
 from .. import openapi as api
 
 
+CLIENT_REPLACEMENTS = {"app": "AppClient"}
+
+
 def client(operation_tree: Tree[BindOperation]) -> t.Iterator[str]:
     yield "import dataclasses as dt"
     yield "import typing as t"
     yield "from bungieapi.generated import clients"
-    yield "from bungieapi.base import BaseClient"
+    yield f"from bungieapi.base import BaseClient, {','.join(CLIENT_REPLACEMENTS.values())}"
     yield "from bungieapi.forge import forge"
     yield "from bungieapi.json import to_json"
 
     for operation in operation_tree.child_leaf():
         yield from generate_imports(operation, [])
 
-    yield "class Client(BaseClient):"
+    yield f"class Client({CLIENT_REPLACEMENTS.get(operation_tree.name, 'BaseClient')}):"
     if not operation_tree.children:
         yield "..."
 

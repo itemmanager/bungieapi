@@ -210,6 +210,8 @@ class Parameter:
 
     @staticmethod
     def filter(t: t.Type["Parameter"], data: t.Mapping) -> t.Mapping[str, t.Any]:
+        if data.get("in") == "query":
+            data = {**data, "schema": {**data["schema"], "required": False}}
         return fix(data, {"in": "in_"})
 
     @property

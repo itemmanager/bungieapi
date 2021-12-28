@@ -4,7 +4,18 @@ import typing as t
 from svarog import Svarog
 
 
-svarog = Svarog(snake_case=True)
+T = t.TypeVar("T")
+
+
+class NonStrictSvarog(Svarog):
+    def forge(self, type_: t.Type[T], data: t.Any) -> T:
+        if data is None:
+            return None  # type: ignore
+
+        return super().forge(type_, data)
+
+
+svarog = NonStrictSvarog(snake_case=True)
 
 
 def force_none(type_: t.Type, data: t.Mapping) -> t.Mapping:

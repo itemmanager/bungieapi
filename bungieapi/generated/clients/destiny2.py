@@ -136,9 +136,9 @@ class Client(BaseClient):
 
     async def get_linked_profiles(
         self,
-        get_all_memberships: bool,
         membership_id: int,
         membership_type: "BungieMembershipType",
+        get_all_memberships: t.Optional[bool] = None,
     ) -> DestinyLinkedProfilesClientResponse:
         """Returns a summary information about all profiles linked to the
         requesting membership type/membership ID that have valid Destiny
@@ -159,9 +159,9 @@ class Client(BaseClient):
 
     async def get_profile(
         self,
-        components: t.Sequence["DestinyComponentType"],
         destiny_membership_id: int,
         membership_type: "BungieMembershipType",
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> DestinyProfileClientResponse:
         """Returns Destiny Profile information for the supplied membership.
 
@@ -180,9 +180,9 @@ class Client(BaseClient):
     async def get_character(
         self,
         character_id: int,
-        components: t.Sequence["DestinyComponentType"],
         destiny_membership_id: int,
         membership_type: "BungieMembershipType",
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> DestinyCharacterClientResponse:
         """Returns character information for the supplied character.
 
@@ -230,10 +230,10 @@ class Client(BaseClient):
 
     async def get_item(
         self,
-        components: t.Sequence["DestinyComponentType"],
         destiny_membership_id: int,
         item_instance_id: int,
         membership_type: "BungieMembershipType",
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> DestinyItemClientResponse:
         """Retrieve the details of an instanced Destiny Item.
 
@@ -254,10 +254,10 @@ class Client(BaseClient):
     async def get_vendors(
         self,
         character_id: int,
-        components: t.Sequence["DestinyComponentType"],
         destiny_membership_id: int,
-        filter: "DestinyVendorFilter",
         membership_type: "BungieMembershipType",
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
+        filter: t.Optional["DestinyVendorFilter"] = None,
     ) -> DestinyVendorsClientResponse:
         """Get currently available vendors from the list of vendors that can
         possibly have rotating inventory.
@@ -280,10 +280,10 @@ class Client(BaseClient):
     async def get_vendor(
         self,
         character_id: int,
-        components: t.Sequence["DestinyComponentType"],
         destiny_membership_id: int,
         membership_type: "BungieMembershipType",
         vendor_hash: int,
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> DestinyVendorClientResponse:
         """Get the details of a specific Vendor.
 
@@ -303,7 +303,7 @@ class Client(BaseClient):
 
     async def get_public_vendors(
         self,
-        components: t.Sequence["DestinyComponentType"],
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> DestinyPublicVendorsClientResponse:
         """Get items available from vendors where the vendors have items for
         sale that are common for everyone.
@@ -323,9 +323,9 @@ class Client(BaseClient):
         self,
         character_id: int,
         collectible_presentation_node_hash: int,
-        components: t.Sequence["DestinyComponentType"],
         destiny_membership_id: int,
         membership_type: "BungieMembershipType",
+        components: t.Optional[t.Sequence["DestinyComponentType"]] = None,
     ) -> DestinyCollectibleNodeDetailClientResponse:
         """Given a Presentation Node that has Collectibles as direct
         descendants, this will return item details about those descendants in
@@ -538,9 +538,9 @@ class Client(BaseClient):
     async def get_clan_leaderboards(
         self,
         group_id: int,
-        maxtop: int,
-        modes: str,
-        statid: str,
+        maxtop: t.Optional[int] = None,
+        modes: t.Optional[str] = None,
+        statid: t.Optional[str] = None,
     ) -> DestinyLeaderboardResultsClientResponse:
         """Gets leaderboards with the signed in user's friends and the supplied
         destinyMembershipId as the focus.
@@ -562,7 +562,7 @@ class Client(BaseClient):
     async def get_clan_aggregate_stats(
         self,
         group_id: int,
-        modes: str,
+        modes: t.Optional[str] = None,
     ) -> ListOfDestinyClanAggregateStatClientResponse:
         """Gets aggregated stats for a clan using the same categories as the
         clan leaderboards.
@@ -582,10 +582,10 @@ class Client(BaseClient):
     async def get_leaderboards(
         self,
         destiny_membership_id: int,
-        maxtop: int,
         membership_type: "BungieMembershipType",
-        modes: str,
-        statid: str,
+        maxtop: t.Optional[int] = None,
+        modes: t.Optional[str] = None,
+        statid: t.Optional[str] = None,
     ) -> DestinyLeaderboardResultsClientResponse:
         """Gets leaderboards with the signed in user's friends and the supplied
         destinyMembershipId as the focus.
@@ -609,10 +609,10 @@ class Client(BaseClient):
         self,
         character_id: int,
         destiny_membership_id: int,
-        maxtop: int,
         membership_type: "BungieMembershipType",
-        modes: str,
-        statid: str,
+        maxtop: t.Optional[int] = None,
+        modes: t.Optional[str] = None,
+        statid: t.Optional[str] = None,
     ) -> DestinyLeaderboardResultsClientResponse:
         """Gets leaderboards with the signed in user's friends and the supplied
         destinyMembershipId as the focus.
@@ -635,9 +635,9 @@ class Client(BaseClient):
 
     async def search_destiny_entities(
         self,
-        page: int,
         search_term: str,
         type: str,
+        page: t.Optional[int] = None,
     ) -> DestinyEntitySearchResultClientResponse:
         """Gets a page list of Destiny items.
 
@@ -656,13 +656,13 @@ class Client(BaseClient):
     async def get_historical_stats(
         self,
         character_id: int,
-        dayend: str,
-        daystart: str,
         destiny_membership_id: int,
-        groups: t.Sequence["DestinyStatsGroupType"],
         membership_type: "BungieMembershipType",
-        modes: t.Sequence["DestinyActivityModeType"],
-        period_type: "PeriodType",
+        dayend: t.Optional[str] = None,
+        daystart: t.Optional[str] = None,
+        groups: t.Optional[t.Sequence["DestinyStatsGroupType"]] = None,
+        modes: t.Optional[t.Sequence["DestinyActivityModeType"]] = None,
+        period_type: t.Optional["PeriodType"] = None,
     ) -> DestinyHistoricalStatsResultsClientResponse:
         """Gets historical stats for indicated character.
 
@@ -692,8 +692,8 @@ class Client(BaseClient):
     async def get_historical_stats_for_account(
         self,
         destiny_membership_id: int,
-        groups: t.Sequence["DestinyStatsGroupType"],
         membership_type: "BungieMembershipType",
+        groups: t.Optional[t.Sequence["DestinyStatsGroupType"]] = None,
     ) -> DestinyHistoricalStatsAccountResultClientResponse:
         """Gets aggregate historical stats organized around each character for
         a given account.
@@ -713,11 +713,11 @@ class Client(BaseClient):
     async def get_activity_history(
         self,
         character_id: int,
-        count: int,
         destiny_membership_id: int,
         membership_type: "BungieMembershipType",
-        mode: "DestinyActivityModeType",
-        page: int,
+        count: t.Optional[int] = None,
+        mode: t.Optional["DestinyActivityModeType"] = None,
+        page: t.Optional[int] = None,
     ) -> DestinyActivityHistoryResultsClientResponse:
         """Gets activity history stats for indicated character.
 

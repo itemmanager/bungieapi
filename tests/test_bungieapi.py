@@ -28,9 +28,8 @@ async def test_can_search_by_player_name(client: Client):
 
 
 @pytest.mark.asyncio
-@pytest.mark.skip("Need token")
-async def test_can_get_application_api_usage(client: Client, application_id: int):
-    async with client as root:
+async def test_can_get_application_api_usage(user_client: Client, application_id: int):
+    async with user_client as root:
         result = await root.app.get_application_api_usage(application_id)
         assert result.response
 
@@ -40,3 +39,10 @@ async def test_can_get_global_alerts(client: Client):
     async with client as root:
         result = await root.get_global_alerts(includestreaming=True)
         assert result.error_code == PlatformErrorCodes.SUCCESS
+
+
+@pytest.mark.asyncio
+async def test_can_get_membership_informations(user_client: Client, membership_id: int):
+    async with user_client as root:
+        response = await root.user.get_membership_data_for_current_user()
+        assert response.response.bungie_net_user.psn_display_name == "the-the-whistler"

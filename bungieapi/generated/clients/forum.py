@@ -22,12 +22,12 @@ class Client(BaseClient):
         self,
         category_filter: "ForumTopicsCategoryFiltersEnum",
         group: int,
-        locales: str,
         page: int,
         page_size: int,
         quick_date: "ForumTopicsQuickDateEnum",
         sort: "ForumTopicsSortEnum",
-        tagstring: str,
+        locales: t.Optional[str] = None,
+        tagstring: t.Optional[str] = None,
     ) -> PostSearchClientResponse:
         """Get topics from any forum.
 
@@ -51,10 +51,10 @@ class Client(BaseClient):
     async def get_core_topics_paged(
         self,
         category_filter: "ForumTopicsCategoryFiltersEnum",
-        locales: str,
         page: int,
         quick_date: "ForumTopicsQuickDateEnum",
         sort: "ForumTopicsSortEnum",
+        locales: t.Optional[str] = None,
     ) -> PostSearchClientResponse:
         """Gets a listing of all topics marked as part of the core group.
 
@@ -80,8 +80,8 @@ class Client(BaseClient):
         parent_post_id: int,
         reply_size: int,
         root_thread_mode: bool,
-        showbanned: str,
         sort_mode: "ForumPostSortEnum",
+        showbanned: t.Optional[str] = None,
     ) -> PostSearchClientResponse:
         """Returns a thread of posts at the given parent, optionally returning
         replies to those posts as well as the original parent.
@@ -103,8 +103,8 @@ class Client(BaseClient):
         page_size: int,
         reply_size: int,
         root_thread_mode: bool,
-        showbanned: str,
         sort_mode: "ForumPostSortEnum",
+        showbanned: t.Optional[str] = None,
     ) -> PostSearchClientResponse:
         """Returns a thread of posts starting at the topicId of the input
         childPostId, optionally returning replies to those posts as well as the
@@ -123,7 +123,7 @@ class Client(BaseClient):
     async def get_post_and_parent(
         self,
         child_post_id: int,
-        showbanned: str,
+        showbanned: t.Optional[str] = None,
     ) -> PostSearchClientResponse:
         """Returns the post specified and its immediate parent.
 
@@ -140,7 +140,7 @@ class Client(BaseClient):
     async def get_post_and_parent_awaiting_approval(
         self,
         child_post_id: int,
-        showbanned: str,
+        showbanned: t.Optional[str] = None,
     ) -> PostSearchClientResponse:
         """Returns the post specified and its immediate parent of posts that
         are awaiting approval.
@@ -170,7 +170,7 @@ class Client(BaseClient):
 
     async def get_forum_tag_suggestions(
         self,
-        partialtag: str,
+        partialtag: t.Optional[str] = None,
     ) -> ListOfTagClientResponse:
         """Gets tag suggestions based on partial text entry, matching them with
         other tags previously used in the forums.
