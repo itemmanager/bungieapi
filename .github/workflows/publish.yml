@@ -28,6 +28,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install pip --upgrade
+        python -m pip install poetry~=1.1.0
         python -m poetry install
         python -m poetry version ${{github.ref_name}}
     - name: Run build
