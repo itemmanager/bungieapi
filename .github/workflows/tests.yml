@@ -37,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
+      REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
     steps:
     - uses: actions/checkout@v2
