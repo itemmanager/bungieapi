@@ -4,9 +4,10 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import BitMask
 
 
-class ForumTopicsCategoryFiltersEnum(Enum):
+class ForumTopicsCategoryFiltersEnum(BitMask):
     NONE = 0
     LINKS = 1
     QUESTIONS = 2

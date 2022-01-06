@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import BitMask
 
 
 @dt.dataclass(frozen=True)
@@ -18,7 +19,7 @@ class IgnoreResponse:
         }
 
 
-class IgnoreStatus(Enum):
+class IgnoreStatus(BitMask):
     NOT_IGNORED = 0
     IGNORED_USER = 1
     IGNORED_GROUP = 2

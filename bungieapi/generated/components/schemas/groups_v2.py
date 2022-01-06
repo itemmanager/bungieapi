@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import BitMask
 
 
 @dt.dataclass(frozen=True)
@@ -204,7 +205,7 @@ class GroupFeatures:
         }
 
 
-class Capabilities(Enum):
+class Capabilities(BitMask):
     NONE = 0
     LEADERBOARDS = 1
     CALLSIGN = 2

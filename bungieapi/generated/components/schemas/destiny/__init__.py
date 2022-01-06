@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import BitMask
 
 
 @dt.dataclass(frozen=True)
@@ -71,7 +72,7 @@ class DestinyProgressionResetEntry:
         }
 
 
-class DestinyProgressionRewardItemState(Enum):
+class DestinyProgressionRewardItemState(BitMask):
     """Represents the different states a progression reward item can be in."""
 
     NONE = 0
@@ -184,7 +185,7 @@ class DestinyStatCategory(Enum):
     PRIMARY = 3
 
 
-class EquippingItemBlockAttributes(Enum):
+class EquippingItemBlockAttributes(BitMask):
     NONE = 0
     EQUIP_ON_ACQUIRE = 1
 
@@ -207,6 +208,19 @@ class DyeReference:
             "channelHash": to_json(self.channel_hash),
             "dyeHash": to_json(self.dye_hash),
         }
+
+
+class DestinyClass(Enum):
+    TITAN = 0
+    HUNTER = 1
+    WARLOCK = 2
+    UNKNOWN = 3
+
+
+class DestinyGender(Enum):
+    MALE = 0
+    FEMALE = 1
+    UNKNOWN = 2
 
 
 class DestinyVendorProgressionType(Enum):
@@ -526,12 +540,6 @@ class DestinyRecordValueStyle(Enum):
     DECIMAL = 4
 
 
-class DestinyGender(Enum):
-    MALE = 0
-    FEMALE = 1
-    UNKNOWN = 2
-
-
 class DestinyRecordToastStyle(Enum):
     NONE = 0
     RECORD = 1
@@ -555,7 +563,7 @@ class DestinyPresentationScreenStyle(Enum):
     BADGE = 2  # Show sub-items as Badges. (I know, I know. We don't need no stinkin' badges har har har)
 
 
-class PlugUiStyles(Enum):
+class PlugUiStyles(BitMask):
     """If the plug has a specific custom style, this enumeration will represent
     that style/those styles."""
 
@@ -590,7 +598,7 @@ class DestinyEnergyType(Enum):
     STASIS = 6
 
 
-class SocketPlugSources(Enum):
+class SocketPlugSources(BitMask):
     """Indicates how a socket is populated, and where you should look for valid
     plug data.
 
@@ -682,13 +690,6 @@ class DestinyItemType(Enum):
     FINISHER = 29
 
 
-class DestinyClass(Enum):
-    TITAN = 0
-    HUNTER = 1
-    WARLOCK = 2
-    UNKNOWN = 3
-
-
 class DestinyBreakerType(Enum):
     """A plug can optionally have a "Breaker Type": a special ability that can
     affect units in unique ways.
@@ -717,7 +718,7 @@ class ItemBindStatus(Enum):
     BOUND_TO_GUILD = 3
 
 
-class TransferStatuses(Enum):
+class TransferStatuses(BitMask):
     """Whether you can transfer an item, and why not if you can't."""
 
     CAN_TRANSFER = 0  # The item can be transferred.
@@ -728,7 +729,7 @@ class TransferStatuses(Enum):
     NO_ROOM_IN_DESTINATION = 4  # You could transfer the item, but the place you're trying to put it has run out of room! Check your remaining Vault and/or character space.
 
 
-class ItemState(Enum):
+class ItemState(BitMask):
     """A flags enumeration/bitmask where each bit represents a different
     possible state that the item can be in that may effect how the item is
     displayed to the user and what actions can be performed against it."""
@@ -739,7 +740,7 @@ class ItemState(Enum):
     MASTERWORK = 4  # If this bit is set, the item has a Masterwork plug inserted. This usually coincides with having a special "glowing" effect applied to the item's icon.
 
 
-class DestinyGameVersions(Enum):
+class DestinyGameVersions(BitMask):
     """A flags enumeration/bitmask indicating the versions of the game that a
     given user has purchased."""
 
@@ -799,7 +800,7 @@ class DestinyComponentType(Enum):
     STRING_VARIABLES = 1200  # Returns a mapping of localized string variable hashes to values, on a per-account or per-character basis.
 
 
-class DestinyPresentationNodeState(Enum):
+class DestinyPresentationNodeState(BitMask):
     """I know this doesn't look like a Flags Enumeration/bitmask right now, but
     I assure you it is.
 
@@ -813,7 +814,7 @@ class DestinyPresentationNodeState(Enum):
     OBSCURED = 2  # Turns out Presentation Nodes can also be obscured. If they are, this is set.
 
 
-class DestinyRecordState(Enum):
+class DestinyRecordState(BitMask):
     """A Flags enumeration/bitmask where each bit represents a possible state
     that a Record/Triumph can be in."""
 
@@ -829,7 +830,7 @@ class DestinyRecordState(Enum):
     CAN_EQUIP_TITLE = 64  # If this is set, the record has a title (check DestinyRecordDefinition for title info) and you can equip it.
 
 
-class DestinyCollectibleState(Enum):
+class DestinyCollectibleState(BitMask):
     """A Flags Enumeration/bitmask where each bit represents a different state
     that the Collectible can be in.
 
@@ -857,7 +858,7 @@ class DestinyCollectibleState(Enum):
     PURCHASE_DISABLED = 64  # If this flag is set, the ability to pull this item out of your collection has been disabled.
 
 
-class DestinyPartyMemberStates(Enum):
+class DestinyPartyMemberStates(BitMask):
     """A flags enumeration that represents a Fireteam Member's status."""
 
     NONE = 0
@@ -883,7 +884,7 @@ class DestinyGamePrivacySetting(Enum):
     CLOSED = 4
 
 
-class DestinyJoinClosedReasons(Enum):
+class DestinyJoinClosedReasons(BitMask):
     """A Flags enumeration representing the reasons why a person can't join
     this user's fireteam."""
 
@@ -982,7 +983,7 @@ class DestinyStat:
         }
 
 
-class EquipFailureReason(Enum):
+class EquipFailureReason(BitMask):
     """The reasons why an item cannot be equipped, if any.
 
     Many flags can be set, or "None" if
@@ -1098,7 +1099,7 @@ class DestinyVendorFilter(Enum):
     API_PURCHASABLE = 1
 
 
-class VendorItemStatus(Enum):
+class VendorItemStatus(BitMask):
     SUCCESS = 0
     NO_INVENTORY_SPACE = 1
     NO_FUNDS = 2
@@ -1135,7 +1136,7 @@ class DestinyUnlockStatus:
         }
 
 
-class DestinyVendorItemState(Enum):
+class DestinyVendorItemState(BitMask):
     """The possible states of Destiny Profile Records.
 
     IMPORTANT: Any given item can theoretically have many of these states simultaneously: as a result, this was altered to be a flags enumeration/bitmask for v3.2.0.

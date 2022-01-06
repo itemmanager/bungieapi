@@ -17,7 +17,8 @@ def client(operation_tree: Tree[BindOperation]) -> t.Iterator[str]:
     yield "import dataclasses as dt"
     yield "import typing as t"
     yield "from bungieapi.generated import clients"
-    yield f"from bungieapi.base import BaseClient, {','.join(CLIENT_REPLACEMENTS.values())}"
+    yield "from bungieapi.types import BitMask"
+    yield f"from bungieapi.base import BaseClient, clean_query_value, {','.join(CLIENT_REPLACEMENTS.values())}"
     yield "from bungieapi.forge import forge"
     yield "from bungieapi.json import to_json"
 
@@ -41,7 +42,7 @@ PATH_QUERY_PARAM_RE = re.compile(r"\{(?P<name>[^\}]+)}")
 
 
 def query_param_to_snake(match: re.Match) -> str:
-    return f"{{{camel_to_snake(match.group('name'))}}}"
+    return f"{{clean_query_value({camel_to_snake(match.group('name'))})}}"
 
 
 @client_method.register

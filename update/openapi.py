@@ -153,11 +153,17 @@ class Integer(Schema, type=ApiType.INTEGER):
     enum_reference: t.Optional[Reference] = None
     enum: t.Optional[t.Sequence[int]] = None
     enum_values: t.Optional[t.Sequence[EnumValue]] = None
+    is_bitmask: bool = False
 
     @staticmethod
     def filter(t: t.Type["Integer"], data: t.Mapping) -> t.Mapping[str, t.Any]:
         return fix(
-            data, {"x-enum-reference": "enum_reference", "x-enum-values": "enum_values"}
+            data,
+            {
+                "x-enum-reference": "enum_reference",
+                "x-enum-values": "enum_values",
+                "x-enum-is-bitmask": "is_bitmask",
+            },
         )
 
 

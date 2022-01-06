@@ -1,6 +1,8 @@
 import pytest
 
 from bungieapi import Client, __version__
+from bungieapi.generated.components.schemas import BungieMembershipType
+from bungieapi.generated.components.schemas.destiny import DestinyComponentType
 from bungieapi.generated.components.schemas.destiny.config import DestinyManifest
 from bungieapi.generated.components.schemas.exceptions import PlatformErrorCodes
 from bungieapi.generated.components.schemas.user import ExactSearchRequest, UserInfoCard
@@ -46,3 +48,19 @@ async def test_can_get_membership_informations(user_client: Client, membership_i
     async with user_client as root:
         response = await root.user.get_membership_data_for_current_user()
         assert response.response.bungie_net_user.psn_display_name == "the-the-whistler"
+
+
+@pytest.mark.asyncio
+async def test_can_get_characters(user_client: Client, membership_id: int):
+    async with user_client as root:
+        response = await root.destiny2.get_profile(
+            4611686018432226653,
+            membership_type=BungieMembershipType.TIGER_PSN,
+            components=[
+                DestinyComponentType.CHARACTERS,
+                DestinyComponentType.CHARACTER_EQUIPMENT,
+                DestinyComponentType.CHARACTER_ACTIVITIES,
+                DestinyComponentType.PRESENTATION_NODES,
+            ],
+        )
+        print(response.response)

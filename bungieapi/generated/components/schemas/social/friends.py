@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import BitMask
 
 
 @dt.dataclass(frozen=True)
@@ -49,7 +50,7 @@ class PresenceStatus(Enum):
     ONLINE = 1
 
 
-class PresenceOnlineStateFlags(Enum):
+class PresenceOnlineStateFlags(BitMask):
     NONE = 0
     DESTINY1 = 1
     DESTINY2 = 2

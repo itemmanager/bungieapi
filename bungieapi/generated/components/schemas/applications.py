@@ -4,9 +4,10 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import BitMask
 
 
-class ApplicationScopes(Enum):
+class ApplicationScopes(BitMask):
     READ_BASIC_USER_PROFILE = 1  # Read basic user profile information such as the user's handle, avatar icon, etc.
     READ_GROUPS = 2  # Read Group/Clan Forums, Wall, and Members for groups and clans that the user has joined.
     WRITE_GROUPS = 4  # Write Group/Clan Forums, Wall, and Members for groups and clans that the user has joined.

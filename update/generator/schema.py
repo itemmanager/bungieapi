@@ -65,7 +65,14 @@ def generate_object(
 def generate_integer(
     integer: api.Integer, name: str, module: t.Sequence[str]
 ) -> t.Iterator[str]:
-    if integer.enum_values:
+    if integer.is_bitmask:
+        assert integer.enum_values
+        yield f"class {name}(BitMask):"
+        if integer.description:
+            yield f'    """{integer.description}"""'
+        for value in integer.enum_values:
+            yield f"    {camel_to_snake(value.identifier).upper()} = {value.numeric_value}  {linear_comment(value)}"
+    elif integer.enum_values:
         yield f"class {name}(Enum):"
         if integer.description:
             yield f'    """{integer.description}"""'

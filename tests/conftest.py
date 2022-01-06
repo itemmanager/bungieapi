@@ -59,9 +59,12 @@ def user_token(request, client, loop, refresh_token, client_id, client_secret) -
         if token_ttl < datetime.now():
             token_raw = None
     if token_raw is None:
-        token = loop.run_until_complete(
-            get_token(client, refresh_token, client_id, client_secret)
-        )
+        try:
+            token = loop.run_until_complete(
+                get_token(client, refresh_token, client_id, client_secret)
+            )
+        except Exception as e:
+            raise e
 
         token_ttl = datetime.now() + timedelta(minutes=59)
         request.config.cache.set(
