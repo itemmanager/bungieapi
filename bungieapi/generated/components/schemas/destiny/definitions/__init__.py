@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import BitMask
 
 
 @dt.dataclass(frozen=True)
@@ -868,30 +869,61 @@ class DestinyGearArtArrangementReference:
 
 
 @dt.dataclass(frozen=True)
-class DestinyItemPreviewBlockDefinition:
-    """Items like Sacks or Boxes can have items that it shows in-game when you
-    view details that represent the items you can obtain if you use or acquire
-    the item.
+class DestinyClassDefinition:
+    """Defines a Character Class in Destiny 2.
 
-    This defines those categories, and gives some insights into that
-    data's source.
+    These are types of characters you can play, like Titan, Warlock, and
+    Hunter.
     """
 
-    artifact_hash: int  # If this item should show you Artifact information when you preview it, this is the hash identifier of the DestinyArtifactDefinition for the artifact whose data should be shown.
-    derived_item_categories: t.Sequence[
-        "DestinyDerivedItemCategoryDefinition"
-    ]  # This is a list of the items being previewed, categorized in the same way as they are in the preview UI.
-    preview_action_string: str  # If the preview has an associated action (like "Open"), this will be the localized string for that action.
-    preview_vendor_hash: int  # If the preview data is derived from a fake "Preview" Vendor, this will be the hash identifier for the DestinyVendorDefinition of that fake vendor.
-    screen_style: str  # A string that the game UI uses as a hint for which detail screen to show for the item. You, too, can leverage this for your own custom screen detail views. Note, however, that these are arbitrarily defined by designers: there's no guarantees of a fixed, known number of these - so fall back to something reasonable if you don't recognize it.
+    class_type: "DestinyClass"  # In Destiny 1, we added a convenience Enumeration for referring to classes. We've kept it, though mostly for posterity. This is the enum value for this definition's class.
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    gendered_class_names: t.Mapping[
+        str, str
+    ]  # A localized string referring to the singular form of the Class's name when referred to in gendered form. Keyed by the DestinyGender.
+    gendered_class_names_by_gender_hash: t.Mapping[str, str]
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    mentor_vendor_hash: int  # Mentors don't really mean anything anymore. Don't expect this to be populated.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
-            "screenStyle": to_json(self.screen_style),
-            "previewVendorHash": to_json(self.preview_vendor_hash),
-            "artifactHash": to_json(self.artifact_hash),
-            "previewActionString": to_json(self.preview_action_string),
-            "derivedItemCategories": to_json(self.derived_item_categories),
+            "classType": to_json(self.class_type),
+            "displayProperties": to_json(self.display_properties),
+            "genderedClassNames": to_json(self.gendered_class_names),
+            "genderedClassNamesByGenderHash": to_json(
+                self.gendered_class_names_by_gender_hash
+            ),
+            "mentorVendorHash": to_json(self.mentor_vendor_hash),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyGenderDefinition:
+    """Gender is a social construct, and as such we have definitions for
+    Genders.
+
+    Right now there happens to only be two, but we'll see what the
+    future holds.
+    """
+
+    display_properties: "DestinyDisplayPropertiesDefinition"
+    gender_type: "DestinyGender"  # This is a quick reference enumeration for all of the currently defined Genders. We use the enumeration for quicker lookups in related data, like DestinyClassDefinition.genderedClassNames.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "genderType": to_json(self.gender_type),
+            "displayProperties": to_json(self.display_properties),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
         }
 
 
@@ -1863,7 +1895,7 @@ class DestinyTalentNodeStepGroups:
         }
 
 
-class DestinyTalentNodeStepWeaponPerformances(Enum):
+class DestinyTalentNodeStepWeaponPerformances(BitMask):
     NONE = 0
     RATE_OF_FIRE = 1
     DAMAGE = 2
@@ -1881,7 +1913,7 @@ class DestinyTalentNodeStepWeaponPerformances(Enum):
     ALL = 8191
 
 
-class DestinyTalentNodeStepImpactEffects(Enum):
+class DestinyTalentNodeStepImpactEffects(BitMask):
     NONE = 0
     ARMOR_PIERCING = 1
     RICOCHET = 2
@@ -1892,7 +1924,7 @@ class DestinyTalentNodeStepImpactEffects(Enum):
     ALL = 63
 
 
-class DestinyTalentNodeStepGuardianAttributes(Enum):
+class DestinyTalentNodeStepGuardianAttributes(BitMask):
     NONE = 0
     STATS = 1
     SHIELDS = 2
@@ -1905,7 +1937,7 @@ class DestinyTalentNodeStepGuardianAttributes(Enum):
     ALL = 255
 
 
-class DestinyTalentNodeStepLightAbilities(Enum):
+class DestinyTalentNodeStepLightAbilities(BitMask):
     NONE = 0
     GRENADES = 1
     MELEE = 2
@@ -1916,13 +1948,38 @@ class DestinyTalentNodeStepLightAbilities(Enum):
     ALL = 63
 
 
-class DestinyTalentNodeStepDamageTypes(Enum):
+class DestinyTalentNodeStepDamageTypes(BitMask):
     NONE = 0
     KINETIC = 1
     ARC = 2
     SOLAR = 4
     VOID = 8
     ALL = 15
+
+
+@dt.dataclass(frozen=True)
+class DestinyDamageTypeDefinition:
+    """All damage types that are possible in the game are defined here, along
+    with localized info and icons as needed."""
+
+    display_properties: "DestinyDisplayPropertiesDefinition"  # The description of the damage type, icon etc...
+    enum_value: "DamageType"  # We have an enumeration for damage types for quick reference. This is the current definition's damage type enum value.
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    show_icon: bool  # If TRUE, the game shows this damage type's icon. Otherwise, it doesn't. Whether you show it or not is up to you.
+    transparent_icon_path: str  # A variant of the icon that is transparent and colorless.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "displayProperties": to_json(self.display_properties),
+            "transparentIconPath": to_json(self.transparent_icon_path),
+            "showIcon": to_json(self.show_icon),
+            "enumValue": to_json(self.enum_value),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
 
 
 @dt.dataclass(frozen=True)
@@ -2419,6 +2476,34 @@ class DestinyFactionVendorDefinition:
 
 
 @dt.dataclass(frozen=True)
+class DestinyItemPreviewBlockDefinition:
+    """Items like Sacks or Boxes can have items that it shows in-game when you
+    view details that represent the items you can obtain if you use or acquire
+    the item.
+
+    This defines those categories, and gives some insights into that
+    data's source.
+    """
+
+    artifact_hash: int  # If this item should show you Artifact information when you preview it, this is the hash identifier of the DestinyArtifactDefinition for the artifact whose data should be shown.
+    derived_item_categories: t.Sequence[
+        "DestinyDerivedItemCategoryDefinition"
+    ]  # This is a list of the items being previewed, categorized in the same way as they are in the preview UI.
+    preview_action_string: str  # If the preview has an associated action (like "Open"), this will be the localized string for that action.
+    preview_vendor_hash: int  # If the preview data is derived from a fake "Preview" Vendor, this will be the hash identifier for the DestinyVendorDefinition of that fake vendor.
+    screen_style: str  # A string that the game UI uses as a hint for which detail screen to show for the item. You, too, can leverage this for your own custom screen detail views. Note, however, that these are arbitrarily defined by designers: there's no guarantees of a fixed, known number of these - so fall back to something reasonable if you don't recognize it.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "screenStyle": to_json(self.screen_style),
+            "previewVendorHash": to_json(self.preview_vendor_hash),
+            "artifactHash": to_json(self.artifact_hash),
+            "previewActionString": to_json(self.preview_action_string),
+            "derivedItemCategories": to_json(self.derived_item_categories),
+        }
+
+
+@dt.dataclass(frozen=True)
 class DestinyItemQualityBlockDefinition:
     """An item's "Quality" determines its calculated stats.
 
@@ -2741,31 +2826,6 @@ class DestinyUnlockValueDefinition:
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
-            "hash": to_json(self.hash),
-            "index": to_json(self.index),
-            "redacted": to_json(self.redacted),
-        }
-
-
-@dt.dataclass(frozen=True)
-class DestinyGenderDefinition:
-    """Gender is a social construct, and as such we have definitions for
-    Genders.
-
-    Right now there happens to only be two, but we'll see what the
-    future holds.
-    """
-
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    gender_type: "DestinyGender"  # This is a quick reference enumeration for all of the currently defined Genders. We use the enumeration for quicker lookups in related data, like DestinyClassDefinition.genderedClassNames.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-
-    def to_json(self) -> t.Mapping[str, t.Any]:
-        return {
-            "genderType": to_json(self.gender_type),
-            "displayProperties": to_json(self.display_properties),
             "hash": to_json(self.hash),
             "index": to_json(self.index),
             "redacted": to_json(self.redacted),
@@ -3216,31 +3276,6 @@ class DestinyNodeSocketReplaceResponse:
 
 
 @dt.dataclass(frozen=True)
-class DestinyDamageTypeDefinition:
-    """All damage types that are possible in the game are defined here, along
-    with localized info and icons as needed."""
-
-    display_properties: "DestinyDisplayPropertiesDefinition"  # The description of the damage type, icon etc...
-    enum_value: "DamageType"  # We have an enumeration for damage types for quick reference. This is the current definition's damage type enum value.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    show_icon: bool  # If TRUE, the game shows this damage type's icon. Otherwise, it doesn't. Whether you show it or not is up to you.
-    transparent_icon_path: str  # A variant of the icon that is transparent and colorless.
-
-    def to_json(self) -> t.Mapping[str, t.Any]:
-        return {
-            "displayProperties": to_json(self.display_properties),
-            "transparentIconPath": to_json(self.transparent_icon_path),
-            "showIcon": to_json(self.show_icon),
-            "enumValue": to_json(self.enum_value),
-            "hash": to_json(self.hash),
-            "index": to_json(self.index),
-            "redacted": to_json(self.redacted),
-        }
-
-
-@dt.dataclass(frozen=True)
 class DestinyTalentNodeExclusiveSetDefinition:
     """The list of indexes into the Talent Grid's "nodes" property for nodes in
     this exclusive set.
@@ -3457,40 +3492,6 @@ class DestinyRaceDefinition:
 
 
 @dt.dataclass(frozen=True)
-class DestinyClassDefinition:
-    """Defines a Character Class in Destiny 2.
-
-    These are types of characters you can play, like Titan, Warlock, and
-    Hunter.
-    """
-
-    class_type: "DestinyClass"  # In Destiny 1, we added a convenience Enumeration for referring to classes. We've kept it, though mostly for posterity. This is the enum value for this definition's class.
-    display_properties: "DestinyDisplayPropertiesDefinition"
-    gendered_class_names: t.Mapping[
-        str, str
-    ]  # A localized string referring to the singular form of the Class's name when referred to in gendered form. Keyed by the DestinyGender.
-    gendered_class_names_by_gender_hash: t.Mapping[str, str]
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    mentor_vendor_hash: int  # Mentors don't really mean anything anymore. Don't expect this to be populated.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-
-    def to_json(self) -> t.Mapping[str, t.Any]:
-        return {
-            "classType": to_json(self.class_type),
-            "displayProperties": to_json(self.display_properties),
-            "genderedClassNames": to_json(self.gendered_class_names),
-            "genderedClassNamesByGenderHash": to_json(
-                self.gendered_class_names_by_gender_hash
-            ),
-            "mentorVendorHash": to_json(self.mentor_vendor_hash),
-            "hash": to_json(self.hash),
-            "index": to_json(self.index),
-            "redacted": to_json(self.redacted),
-        }
-
-
-@dt.dataclass(frozen=True)
 class DestinyUnlockDefinition:
     """Unlock Flags are small bits (literally, a bit, as in a boolean value)
     that the game server uses for an extremely wide range of state checks,
@@ -3504,6 +3505,33 @@ class DestinyUnlockDefinition:
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "displayProperties": to_json(self.display_properties),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyMedalTierDefinition:
+    """An artificial construct of our own creation, to try and put some order
+    on top of Medals and keep them from being one giant, unmanageable and
+    unsorted blob of stats.
+
+    Unfortunately, we haven't had time to do this evaluation yet in
+    Destiny 2, so we're short on Medal Tiers. This will hopefully be
+    updated over time, if Medals continue to exist.
+    """
+
+    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    index: int  # The index of the entity as it was found in the investment tables.
+    order: int  # If you're rendering medals by tier, render them in this order (ascending)
+    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    tier_name: str  # The name of the tier.
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "tierName": to_json(self.tier_name),
+            "order": to_json(self.order),
             "hash": to_json(self.hash),
             "index": to_json(self.index),
             "redacted": to_json(self.redacted),

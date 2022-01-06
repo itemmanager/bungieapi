@@ -21,8 +21,13 @@ def clean_query_value(in_: QueryInput) -> str:
 
 
 @clean_query_value.register
+def clean_list(in_: list) -> str:
+    return ",".join(clean_query_value(v) for v in in_)
+
+
+@clean_query_value.register
 def clean_enum_value(in_: Enum) -> str:
-    return in_.value
+    return str(in_.value)
 
 
 @clean_query_value.register
