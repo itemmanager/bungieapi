@@ -19,16 +19,27 @@ class Credentials:
 class Client:
     _session = t.Optional[aiohttp.ClientSession]
 
-    def __init__(self, credentials: Credentials, base_url: str = BASE_URL) -> None:
+    def __init__(
+        self,
+        credentials: Credentials,
+        base_url: str = BASE_URL,
+        trace_configs: t.Sequence[aiohttp.TraceConfig] = (),
+    ) -> None:
         self._base_url = base_url
         self._session = None
         self._credentials = credentials
+        self._trace_configs = trace_configs
 
     async def __aenter__(self) -> RootClient:
         headers = {"X-Api-Key": self._credentials.api_key}
         if self._credentials.token:
             headers["Authorization"] = f"Bearer {self._credentials.token}"
-        self._session = aiohttp.ClientSession(base_url=self._base_url, headers=headers)
+
+        self._session = aiohttp.ClientSession(
+            base_url=self._base_url,
+            headers=headers,
+            trace_configs=list(self._trace_configs),
+        )
         return RootClient(self._session, BASE_PATH)
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):

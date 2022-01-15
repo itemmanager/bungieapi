@@ -1,7 +1,9 @@
 import asyncio
 import os
+import sys
 from datetime import datetime, timedelta
 
+import aiohttp
 import pytest
 
 from bungieapi.base import Token
@@ -85,14 +87,28 @@ def membership_id(user_token: Token) -> int:
     return user_token.membership_id
 
 
-@pytest.fixture
-def client(credentials) -> Client:
-    return Client(credentials=credentials)
+async def on_request_start(_, __, params):
+    headers = " ".join((f'-H "{k}: {v}"' for k, v in params.headers.items()))
+    curl = f"curl --request {params.method} {headers} {params.url}"
+    print(curl, file=sys.stderr)
+
+
+@pytest.fixture()
+def trace_config(request):
+    tc = aiohttp.TraceConfig()
+    if request.config.option.verbose >= 2:
+        tc.on_request_end.append(on_request_start)
+    return tc
 
 
 @pytest.fixture
-def user_client(user_credentials: Credentials) -> Client:
-    return Client(user_credentials)
+def client(credentials, trace_config: aiohttp.TraceConfig) -> Client:
+    return Client(credentials=credentials, trace_configs=[trace_config])
+
+
+@pytest.fixture
+def user_client(user_credentials: Credentials, trace_config) -> Client:
+    return Client(user_credentials, trace_configs=[trace_config])
 
 
 @pytest.fixture

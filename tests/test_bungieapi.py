@@ -63,4 +63,4 @@ async def test_can_get_characters(user_client: Client, membership_id: int):
                 DestinyComponentType.PRESENTATION_NODES,
             ],
         )
-        print(response.response)
+        assert response.error_code == PlatformErrorCodes.SUCCESS
