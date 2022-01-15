@@ -58,3 +58,4 @@ clean: ## delete all generated files
 generate: clean ## refetch openapi schema and regenerate client
 	python -m update --fetch
 	$(MAKE) reformat
+	$(MAKE) reformat
