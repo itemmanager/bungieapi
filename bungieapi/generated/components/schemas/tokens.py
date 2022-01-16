@@ -43,14 +43,14 @@ class PartnerOfferSkuHistoryResponse:
 
 @dt.dataclass(frozen=True)
 class PartnerOfferHistoryResponse:
-    apply_date: str
     is_consumable: bool
     localized_description: str
     localized_name: str
-    membership_id: int
-    membership_type: int
     partner_offer_key: str
     quantity_applied: int
+    apply_date: t.Optional[str] = None
+    membership_id: t.Optional[int] = None
+    membership_type: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

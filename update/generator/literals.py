@@ -5,7 +5,7 @@ from update import openapi as api
 
 
 def literal(t: t.Union[api.Reference, api.Schema], module: t.Sequence[str]) -> str:
-    if not t.required:
+    if t.nullable:
         return f"t.Optional[{literal_bare(t, module)}]"
     return literal_bare(t, module)
 

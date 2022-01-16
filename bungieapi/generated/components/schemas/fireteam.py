@@ -38,11 +38,9 @@ class FireteamSlotSearch(Enum):
 @dt.dataclass(frozen=True)
 class FireteamSummary:
     activity_type: int
-    alternate_slot_count: int
     available_alternate_slot_count: int
     available_player_slot_count: int
     date_created: str
-    date_modified: str
     date_player_modified: str
     fireteam_id: int
     group_id: int
@@ -53,9 +51,11 @@ class FireteamSummary:
     owner_membership_id: int
     platform: "FireteamPlatform"
     player_slot_count: int
-    scheduled_time: str
     title: str
     title_before_moderation: str
+    alternate_slot_count: t.Optional[int] = None
+    date_modified: t.Optional[str] = None
+    scheduled_time: t.Optional[str] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -129,7 +129,6 @@ class FireteamUserInfoCard:
         "BungieMembershipType"
     ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
     bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
     cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
     display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
     icon_path: str  # URL the Icon if available.
@@ -137,6 +136,9 @@ class FireteamUserInfoCard:
     membership_id: int  # Membership ID as they user is known in the Accounts service
     membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
     supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

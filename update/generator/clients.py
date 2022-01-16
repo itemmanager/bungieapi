@@ -51,9 +51,9 @@ def generate_client_method_operation(operation: BindOperation) -> t.Iterator[str
     if operation.request_body:
         yield f"request: {literal(operation.request_body, [])},"
     for parameter in sorted(
-        operation.parameters, key=lambda param: not param.schema.required
+        operation.parameters, key=lambda param: param.schema.nullable
     ):
-        yield f"{parameter.python_name}: {literal(parameter.schema, []) }{ ' = None' if not parameter.schema.required  else ''},"
+        yield f"{parameter.python_name}: {literal(parameter.schema, []) }{ ' = None' if parameter.schema.nullable  else ''},"
 
     assert isinstance(operation.response, api.Reference)
     return_type = operation.response.name

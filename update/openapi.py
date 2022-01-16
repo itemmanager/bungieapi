@@ -22,7 +22,7 @@ class ParameterSource(Enum):
 @dt.dataclass(frozen=True)
 class Reference:
     ref: str
-    required: bool = True
+    nullable: bool = False
 
     @property
     def class_name(self) -> str:
@@ -74,6 +74,7 @@ class Schema:
     type: t.ClassVar[ApiType]
     description: t.Optional[str] = None
     required: bool = True
+    nullable: bool = False
 
     def __init_subclass__(cls, type: ApiType, **kwargs: t.Any) -> None:
         super().__init_subclass__(**kwargs)
@@ -213,6 +214,10 @@ class Parameter:
     in_: ParameterSource
     description: str
     schema: Schema
+
+    def __post_init__(self):
+        if self.in_ == ParameterSource.QUERY:
+            object.__setattr__(self, "schema", dt.replace(self.schema, nullable=True))
 
     @staticmethod
     def filter(t: t.Type["Parameter"], data: t.Mapping) -> t.Mapping[str, t.Any]:

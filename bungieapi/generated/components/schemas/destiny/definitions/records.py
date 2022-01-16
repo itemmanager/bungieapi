@@ -14,7 +14,6 @@ class DestinyRecordDefinition:
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
     interval_info: "DestinyRecordIntervalBlock"  # Some records have multiple 'interval' objectives, and the record may be claimed at each completed interval
-    lore_hash: int
     objective_hashes: t.Sequence[int]
     parent_node_hashes: t.Sequence[
         int
@@ -32,6 +31,7 @@ class DestinyRecordDefinition:
     title_info: "DestinyRecordTitleBlock"
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
+    lore_hash: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -61,12 +61,12 @@ class DestinyRecordDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordTitleBlock:
-    gilding_tracking_record_hash: int
     has_title: bool
     titles_by_gender: t.Mapping[str, str]
     titles_by_gender_hash: t.Mapping[
         str, str
     ]  # For those who prefer to use the definitions.
+    gilding_tracking_record_hash: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

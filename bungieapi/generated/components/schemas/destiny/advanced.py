@@ -20,10 +20,14 @@ class AwaInitializeResponse:
 
 @dt.dataclass(frozen=True)
 class AwaPermissionRequested:
-    affected_item_id: int  # Item instance ID the action shall be applied to. This is optional for all but a new AwaType values. Rule of thumb is to provide the item instance ID if one is available.
-    character_id: int  # Destiny character ID, if applicable, that will be affected by the action.
     membership_type: "BungieMembershipType"  # Destiny membership type of the account to modify.
     type: "AwaType"  # Type of advanced write action.
+    affected_item_id: t.Optional[
+        int
+    ] = None  # Item instance ID the action shall be applied to. This is optional for all but a new AwaType values. Rule of thumb is to provide the item instance ID if one is available.
+    character_id: t.Optional[
+        int
+    ] = None  # Destiny character ID, if applicable, that will be affected by the action.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -68,7 +72,7 @@ class AwaAuthorizationResult:
     response_reason: "AwaResponseReason"
     type: "AwaType"  # Advanced Write Action Type from the permission request.
     user_selection: "AwaUserSelection"  # Indication of how the user responded to the request. If the value is "Approved" the actionToken will contain the token that can be presented when performing the advanced write action.
-    valid_until: str  # Time, UTC, when token expires.
+    valid_until: t.Optional[str] = None  # Time, UTC, when token expires.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

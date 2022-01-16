@@ -93,7 +93,6 @@ class ForumPostPopularity(Enum):
 @dt.dataclass(frozen=True)
 class PostSearchResponse:
     authors: t.Sequence["GeneralUser"]
-    available_pages: int
     groups: t.Sequence["GroupResponse"]
     has_more: bool
     polls: t.Sequence["PollResponse"]
@@ -105,6 +104,7 @@ class PostSearchResponse:
     searched_tags: t.Sequence["TagResponse"]
     total_results: int
     use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    available_pages: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -162,7 +162,6 @@ class PollResult:
 class ForumRecruitmentDetail:
     fireteam: t.Sequence["GeneralUser"]
     approved: bool
-    conversation_id: int
     intensity: "ForumRecruitmentIntensityLabel"
     kicked_player_ids: t.Sequence[int]
     microphone_required: bool
@@ -170,6 +169,7 @@ class ForumRecruitmentDetail:
     player_slots_total: int
     tone: "ForumRecruitmentToneLabel"
     topic_id: int
+    conversation_id: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -51,7 +51,6 @@ class DestinyProgressionDefinition:
 
     color: "DestinyColor"  # The #RGB string value for the color related to this progression, if there is one.
     display_properties: "DestinyProgressionDisplayPropertiesDefinition"
-    faction_hash: int  # If the value exists, this is the hash identifier for the Faction that owns this Progression. This is purely for convenience, if you're looking at a progression and want to know if and who it's related to in terms of Faction Reputation.
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
     rank_icon: str  # For progressions that have it, this is the rank icon we use in the Companion, displayed above the progressions' rank value.
@@ -64,6 +63,9 @@ class DestinyProgressionDefinition:
         "DestinyProgressionStepDefinition"
     ]  # Progressions are divided into Steps, which roughly equate to "Levels" in the traditional sense of a Progression. Notably, the last step can be repeated indefinitely if repeatLastStep is true, meaning that the calculation for your level is not as simple as comparing your current progress to the max progress of the steps.  These and more calculations are done for you if you grab live character progression data, such as in the DestinyCharacterProgressionComponent.
     visible: bool  # If true, the Progression is something worth showing to users. If false, BNet isn't going to show it. But that doesn't mean you can't. We're all friends here.
+    faction_hash: t.Optional[
+        int
+    ] = None  # If the value exists, this is the hash identifier for the Faction that owns this Progression. This is purely for convenience, if you're looking at a progression and want to know if and who it's related to in terms of Faction Reputation.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -153,9 +155,7 @@ class DestinyInventoryItemDefinition:
     ]  # If any animations were extracted from game content for this item, these will be the definitions of those animations.
     background_color: "DestinyColor"  # Sometimes, an item will have a background color. Most notably this occurs with Emblems, who use the Background Color for small character nameplates such as the "friends" view you see in-game. There are almost certainly other items that have background color as well, though I have not bothered to investigate what items have it nor what purposes they serve: use it as you will.
     breaker_type: "DestinyBreakerType"  # Some weapons and plugs can have a "Breaker Type": a special ability that works sort of like damage type vulnerabilities. This is (almost?) always set on items by plugs.
-    breaker_type_hash: int  # Since we also have a breaker type definition, this is the hash for that breaker type for your convenience. Whether you use the enum or hash and look up the definition depends on what's cleanest for your code.
     class_type: "DestinyClass"  # We run a similarly weak-sauce algorithm to try and determine whether an item is restricted to a specific class. If we find it to be restricted in such a way, we set this classType property to match the class' enumeration value so that users can easily identify class restricted items. If you see a mis-classed item, please inform the developers in the Bungie API forum.
-    collectible_hash: int  # If this item has a collectible related to it, this is the hash identifier of that collectible entry.
     damage_type_hashes: t.Sequence[
         int
     ]  # Theoretically, an item can have many possible damage types. In *practice*, this is not true, but just in case weapons start being made that have multiple (for instance, an item where a socket has reusable plugs for every possible damage type that you can choose from freely), this field will return all of the possible damage types that are available to the weapon by default.
@@ -163,11 +163,9 @@ class DestinyInventoryItemDefinition:
         "DamageType"
     ]  # This is the list of all damage types that we know ahead of time the item can take on. Unfortunately, this does not preclude the possibility of something funky happening to give the item a damage type that cannot be predicted beforehand: for example, if some designer decides to create arbitrary non-reusable plugs that cause damage type to change. This damage type prediction will only use the following to determine potential damage types: - Intrinsic perks - Talent Node perks - Known, reusable plugs for sockets
     default_damage_type: "DamageType"  # If the item has a damage type that could be considered to be default, it will be populated here. For various upsetting reasons, it's surprisingly cumbersome to figure this out. I hope you're happy.
-    default_damage_type_hash: int  # Similar to defaultDamageType, but represented as the hash identifier for a DestinyDamageTypeDefinition. I will likely regret leaving in the enumeration versions of these properties, but for now they're very convenient.
     display_properties: "DestinyDisplayPropertiesDefinition"
     display_source: str  # In theory, it is a localized string telling you about how you can find the item. I really wish this was more consistent. Many times, it has nothing. Sometimes, it's instead a more narrative-forward description of the item. Which is cool, and I wish all properties had that data, but it should really be its own property.
     does_postmaster_pull_have_side_effects: bool  # The boolean will indicate to us (and you!) whether something *could* happen when you transfer this item from the Postmaster that might be considered a "destructive" action. It is not feasible currently to tell you (or ourelves!) in a consistent way whether this *will* actually cause a destructive action, so we are playing it safe: if it has the potential to do so, we will not allow it to be transferred from the Postmaster by default. You will need to check for this flag before transferring an item from the Postmaster, or else you'll end up receiving an error.
-    emblem_objective_hash: int  # If the item is an emblem that has a special Objective attached to it - for instance, if the emblem tracks PVP Kills, or what-have-you. This is a bit different from, for example, the Vanguard Kill Tracker mod, which pipes data into the "art channel". When I get some time, I would like to standardize these so you can get at the values they expose without having to care about what they're being used for and how they are wired up, but for now here's the raw data.
     equippable: bool  # If true, then you will be allowed to equip the item if you pass its other requirements. This being false means that you cannot equip the item under any circumstances.
     equipping_block: "DestinyEquippingBlockDefinition"  # If this item can be equipped, this block will be non-null and will be populated with the conditions under which it can be equipped.
     flavor_text: str
@@ -191,7 +189,6 @@ class DestinyInventoryItemDefinition:
     links: t.Sequence[
         "HyperlinkReference"
     ]  # If we added any help or informational URLs about this item, these will be those links.
-    lore_hash: int  # If the item has any related Lore (DestinyLoreDefinition), this will be the hash identifier you can use to look up the lore definition.
     metrics: "DestinyItemMetricBlockDefinition"  # If this item has available metrics to be shown, this block will be non-null have the appropriate hashes defined.
     non_transferrable: bool  # The intrinsic transferability of an item. I hate that this boolean is negative - but there's a reason. Just because an item is intrinsically transferrable doesn't mean that it can be transferred, and we don't want to imply that this is the only source of that transferability.
     objectives: "DestinyItemObjectiveBlockDefinition"  # If this item has Objectives (extra tasks that can be accomplished related to the item... most frequently when the item is a Quest Step and the Objectives need to be completed to move on to the next Quest Step), this block will be non-null and the objectives defined herein.
@@ -204,7 +201,6 @@ class DestinyInventoryItemDefinition:
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
     sack: "DestinyItemSackBlockDefinition"  # If this item is a "reward sack" that can be opened to provide other items, this will be non-null and the properties of the sack contained herein.
     screenshot: str  # If we were able to acquire an in-game screenshot for the item, the path to that screenshot will be returned here. Note that not all items have screenshots: particularly not any non-equippable items.
-    season_hash: int  # If this item is related directly to a Season of Destiny, this is the hash identifier for that season.
     secondary_icon: str  # A secondary icon associated with the item. Currently this is used in very context specific applications, such as Emblem Nameplates.
     secondary_overlay: str  # Pulled from the secondary icon, this is the "secondary background" of the secondary icon. Confusing? Sure, that's why I call it "overlay" here: because as far as it's been used thus far, it has been for an optional overlay image. We'll see if that holds up, but at least for now it explains what this image is a bit better.
     secondary_special: str  # Pulled from the Secondary Icon, this is the "special" background for the item. For Emblems, this is the background image used on the Details view: but it need not be limited to that for other types of items.
@@ -214,7 +210,6 @@ class DestinyInventoryItemDefinition:
     special_item_type: "SpecialItemType"  # In Destiny 1, we identified some items as having particular categories that we'd like to know about for various internal logic purposes. These are defined in SpecialItemType, and while these days the itemCategoryHashes are the preferred way of identifying types, we have retained this enum for its convenience.
     stats: "DestinyItemStatBlockDefinition"  # If this item can have stats (such as a weapon, armor, or vehicle), this block will be non-null and populated with the stats found on the item.
     summary: "DestinyItemSummaryBlockDefinition"  # Summary data about the item.
-    summary_item_hash: int  # There are times when the game will show you a "summary/vague" version of an item - such as a description of its type represented as a DestinyInventoryItemDefinition - rather than display the item itself. This happens sometimes when summarizing possible rewards in a tooltip. This is the item displayed instead, if it exists.
     talent_grid: "DestinyItemTalentGridBlockDefinition"  # If the item has a Talent Grid, this will be non-null and the properties of the grid defined herein. Note that, while many items still have talent grids, the only ones with meaningful Nodes still on them will be Subclass/"Build" items.
     tooltip_notifications: t.Sequence[
         "DestinyItemTooltipNotification"
@@ -229,6 +224,27 @@ class DestinyInventoryItemDefinition:
     translation_block: "DestinyItemTranslationBlockDefinition"  # If this item can be rendered, this block will be non-null and will be populated with rendering information.
     ui_item_display_style: str  # A string identifier that the game's UI uses to determine how the item should be rendered in inventory screens and the like. This could really be anything - at the moment, we don't have the time to really breakdown and maintain all the possible strings this could be, partly because new ones could be added ad hoc. But if you want to use it to dictate your own UI, or look for items with a certain display style, go for it!
     value: "DestinyItemValueBlockDefinition"  # The conceptual "Value" of an item, if any was defined. See the DestinyItemValueBlockDefinition for more details.
+    breaker_type_hash: t.Optional[
+        int
+    ] = None  # Since we also have a breaker type definition, this is the hash for that breaker type for your convenience. Whether you use the enum or hash and look up the definition depends on what's cleanest for your code.
+    collectible_hash: t.Optional[
+        int
+    ] = None  # If this item has a collectible related to it, this is the hash identifier of that collectible entry.
+    default_damage_type_hash: t.Optional[
+        int
+    ] = None  # Similar to defaultDamageType, but represented as the hash identifier for a DestinyDamageTypeDefinition. I will likely regret leaving in the enumeration versions of these properties, but for now they're very convenient.
+    emblem_objective_hash: t.Optional[
+        int
+    ] = None  # If the item is an emblem that has a special Objective attached to it - for instance, if the emblem tracks PVP Kills, or what-have-you. This is a bit different from, for example, the Vanguard Kill Tracker mod, which pipes data into the "art channel". When I get some time, I would like to standardize these so you can get at the values they expose without having to care about what they're being used for and how they are wired up, but for now here's the raw data.
+    lore_hash: t.Optional[
+        int
+    ] = None  # If the item has any related Lore (DestinyLoreDefinition), this will be the hash identifier you can use to look up the lore definition.
+    season_hash: t.Optional[
+        int
+    ] = None  # If this item is related directly to a Season of Destiny, this is the hash identifier for that season.
+    summary_item_hash: t.Optional[
+        int
+    ] = None  # There are times when the game will show you a "summary/vague" version of an item - such as a description of its type represented as a DestinyInventoryItemDefinition - rather than display the item itself. This happens sometimes when summarizing possible rewards in a tooltip. This is the item displayed instead, if it exists.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -564,10 +580,12 @@ class DestinyItemStatBlockDefinition:
     disable_primary_stat_display: bool  # If true, the game won't show the "primary" stat on this item when you inspect it. NOTE: This is being manually mapped, because I happen to want it in a block that isn't going to directly create this derivative block.
     has_displayable_stats: bool  # A quick and lazy way to determine whether any stat other than the "primary" stat is actually visible on the item. Items often have stats that we return in case people find them useful, but they're not part of the "Stat Group" and thus we wouldn't display them in our UI. If this is False, then we're not going to display any of these stats other than the primary one.
     primary_base_stat_hash: int  # This stat is determined to be the "primary" stat, and can be looked up in the stats or any other stat collection related to the item. Use this hash to look up the stat's value using DestinyInventoryItemDefinition.stats.stats, and the renderable data for the primary stat in the related DestinyStatDefinition.
-    stat_group_hash: int  # If the item's stats are meant to be modified by a DestinyStatGroupDefinition, this will be the identifier for that definition. If you are using live data or precomputed stats data on the DestinyInventoryItemDefinition.stats.stats property, you don't have to worry about statGroupHash and how it alters stats: the already altered stats are provided to you. But if you want to see how the sausage gets made, or perform computations yourself, this is valuable information.
     stats: t.Mapping[
         str, "DestinyInventoryItemStatDefinition"
     ]  # If you are looking for precomputed values for the stats on a weapon, this is where they are stored. Technically these are the "Display" stat values. Please see DestinyStatsDefinition for what Display Stat Values means, it's a very long story... but essentially these are the closest values BNet can get to the item stats that you see in-game. These stats are keyed by the DestinyStatDefinition's hash identifier for the stat that's found on the item.
+    stat_group_hash: t.Optional[
+        int
+    ] = None  # If the item's stats are meant to be modified by a DestinyStatGroupDefinition, this will be the identifier for that definition. If you are using live data or precomputed stats data on the DestinyInventoryItemDefinition.stats.stats property, you don't have to worry about statGroupHash and how it alters stats: the already altered stats are provided to you. But if you want to see how the sausage gets made, or perform computations yourself, this is valuable information.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -590,11 +608,13 @@ class DestinyInventoryItemStatDefinition:
     Bungie API forums.
     """
 
-    display_maximum: int  # The maximum possible value for the stat as shown in the UI, if it is being shown somewhere that reveals maximum in the UI (such as a bar chart-style view). This is pulled directly from the item's DestinyStatGroupDefinition, and placed here for convenience. If not returned, there is no maximum to use (and thus the stat should not be shown in a way that assumes there is a limit to the stat)
     maximum: int  # The maximum possible value for this stat that we think the item can roll. WARNING: In Destiny 1, this field was calculated using the potential stat rolls on the item's talent grid. In Destiny 2, items no longer have meaningful talent grids and instead have sockets: but the calculation of this field was never altered to adapt to this change. As such, this field should be considered deprecated until we can address this oversight.
     minimum: int  # The minimum possible value for this stat that we think the item can roll.
     stat_hash: int  # The hash for the DestinyStatDefinition representing this stat.
     value: int  # This value represents the stat value assuming the minimum possible roll but accounting for any mandatory bonuses that should be applied to the stat on item creation. In Destiny 1, this was different from the "minimum" value because there were certain conditions where an item could be theoretically lower level/value than the initial roll.  In Destiny 2, this is not possible unless Talent Grids begin to be used again for these purposes or some other system change occurs... thus in practice, value and minimum should be the same in Destiny 2. Good riddance.
+    display_maximum: t.Optional[
+        int
+    ] = None  # The maximum possible value for the stat as shown in the UI, if it is being shown somewhere that reveals maximum in the UI (such as a bar chart-style view). This is pulled directly from the item's DestinyStatGroupDefinition, and placed here for convenience. If not returned, there is no maximum to use (and thus the stat should not be shown in a way that assumes there is a limit to the stat)
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -766,9 +786,11 @@ class DestinyEquippingBlockDefinition:
         str
     ]  # These are strings that represent the possible Game/Account/Character state failure conditions that can occur when trying to equip the item. They match up one-to-one with requiredUnlockExpressions.
     equipment_slot_type_hash: int  # An equipped item *must* be equipped in an Equipment Slot. This is the hash identifier of the DestinyEquipmentSlotDefinition into which it must be equipped.
-    gearset_item_hash: int  # If the item is part of a gearset, this is a reference to that gearset item.
     unique_label: str  # If defined, this is the label used to check if the item has other items of matching types already equipped.  For instance, when you aren't allowed to equip more than one Exotic Weapon, that's because all exotic weapons have identical uniqueLabels and the game checks the to-be-equipped item's uniqueLabel vs. all other already equipped items (other than the item in the slot that's about to be occupied).
     unique_label_hash: int  # The hash of that unique label. Does not point to a specific definition.
+    gearset_item_hash: t.Optional[
+        int
+    ] = None  # If the item is part of a gearset, this is a reference to that gearset item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -884,8 +906,10 @@ class DestinyClassDefinition:
     gendered_class_names_by_gender_hash: t.Mapping[str, str]
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
-    mentor_vendor_hash: int  # Mentors don't really mean anything anymore. Don't expect this to be populated.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    mentor_vendor_hash: t.Optional[
+        int
+    ] = None  # Mentors don't really mean anything anymore. Don't expect this to be populated.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1190,10 +1214,12 @@ class DestinyVendorCategoryOverlayDefinition:
     """
 
     choice_description: str
-    currency_item_hash: int  # If this overlay has a currency item that it features, this is said featured item.
     description: str
     icon: str
     title: str
+    currency_item_hash: t.Optional[
+        int
+    ] = None  # If this overlay has a currency item that it features, this is said featured item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1219,12 +1245,16 @@ class DestinyDisplayCategoryDefinition:
     display_category_hash: int
     display_in_banner: bool  # If true, this category should be displayed in the "Banner" section of the vendor's UI.
     display_properties: "DestinyDisplayPropertiesDefinition"
-    display_style_hash: int  # An indicator of how the category will be displayed in the UI. It's up to you to do something cool or interesting in response to this, or just to treat it as a normal category.
     display_style_identifier: str  # An indicator of how the category will be displayed in the UI. It's up to you to do something cool or interesting in response to this, or just to treat it as a normal category.
     identifier: str  # A string identifier for the display category.
     index: int
-    progression_hash: int  # If it exists, this is the hash identifier of a DestinyProgressionDefinition that represents the progression to show on this display category. Specific categories can now have thier own distinct progression, apparently. So that's cool.
     sort_order: "VendorDisplayCategorySortOrder"  # If this category sorts items in a nonstandard way, this will be the way we sort.
+    display_style_hash: t.Optional[
+        int
+    ] = None  # An indicator of how the category will be displayed in the UI. It's up to you to do something cool or interesting in response to this, or just to treat it as a normal category.
+    progression_hash: t.Optional[
+        int
+    ] = None  # If it exists, this is the hash identifier of a DestinyProgressionDefinition that represents the progression to show on this display category. Specific categories can now have thier own distinct progression, apparently. So that's cool.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1333,10 +1363,12 @@ class DestinyVendorInventoryFlyoutDefinition:
         "DestinyVendorInventoryFlyoutBucketDefinition"
     ]  # A list of inventory buckets and other metadata to show on the screen.
     display_properties: "DestinyDisplayPropertiesDefinition"  # The title and other common properties of the flyout.
-    equipment_slot_hash: int  # If this flyout is meant to show you the contents of the player's equipment slot, this is the slot to show.
     flyout_id: int  # An identifier for the flyout, in case anything else needs to refer to them.
     locked_description: str  # If the flyout is locked, this is the reason why.
     suppress_newness: bool  # If this is true, don't show any of the glistening "this is a new item" UI elements, like we show on the inventory items themselves in in-game UI.
+    equipment_slot_hash: t.Optional[
+        int
+    ] = None  # If this flyout is meant to show you the contents of the player's equipment slot, this is the slot to show.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1386,8 +1418,6 @@ class DestinyVendorItemDefinition:
         int
     ]  # An list of indexes into the DestinyVendorDefinition.failureStrings array, indicating the possible failure strings that can be relevant for this item.
     inventory_bucket_hash: int  # The inventory bucket into which this item will be placed upon purchase.
-    is_crm: bool  # If this sale can only be performed as the result of receiving a CRM offer, this is true.
-    is_offer: bool  # If this sale can only be performed as the result of an offer check, this is true.
     item_hash: int  # The hash identifier of the item being sold (DestinyInventoryItemDefinition). Note that a vendor can sell the same item in multiple ways, so don't assume that itemHash is a unique identifier for this entity.
     maximum_level: int  # The maximum character level at which this item is available for sale.
     minimum_level: int  # The minimum character level at which this item is available for sale.
@@ -1401,9 +1431,17 @@ class DestinyVendorItemDefinition:
     refund_time_limit: int  # The amount of time before refundability of the newly purchased item will expire.
     socket_overrides: t.Sequence["DestinyVendorItemSocketOverride"]
     sort_value: int  # *if* the category this item is in supports non-default sorting, this value should represent the sorting value to use, pre-processed and ready to go.
-    unpurchasable: bool  # If true, this item is some sort of dummy sale item that cannot actually be purchased. It may be a display only item, or some fluff left by a content designer for testing purposes, or something that got disabled because it was a terrible idea. You get the picture. We won't know *why* it can't be purchased, only that it can't be. Sorry. This is also only whether it's unpurchasable as a static property according to game content. There are other reasons why an item may or may not be purchasable at runtime, so even if this isn't set to True you should trust the runtime value for this sale item over the static definition if this is unset.
     vendor_item_index: int  # The index into the DestinyVendorDefinition.saleList. This is what we use to refer to items being sold throughout live and definition data.
     visibility_scope: "DestinyGatingScope"  # The most restrictive scope that determines whether the item is available in the Vendor's inventory. See DestinyGatingScope's documentation for more information. This can be determined by Unlock gating, or by whether or not the item has purchase level requirements (minimumLevel and maximumLevel properties).
+    is_crm: t.Optional[
+        bool
+    ] = None  # If this sale can only be performed as the result of receiving a CRM offer, this is true.
+    is_offer: t.Optional[
+        bool
+    ] = None  # If this sale can only be performed as the result of an offer check, this is true.
+    unpurchasable: t.Optional[
+        bool
+    ] = None  # If true, this item is some sort of dummy sale item that cannot actually be purchased. It may be a display only item, or some fluff left by a content designer for testing purposes, or something that got disabled because it was a terrible idea. You get the picture. We won't know *why* it can't be purchased, only that it can't be. Sorry. This is also only whether it's unpurchasable as a static property according to game content. There are other reasons why an item may or may not be purchasable at runtime, so even if this isn't set to True you should trust the runtime value for this sale item over the static definition if this is unset.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1448,8 +1486,10 @@ class DestinyVendorItemQuantity:
 
     has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
     item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    item_instance_id: int  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
     quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
+    item_instance_id: t.Optional[
+        int
+    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1493,8 +1533,10 @@ class DestinyVendorItemSocketOverride:
     socket with custom plug data."""
 
     randomized_options_count: int  # If this is greater than -1, the number of randomized plugs on this socket will be set to this quantity instead of whatever it's set to by default.
-    single_item_hash: int  # If this is populated, the socket will be overridden with a specific plug. If this isn't populated, it's being overridden by something more complicated that is only known by the Game Server and God, which means we can't tell you in advance what it'll be.
     socket_type_hash: int  # This appears to be used to select which socket ultimately gets the override defined here.
+    single_item_hash: t.Optional[
+        int
+    ] = None  # If this is populated, the socket will be overridden with a specific plug. If this isn't populated, it's being overridden by something more complicated that is only known by the Game Server and God, which means we can't tell you in advance what it'll be.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1630,8 +1672,6 @@ class DestinyActivityDefinition:
         "DestinyActivityChallengeDefinition"
     ]  # An activity can have many Challenges, of which any subset of them may be active for play at any given period of time. This gives the information about the challenges and data that we use to understand when they're active and what rewards they provide. Sadly, at the moment there's no central definition for challenges: much like "Skulls" were in Destiny 1, these are defined on individual activities and there can be many duplicates/near duplicates across the Destiny 2 ecosystem. I have it in mind to centralize these in a future revision of the API, but we are out of time.
     destination_hash: int  # The hash identifier for the Destination on which this Activity is played. Use it to look up the DestinyDestinationDefinition for human readable info about the destination. A Destination can be thought of as a more specific location than a "Place". For instance, if the "Place" is Earth, the "Destination" would be a specific city or region on Earth.
-    direct_activity_mode_hash: int  # If this activity had an activity mode directly defined on it, this will be the hash of that mode.
-    direct_activity_mode_type: int  # If the activity had an activity mode directly defined on it, this will be the enum value of that mode.
     display_properties: "DestinyDisplayPropertiesDefinition"  # The title, subtitle, and icon for the activity. We do a little post-processing on this to try and account for Activities where the designers have left this data too minimal to determine what activity is actually being played.
     guided_game: "DestinyActivityGuidedBlockDefinition"  # This block of data, if it exists, provides information about the guided game experience and restrictions for this activity. If it doesn't exist, the game is not able to be played as a guided game.
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
@@ -1665,6 +1705,12 @@ class DestinyActivityDefinition:
     ]  # The expected possible rewards for the activity. These rewards may or may not be accessible for an individual player based on their character state, the account state, and even the game's state overall. But it is a useful reference for possible rewards you can earn in the activity. These match up to rewards displayed when you hover over the Activity in the in-game Director, and often refer to Placeholder or "Dummy" items: items that tell you what you can earn in vague terms rather than what you'll specifically be earning (partly because the game doesn't even know what you'll earn specifically until you roll for it at the end)
     selection_screen_display_properties: "DestinyDisplayPropertiesDefinition"  # The title, subtitle, and icon for the activity as determined by Selection Screen data, if there is any for this activity. There won't be data in this field if the activity is never shown in a selection/options screen.
     tier: int  # The difficulty tier of the activity.
+    direct_activity_mode_hash: t.Optional[
+        int
+    ] = None  # If this activity had an activity mode directly defined on it, this will be the hash of that mode.
+    direct_activity_mode_type: t.Optional[
+        int
+    ] = None  # If the activity had an activity mode directly defined on it, this will be the enum value of that mode.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1847,7 +1893,6 @@ class DestinySandboxPerkDefinition:
     """
 
     damage_type: "DamageType"  # If this perk grants a damage type to a weapon, the damage type will be defined here. Unless you have a compelling reason to use this enum value, use the damageTypeHash instead to look up the actual DestinyDamageTypeDefinition.
-    damage_type_hash: int  # The hash identifier for looking up the DestinyDamageTypeDefinition, if this perk has a damage type. This is preferred over using the damageType enumeration value, which has been left purely because it is occasionally convenient.
     display_properties: "DestinyDisplayPropertiesDefinition"  # These display properties are by no means guaranteed to be populated. Usually when it is, it's only because we back-filled them with the displayProperties of some Talent Node or Plug item that happened to be uniquely providing that perk.
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
@@ -1855,6 +1900,9 @@ class DestinySandboxPerkDefinition:
     perk_groups: "DestinyTalentNodeStepGroups"  # An old holdover from the original Armory, this was an attempt to group perks by functionality. It is as yet unpopulated, and there will be quite a bit of work needed to restore it to its former working order.
     perk_identifier: str  # The string identifier for the perk.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    damage_type_hash: t.Optional[
+        int
+    ] = None  # The hash identifier for looking up the DestinyDamageTypeDefinition, if this perk has a damage type. This is preferred over using the damageType enumeration value, which has been left purely because it is occasionally convenient.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2124,8 +2172,12 @@ class DestinyActivityPlaylistItemDefinition:
     activity_mode_types: t.Sequence[
         "DestinyActivityModeType"
     ]  # The activity modes - if any - in enum form. Because we can't seem to escape the enums.
-    direct_activity_mode_hash: int  # If this playlist entry had an activity mode directly defined on it, this will be the hash of that mode.
-    direct_activity_mode_type: int  # If the playlist entry had an activity mode directly defined on it, this will be the enum value of that mode.
+    direct_activity_mode_hash: t.Optional[
+        int
+    ] = None  # If this playlist entry had an activity mode directly defined on it, this will be the hash of that mode.
+    direct_activity_mode_type: t.Optional[
+        int
+    ] = None  # If the playlist entry had an activity mode directly defined on it, this will be the enum value of that mode.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2485,13 +2537,15 @@ class DestinyItemPreviewBlockDefinition:
     data's source.
     """
 
-    artifact_hash: int  # If this item should show you Artifact information when you preview it, this is the hash identifier of the DestinyArtifactDefinition for the artifact whose data should be shown.
     derived_item_categories: t.Sequence[
         "DestinyDerivedItemCategoryDefinition"
     ]  # This is a list of the items being previewed, categorized in the same way as they are in the preview UI.
     preview_action_string: str  # If the preview has an associated action (like "Open"), this will be the localized string for that action.
     preview_vendor_hash: int  # If the preview data is derived from a fake "Preview" Vendor, this will be the hash identifier for the DestinyVendorDefinition of that fake vendor.
     screen_style: str  # A string that the game UI uses as a hint for which detail screen to show for the item. You, too, can leverage this for your own custom screen detail views. Note, however, that these are arbitrarily defined by designers: there's no guarantees of a fixed, known number of these - so fall back to something reasonable if you don't recognize it.
+    artifact_hash: t.Optional[
+        int
+    ] = None  # If this item should show you Artifact information when you preview it, this is the hash identifier of the DestinyArtifactDefinition for the artifact whose data should be shown.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2740,8 +2794,10 @@ class DestinyItemObjectiveBlockDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyObjectiveDisplayProperties:
-    activity_hash: int  # The activity associated with this objective in the context of this item, if any.
     display_on_item_preview_screen: bool  # If true, the game shows this objective on item preview screens.
+    activity_hash: t.Optional[
+        int
+    ] = None  # The activity associated with this objective in the context of this item, if any.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2906,13 +2962,17 @@ class DestinyItemSocketEntryDefinition:
     hide_perks_in_item_tooltip: bool  # If this is true, the perks provided by this socket shouldn't be shown in the item's tooltip. This might be useful if it's providing a hidden bonus, or if the bonus is less important than other benefits on the item.
     plug_sources: "SocketPlugSources"  # Indicates where you should go to get plugs for this socket. This will affect how you populate your UI, as well as what plugs are valid for this socket. It's an alternative to having to check for the existence of certain properties (reusablePlugItems for example) to infer where plugs should come from.
     prevent_initialization_on_vendor_purchase: bool  # If this is true, then the socket will not be initialized with a plug if the item is purchased from a Vendor. Remember that Vendors are much more than conceptual vendors: they include "Collection Kiosks" and other entities. See DestinyVendorDefinition for more information.
-    randomized_plug_set_hash: int  # This field replaces "randomizedPlugItems" as of Shadowkeep launch. If a socket has randomized plugs, this is a pointer to the set of plugs that could be used, as defined in DestinyPlugSetDefinition.  If null, the item has no randomized plugs.
     reusable_plug_items: t.Sequence[
         "DestinyItemSocketEntryPlugItemDefinition"
     ]  # This is a list of pre-determined plugs that can *always* be plugged into this socket, without the character having the plug in their inventory. If this list is populated, you will not be allowed to plug an arbitrary item in the socket: you will only be able to choose from one of these reusable plugs.
-    reusable_plug_set_hash: int  # If this socket's plugs come from a reusable DestinyPlugSetDefinition, this is the identifier for that set. We added this concept to reduce some major duplication that's going to come from sockets as replacements for what was once implemented as large sets of items and kiosks (like Emotes).  As of Shadowkeep, these will come up much more frequently and be driven by game content rather than custom curation.
     single_initial_item_hash: int  # If a valid hash, this is the hash identifier for the DestinyInventoryItemDefinition representing the Plug that will be initially inserted into the item on item creation. Otherwise, this Socket will either start without a plug inserted, or will have one randomly inserted.
     socket_type_hash: int  # All sockets have a type, and this is the hash identifier for this particular type. Use it to look up the DestinySocketTypeDefinition: read there for more information on how socket types affect the behavior of the socket.
+    randomized_plug_set_hash: t.Optional[
+        int
+    ] = None  # This field replaces "randomizedPlugItems" as of Shadowkeep launch. If a socket has randomized plugs, this is a pointer to the set of plugs that could be used, as defined in DestinyPlugSetDefinition.  If null, the item has no randomized plugs.
+    reusable_plug_set_hash: t.Optional[
+        int
+    ] = None  # If this socket's plugs come from a reusable DestinyPlugSetDefinition, this is the identifier for that set. We added this concept to reduce some major duplication that's going to come from sockets as replacements for what was once implemented as large sets of items and kiosks (like Emotes).  As of Shadowkeep, these will come up much more frequently and be driven by game content rather than custom curation.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3124,13 +3184,11 @@ class DestinyTalentNodeDefinition:
     exclusive_with_node_hashes: t.Sequence[
         int
     ]  # The nodeHash values for nodes that are in an Exclusive Set with this node. See DestinyTalentGridDefinition.exclusiveSets for more info about exclusive sets. Again, note that these are nodeHashes and *not* nodeIndexes.
-    group_hash: int  # As of Destiny 2, nodes can exist as part of "Exclusive Groups". These differ from exclusive sets in that, within the group, many nodes can be activated. But the act of activating any node in the group will cause "opposing" nodes (nodes in groups that are not allowed to be activated at the same time as this group) to deactivate. See DestinyTalentExclusiveGroup for more information on the details. This is an identifier for this node's group, if it is part of one.
     ignore_for_completion: bool  # Comes from the talent grid node style: if true, then this node should be ignored for determining whether the grid is complete.
     is_random: bool  # If this is true, the node's step is determined randomly rather than the first step being chosen.
     is_random_repurchasable: bool  # If this is true, the node can be "re-rolled" to acquire a different random current step. This is not used, but still exists for a theoretical future of talent grids.
     last_step_repeats: bool  # At one point, Nodes were going to be able to be activated multiple times, changing the current step and potentially piling on multiple effects from the previously activated steps. This property would indicate if the last step could be activated multiple times.  This is not currently used, but it isn't out of the question that this could end up being used again in a theoretical future.
     layout_identifier: str  # A string identifier for a custom visual layout to apply to this talent node. Unfortunately, we do not have any data for rendering these custom layouts. It will be up to you to interpret these strings and change your UI if you want to have custom UI matching these layouts.
-    lore_hash: int  # Talent nodes can be associated with a piece of Lore, generally rendered in a tooltip. This is the hash identifier of the lore element to show, if there is one to be show.
     node_hash: int  # The hash identifier for the node, which unfortunately is also content version dependent but can be (and ideally, should be) used instead of the nodeIndex to uniquely identify the node. The two exist side-by-side for backcompat reasons due to the Great Talent Node Restructuring of Destiny 1, and I ran out of time to remove one of them and standardize on the other. Sorry!
     node_index: int  # The index into the DestinyTalentGridDefinition's "nodes" property where this node is located. Used to uniquely identify the node within the Talent Grid. Note that this is content version dependent: make sure you have the latest version of content before trying to use these properties.
     node_style_identifier: str  # Comes from the talent grid node style: this identifier should be used to determine how to render the node in the UI.
@@ -3143,6 +3201,12 @@ class DestinyTalentNodeDefinition:
     steps: t.Sequence[
         "DestinyNodeStepDefinition"
     ]  # At this point, "steps" have been obfuscated into conceptual entities, aggregating the underlying notions of "properties" and "true steps". If you need to know a step as it truly exists - such as when recreating Node logic when processing Vendor data - you'll have to use the "realSteps" property below.
+    group_hash: t.Optional[
+        int
+    ] = None  # As of Destiny 2, nodes can exist as part of "Exclusive Groups". These differ from exclusive sets in that, within the group, many nodes can be activated. But the act of activating any node in the group will cause "opposing" nodes (nodes in groups that are not allowed to be activated at the same time as this group) to deactivate. See DestinyTalentExclusiveGroup for more information on the details. This is an identifier for this node's group, if it is part of one.
+    lore_hash: t.Optional[
+        int
+    ] = None  # Talent nodes can be associated with a piece of Lore, generally rendered in a tooltip. This is the hash identifier of the lore element to show, if there is one to be show.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3212,7 +3276,6 @@ class DestinyNodeStepDefinition:
     affects_quality: bool  # If this is true, the step affects the item's Quality in some way. See DestinyInventoryItemDefinition for more information about the meaning of Quality. I already made a joke about Zen and the Art of Motorcycle Maintenance elsewhere in the documentation, so I will avoid doing it again. Oops too late
     can_activate_next_step: bool  # There was a time when talent nodes could be activated multiple times, and the effects of subsequent Steps would be compounded on each other, essentially "upgrading" the node. We have moved away from this, but theoretically the capability still exists. I continue to return this in case it is used in the future: if true and this step is the current step in the node, you are allowed to activate the node a second time to receive the benefits of the next step in the node, which will then become the active step.
     damage_type: "DamageType"  # An enum representing a damage type granted by activating this step, if any.
-    damage_type_hash: int  # If the step provides a damage type, this will be the hash identifier used to look up the damage type's DestinyDamageTypeDefinition.
     display_properties: "DestinyDisplayPropertiesDefinition"  # These are the display properties actually used to render the Talent Node. The currently active step's displayProperties are shown.
     interaction_description: str  # If you can interact with this node in some way, this is the localized description of that interaction.
     is_next_step_random: bool  # If true, the next step to be chosen is random, and if you're allowed to activate the next step. (if canActivateNextStep = true)
@@ -3230,6 +3293,9 @@ class DestinyNodeStepDefinition:
     ]  # When the step provides stat benefits on the item or character, this is the list of hash identifiers for stats (DestinyStatDefinition) that are provided.
     step_groups: "DestinyTalentNodeStepGroups"  # In Destiny 1, the Armory's Perk Filtering was driven by a concept of TalentNodeStepGroups: categorizations of talent nodes based on their functionality. While the Armory isn't a BNet-facing thing for now, and the new Armory will need to account for Sockets rather than Talent Nodes, this categorization capability feels useful enough to still keep around.
     step_index: int  # The index of this step in the list of Steps on the Talent Node. Unfortunately, this is the closest thing we have to an identifier for the Step: steps are not provided a content version agnostic identifier. This means that, when you are dealing with talent nodes, you will need to first ensure that you have the latest version of content.
+    damage_type_hash: t.Optional[
+        int
+    ] = None  # If the step provides a damage type, this will be the hash identifier used to look up the damage type's DestinyDamageTypeDefinition.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3305,7 +3371,6 @@ class DestinyTalentExclusiveGroup:
     """
 
     group_hash: int  # The identifier for this exclusive group. Only guaranteed unique within the talent grid, not globally.
-    lore_hash: int  # If this group has an associated piece of lore to show next to it, this will be the identifier for that DestinyLoreDefinition.
     node_hashes: t.Sequence[
         int
     ]  # A quick reference of the talent nodes that are part of this group, by their Talent Node hashes. (See DestinyTalentNodeDefinition.nodeHash)
@@ -3315,6 +3380,9 @@ class DestinyTalentExclusiveGroup:
     opposing_node_hashes: t.Sequence[
         int
     ]  # A quick reference of Nodes that will be deactivated if any node in this group is activated, by their Talent Node hashes. (See DestinyTalentNodeDefinition.nodeHash)
+    lore_hash: t.Optional[
+        int
+    ] = None  # If this group has an associated piece of lore to show next to it, this will be the identifier for that DestinyLoreDefinition.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3439,10 +3507,12 @@ class DestinyProgressionRewardItemQuantity:
     claim_unlock_display_strings: t.Sequence[str]
     has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
     item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    item_instance_id: int  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
     quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
     rewarded_at_progression_level: int
     ui_display_style: str
+    item_instance_id: t.Optional[
+        int
+    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

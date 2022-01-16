@@ -34,13 +34,15 @@ class DestinyProfileTransitoryComponent:
 
     current_activity: "DestinyProfileTransitoryCurrentActivity"  # If you are in an activity, this is some transitory info about the activity currently being played.
     joinability: "DestinyProfileTransitoryJoinability"  # Information about whether and what might prevent you from joining this person on a fireteam.
-    last_orbited_destination_hash: int  # The hash identifier for the DestinyDestinationDefinition of the last location you were orbiting when in orbit.
     party_members: t.Sequence[
         "DestinyProfileTransitoryPartyMember"
     ]  # If you have any members currently in your party, this is some (very) bare-bones information about those members.
     tracking: t.Sequence[
         "DestinyProfileTransitoryTrackingEntry"
     ]  # Information about tracked entities.
+    last_orbited_destination_hash: t.Optional[
+        int
+    ] = None  # The hash identifier for the DestinyDestinationDefinition of the last location you were orbiting when in orbit.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -92,12 +94,14 @@ class DestinyProfileTransitoryCurrentActivity:
     should be considered non-authoritative in comparison.
     """
 
-    end_time: str  # If you're still in it but it "ended" (like when folks are dancing around the loot after they beat a boss), this is when the activity ended.
     highest_opposing_faction_score: float  # If you have human opponents, this is the highest opposing team's score.
     number_of_opponents: int  # This is how many human or poorly crafted aimbot opponents you have.
     number_of_players: int  # This is how many human or poorly crafted aimbots are on your team.
     score: float  # This is what our non-authoritative source thought the score was.
-    start_time: str  # When the activity started.
+    end_time: t.Optional[
+        str
+    ] = None  # If you're still in it but it "ended" (like when folks are dancing around the loot after they beat a boss), this is when the activity ended.
+    start_time: t.Optional[str] = None  # When the activity started.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -141,12 +145,24 @@ class DestinyProfileTransitoryTrackingEntry:
     combinations of these entries have values being tracked.
     """
 
-    activity_hash: int  # OPTIONAL - If this is tracking the status of a DestinyActivityDefinition, this is the identifier for that activity.
-    item_hash: int  # OPTIONAL - If this is tracking the status of a DestinyInventoryItemDefinition, this is the identifier for that item.
-    location_hash: int  # OPTIONAL - If this is tracking a DestinyLocationDefinition, this is the identifier for that location.
-    objective_hash: int  # OPTIONAL - If this is tracking the status of a DestinyObjectiveDefinition, this is the identifier for that objective.
-    questline_item_hash: int  # OPTIONAL - If this is tracking the status of a quest, this is the identifier for the DestinyInventoryItemDefinition that containst that questline data.
-    tracked_date: str  # OPTIONAL - I've got to level with you, I don't really know what this is. Is it when you started tracking it? Is it only populated for tracked items that have time limits? I don't know, but we can get at it - when I get time to actually test what it is, I'll update this. In the meantime, bask in the mysterious data.
+    activity_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a DestinyActivityDefinition, this is the identifier for that activity.
+    item_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a DestinyInventoryItemDefinition, this is the identifier for that item.
+    location_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking a DestinyLocationDefinition, this is the identifier for that location.
+    objective_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a DestinyObjectiveDefinition, this is the identifier for that objective.
+    questline_item_hash: t.Optional[
+        int
+    ] = None  # OPTIONAL - If this is tracking the status of a quest, this is the identifier for the DestinyInventoryItemDefinition that containst that questline data.
+    tracked_date: t.Optional[
+        str
+    ] = None  # OPTIONAL - I've got to level with you, I don't really know what this is. Is it when you started tracking it? Is it only populated for tracked items that have time limits? I don't know, but we can get at it - when I get time to actually test what it is, I'll update this. In the meantime, bask in the mysterious data.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

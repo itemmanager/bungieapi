@@ -21,11 +21,13 @@ class DestinyCollectibleDefinition:
     presentation_node_type: "DestinyPresentationNodeType"
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
     scope: "DestinyScope"  # Indicates whether the state of this Collectible is determined on a per-character or on an account-wide basis.
-    source_hash: int  # This is a hash identifier we are building on the BNet side in an attempt to let people group collectibles by similar sources. I can't promise that it's going to be 100% accurate, but if the designers were consistent in assigning the same source strings to items with the same sources, it *ought to* be. No promises though. This hash also doesn't relate to an actual definition, just to note: we've got nothing useful other than the source string for this data.
     source_string: str  # A human readable string for a hint about how to acquire the item.
     state_info: "DestinyCollectibleStateBlock"
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
+    source_hash: t.Optional[
+        int
+    ] = None  # This is a hash identifier we are building on the BNet side in an attempt to let people group collectibles by similar sources. I can't promise that it's going to be 100% accurate, but if the designers were consistent in assigning the same source strings to items with the same sources, it *ought to* be. No promises though. This hash also doesn't relate to an actual definition, just to note: we've got nothing useful other than the source string for this data.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -49,8 +51,8 @@ class DestinyCollectibleDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleAcquisitionBlock:
-    acquire_material_requirement_hash: int
-    acquire_timestamp_unlock_value_hash: int
+    acquire_material_requirement_hash: t.Optional[int] = None
+    acquire_timestamp_unlock_value_hash: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -65,8 +67,8 @@ class DestinyCollectibleAcquisitionBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleStateBlock:
-    obscured_override_item_hash: int
     requirements: "DestinyPresentationNodeRequirementsBlock"
+    obscured_override_item_hash: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

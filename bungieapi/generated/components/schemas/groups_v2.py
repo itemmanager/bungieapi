@@ -15,7 +15,6 @@ class GroupUserInfoCard:
         "BungieMembershipType"
     ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
     bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
     cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
     display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
     icon_path: str  # URL the Icon if available.
@@ -23,6 +22,9 @@ class GroupUserInfoCard:
     membership_id: int  # Membership ID as they user is known in the Accounts service
     membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
     supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -83,7 +85,6 @@ class GroupV2:
     allow_chat: bool
     avatar_image_index: int
     avatar_path: str
-    ban_expire_date: str
     banner_path: str
     chat_security: "ChatSecuritySetting"
     clan_info: "GroupV2ClanInfoAndInvestment"
@@ -107,6 +108,7 @@ class GroupV2:
     name: str
     tags: t.Sequence[str]
     theme: str
+    ban_expire_date: t.Optional[str] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -443,7 +445,6 @@ class GroupQuery:
 
     creation_date: "GroupDateRange"
     current_page: int
-    group_member_count_filter: int
     group_type: "GroupType"
     items_per_page: int
     locale_filter: str
@@ -451,6 +452,7 @@ class GroupQuery:
     request_continuation_token: str
     sort_by: "GroupSortBy"
     tag_text: str
+    group_member_count_filter: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -514,21 +516,21 @@ class GroupOptionalConversation:
 @dt.dataclass(frozen=True)
 class GroupEditAction:
     about: str
-    allow_chat: bool
-    avatar_image_index: int
     callsign: str
-    chat_security: int
-    default_publicity: int
-    enable_invitation_messaging_for_admins: bool
-    homepage: int
-    is_public: bool
-    is_public_topic_admin_only: bool
     locale: str
-    membership_option: int
     motto: str
     name: str
     tags: str
     theme: str
+    allow_chat: t.Optional[bool] = None
+    avatar_image_index: t.Optional[int] = None
+    chat_security: t.Optional[int] = None
+    default_publicity: t.Optional[int] = None
+    enable_invitation_messaging_for_admins: t.Optional[bool] = None
+    homepage: t.Optional[int] = None
+    is_public: t.Optional[bool] = None
+    is_public_topic_admin_only: t.Optional[bool] = None
+    membership_option: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -555,11 +557,21 @@ class GroupEditAction:
 
 @dt.dataclass(frozen=True)
 class GroupOptionsEditAction:
-    host_guided_game_permission_override: int  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
-    invite_permission_override: bool  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    join_level: int  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
-    update_banner_permission_override: bool  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    update_culture_permission_override: bool  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    host_guided_game_permission_override: t.Optional[
+        int
+    ] = None  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
+    invite_permission_override: t.Optional[
+        bool
+    ] = None  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    join_level: t.Optional[
+        int
+    ] = None  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
+    update_banner_permission_override: t.Optional[
+        bool
+    ] = None  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    update_culture_permission_override: t.Optional[
+        bool
+    ] = None  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -591,9 +603,9 @@ class GroupOptionalConversationAddRequest:
 
 @dt.dataclass(frozen=True)
 class GroupOptionalConversationEditRequest:
-    chat_enabled: bool
     chat_name: str
-    chat_security: int
+    chat_enabled: t.Optional[bool] = None
+    chat_security: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -658,10 +670,10 @@ class GroupMemberApplication:
     destiny_user_info: "GroupUserInfoCard"
     group_id: int
     request_message: str
-    resolve_date: str
     resolve_message: str
     resolve_state: "GroupApplicationResolveState"
-    resolved_by_membership_id: int
+    resolve_date: t.Optional[str] = None
+    resolved_by_membership_id: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

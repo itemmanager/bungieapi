@@ -11,10 +11,12 @@ class UserMembership:
     """Very basic info about a user as returned by the Account server."""
 
     bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
     display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
     membership_id: int  # Membership ID as they user is known in the Accounts service
     membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -40,12 +42,14 @@ class CrossSaveUserMembership:
         "BungieMembershipType"
     ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
     bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
     cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
     display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
     is_public: bool  # If True, this is a public user membership.
     membership_id: int  # Membership ID as they user is known in the Accounts service
     membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -79,7 +83,6 @@ class UserInfoCard:
         "BungieMembershipType"
     ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
     bungie_global_display_name: str  # The bungie global display name, if set.
-    bungie_global_display_name_code: int  # The bungie global display name code, if set.
     cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
     display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
     icon_path: str  # URL the Icon if available.
@@ -87,6 +90,9 @@ class UserInfoCard:
     membership_id: int  # Membership ID as they user is known in the Accounts service
     membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
     supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
+    bungie_global_display_name_code: t.Optional[
+        int
+    ] = None  # The bungie global display name code, if set.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -110,27 +116,20 @@ class GeneralUser:
     about: str
     blizzard_display_name: str
     cached_bungie_global_display_name: str
-    cached_bungie_global_display_name_code: int
     context: "UserToUserContext"
     display_name: str
     fb_display_name: str
-    first_access: str
     is_deleted: bool
-    last_ban_report_id: int
-    last_update: str
-    legacy_portal_uid: int
     locale: str
     locale_inherit_default: bool
     membership_id: int
     normalized_name: str
-    profile_ban_expire: str
     profile_picture: int
     profile_picture_path: str
     profile_picture_wide_path: str
     profile_theme: int
     profile_theme_name: str
     psn_display_name: str
-    show_activity: bool
     show_group_messaging: bool
     stadia_display_name: str
     status_date: str
@@ -142,6 +141,13 @@ class GeneralUser:
     user_title: int
     user_title_display: str
     xbox_display_name: str
+    cached_bungie_global_display_name_code: t.Optional[int] = None
+    first_access: t.Optional[str] = None
+    last_ban_report_id: t.Optional[int] = None
+    last_update: t.Optional[str] = None
+    legacy_portal_uid: t.Optional[int] = None
+    profile_ban_expire: t.Optional[str] = None
+    show_activity: t.Optional[bool] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -189,9 +195,9 @@ class GeneralUser:
 
 @dt.dataclass(frozen=True)
 class UserToUserContext:
-    global_ignore_end_date: str
     ignore_status: "IgnoreResponse"
     is_following: bool
+    global_ignore_end_date: t.Optional[str] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -207,7 +213,9 @@ class UserMembershipData:
     destiny_memberships: t.Sequence[
         "GroupUserInfoCard"
     ]  # this allows you to see destiny memberships that are visible and linked to this account (regardless of whether or not they have characters on the world server)
-    primary_membership_id: int  # If this property is populated, it will have the membership ID of the account considered to be "primary" in this user's cross save relationship.  If null, this user has no cross save relationship, nor primary account.
+    primary_membership_id: t.Optional[
+        int
+    ] = None  # If this property is populated, it will have the membership ID of the account considered to be "primary" in this user's cross save relationship.  If null, this user has no cross save relationship, nor primary account.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -219,10 +227,10 @@ class UserMembershipData:
 
 @dt.dataclass(frozen=True)
 class HardLinkedUserMembership:
-    cross_save_overridden_membership_id: int
     cross_save_overridden_type: "BungieMembershipType"
     membership_id: int
     membership_type: "BungieMembershipType"
+    cross_save_overridden_membership_id: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -252,9 +260,9 @@ class UserSearchResponse:
 @dt.dataclass(frozen=True)
 class UserSearchResponseDetail:
     bungie_global_display_name: str
-    bungie_global_display_name_code: int
-    bungie_net_membership_id: int
     destiny_memberships: t.Sequence["UserInfoCard"]
+    bungie_global_display_name_code: t.Optional[int] = None
+    bungie_net_membership_id: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

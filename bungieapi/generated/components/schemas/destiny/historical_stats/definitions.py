@@ -99,8 +99,6 @@ class DestinyHistoricalStatsDefinition:
     category: "DestinyStatsCategoryType"  # Category for the stat.
     group: "DestinyStatsGroupType"  # Statistic group
     icon_image: str  # Optional URI to an icon for the statistic
-    medal_tier_hash: int  # The tier associated with this medal - be it implicitly or explicitly.
-    merge_method: int  # Optional icon for the statistic
     modes: t.Sequence[
         "DestinyActivityModeType"
     ]  # Game modes where this statistic can be reported.
@@ -112,6 +110,10 @@ class DestinyHistoricalStatsDefinition:
     unit_label: str  # Localized Unit Name for the stat.
     unit_type: "UnitType"  # Unit, if any, for the statistic
     weight: int  # Weight assigned to this stat indicating its relative impressiveness.
+    medal_tier_hash: t.Optional[
+        int
+    ] = None  # The tier associated with this medal - be it implicitly or explicitly.
+    merge_method: t.Optional[int] = None  # Optional icon for the statistic
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

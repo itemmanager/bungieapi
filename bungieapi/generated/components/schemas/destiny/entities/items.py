@@ -13,25 +13,35 @@ class DestinyItemComponent:
 
     bind_status: "ItemBindStatus"  # If the item is bound to a location, it will be specified in this enum.
     bucket_hash: int  # The hash identifier for the specific inventory bucket in which the item is located.
-    expiration_date: str  # If the item can expire, this is the date at which it will/did expire.
     is_wrapper: bool  # If this is true, the object is actually a "wrapper" of the object it's representing. This means that it's not the actual item itself, but rather an item that must be "opened" in game before you have and can use the item.  Wrappers are an evolution of "bundles", which give an easy way to let you preview the contents of what you purchased while still letting you get a refund before you "open" it.
     item_hash: int  # The identifier for the item's definition, which is where most of the useful static information for the item can be found.
-    item_instance_id: int  # If the item is instanced, it will have an instance ID. Lack of an instance ID implies that the item has no distinct local qualities aside from stack size.
     item_value_visibility: t.Sequence[
         bool
     ]  # If available, a list that describes which item values (rewards) should be shown (true) or hidden (false).
     location: "ItemLocation"  # An easy reference for where the item is located. Redundant if you got the item from an Inventory, but useful when making detail calls on specific items.
     lockable: bool  # If the item can be locked, this will indicate that state.
-    metric_hash: int  # The identifier for the currently-selected metric definition, to be displayed on the emblem nameplate.
     metric_objective: "DestinyObjectiveProgress"  # The objective progress for the currently-selected metric definition, to be displayed on the emblem nameplate.
-    override_style_item_hash: int  # If populated, this is the hash of the item whose icon (and other secondary styles, but *not* the human readable strings) should override whatever icons/styles are on the item being sold. If you don't do this, certain items whose styles are being overridden by socketed items - such as the "Recycle Shader" item - would show whatever their default icon/style is, and it wouldn't be pretty or look accurate.
     quantity: int  # The quantity of the item in this stack. Note that Instanced items cannot stack. If an instanced item, this value will always be 1 (as the stack has exactly one item in it)
     state: "ItemState"  # A flags enumeration indicating the transient/custom states of the item that affect how it is rendered: whether it's tracked or locked for example, or whether it has a masterwork plug inserted.
     tooltip_notification_indexes: t.Sequence[
         int
     ]  # If this is populated, it is a list of indexes into DestinyInventoryItemDefinition.tooltipNotifications for any special tooltip messages that need to be shown for this item.
     transfer_status: "TransferStatuses"  # If there is a known error state that would cause this item to not be transferable, this Flags enum will indicate all of those error states. Otherwise, it will be 0 (CanTransfer).
-    version_number: int  # The version of this item, used to index into the versions list in the item definition quality block.
+    expiration_date: t.Optional[
+        str
+    ] = None  # If the item can expire, this is the date at which it will/did expire.
+    item_instance_id: t.Optional[
+        int
+    ] = None  # If the item is instanced, it will have an instance ID. Lack of an instance ID implies that the item has no distinct local qualities aside from stack size.
+    metric_hash: t.Optional[
+        int
+    ] = None  # The identifier for the currently-selected metric definition, to be displayed on the emblem nameplate.
+    override_style_item_hash: t.Optional[
+        int
+    ] = None  # If populated, this is the hash of the item whose icon (and other secondary styles, but *not* the human readable strings) should override whatever icons/styles are on the item being sold. If you don't do this, certain items whose styles are being overridden by socketed items - such as the "Recycle Shader" item - would show whatever their default icon/style is, and it wouldn't be pretty or look accurate.
+    version_number: t.Optional[
+        int
+    ] = None  # The version of this item, used to index into the versions list in the item definition quality block.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -81,11 +91,13 @@ class DestinyItemObjectivesComponent:
     Objectives and progression tied to this item.
     """
 
-    date_completed: str  # If we have any information on when these objectives were completed, this will be the date of that completion. This won't be on many items, but could be interesting for some items that do store this information.
     flavor_objective: "DestinyObjectiveProgress"  # I may regret naming it this way - but this represents when an item has an objective that doesn't serve a beneficial purpose, but rather is used for "flavor" or additional information. For instance, when Emblems track specific stats, those stats are represented as Objectives on the item.
     objectives: t.Sequence[
         "DestinyObjectiveProgress"
     ]  # If the item has a hard association with objectives, your progress on them will be defined here.  Objectives are our standard way to describe a series of tasks that have to be completed for a reward.
+    date_completed: t.Optional[
+        str
+    ] = None  # If we have any information on when these objectives were completed, this will be the date of that completion. This won't be on many items, but could be interesting for some items that do store this information.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -111,12 +123,9 @@ class DestinyItemInstanceComponent:
     definition.inventory.isInstanceItem property.
     """
 
-    breaker_type: int  # If populated, this item has a breaker type corresponding to the given value. See DestinyBreakerTypeDefinition for more details.
-    breaker_type_hash: int  # If populated, this is the hash identifier for the item's breaker type. See DestinyBreakerTypeDefinition for more details.
     can_equip: bool  # If this is an equippable item, you can check it here. There are permanent as well as transitory reasons why an item might not be able to be equipped: check cannotEquipReason for details.
     cannot_equip_reason: "EquipFailureReason"  # If you cannot equip the item, this is a flags enum that enumerates all of the reasons why you couldn't equip the item. You may need to refine your UI further by using unlockHashesRequiredToEquip and equipRequiredLevel.
     damage_type: "DamageType"  # If the item has a damage type, this is the item's current damage type.
-    damage_type_hash: int  # The current damage type's hash, so you can look up localized info and icons for it.
     energy: "DestinyItemInstanceEnergy"  # IF populated, this item supports Energy mechanics (i.e. Armor 2.0), and these are the current details of its energy type and available capacity to spend energy points.
     equip_required_level: int  # If the item cannot be equipped until you reach a certain level, that level will be reflected here.
     is_equipped: bool  # Is the item currently equipped on the given character?
@@ -126,6 +135,15 @@ class DestinyItemInstanceComponent:
     unlock_hashes_required_to_equip: t.Sequence[
         int
     ]  # Sometimes, there are limitations to equipping that are represented by character-level flags called "unlocks". This is a list of flags that they need in order to equip the item that the character has not met. Use these to look up the descriptions to show in your UI by looking up the relevant DestinyUnlockDefinitions for the hashes.
+    breaker_type: t.Optional[
+        int
+    ] = None  # If populated, this item has a breaker type corresponding to the given value. See DestinyBreakerTypeDefinition for more details.
+    breaker_type_hash: t.Optional[
+        int
+    ] = None  # If populated, this is the hash identifier for the item's breaker type. See DestinyBreakerTypeDefinition for more details.
+    damage_type_hash: t.Optional[
+        int
+    ] = None  # The current damage type's hash, so you can look up localized info and icons for it.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -238,7 +256,9 @@ class DestinyItemSocketState:
     ]  # If a plug is inserted but not enabled, this will be populated with indexes into the plug item definition's plug.enabledRules property, so that you can show the reasons why it is not enabled.
     is_enabled: bool  # Even if a plug is inserted, it doesn't mean it's enabled. This flag indicates whether the plug is active and providing its benefits.
     is_visible: bool  # A plug may theoretically provide benefits but not be visible - for instance, some older items use a plug's damage type perk to modify their own damage type. These, though they are not visible, still affect the item. This field indicates that state. An invisible plug, while it provides benefits if it is Enabled, cannot be directly modified by the user.
-    plug_hash: int  # The currently active plug, if any. Note that, because all plugs are statically defined, its effect on stats and perks can be statically determined using the plug item's definition. The stats and perks can be taken at face value on the plug item as the stats and perks it will provide to the user/item.
+    plug_hash: t.Optional[
+        int
+    ] = None  # The currently active plug, if any. Note that, because all plugs are statically defined, its effect on stats and perks can be statically determined using the plug item's definition. The stats and perks can be taken at face value on the plug item as the stats and perks it will provide to the user/item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

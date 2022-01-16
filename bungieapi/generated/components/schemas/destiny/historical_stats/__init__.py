@@ -12,10 +12,12 @@ class DestinyPostGameCarnageReportData:
         "DestinyPostGameCarnageReportEntry"
     ]  # Collection of players and their data for this activity.
     period: str  # Date and time for the activity.
-    starting_phase_index: int  # If this activity has "phases", this is the phase at which the activity was started.
     teams: t.Sequence[
         "DestinyPostGameCarnageReportTeamEntry"
     ]  # Collection of stats for the player in this activity.
+    starting_phase_index: t.Optional[
+        int
+    ] = None  # If this activity has "phases", this is the phase at which the activity was started.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -77,11 +79,13 @@ class DestinyPostGameCarnageReportEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValue:
-    activity_id: int  # When a stat represents the best, most, longest, fastest or some other personal best, the actual activity ID where that personal best was established is available on this property.
     basic: "DestinyHistoricalStatsValuePair"  # Basic stat value.
     pga: "DestinyHistoricalStatsValuePair"  # Per game average for the statistic, if applicable
     stat_id: str  # Unique ID for this stat
     weighted: "DestinyHistoricalStatsValuePair"  # Weighted value of the stat if a weight greater than 1 has been assigned.
+    activity_id: t.Optional[
+        int
+    ] = None  # When a stat represents the best, most, longest, fastest or some other personal best, the actual activity ID where that personal best was established is available on this property.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -211,8 +215,12 @@ class DestinyLeaderboardEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardResults:
-    focus_character_id: int  # Indicate the character ID of the character that is the focal point of the provided leaderboards. May be null, in which case any character from the focus membership can appear in the provided leaderboards.
-    focus_membership_id: int  # Indicate the membership ID of the account that is the focal point of the provided leaderboards.
+    focus_character_id: t.Optional[
+        int
+    ] = None  # Indicate the character ID of the character that is the focal point of the provided leaderboards. May be null, in which case any character from the focus membership can appear in the provided leaderboards.
+    focus_membership_id: t.Optional[
+        int
+    ] = None  # Indicate the membership ID of the account that is the focal point of the provided leaderboards.
     additional: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]] = dt.field(
         default_factory=dict
     )

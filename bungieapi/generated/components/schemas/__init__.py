@@ -230,8 +230,8 @@ class SearchResultOfGroupPotentialMembership:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorReceiptsComponent:
     data: "DestinyVendorReceiptsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -244,8 +244,8 @@ class SingleComponentResponseOfDestinyVendorReceiptsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyInventoryComponent:
     data: "DestinyInventoryComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -258,8 +258,8 @@ class SingleComponentResponseOfDestinyInventoryComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileComponent:
     data: "DestinyProfileComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -272,8 +272,8 @@ class SingleComponentResponseOfDestinyProfileComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPlatformSilverComponent:
     data: "DestinyPlatformSilverComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -286,8 +286,8 @@ class SingleComponentResponseOfDestinyPlatformSilverComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyKiosksComponent:
     data: "DestinyKiosksComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -300,8 +300,8 @@ class SingleComponentResponseOfDestinyKiosksComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPlugSetsComponent:
     data: "DestinyPlugSetsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -314,8 +314,8 @@ class SingleComponentResponseOfDestinyPlugSetsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileProgressionComponent:
     data: "DestinyProfileProgressionComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -328,8 +328,8 @@ class SingleComponentResponseOfDestinyProfileProgressionComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyPresentationNodesComponent:
     data: "DestinyPresentationNodesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -342,8 +342,8 @@ class SingleComponentResponseOfDestinyPresentationNodesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileRecordsComponent:
     data: "DestinyProfileRecordsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -356,8 +356,8 @@ class SingleComponentResponseOfDestinyProfileRecordsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileCollectiblesComponent:
     data: "DestinyProfileCollectiblesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -370,8 +370,8 @@ class SingleComponentResponseOfDestinyProfileCollectiblesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyProfileTransitoryComponent:
     data: "DestinyProfileTransitoryComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -384,8 +384,8 @@ class SingleComponentResponseOfDestinyProfileTransitoryComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyMetricsComponent:
     data: "DestinyMetricsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -398,8 +398,8 @@ class SingleComponentResponseOfDestinyMetricsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyStringVariablesComponent:
     data: "DestinyStringVariablesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -412,8 +412,8 @@ class SingleComponentResponseOfDestinyStringVariablesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
     data: t.Mapping[str, "DestinyCharacterComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -426,8 +426,8 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyInventoryComponent:
     data: t.Mapping[str, "DestinyInventoryComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -440,8 +440,8 @@ class DictionaryComponentResponseOfint64AndDestinyInventoryComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent:
     data: t.Mapping[str, "DestinyCharacterProgressionComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -454,8 +454,8 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent:
     data: t.Mapping[str, "DestinyCharacterRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -468,8 +468,8 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent:
     data: t.Mapping[str, "DestinyCharacterActivitiesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -482,8 +482,8 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyKiosksComponent:
     data: t.Mapping[str, "DestinyKiosksComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -496,8 +496,8 @@ class DictionaryComponentResponseOfint64AndDestinyKiosksComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent:
     data: t.Mapping[str, "DestinyPlugSetsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -522,8 +522,8 @@ class DestinyBaseItemComponentSetOfuint32:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent:
     data: t.Mapping[str, "DestinyItemObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -536,8 +536,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent:
     data: t.Mapping[str, "DestinyItemPerksComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -550,8 +550,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent:
     data: t.Mapping[str, "DestinyPresentationNodesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -564,8 +564,8 @@ class DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent:
     data: t.Mapping[str, "DestinyCharacterRecordsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -578,8 +578,8 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent:
     data: t.Mapping[str, "DestinyCollectiblesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -592,8 +592,8 @@ class DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent:
     data: t.Mapping[str, "DestinyStringVariablesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -618,8 +618,8 @@ class DestinyBaseItemComponentSetOfint64:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent:
     data: t.Mapping[str, "DestinyItemObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -632,8 +632,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemPerksComponent:
     data: t.Mapping[str, "DestinyItemPerksComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -674,8 +674,8 @@ class DestinyItemComponentSetOfint64:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent:
     data: t.Mapping[str, "DestinyItemInstanceComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -688,8 +688,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemRenderComponent:
     data: t.Mapping[str, "DestinyItemRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -702,8 +702,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemRenderComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemStatsComponent:
     data: t.Mapping[str, "DestinyItemStatsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -716,8 +716,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemStatsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent:
     data: t.Mapping[str, "DestinyItemSocketsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -730,8 +730,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent:
     data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -744,8 +744,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent:
     data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -758,8 +758,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent:
     data: t.Mapping[str, "DestinyItemTalentGridComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -772,8 +772,8 @@ class DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent:
     data: t.Mapping[str, "DestinyItemPlugComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -786,8 +786,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent:
     data: t.Mapping[str, "DestinyCurrenciesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -800,8 +800,8 @@ class DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterComponent:
     data: "DestinyCharacterComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -814,8 +814,8 @@ class SingleComponentResponseOfDestinyCharacterComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterProgressionComponent:
     data: "DestinyCharacterProgressionComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -828,8 +828,8 @@ class SingleComponentResponseOfDestinyCharacterProgressionComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterRenderComponent:
     data: "DestinyCharacterRenderComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -842,8 +842,8 @@ class SingleComponentResponseOfDestinyCharacterRenderComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterActivitiesComponent:
     data: "DestinyCharacterActivitiesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -856,8 +856,8 @@ class SingleComponentResponseOfDestinyCharacterActivitiesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterRecordsComponent:
     data: "DestinyCharacterRecordsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -870,8 +870,8 @@ class SingleComponentResponseOfDestinyCharacterRecordsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCollectiblesComponent:
     data: "DestinyCollectiblesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -884,8 +884,8 @@ class SingleComponentResponseOfDestinyCollectiblesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCurrenciesComponent:
     data: "DestinyCurrenciesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -898,8 +898,8 @@ class SingleComponentResponseOfDestinyCurrenciesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemComponent:
     data: "DestinyItemComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -912,8 +912,8 @@ class SingleComponentResponseOfDestinyItemComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemInstanceComponent:
     data: "DestinyItemInstanceComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -926,8 +926,8 @@ class SingleComponentResponseOfDestinyItemInstanceComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemObjectivesComponent:
     data: "DestinyItemObjectivesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -940,8 +940,8 @@ class SingleComponentResponseOfDestinyItemObjectivesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemPerksComponent:
     data: "DestinyItemPerksComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -954,8 +954,8 @@ class SingleComponentResponseOfDestinyItemPerksComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemRenderComponent:
     data: "DestinyItemRenderComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -968,8 +968,8 @@ class SingleComponentResponseOfDestinyItemRenderComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemStatsComponent:
     data: "DestinyItemStatsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -982,8 +982,8 @@ class SingleComponentResponseOfDestinyItemStatsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemTalentGridComponent:
     data: "DestinyItemTalentGridComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -996,8 +996,8 @@ class SingleComponentResponseOfDestinyItemTalentGridComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemSocketsComponent:
     data: "DestinyItemSocketsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1010,8 +1010,8 @@ class SingleComponentResponseOfDestinyItemSocketsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemReusablePlugsComponent:
     data: "DestinyItemReusablePlugsComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1024,8 +1024,8 @@ class SingleComponentResponseOfDestinyItemReusablePlugsComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyItemPlugObjectivesComponent:
     data: "DestinyItemPlugObjectivesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1038,8 +1038,8 @@ class SingleComponentResponseOfDestinyItemPlugObjectivesComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorGroupComponent:
     data: "DestinyVendorGroupComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1052,8 +1052,8 @@ class SingleComponentResponseOfDestinyVendorGroupComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyVendorComponent:
     data: t.Mapping[str, "DestinyVendorComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1066,8 +1066,8 @@ class DictionaryComponentResponseOfuint32AndDestinyVendorComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent:
     data: t.Mapping[str, "DestinyVendorCategoriesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1090,8 +1090,8 @@ class DestinyVendorSaleItemSetComponentOfDestinyVendorSaleItemComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent:
     data: t.Mapping[str, "PersonalDestinyVendorSaleItemSetComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1116,8 +1116,8 @@ class DestinyBaseItemComponentSetOfint32:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent:
     data: t.Mapping[str, "DestinyItemObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1130,8 +1130,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemPerksComponent:
     data: t.Mapping[str, "DestinyItemPerksComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1172,8 +1172,8 @@ class DestinyItemComponentSetOfint32:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent:
     data: t.Mapping[str, "DestinyItemInstanceComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1186,8 +1186,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemRenderComponent:
     data: t.Mapping[str, "DestinyItemRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1200,8 +1200,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemRenderComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemStatsComponent:
     data: t.Mapping[str, "DestinyItemStatsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1214,8 +1214,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemStatsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent:
     data: t.Mapping[str, "DestinyItemSocketsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1228,8 +1228,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent:
     data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1242,8 +1242,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent:
     data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1256,8 +1256,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent:
     data: t.Mapping[str, "DestinyItemTalentGridComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1270,8 +1270,8 @@ class DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorComponent:
     data: "DestinyVendorComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1284,8 +1284,8 @@ class SingleComponentResponseOfDestinyVendorComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyVendorCategoriesComponent:
     data: "DestinyVendorCategoriesComponent"
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1298,8 +1298,8 @@ class SingleComponentResponseOfDestinyVendorCategoriesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent:
     data: t.Mapping[str, "DestinyVendorSaleItemComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1312,8 +1312,8 @@ class DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent:
     data: t.Mapping[str, "DestinyPublicVendorComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1336,8 +1336,8 @@ class DestinyVendorSaleItemSetComponentOfDestinyPublicVendorSaleItemComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent:
     data: t.Mapping[str, "PublicDestinyVendorSaleItemSetComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1378,8 +1378,8 @@ class DestinyItemComponentSetOfuint32:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent:
     data: t.Mapping[str, "DestinyItemInstanceComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1392,8 +1392,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent:
     data: t.Mapping[str, "DestinyItemRenderComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1406,8 +1406,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent:
     data: t.Mapping[str, "DestinyItemStatsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1420,8 +1420,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent:
     data: t.Mapping[str, "DestinyItemSocketsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1434,8 +1434,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent:
     data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1448,8 +1448,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent:
     data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1462,8 +1462,8 @@ class DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfuint32AndDestinyItemTalentGridComponent:
     data: t.Mapping[str, "DestinyItemTalentGridComponent"]
-    disabled: bool  # If true, this component is disabled.
     privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = None  # If true, this component is disabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

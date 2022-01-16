@@ -37,9 +37,7 @@ class TrendingEntry:
     Returns just enough to show the item on the trending page.
     """
 
-    creation_date: str  # If the entry has a date at which it was created, this is that date.
     display_name: str  # The localized "display name/article title/'primary localized identifier'" of the entity.
-    end_date: str
     entity_type: "TrendingEntryType"  # An enum - unfortunately - dictating all of the possible kinds of trending items that you might get in your result set, in case you want to do custom rendering or call to get the details of the item.
     feature_image: str  # If isFeatured, this image will be populated with whatever the featured image is. Note that this will likely be a very large image, so don't use it all the time.
     identifier: str  # We don't know whether the identifier will be a string, a uint, or a long... so we're going to cast it all to a string. But either way, we need any trending item created to have a single unique identifier for its type.
@@ -50,10 +48,14 @@ class TrendingEntry:
     ]  # If the item is of entityType TrendingEntryType.Container, it may have items - also Trending Entries - contained within it. This is the ordered list of those to display under the Container's header.
     link: str
     mp4_video: str  # If this is populated, the entry has a related MP4 video to show. I am 100% certain I am going to regret putting this directly on TrendingEntry, but it will work so yolo
-    start_date: str
     tagline: str  # If the entity has a localized tagline/subtitle/motto/whatever, that is found here.
     webm_video: str  # If this is populated, the entry has a related WebM video to show. I am 100% certain I am going to regret putting this directly on TrendingEntry, but it will work so yolo
     weight: float  # The weighted score of this trending item.
+    creation_date: t.Optional[
+        str
+    ] = None  # If the entry has a date at which it was created, this is that date.
+    end_date: t.Optional[str] = None
+    start_date: t.Optional[str] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -160,14 +162,14 @@ class TrendingEntryDestinyActivity:
 
 @dt.dataclass(frozen=True)
 class TrendingEntryDestinyRitual:
-    date_end: str
-    date_start: str
     event_content: "DestinyMilestoneContent"  # A destiny event will not necessarily have milestone "custom content", but if it does the details will be here.
     icon: str
     image: str
     milestone_details: "DestinyPublicMilestone"  # A destiny event does not necessarily have a related Milestone, but if it does the details will be returned here.
     subtitle: str
     title: str
+    date_end: t.Optional[str] = None
+    date_start: t.Optional[str] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

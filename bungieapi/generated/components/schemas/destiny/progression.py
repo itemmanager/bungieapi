@@ -15,7 +15,6 @@ class DestinyFactionProgression:
     """
 
     current_progress: int  # This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)
-    current_reset_count: int  # The number of resets of this progression you've executed this season, if applicable to this progression.
     daily_limit: int  # If this progression has a daily limit, this is that limit.
     daily_progress: int  # The amount of progress earned today for this progression.
     faction_hash: int  # The hash identifier of the Faction related to this progression. Use it to look up the DestinyFactionDefinition for more rendering info.
@@ -34,6 +33,9 @@ class DestinyFactionProgression:
     step_index: int  # Progressions define their levels in "steps". Since the last step may be repeatable, the user may be at a higher level than the actual Step achieved in the progression. Not necessarily useful, but potentially interesting for those cruising the API. Relate this to the "steps" property of the DestinyProgression to see which step the user is on, if you care about that. (Note that this is Content Version dependent since it refers to indexes.)
     weekly_limit: int  # If this progression has a weekly limit, this is that limit.
     weekly_progress: int  # The amount of progress earned toward this progression in the current week.
+    current_reset_count: t.Optional[
+        int
+    ] = None  # The number of resets of this progression you've executed this season, if applicable to this progression.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

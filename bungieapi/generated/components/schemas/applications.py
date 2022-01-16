@@ -57,8 +57,8 @@ class Series:
 
 @dt.dataclass(frozen=True)
 class Datapoint:
-    count: float  # Count associated with timestamp
     time: str  # Timestamp for the related count.
+    count: t.Optional[float] = None  # Count associated with timestamp
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

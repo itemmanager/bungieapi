@@ -20,13 +20,13 @@ class BungieFriendListResponse:
 @dt.dataclass(frozen=True)
 class BungieFriend:
     bungie_global_display_name: str
-    bungie_global_display_name_code: int
     bungie_net_user: "GeneralUser"
     last_seen_as_bungie_membership_type: "BungieMembershipType"
     last_seen_as_membership_id: int
     online_status: "PresenceStatus"
     online_title: "PresenceOnlineStateFlags"
     relationship: "FriendRelationshipState"
+    bungie_global_display_name_code: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -101,12 +101,12 @@ class PlatformFriendResponse:
 @dt.dataclass(frozen=True)
 class PlatformFriend:
     bungie_global_display_name: str
-    bungie_global_display_name_code: int
-    bungie_net_membership_id: int
-    destiny_membership_id: int
-    destiny_membership_type: int
     friend_platform: "PlatformFriendType"
     platform_display_name: str
+    bungie_global_display_name_code: t.Optional[int] = None
+    bungie_net_membership_id: t.Optional[int] = None
+    destiny_membership_id: t.Optional[int] = None
+    destiny_membership_type: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
