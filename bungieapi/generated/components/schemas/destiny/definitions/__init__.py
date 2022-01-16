@@ -11,9 +11,22 @@ from bungieapi.types import BitMask, ManifestReference
 class DestinyDefinition:
     """Provides common properties for destiny definitions."""
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -49,23 +62,69 @@ class DestinyProgressionDefinition:
     you don't have to worry about those.
     """
 
-    color: "DestinyColor"  # The #RGB string value for the color related to this progression, if there is one.
+    color: "DestinyColor" = dt.field(
+        metadata={
+            "description": "The #RGB string value for the color related to this progression, if there is one."
+        }
+    )
     display_properties: "DestinyProgressionDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    rank_icon: str  # For progressions that have it, this is the rank icon we use in the Companion, displayed above the progressions' rank value.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    repeat_last_step: bool  # If this is True, then the progression doesn't have a maximum level.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    rank_icon: str = dt.field(
+        metadata={
+            "description": "For progressions that have it, this is the rank icon we use in the Companion, displayed above the progressions' rank value."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    repeat_last_step: bool = dt.field(
+        metadata={
+            "description": "If this is True, then the progression doesn't have a maximum level."
+        }
+    )
     reward_items: t.Sequence["DestinyProgressionRewardItemQuantity"]
-    scope: "DestinyProgressionScope"  # The "Scope" of the progression indicates the source of the progression's live data. See the DestinyProgressionScope enum for more info: but essentially, a Progression can either be backed by a stored value, or it can be a calculated derivative of other values.
-    source: str  # If there's a description of how to earn this progression in the local config, this will be that localized description.
-    steps: t.Sequence[
-        "DestinyProgressionStepDefinition"
-    ]  # Progressions are divided into Steps, which roughly equate to "Levels" in the traditional sense of a Progression. Notably, the last step can be repeated indefinitely if repeatLastStep is true, meaning that the calculation for your level is not as simple as comparing your current progress to the max progress of the steps.  These and more calculations are done for you if you grab live character progression data, such as in the DestinyCharacterProgressionComponent.
-    visible: bool  # If true, the Progression is something worth showing to users. If false, BNet isn't going to show it. But that doesn't mean you can't. We're all friends here.
-    faction_hash: t.Optional[
-        ManifestReference["DestinyFactionDefinition"]
-    ] = None  # If the value exists, this is the hash identifier for the Faction that owns this Progression. This is purely for convenience, if you're looking at a progression and want to know if and who it's related to in terms of Faction Reputation.
+    scope: "DestinyProgressionScope" = dt.field(
+        metadata={
+            "description": """The "Scope" of the progression indicates the source of the progression's live data.
+See the DestinyProgressionScope enum for more info: but essentially, a Progression can either be backed by a stored value, or it can be a calculated derivative of other values."""
+        }
+    )
+    source: str = dt.field(
+        metadata={
+            "description": "If there's a description of how to earn this progression in the local config, this will be that localized description."
+        }
+    )
+    steps: t.Sequence["DestinyProgressionStepDefinition"] = dt.field(
+        metadata={
+            "description": """Progressions are divided into Steps, which roughly equate to "Levels" in the traditional sense of a Progression. Notably, the last step can be repeated indefinitely if repeatLastStep is true, meaning that the calculation for your level is not as simple as comparing your current progress to the max progress of the steps. 
+These and more calculations are done for you if you grab live character progression data, such as in the DestinyCharacterProgressionComponent."""
+        }
+    )
+    visible: bool = dt.field(
+        metadata={
+            "description": """If true, the Progression is something worth showing to users.
+If false, BNet isn't going to show it. But that doesn't mean you can't. We're all friends here."""
+        }
+    )
+    faction_hash: t.Optional[ManifestReference["DestinyFactionDefinition"]] = dt.field(
+        default=None,
+        metadata={
+            "description": """If the value exists, this is the hash identifier for the Faction that owns this Progression.
+This is purely for convenience, if you're looking at a progression and want to know if and who it's related to in terms of Faction Reputation."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -88,10 +147,24 @@ class DestinyProgressionDefinition:
 @dt.dataclass(frozen=True)
 class DestinyProgressionDisplayPropertiesDefinition:
     description: str
-    display_units_name: str  # When progressions show your "experience" gained, that bar has units (i.e. "Experience", "Bad Dudes Snuffed Out", whatever). This is the localized string for that unit of measurement.
+    display_units_name: str = dt.field(
+        metadata={
+            "description": 'When progressions show your "experience" gained, that bar has units (i.e. "Experience", "Bad Dudes Snuffed Out", whatever). This is the localized string for that unit of measurement.'
+        }
+    )
     has_icon: bool
-    high_res_icon: str  # If this item has a high-res icon (at least for now, many things won't), then the path to that icon will be here.
-    icon: str  # Note that "icon" is sometimes misleading, and should be interpreted in the context of the entity. For instance, in Destiny 1 the DestinyRecordBookDefinition's icon was a big picture of a book. But usually, it will be a small square image that you can use as... well, an icon. They are currently represented as 96px x 96px images.
+    high_res_icon: str = dt.field(
+        metadata={
+            "description": "If this item has a high-res icon (at least for now, many things won't), then the path to that icon will be here."
+        }
+    )
+    icon: str = dt.field(
+        metadata={
+            "description": """Note that "icon" is sometimes misleading, and should be interpreted in the context of the entity. For instance, in Destiny 1 the DestinyRecordBookDefinition's icon was a big picture of a book.
+But usually, it will be a small square image that you can use as... well, an icon.
+They are currently represented as 96px x 96px images."""
+        }
+    )
     icon_sequences: t.Sequence["DestinyIconSequenceDefinition"]
     name: str
 
@@ -115,13 +188,31 @@ class DestinyProgressionStepDefinition:
     See DestinyProgressionDefinition for caveats).
     """
 
-    display_effect_type: "DestinyProgressionStepDisplayEffect"  # This appears to be, when you "level up", whether a visual effect will display and on what entity. See DestinyProgressionStepDisplayEffect for slightly more info.
-    icon: str  # If this progression step has a specific icon related to it, this is the icon to show.
-    progress_total: int  # The total amount of progression points/"experience" you will need to initially reach this step. If this is the last step and the progression is repeating indefinitely (DestinyProgressionDefinition.repeatLastStep), this will also be the progress needed to level it up further by repeating this step again.
-    reward_items: t.Sequence[
-        "DestinyItemQuantity"
-    ]  # A listing of items rewarded as a result of reaching this level.
-    step_name: str  # Very rarely, Progressions will have localized text describing the Level of the progression. This will be that localized text, if it exists. Otherwise, the standard appears to be to simply show the level numerically.
+    display_effect_type: "DestinyProgressionStepDisplayEffect" = dt.field(
+        metadata={
+            "description": 'This appears to be, when you "level up", whether a visual effect will display and on what entity. See DestinyProgressionStepDisplayEffect for slightly more info.'
+        }
+    )
+    icon: str = dt.field(
+        metadata={
+            "description": "If this progression step has a specific icon related to it, this is the icon to show."
+        }
+    )
+    progress_total: int = dt.field(
+        metadata={
+            "description": 'The total amount of progression points/"experience" you will need to initially reach this step. If this is the last step and the progression is repeating indefinitely (DestinyProgressionDefinition.repeatLastStep), this will also be the progress needed to level it up further by repeating this step again.'
+        }
+    )
+    reward_items: t.Sequence["DestinyItemQuantity"] = dt.field(
+        metadata={
+            "description": "A listing of items rewarded as a result of reaching this level."
+        }
+    )
+    step_name: str = dt.field(
+        metadata={
+            "description": "Very rarely, Progressions will have localized text describing the Level of the progression. This will be that localized text, if it exists. Otherwise, the standard appears to be to simply show the level numerically."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -148,103 +239,342 @@ class DestinyInventoryItemDefinition:
     definitions.
     """
 
-    action: "DestinyItemActionBlockDefinition"  # If the item can be "used", this block will be non-null, and will have data related to the action performed when using the item. (Guess what? 99% of the time, this action is "dismantle". Shocker)
-    allow_actions: bool  # BNet may forbid the execution of actions on this item via the API. If that is occurring, allowActions will be set to false.
-    animations: t.Sequence[
-        "DestinyAnimationReference"
-    ]  # If any animations were extracted from game content for this item, these will be the definitions of those animations.
-    background_color: "DestinyColor"  # Sometimes, an item will have a background color. Most notably this occurs with Emblems, who use the Background Color for small character nameplates such as the "friends" view you see in-game. There are almost certainly other items that have background color as well, though I have not bothered to investigate what items have it nor what purposes they serve: use it as you will.
-    breaker_type: "DestinyBreakerType"  # Some weapons and plugs can have a "Breaker Type": a special ability that works sort of like damage type vulnerabilities. This is (almost?) always set on items by plugs.
-    class_type: "DestinyClass"  # We run a similarly weak-sauce algorithm to try and determine whether an item is restricted to a specific class. If we find it to be restricted in such a way, we set this classType property to match the class' enumeration value so that users can easily identify class restricted items. If you see a mis-classed item, please inform the developers in the Bungie API forum.
-    damage_type_hashes: t.Sequence[
-        int
-    ]  # Theoretically, an item can have many possible damage types. In *practice*, this is not true, but just in case weapons start being made that have multiple (for instance, an item where a socket has reusable plugs for every possible damage type that you can choose from freely), this field will return all of the possible damage types that are available to the weapon by default.
-    damage_types: t.Sequence[
-        "DamageType"
-    ]  # This is the list of all damage types that we know ahead of time the item can take on. Unfortunately, this does not preclude the possibility of something funky happening to give the item a damage type that cannot be predicted beforehand: for example, if some designer decides to create arbitrary non-reusable plugs that cause damage type to change. This damage type prediction will only use the following to determine potential damage types: - Intrinsic perks - Talent Node perks - Known, reusable plugs for sockets
-    default_damage_type: "DamageType"  # If the item has a damage type that could be considered to be default, it will be populated here. For various upsetting reasons, it's surprisingly cumbersome to figure this out. I hope you're happy.
+    action: "DestinyItemActionBlockDefinition" = dt.field(
+        metadata={
+            "description": 'If the item can be "used", this block will be non-null, and will have data related to the action performed when using the item. (Guess what? 99% of the time, this action is "dismantle". Shocker)'
+        }
+    )
+    allow_actions: bool = dt.field(
+        metadata={
+            "description": "BNet may forbid the execution of actions on this item via the API. If that is occurring, allowActions will be set to false."
+        }
+    )
+    animations: t.Sequence["DestinyAnimationReference"] = dt.field(
+        metadata={
+            "description": "If any animations were extracted from game content for this item, these will be the definitions of those animations."
+        }
+    )
+    background_color: "DestinyColor" = dt.field(
+        metadata={
+            "description": 'Sometimes, an item will have a background color. Most notably this occurs with Emblems, who use the Background Color for small character nameplates such as the "friends" view you see in-game. There are almost certainly other items that have background color as well, though I have not bothered to investigate what items have it nor what purposes they serve: use it as you will.'
+        }
+    )
+    breaker_type: "DestinyBreakerType" = dt.field(
+        metadata={
+            "description": 'Some weapons and plugs can have a "Breaker Type": a special ability that works sort of like damage type vulnerabilities. This is (almost?) always set on items by plugs.'
+        }
+    )
+    class_type: "DestinyClass" = dt.field(
+        metadata={
+            "description": """We run a similarly weak-sauce algorithm to try and determine whether an item is restricted to a specific class. If we find it to be restricted in such a way, we set this classType property to match the class' enumeration value so that users can easily identify class restricted items.
+If you see a mis-classed item, please inform the developers in the Bungie API forum."""
+        }
+    )
+    damage_type_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "Theoretically, an item can have many possible damage types. In *practice*, this is not true, but just in case weapons start being made that have multiple (for instance, an item where a socket has reusable plugs for every possible damage type that you can choose from freely), this field will return all of the possible damage types that are available to the weapon by default."
+        }
+    )
+    damage_types: t.Sequence["DamageType"] = dt.field(
+        metadata={
+            "description": """This is the list of all damage types that we know ahead of time the item can take on. Unfortunately, this does not preclude the possibility of something funky happening to give the item a damage type that cannot be predicted beforehand: for example, if some designer decides to create arbitrary non-reusable plugs that cause damage type to change.
+This damage type prediction will only use the following to determine potential damage types:
+- Intrinsic perks
+- Talent Node perks
+- Known, reusable plugs for sockets"""
+        }
+    )
+    default_damage_type: "DamageType" = dt.field(
+        metadata={
+            "description": """If the item has a damage type that could be considered to be default, it will be populated here.
+For various upsetting reasons, it's surprisingly cumbersome to figure this out. I hope you're happy."""
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    display_source: str  # In theory, it is a localized string telling you about how you can find the item. I really wish this was more consistent. Many times, it has nothing. Sometimes, it's instead a more narrative-forward description of the item. Which is cool, and I wish all properties had that data, but it should really be its own property.
-    does_postmaster_pull_have_side_effects: bool  # The boolean will indicate to us (and you!) whether something *could* happen when you transfer this item from the Postmaster that might be considered a "destructive" action. It is not feasible currently to tell you (or ourelves!) in a consistent way whether this *will* actually cause a destructive action, so we are playing it safe: if it has the potential to do so, we will not allow it to be transferred from the Postmaster by default. You will need to check for this flag before transferring an item from the Postmaster, or else you'll end up receiving an error.
-    equippable: bool  # If true, then you will be allowed to equip the item if you pass its other requirements. This being false means that you cannot equip the item under any circumstances.
-    equipping_block: "DestinyEquippingBlockDefinition"  # If this item can be equipped, this block will be non-null and will be populated with the conditions under which it can be equipped.
+    display_source: str = dt.field(
+        metadata={
+            "description": "In theory, it is a localized string telling you about how you can find the item. I really wish this was more consistent. Many times, it has nothing. Sometimes, it's instead a more narrative-forward description of the item. Which is cool, and I wish all properties had that data, but it should really be its own property."
+        }
+    )
+    does_postmaster_pull_have_side_effects: bool = dt.field(
+        metadata={
+            "description": """The boolean will indicate to us (and you!) whether something *could* happen when you transfer this item from the Postmaster that might be considered a "destructive" action.
+It is not feasible currently to tell you (or ourelves!) in a consistent way whether this *will* actually cause a destructive action, so we are playing it safe: if it has the potential to do so, we will not allow it to be transferred from the Postmaster by default. You will need to check for this flag before transferring an item from the Postmaster, or else you'll end up receiving an error."""
+        }
+    )
+    equippable: bool = dt.field(
+        metadata={
+            "description": """If true, then you will be allowed to equip the item if you pass its other requirements.
+This being false means that you cannot equip the item under any circumstances."""
+        }
+    )
+    equipping_block: "DestinyEquippingBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item can be equipped, this block will be non-null and will be populated with the conditions under which it can be equipped."
+        }
+    )
     flavor_text: str
-    gearset: "DestinyItemGearsetBlockDefinition"  # If this item has related items in a "Gear Set", this will be non-null and the relationships defined herein.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    icon_watermark: str  # If available, this is the original 'active' release watermark overlay for the icon. If the item has different versions, this can be overridden by the 'display version watermark icon' from the 'quality' block. Alternatively, if there is no watermark for the version, and the item version has a power cap below the current season power cap, this can be overridden by the iconWatermarkShelved property.
-    icon_watermark_shelved: str  # If available, this is the 'shelved' release watermark overlay for the icon. If the item version has a power cap below the current season power cap, it can be treated as 'shelved', and should be shown with this 'shelved' watermark overlay.
-    index: int  # The index of the entity as it was found in the investment tables.
-    inventory: "DestinyItemInventoryBlockDefinition"  # If this item can exist in an inventory, this block will be non-null. In practice, every item that currently exists has one of these blocks. But note that it is not necessarily guaranteed.
-    investment_stats: t.Sequence[
-        "DestinyItemInvestmentStatDefinition"
-    ]  # If the item has stats, this block will be defined. It has the "raw" investment stats for the item. These investment stats don't take into account the ways that the items can spawn, nor do they take into account any Stat Group transformations. I have retained them for debugging purposes, but I do not know how useful people will find them.
-    is_wrapper: bool  # If true, this is a dummy vendor-wrapped item template. Items purchased from Eververse will be "wrapped" by one of these items so that we can safely provide refund capabilities before the item is "unwrapped".
-    item_category_hashes: t.Sequence[
-        int
-    ]  # BNet attempts to make a more formal definition of item "Categories", as defined by DestinyItemCategoryDefinition. This is a list of all Categories that we were able to algorithmically determine that this item is a member of. (for instance, that it's a "Weapon", that it's an "Auto Rifle", etc...) The algorithm for these is, unfortunately, volatile. If you believe you see a miscategorized item, please let us know on the Bungie API forums.
-    item_sub_type: "DestinyItemSubType"  # A value indicating the "sub-type" of the item. For instance, where an item might have an itemType value "Weapon", this will be something more specific like "Auto Rifle". itemCategoryHashes are the preferred way of identifying types, we have retained this enum for its convenience.
-    item_type: "DestinyItemType"  # A value indicating the "base" the of the item. This enum is a useful but dramatic oversimplification of what it means for an item to have a "Type". Still, it's handy in many situations. itemCategoryHashes are the preferred way of identifying types, we have retained this enum for its convenience.
-    item_type_and_tier_display_name: str  # It became a common enough pattern in our UI to show Item Type and Tier combined into a single localized string that I'm just going to go ahead and start pre-creating these for items.
-    item_type_display_name: str  # The localized title/name of the item's type. This can be whatever the designers want, and has no guarantee of consistency between items.
-    links: t.Sequence[
-        "HyperlinkReference"
-    ]  # If we added any help or informational URLs about this item, these will be those links.
-    metrics: "DestinyItemMetricBlockDefinition"  # If this item has available metrics to be shown, this block will be non-null have the appropriate hashes defined.
-    non_transferrable: bool  # The intrinsic transferability of an item. I hate that this boolean is negative - but there's a reason. Just because an item is intrinsically transferrable doesn't mean that it can be transferred, and we don't want to imply that this is the only source of that transferability.
-    objectives: "DestinyItemObjectiveBlockDefinition"  # If this item has Objectives (extra tasks that can be accomplished related to the item... most frequently when the item is a Quest Step and the Objectives need to be completed to move on to the next Quest Step), this block will be non-null and the objectives defined herein.
-    perks: t.Sequence[
-        "DestinyItemPerkEntryDefinition"
-    ]  # If the item has any *intrinsic* Perks (Perks that it will provide regardless of Sockets, Talent Grid, and other transitory state), they will be defined here.
-    plug: "DestinyItemPlugDefinition"  # If this item *is* a Plug, this will be non-null and the info defined herein. See DestinyItemPlugDefinition for more information.
-    preview: "DestinyItemPreviewBlockDefinition"  # If this item can be Used or Acquired to gain other items (for instance, how Eververse Boxes can be consumed to get items from the box), this block will be non-null and will give summary information for the items that can be acquired.
-    quality: "DestinyItemQualityBlockDefinition"  # If this item can have a level or stats, this block will be non-null and will be populated with default quality (item level, "quality", and infusion) data. See the block for more details, there's often less upfront information in D2 so you'll want to be aware of how you use quality and item level on the definition level now.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    sack: "DestinyItemSackBlockDefinition"  # If this item is a "reward sack" that can be opened to provide other items, this will be non-null and the properties of the sack contained herein.
-    screenshot: str  # If we were able to acquire an in-game screenshot for the item, the path to that screenshot will be returned here. Note that not all items have screenshots: particularly not any non-equippable items.
-    secondary_icon: str  # A secondary icon associated with the item. Currently this is used in very context specific applications, such as Emblem Nameplates.
-    secondary_overlay: str  # Pulled from the secondary icon, this is the "secondary background" of the secondary icon. Confusing? Sure, that's why I call it "overlay" here: because as far as it's been used thus far, it has been for an optional overlay image. We'll see if that holds up, but at least for now it explains what this image is a bit better.
-    secondary_special: str  # Pulled from the Secondary Icon, this is the "special" background for the item. For Emblems, this is the background image used on the Details view: but it need not be limited to that for other types of items.
-    set_data: "DestinyItemSetBlockDefinition"  # If this item is a quest, this block will be non-null. In practice, I wish I had called this the Quest block, but at the time it wasn't clear to me whether it would end up being used for purposes other than quests. It will contain data about the steps in the quest, and mechanics we can use for displaying and tracking the quest.
-    sockets: "DestinyItemSocketBlockDefinition"  # If this item has any Sockets, this will be non-null and the individual sockets on the item will be defined herein.
-    source_data: "DestinyItemSourceBlockDefinition"  # If this item has a known source, this block will be non-null and populated with source information. Unfortunately, at this time we are not generating sources: that is some aggressively manual work which we didn't have time for, and I'm hoping to get back to at some point in the future.
-    special_item_type: "SpecialItemType"  # In Destiny 1, we identified some items as having particular categories that we'd like to know about for various internal logic purposes. These are defined in SpecialItemType, and while these days the itemCategoryHashes are the preferred way of identifying types, we have retained this enum for its convenience.
-    stats: "DestinyItemStatBlockDefinition"  # If this item can have stats (such as a weapon, armor, or vehicle), this block will be non-null and populated with the stats found on the item.
-    summary: "DestinyItemSummaryBlockDefinition"  # Summary data about the item.
-    talent_grid: "DestinyItemTalentGridBlockDefinition"  # If the item has a Talent Grid, this will be non-null and the properties of the grid defined herein. Note that, while many items still have talent grids, the only ones with meaningful Nodes still on them will be Subclass/"Build" items.
-    tooltip_notifications: t.Sequence[
-        "DestinyItemTooltipNotification"
-    ]  # Tooltips that only come up conditionally for the item. Check the live data DestinyItemComponent.tooltipNotificationIndexes property for which of these should be shown at runtime.
-    tooltip_style: str  # An identifier that the game UI uses to determine what type of tooltip to show for the item. These have no corresponding definitions that BNet can link to: so it'll be up to you to interpret and display your UI differently according to these styles (or ignore it).
-    trait_hashes: t.Sequence[
-        int
-    ]  # These are the corresponding trait definition hashes for the entries in traitIds.
-    trait_ids: t.Sequence[
-        str
-    ]  # Traits are metadata tags applied to this item. For example: armor slot, weapon type, foundry, faction, etc. These IDs come from the game and don't map to any content, but should still be useful.
-    translation_block: "DestinyItemTranslationBlockDefinition"  # If this item can be rendered, this block will be non-null and will be populated with rendering information.
-    ui_item_display_style: str  # A string identifier that the game's UI uses to determine how the item should be rendered in inventory screens and the like. This could really be anything - at the moment, we don't have the time to really breakdown and maintain all the possible strings this could be, partly because new ones could be added ad hoc. But if you want to use it to dictate your own UI, or look for items with a certain display style, go for it!
-    value: "DestinyItemValueBlockDefinition"  # The conceptual "Value" of an item, if any was defined. See the DestinyItemValueBlockDefinition for more details.
+    gearset: "DestinyItemGearsetBlockDefinition" = dt.field(
+        metadata={
+            "description": 'If this item has related items in a "Gear Set", this will be non-null and the relationships defined herein.'
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    icon_watermark: str = dt.field(
+        metadata={
+            "description": "If available, this is the original 'active' release watermark overlay for the icon. If the item has different versions, this can be overridden by the 'display version watermark icon' from the 'quality' block. Alternatively, if there is no watermark for the version, and the item version has a power cap below the current season power cap, this can be overridden by the iconWatermarkShelved property."
+        }
+    )
+    icon_watermark_shelved: str = dt.field(
+        metadata={
+            "description": "If available, this is the 'shelved' release watermark overlay for the icon. If the item version has a power cap below the current season power cap, it can be treated as 'shelved', and should be shown with this 'shelved' watermark overlay."
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    inventory: "DestinyItemInventoryBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item can exist in an inventory, this block will be non-null. In practice, every item that currently exists has one of these blocks. But note that it is not necessarily guaranteed."
+        }
+    )
+    investment_stats: t.Sequence["DestinyItemInvestmentStatDefinition"] = dt.field(
+        metadata={
+            "description": 'If the item has stats, this block will be defined. It has the "raw" investment stats for the item. These investment stats don\'t take into account the ways that the items can spawn, nor do they take into account any Stat Group transformations. I have retained them for debugging purposes, but I do not know how useful people will find them.'
+        }
+    )
+    is_wrapper: bool = dt.field(
+        metadata={
+            "description": 'If true, this is a dummy vendor-wrapped item template. Items purchased from Eververse will be "wrapped" by one of these items so that we can safely provide refund capabilities before the item is "unwrapped".'
+        }
+    )
+    item_category_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """BNet attempts to make a more formal definition of item "Categories", as defined by DestinyItemCategoryDefinition. This is a list of all Categories that we were able to algorithmically determine that this item is a member of. (for instance, that it's a "Weapon", that it's an "Auto Rifle", etc...)
+The algorithm for these is, unfortunately, volatile. If you believe you see a miscategorized item, please let us know on the Bungie API forums."""
+        }
+    )
+    item_sub_type: "DestinyItemSubType" = dt.field(
+        metadata={
+            "description": """A value indicating the "sub-type" of the item. For instance, where an item might have an itemType value "Weapon", this will be something more specific like "Auto Rifle".
+itemCategoryHashes are the preferred way of identifying types, we have retained this enum for its convenience."""
+        }
+    )
+    item_type: "DestinyItemType" = dt.field(
+        metadata={
+            "description": """A value indicating the "base" the of the item. This enum is a useful but dramatic oversimplification of what it means for an item to have a "Type". Still, it's handy in many situations.
+itemCategoryHashes are the preferred way of identifying types, we have retained this enum for its convenience."""
+        }
+    )
+    item_type_and_tier_display_name: str = dt.field(
+        metadata={
+            "description": "It became a common enough pattern in our UI to show Item Type and Tier combined into a single localized string that I'm just going to go ahead and start pre-creating these for items."
+        }
+    )
+    item_type_display_name: str = dt.field(
+        metadata={
+            "description": "The localized title/name of the item's type. This can be whatever the designers want, and has no guarantee of consistency between items."
+        }
+    )
+    links: t.Sequence["HyperlinkReference"] = dt.field(
+        metadata={
+            "description": "If we added any help or informational URLs about this item, these will be those links."
+        }
+    )
+    metrics: "DestinyItemMetricBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item has available metrics to be shown, this block will be non-null have the appropriate hashes defined."
+        }
+    )
+    non_transferrable: bool = dt.field(
+        metadata={
+            "description": """The intrinsic transferability of an item.
+I hate that this boolean is negative - but there's a reason.
+Just because an item is intrinsically transferrable doesn't mean that it can be transferred, and we don't want to imply that this is the only source of that transferability."""
+        }
+    )
+    objectives: "DestinyItemObjectiveBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item has Objectives (extra tasks that can be accomplished related to the item... most frequently when the item is a Quest Step and the Objectives need to be completed to move on to the next Quest Step), this block will be non-null and the objectives defined herein."
+        }
+    )
+    perks: t.Sequence["DestinyItemPerkEntryDefinition"] = dt.field(
+        metadata={
+            "description": "If the item has any *intrinsic* Perks (Perks that it will provide regardless of Sockets, Talent Grid, and other transitory state), they will be defined here."
+        }
+    )
+    plug: "DestinyItemPlugDefinition" = dt.field(
+        metadata={
+            "description": "If this item *is* a Plug, this will be non-null and the info defined herein. See DestinyItemPlugDefinition for more information."
+        }
+    )
+    preview: "DestinyItemPreviewBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item can be Used or Acquired to gain other items (for instance, how Eververse Boxes can be consumed to get items from the box), this block will be non-null and will give summary information for the items that can be acquired."
+        }
+    )
+    quality: "DestinyItemQualityBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item can have a level or stats, this block will be non-null and will be populated with default quality (item level, \"quality\", and infusion) data. See the block for more details, there's often less upfront information in D2 so you'll want to be aware of how you use quality and item level on the definition level now."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    sack: "DestinyItemSackBlockDefinition" = dt.field(
+        metadata={
+            "description": 'If this item is a "reward sack" that can be opened to provide other items, this will be non-null and the properties of the sack contained herein.'
+        }
+    )
+    screenshot: str = dt.field(
+        metadata={
+            "description": "If we were able to acquire an in-game screenshot for the item, the path to that screenshot will be returned here. Note that not all items have screenshots: particularly not any non-equippable items."
+        }
+    )
+    secondary_icon: str = dt.field(
+        metadata={
+            "description": "A secondary icon associated with the item. Currently this is used in very context specific applications, such as Emblem Nameplates."
+        }
+    )
+    secondary_overlay: str = dt.field(
+        metadata={
+            "description": 'Pulled from the secondary icon, this is the "secondary background" of the secondary icon. Confusing? Sure, that\'s why I call it "overlay" here: because as far as it\'s been used thus far, it has been for an optional overlay image. We\'ll see if that holds up, but at least for now it explains what this image is a bit better.'
+        }
+    )
+    secondary_special: str = dt.field(
+        metadata={
+            "description": 'Pulled from the Secondary Icon, this is the "special" background for the item. For Emblems, this is the background image used on the Details view: but it need not be limited to that for other types of items.'
+        }
+    )
+    set_data: "DestinyItemSetBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item is a quest, this block will be non-null. In practice, I wish I had called this the Quest block, but at the time it wasn't clear to me whether it would end up being used for purposes other than quests. It will contain data about the steps in the quest, and mechanics we can use for displaying and tracking the quest."
+        }
+    )
+    sockets: "DestinyItemSocketBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item has any Sockets, this will be non-null and the individual sockets on the item will be defined herein."
+        }
+    )
+    source_data: "DestinyItemSourceBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item has a known source, this block will be non-null and populated with source information. Unfortunately, at this time we are not generating sources: that is some aggressively manual work which we didn't have time for, and I'm hoping to get back to at some point in the future."
+        }
+    )
+    special_item_type: "SpecialItemType" = dt.field(
+        metadata={
+            "description": "In Destiny 1, we identified some items as having particular categories that we'd like to know about for various internal logic purposes. These are defined in SpecialItemType, and while these days the itemCategoryHashes are the preferred way of identifying types, we have retained this enum for its convenience."
+        }
+    )
+    stats: "DestinyItemStatBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item can have stats (such as a weapon, armor, or vehicle), this block will be non-null and populated with the stats found on the item."
+        }
+    )
+    summary: "DestinyItemSummaryBlockDefinition" = dt.field(
+        metadata={"description": "Summary data about the item."}
+    )
+    talent_grid: "DestinyItemTalentGridBlockDefinition" = dt.field(
+        metadata={
+            "description": 'If the item has a Talent Grid, this will be non-null and the properties of the grid defined herein. Note that, while many items still have talent grids, the only ones with meaningful Nodes still on them will be Subclass/"Build" items.'
+        }
+    )
+    tooltip_notifications: t.Sequence["DestinyItemTooltipNotification"] = dt.field(
+        metadata={
+            "description": "Tooltips that only come up conditionally for the item. Check the live data DestinyItemComponent.tooltipNotificationIndexes property for which of these should be shown at runtime."
+        }
+    )
+    tooltip_style: str = dt.field(
+        metadata={
+            "description": "An identifier that the game UI uses to determine what type of tooltip to show for the item. These have no corresponding definitions that BNet can link to: so it'll be up to you to interpret and display your UI differently according to these styles (or ignore it)."
+        }
+    )
+    trait_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "These are the corresponding trait definition hashes for the entries in traitIds."
+        }
+    )
+    trait_ids: t.Sequence[str] = dt.field(
+        metadata={
+            "description": "Traits are metadata tags applied to this item. For example: armor slot, weapon type, foundry, faction, etc. These IDs come from the game and don't map to any content, but should still be useful."
+        }
+    )
+    translation_block: "DestinyItemTranslationBlockDefinition" = dt.field(
+        metadata={
+            "description": "If this item can be rendered, this block will be non-null and will be populated with rendering information."
+        }
+    )
+    ui_item_display_style: str = dt.field(
+        metadata={
+            "description": "A string identifier that the game's UI uses to determine how the item should be rendered in inventory screens and the like. This could really be anything - at the moment, we don't have the time to really breakdown and maintain all the possible strings this could be, partly because new ones could be added ad hoc. But if you want to use it to dictate your own UI, or look for items with a certain display style, go for it!"
+        }
+    )
+    value: "DestinyItemValueBlockDefinition" = dt.field(
+        metadata={
+            "description": 'The conceptual "Value" of an item, if any was defined. See the DestinyItemValueBlockDefinition for more details.'
+        }
+    )
     breaker_type_hash: t.Optional[
         ManifestReference["DestinyBreakerTypeDefinition"]
-    ] = None  # Since we also have a breaker type definition, this is the hash for that breaker type for your convenience. Whether you use the enum or hash and look up the definition depends on what's cleanest for your code.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "Since we also have a breaker type definition, this is the hash for that breaker type for your convenience. Whether you use the enum or hash and look up the definition depends on what's cleanest for your code."
+        },
+    )
     collectible_hash: t.Optional[
         ManifestReference["DestinyCollectibleDefinition"]
-    ] = None  # If this item has a collectible related to it, this is the hash identifier of that collectible entry.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this item has a collectible related to it, this is the hash identifier of that collectible entry."
+        },
+    )
     default_damage_type_hash: t.Optional[
         ManifestReference["DestinyDamageTypeDefinition"]
-    ] = None  # Similar to defaultDamageType, but represented as the hash identifier for a DestinyDamageTypeDefinition. I will likely regret leaving in the enumeration versions of these properties, but for now they're very convenient.
-    emblem_objective_hash: t.Optional[
-        int
-    ] = None  # If the item is an emblem that has a special Objective attached to it - for instance, if the emblem tracks PVP Kills, or what-have-you. This is a bit different from, for example, the Vanguard Kill Tracker mod, which pipes data into the "art channel". When I get some time, I would like to standardize these so you can get at the values they expose without having to care about what they're being used for and how they are wired up, but for now here's the raw data.
-    lore_hash: t.Optional[
-        ManifestReference["DestinyLoreDefinition"]
-    ] = None  # If the item has any related Lore (DestinyLoreDefinition), this will be the hash identifier you can use to look up the lore definition.
-    season_hash: t.Optional[
-        ManifestReference["DestinySeasonDefinition"]
-    ] = None  # If this item is related directly to a Season of Destiny, this is the hash identifier for that season.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """Similar to defaultDamageType, but represented as the hash identifier for a DestinyDamageTypeDefinition.
+I will likely regret leaving in the enumeration versions of these properties, but for now they're very convenient."""
+        },
+    )
+    emblem_objective_hash: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the item is an emblem that has a special Objective attached to it - for instance, if the emblem tracks PVP Kills, or what-have-you. This is a bit different from, for example, the Vanguard Kill Tracker mod, which pipes data into the \"art channel\". When I get some time, I would like to standardize these so you can get at the values they expose without having to care about what they're being used for and how they are wired up, but for now here's the raw data."
+        },
+    )
+    lore_hash: t.Optional[ManifestReference["DestinyLoreDefinition"]] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the item has any related Lore (DestinyLoreDefinition), this will be the hash identifier you can use to look up the lore definition."
+        },
+    )
+    season_hash: t.Optional[ManifestReference["DestinySeasonDefinition"]] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this item is related directly to a Season of Destiny, this is the hash identifier for that season."
+        },
+    )
     summary_item_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
-    ] = None  # There are times when the game will show you a "summary/vague" version of an item - such as a description of its type represented as a DestinyInventoryItemDefinition - rather than display the item itself. This happens sometimes when summarizing possible rewards in a tooltip. This is the item displayed instead, if it exists.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """There are times when the game will show you a "summary/vague" version of an item - such as a description of its type represented as a DestinyInventoryItemDefinition - rather than display the item itself.
+This happens sometimes when summarizing possible rewards in a tooltip. This is the item displayed instead, if it exists."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -333,24 +663,74 @@ class DestinyItemActionBlockDefinition:
     """If an item can have an action performed on it (like "Dismantle"), it
     will be defined here if you care."""
 
-    action_type_label: str  # The internal identifier for the action.
-    consume_entire_stack: bool  # If true, the entire stack is deleted when the action completes.
-    delete_on_action: bool  # If true, the item is deleted when the action completes.
-    is_positive: bool  # The content has this property, however it's not entirely clear how it is used.
-    overlay_icon: str  # The icon associated with the overlay screen for the action, if any.
-    overlay_screen_name: str  # If the action has an overlay screen associated with it, this is the name of that screen. Unfortunately, we cannot return the screen's data itself.
-    progression_rewards: t.Sequence[
-        "DestinyProgressionRewardDefinition"
-    ]  # If performing this action earns you Progression, this is the list of progressions and values granted for those progressions by performing this action.
-    required_cooldown_hash: int  # The identifier hash for the Cooldown associated with this action. We have not pulled this data yet for you to have more data to use for cooldowns.
-    required_cooldown_seconds: int  # The number of seconds to delay before allowing this action to be performed again.
-    required_items: t.Sequence[
-        "DestinyItemActionRequiredItemDefinition"
-    ]  # If the action requires other items to exist or be destroyed, this is the list of those items and requirements.
-    required_location: str  # Theoretically, an item could have a localized string for a hint about the location in which the action should be performed. In practice, no items yet have this property.
-    use_on_acquire: bool  # If true, this action will be performed as soon as you earn this item. Some rewards work this way, providing you a single item to pick up from a reward-granting vendor in-game and then immediately consuming itself to provide you multiple items.
-    verb_description: str  # Localized text describing the action being performed.
-    verb_name: str  # Localized text for the verb of the action being performed.
+    action_type_label: str = dt.field(
+        metadata={"description": "The internal identifier for the action."}
+    )
+    consume_entire_stack: bool = dt.field(
+        metadata={
+            "description": "If true, the entire stack is deleted when the action completes."
+        }
+    )
+    delete_on_action: bool = dt.field(
+        metadata={
+            "description": "If true, the item is deleted when the action completes."
+        }
+    )
+    is_positive: bool = dt.field(
+        metadata={
+            "description": "The content has this property, however it's not entirely clear how it is used."
+        }
+    )
+    overlay_icon: str = dt.field(
+        metadata={
+            "description": "The icon associated with the overlay screen for the action, if any."
+        }
+    )
+    overlay_screen_name: str = dt.field(
+        metadata={
+            "description": "If the action has an overlay screen associated with it, this is the name of that screen. Unfortunately, we cannot return the screen's data itself."
+        }
+    )
+    progression_rewards: t.Sequence["DestinyProgressionRewardDefinition"] = dt.field(
+        metadata={
+            "description": "If performing this action earns you Progression, this is the list of progressions and values granted for those progressions by performing this action."
+        }
+    )
+    required_cooldown_hash: int = dt.field(
+        metadata={
+            "description": "The identifier hash for the Cooldown associated with this action. We have not pulled this data yet for you to have more data to use for cooldowns."
+        }
+    )
+    required_cooldown_seconds: int = dt.field(
+        metadata={
+            "description": "The number of seconds to delay before allowing this action to be performed again."
+        }
+    )
+    required_items: t.Sequence["DestinyItemActionRequiredItemDefinition"] = dt.field(
+        metadata={
+            "description": "If the action requires other items to exist or be destroyed, this is the list of those items and requirements."
+        }
+    )
+    required_location: str = dt.field(
+        metadata={
+            "description": "Theoretically, an item could have a localized string for a hint about the location in which the action should be performed. In practice, no items yet have this property."
+        }
+    )
+    use_on_acquire: bool = dt.field(
+        metadata={
+            "description": "If true, this action will be performed as soon as you earn this item. Some rewards work this way, providing you a single item to pick up from a reward-granting vendor in-game and then immediately consuming itself to provide you multiple items."
+        }
+    )
+    verb_description: str = dt.field(
+        metadata={
+            "description": "Localized text describing the action being performed."
+        }
+    )
+    verb_name: str = dt.field(
+        metadata={
+            "description": "Localized text for the verb of the action being performed."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -376,11 +756,19 @@ class DestinyItemActionRequiredItemDefinition:
     """The definition of an item and quantity required in a character's
     inventory in order to perform an action."""
 
-    count: int  # The minimum quantity of the item you have to have.
-    delete_on_action: bool  # If true, the item/quantity will be deleted from your inventory when the action is performed. Otherwise, you'll retain these required items after the action is complete.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier of the item you need to have. Use it to look up the DestinyInventoryItemDefinition for more info.
+    count: int = dt.field(
+        metadata={"description": "The minimum quantity of the item you have to have."}
+    )
+    delete_on_action: bool = dt.field(
+        metadata={
+            "description": "If true, the item/quantity will be deleted from your inventory when the action is performed. Otherwise, you'll retain these required items after the action is complete."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the item you need to have. Use it to look up the DestinyInventoryItemDefinition for more info."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -404,11 +792,23 @@ class DestinyProgressionRewardDefinition:
     at the same time.
     """
 
-    amount: int  # The amount of experience to give to each of the mapped progressions.
-    apply_throttles: bool  # If true, the game's internal mechanisms to throttle progression should be applied.
+    amount: int = dt.field(
+        metadata={
+            "description": "The amount of experience to give to each of the mapped progressions."
+        }
+    )
+    apply_throttles: bool = dt.field(
+        metadata={
+            "description": "If true, the game's internal mechanisms to throttle progression should be applied."
+        }
+    )
     progression_mapping_hash: ManifestReference[
         "DestinyProgressionMappingDefinition"
-    ]  # The hash identifier of the DestinyProgressionMappingDefinition that contains the progressions for which experience should be applied.
+    ] = dt.field(
+        metadata={
+            "description": "The hash identifier of the DestinyProgressionMappingDefinition that contains the progressions for which experience should be applied."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -427,11 +827,32 @@ class DestinyProgressionMappingDefinition:
     extremely sporadically.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Infrequently defined in practice. Defer to the individual progressions' display properties.
-    display_units: str  # The localized unit of measurement for progression across the progressions defined in this mapping. Unfortunately, this is very infrequently defined. Defer to the individual progressions' display units.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "Infrequently defined in practice. Defer to the individual progressions' display properties."
+        }
+    )
+    display_units: str = dt.field(
+        metadata={
+            "description": "The localized unit of measurement for progression across the progressions defined in this mapping. Unfortunately, this is very infrequently defined. Defer to the individual progressions' display units."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -447,24 +868,64 @@ class DestinyProgressionMappingDefinition:
 class DestinyItemInventoryBlockDefinition:
     """If the item can exist in an inventory - the overwhelming majority of them can and do - then this is the basic properties regarding the item's relationship with the inventory."""
 
-    bucket_type_hash: ManifestReference[
-        "DestinyInventoryBucketDefinition"
-    ]  # The hash identifier for the DestinyInventoryBucketDefinition to which this item belongs. I should have named this "bucketHash", but too many things refer to it now. Sigh.
-    expiration_tooltip: str  # The tooltip message to show, if any, when the item expires.
-    expired_in_activity_message: str  # If the item expires while playing in an activity, we show a different message.
-    expired_in_orbit_message: str  # If the item expires in orbit, we show a... more different message. ("Consummate V's, consummate!")
-    is_instance_item: bool  # If TRUE, this item is instanced. Otherwise, it is a generic item that merely has a quantity in a stack (like Glimmer).
-    max_stack_size: int  # The maximum quantity of this item that can exist in a stack.
+    bucket_type_hash: ManifestReference["DestinyInventoryBucketDefinition"] = dt.field(
+        metadata={
+            "description": 'The hash identifier for the DestinyInventoryBucketDefinition to which this item belongs. I should have named this "bucketHash", but too many things refer to it now. Sigh.'
+        }
+    )
+    expiration_tooltip: str = dt.field(
+        metadata={
+            "description": "The tooltip message to show, if any, when the item expires."
+        }
+    )
+    expired_in_activity_message: str = dt.field(
+        metadata={
+            "description": "If the item expires while playing in an activity, we show a different message."
+        }
+    )
+    expired_in_orbit_message: str = dt.field(
+        metadata={
+            "description": 'If the item expires in orbit, we show a... more different message. ("Consummate V\'s, consummate!")'
+        }
+    )
+    is_instance_item: bool = dt.field(
+        metadata={
+            "description": "If TRUE, this item is instanced. Otherwise, it is a generic item that merely has a quantity in a stack (like Glimmer)."
+        }
+    )
+    max_stack_size: int = dt.field(
+        metadata={
+            "description": "The maximum quantity of this item that can exist in a stack."
+        }
+    )
     recovery_bucket_type_hash: ManifestReference[
         "DestinyInventoryBucketDefinition"
-    ]  # If the item is picked up by the lost loot queue, this is the hash identifier for the DestinyInventoryBucketDefinition into which it will be placed. Again, I should have named this recoveryBucketHash instead.
-    stack_unique_label: str  # If this string is populated, you can't have more than one stack with this label in a given inventory. Note that this is different from the equipping block's unique label, which is used for equipping uniqueness.
+    ] = dt.field(
+        metadata={
+            "description": "If the item is picked up by the lost loot queue, this is the hash identifier for the DestinyInventoryBucketDefinition into which it will be placed. Again, I should have named this recoveryBucketHash instead."
+        }
+    )
+    stack_unique_label: str = dt.field(
+        metadata={
+            "description": "If this string is populated, you can't have more than one stack with this label in a given inventory. Note that this is different from the equipping block's unique label, which is used for equipping uniqueness."
+        }
+    )
     suppress_expiration_when_objectives_complete: bool
-    tier_type: "TierType"  # The enumeration matching the tier type of the item to known values, again for convenience sake.
-    tier_type_hash: ManifestReference[
-        "DestinyItemTierTypeDefinition"
-    ]  # The hash identifier for the Tier Type of the item, use to look up its DestinyItemTierTypeDefinition if you need to show localized data for the item's tier.
-    tier_type_name: str  # The localized name of the tier type, which is a useful shortcut so you don't have to look up the definition every time. However, it's mostly a holdover from days before we had a DestinyItemTierTypeDefinition to refer to.
+    tier_type: "TierType" = dt.field(
+        metadata={
+            "description": "The enumeration matching the tier type of the item to known values, again for convenience sake."
+        }
+    )
+    tier_type_hash: ManifestReference["DestinyItemTierTypeDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the Tier Type of the item, use to look up its DestinyItemTierTypeDefinition if you need to show localized data for the item's tier."
+        }
+    )
+    tier_type_name: str = dt.field(
+        metadata={
+            "description": "The localized name of the tier type, which is a useful shortcut so you don't have to look up the definition every time. However, it's mostly a holdover from days before we had a DestinyItemTierTypeDefinition to refer to."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -495,18 +956,66 @@ class DestinyInventoryBucketDefinition:
     You cannot transfer an item to a bucket that is not its Default without going through a Vendor's "accepted items" (DestinyVendorDefinition.acceptedItems). This is how transfer functionality like the Vault is implemented, as a feature of a Vendor. See the vendor's acceptedItems property for more details.
     """
 
-    bucket_order: int  # Use this property to provide a quick-and-dirty recommended ordering for buckets in the UI. Most UIs will likely want to forsake this for something more custom and manual.
-    category: "BucketCategory"  # An enum value for what items can be found in the bucket. See the BucketCategory enum for more details.
+    bucket_order: int = dt.field(
+        metadata={
+            "description": "Use this property to provide a quick-and-dirty recommended ordering for buckets in the UI. Most UIs will likely want to forsake this for something more custom and manual."
+        }
+    )
+    category: "BucketCategory" = dt.field(
+        metadata={
+            "description": "An enum value for what items can be found in the bucket. See the BucketCategory enum for more details."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    enabled: bool  # If True, this bucket is enabled. Disabled buckets may include buckets that were included for test purposes, or that were going to be used but then were abandoned but never removed from content *cough*.
-    fifo: bool  # if a FIFO bucket fills up, it will delete the oldest item from said bucket when a new item tries to be added to it. If this is FALSE, the bucket will not allow new items to be placed in it until room is made by the user manually deleting items from it. You can see an example of this with the Postmaster's bucket.
-    has_transfer_destination: bool  # If TRUE, there is at least one Vendor that can transfer items to/from this bucket. See the DestinyVendorDefinition's acceptedItems property for more information on how transferring works.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    item_count: int  # The maximum # of item "slots" in a bucket. A slot is a given combination of item + quantity. For instance, a Weapon will always take up a single slot, and always have a quantity of 1. But a material could take up only a single slot with hundreds of quantity.
-    location: "ItemLocation"  # Sometimes, inventory buckets represent conceptual "locations" in the game that might not be expected. This value indicates the conceptual location of the bucket, regardless of where it is actually contained on the character/account.  See ItemLocation for details.  Note that location includes the Vault and the Postmaster (both of whom being just inventory buckets with additional actions that can be performed on them through a Vendor)
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    scope: "BucketScope"  # Where the bucket is found. 0 = Character, 1 = Account
+    enabled: bool = dt.field(
+        metadata={
+            "description": "If True, this bucket is enabled. Disabled buckets may include buckets that were included for test purposes, or that were going to be used but then were abandoned but never removed from content *cough*."
+        }
+    )
+    fifo: bool = dt.field(
+        metadata={
+            "description": "if a FIFO bucket fills up, it will delete the oldest item from said bucket when a new item tries to be added to it. If this is FALSE, the bucket will not allow new items to be placed in it until room is made by the user manually deleting items from it. You can see an example of this with the Postmaster's bucket."
+        }
+    )
+    has_transfer_destination: bool = dt.field(
+        metadata={
+            "description": "If TRUE, there is at least one Vendor that can transfer items to/from this bucket. See the DestinyVendorDefinition's acceptedItems property for more information on how transferring works."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    item_count: int = dt.field(
+        metadata={
+            "description": """The maximum # of item "slots" in a bucket. A slot is a given combination of item + quantity.
+For instance, a Weapon will always take up a single slot, and always have a quantity of 1. But a material could take up only a single slot with hundreds of quantity."""
+        }
+    )
+    location: "ItemLocation" = dt.field(
+        metadata={
+            "description": """Sometimes, inventory buckets represent conceptual "locations" in the game that might not be expected. This value indicates the conceptual location of the bucket, regardless of where it is actually contained on the character/account. 
+See ItemLocation for details. 
+Note that location includes the Vault and the Postmaster (both of whom being just inventory buckets with additional actions that can be performed on them through a Vendor)"""
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    scope: "BucketScope" = dt.field(
+        metadata={
+            "description": "Where the bucket is found. 0 = Character, 1 = Account"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -530,15 +1039,41 @@ class DestinyItemSetBlockDefinition:
     """Primarily for Quests, this is the definition of properties related to
     the item if it is a quest and its various quest steps."""
 
-    item_list: t.Sequence[
-        "DestinyItemSetBlockEntryDefinition"
-    ]  # A collection of hashes of set items, for items such as Quest Metadata items that possess this data.
-    quest_line_description: str  # The description of the quest line that this quest step is a part of.
-    quest_line_name: str  # The name of the quest line that this quest step is a part of.
-    quest_step_summary: str  # An additional summary of this step in the quest line.
-    require_ordered_set_item_add: bool  # If true, items in the set can only be added in increasing order, and adding an item will remove any previous item. For Quests, this is by necessity true. Only one quest step is present at a time, and previous steps are removed as you advance in the quest.
-    set_is_featured: bool  # If true, the UI should treat this quest as "featured"
-    set_type: str  # A string identifier we can use to attempt to identify the category of the Quest.
+    item_list: t.Sequence["DestinyItemSetBlockEntryDefinition"] = dt.field(
+        metadata={
+            "description": "A collection of hashes of set items, for items such as Quest Metadata items that possess this data."
+        }
+    )
+    quest_line_description: str = dt.field(
+        metadata={
+            "description": "The description of the quest line that this quest step is a part of."
+        }
+    )
+    quest_line_name: str = dt.field(
+        metadata={
+            "description": "The name of the quest line that this quest step is a part of."
+        }
+    )
+    quest_step_summary: str = dt.field(
+        metadata={
+            "description": "An additional summary of this step in the quest line."
+        }
+    )
+    require_ordered_set_item_add: bool = dt.field(
+        metadata={
+            "description": "If true, items in the set can only be added in increasing order, and adding an item will remove any previous item. For Quests, this is by necessity true. Only one quest step is present at a time, and previous steps are removed as you advance in the quest."
+        }
+    )
+    set_is_featured: bool = dt.field(
+        metadata={
+            "description": 'If true, the UI should treat this quest as "featured"'
+        }
+    )
+    set_type: str = dt.field(
+        metadata={
+            "description": "A string identifier we can use to attempt to identify the category of the Quest."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -557,10 +1092,16 @@ class DestinyItemSetBlockEntryDefinition:
     """Defines a particular entry in an ItemSet (AKA a particular Quest Step in
     a Quest)"""
 
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # This is the hash identifier for a DestinyInventoryItemDefinition representing this quest step.
-    tracking_value: int  # Used for tracking which step a user reached. These values will be populated in the user's internal state, which we expose externally as a more usable DestinyQuestStatus object. If this item has been obtained, this value will be set in trackingUnlockValueHash.
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "This is the hash identifier for a DestinyInventoryItemDefinition representing this quest step."
+        }
+    )
+    tracking_value: int = dt.field(
+        metadata={
+            "description": "Used for tracking which step a user reached. These values will be populated in the user's internal state, which we expose externally as a more usable DestinyQuestStatus object. If this item has been obtained, this value will be set in trackingUnlockValueHash."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -589,17 +1130,38 @@ class DestinyItemStatBlockDefinition:
     without any planned fix.
     """
 
-    disable_primary_stat_display: bool  # If true, the game won't show the "primary" stat on this item when you inspect it. NOTE: This is being manually mapped, because I happen to want it in a block that isn't going to directly create this derivative block.
-    has_displayable_stats: bool  # A quick and lazy way to determine whether any stat other than the "primary" stat is actually visible on the item. Items often have stats that we return in case people find them useful, but they're not part of the "Stat Group" and thus we wouldn't display them in our UI. If this is False, then we're not going to display any of these stats other than the primary one.
-    primary_base_stat_hash: ManifestReference[
-        "DestinyStatDefinition"
-    ]  # This stat is determined to be the "primary" stat, and can be looked up in the stats or any other stat collection related to the item. Use this hash to look up the stat's value using DestinyInventoryItemDefinition.stats.stats, and the renderable data for the primary stat in the related DestinyStatDefinition.
-    stats: t.Mapping[
-        str, "DestinyInventoryItemStatDefinition"
-    ]  # If you are looking for precomputed values for the stats on a weapon, this is where they are stored. Technically these are the "Display" stat values. Please see DestinyStatsDefinition for what Display Stat Values means, it's a very long story... but essentially these are the closest values BNet can get to the item stats that you see in-game. These stats are keyed by the DestinyStatDefinition's hash identifier for the stat that's found on the item.
+    disable_primary_stat_display: bool = dt.field(
+        metadata={
+            "description": """If true, the game won't show the "primary" stat on this item when you inspect it.
+NOTE: This is being manually mapped, because I happen to want it in a block that isn't going to directly create this derivative block."""
+        }
+    )
+    has_displayable_stats: bool = dt.field(
+        metadata={
+            "description": 'A quick and lazy way to determine whether any stat other than the "primary" stat is actually visible on the item. Items often have stats that we return in case people find them useful, but they\'re not part of the "Stat Group" and thus we wouldn\'t display them in our UI. If this is False, then we\'re not going to display any of these stats other than the primary one.'
+        }
+    )
+    primary_base_stat_hash: ManifestReference["DestinyStatDefinition"] = dt.field(
+        metadata={
+            "description": """This stat is determined to be the "primary" stat, and can be looked up in the stats or any other stat collection related to the item.
+Use this hash to look up the stat's value using DestinyInventoryItemDefinition.stats.stats, and the renderable data for the primary stat in the related DestinyStatDefinition."""
+        }
+    )
+    stats: t.Mapping[str, "DestinyInventoryItemStatDefinition"] = dt.field(
+        metadata={
+            "description": """If you are looking for precomputed values for the stats on a weapon, this is where they are stored. Technically these are the "Display" stat values. Please see DestinyStatsDefinition for what Display Stat Values means, it's a very long story... but essentially these are the closest values BNet can get to the item stats that you see in-game.
+These stats are keyed by the DestinyStatDefinition's hash identifier for the stat that's found on the item."""
+        }
+    )
     stat_group_hash: t.Optional[
         ManifestReference["DestinyStatGroupDefinition"]
-    ] = None  # If the item's stats are meant to be modified by a DestinyStatGroupDefinition, this will be the identifier for that definition. If you are using live data or precomputed stats data on the DestinyInventoryItemDefinition.stats.stats property, you don't have to worry about statGroupHash and how it alters stats: the already altered stats are provided to you. But if you want to see how the sausage gets made, or perform computations yourself, this is valuable information.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """If the item's stats are meant to be modified by a DestinyStatGroupDefinition, this will be the identifier for that definition.
+If you are using live data or precomputed stats data on the DestinyInventoryItemDefinition.stats.stats property, you don't have to worry about statGroupHash and how it alters stats: the already altered stats are provided to you. But if you want to see how the sausage gets made, or perform computations yourself, this is valuable information."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -622,15 +1184,37 @@ class DestinyInventoryItemStatDefinition:
     Bungie API forums.
     """
 
-    maximum: int  # The maximum possible value for this stat that we think the item can roll. WARNING: In Destiny 1, this field was calculated using the potential stat rolls on the item's talent grid. In Destiny 2, items no longer have meaningful talent grids and instead have sockets: but the calculation of this field was never altered to adapt to this change. As such, this field should be considered deprecated until we can address this oversight.
-    minimum: int  # The minimum possible value for this stat that we think the item can roll.
-    stat_hash: ManifestReference[
-        "DestinyStatDefinition"
-    ]  # The hash for the DestinyStatDefinition representing this stat.
-    value: int  # This value represents the stat value assuming the minimum possible roll but accounting for any mandatory bonuses that should be applied to the stat on item creation. In Destiny 1, this was different from the "minimum" value because there were certain conditions where an item could be theoretically lower level/value than the initial roll.  In Destiny 2, this is not possible unless Talent Grids begin to be used again for these purposes or some other system change occurs... thus in practice, value and minimum should be the same in Destiny 2. Good riddance.
-    display_maximum: t.Optional[
-        int
-    ] = None  # The maximum possible value for the stat as shown in the UI, if it is being shown somewhere that reveals maximum in the UI (such as a bar chart-style view). This is pulled directly from the item's DestinyStatGroupDefinition, and placed here for convenience. If not returned, there is no maximum to use (and thus the stat should not be shown in a way that assumes there is a limit to the stat)
+    maximum: int = dt.field(
+        metadata={
+            "description": """The maximum possible value for this stat that we think the item can roll.
+WARNING: In Destiny 1, this field was calculated using the potential stat rolls on the item's talent grid. In Destiny 2, items no longer have meaningful talent grids and instead have sockets: but the calculation of this field was never altered to adapt to this change. As such, this field should be considered deprecated until we can address this oversight."""
+        }
+    )
+    minimum: int = dt.field(
+        metadata={
+            "description": "The minimum possible value for this stat that we think the item can roll."
+        }
+    )
+    stat_hash: ManifestReference["DestinyStatDefinition"] = dt.field(
+        metadata={
+            "description": "The hash for the DestinyStatDefinition representing this stat."
+        }
+    )
+    value: int = dt.field(
+        metadata={
+            "description": """This value represents the stat value assuming the minimum possible roll but accounting for any mandatory bonuses that should be applied to the stat on item creation.
+In Destiny 1, this was different from the "minimum" value because there were certain conditions where an item could be theoretically lower level/value than the initial roll. 
+In Destiny 2, this is not possible unless Talent Grids begin to be used again for these purposes or some other system change occurs... thus in practice, value and minimum should be the same in Destiny 2. Good riddance."""
+        }
+    )
+    display_maximum: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """The maximum possible value for the stat as shown in the UI, if it is being shown somewhere that reveals maximum in the UI (such as a bar chart-style view).
+This is pulled directly from the item's DestinyStatGroupDefinition, and placed here for convenience.
+If not returned, there is no maximum to use (and thus the stat should not be shown in a way that assumes there is a limit to the stat)"""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -672,13 +1256,37 @@ class DestinyStatDefinition:
     4) Underlying in-game stat (the stat's actual value according to the game, after the game runs dynamic scripts based on the game and character's state. This is the final transformation that BNet does not have access to. For most stats, this is not actually displayed to the user, with the exception of Magazine Size which is then piped back to the UI for display in-game, but not to BNet.)
     """
 
-    aggregation_type: "DestinyStatAggregationType"  # Stats can exist on a character or an item, and they may potentially be aggregated in different ways. The DestinyStatAggregationType enum value indicates the way that this stat is being aggregated.
+    aggregation_type: "DestinyStatAggregationType" = dt.field(
+        metadata={
+            "description": "Stats can exist on a character or an item, and they may potentially be aggregated in different ways. The DestinyStatAggregationType enum value indicates the way that this stat is being aggregated."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    has_computed_block: bool  # True if the stat is computed rather than being delivered as a raw value on items. For instance, the Light stat in Destiny 1 was a computed stat.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    stat_category: "DestinyStatCategory"  # The category of the stat, according to the game.
+    has_computed_block: bool = dt.field(
+        metadata={
+            "description": """True if the stat is computed rather than being delivered as a raw value on items.
+For instance, the Light stat in Destiny 1 was a computed stat."""
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    stat_category: "DestinyStatCategory" = dt.field(
+        metadata={"description": "The category of the stat, according to the game."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -709,17 +1317,45 @@ class DestinyStatGroupDefinition:
     live data (such as stat modifiers on Talent Grids and Socket Plugs)
     """
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    maximum_value: int  # The maximum possible value that any stat in this group can be transformed into. This is used by stats that *don't* have scaledStats entries below, but that still need to be displayed as a progress bar, in which case this is used as the upper bound for said progress bar. (the lower bound is always 0)
-    overrides: t.Mapping[
-        str, "DestinyStatOverrideDefinition"
-    ]  # The game has the ability to override, based on the stat group, what the localized text is that is displayed for Stats being shown on the item. Mercifully, no Stat Groups use this feature currently. If they start using them, we'll all need to start using them (and those of you who are more prudent than I am can go ahead and start pre-checking for this.)
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    scaled_stats: t.Sequence[
-        "DestinyStatDisplayDefinition"
-    ]  # Any stat that requires scaling to be transformed from an "Investment" stat to a "Display" stat will have an entry in this list. For more information on what those types of stats mean and the transformation process, see DestinyStatDefinition. In retrospect, I wouldn't mind if this was a dictionary keyed by the stat hash instead. But I'm going to leave it be because [[After Apple Picking]].
-    ui_position: int  # This apparently indicates the position of the stats in the UI? I've returned it in case anyone can use it, but it's not of any use to us on BNet. Something's being lost in translation with this value.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    maximum_value: int = dt.field(
+        metadata={
+            "description": """The maximum possible value that any stat in this group can be transformed into.
+This is used by stats that *don't* have scaledStats entries below, but that still need to be displayed as a progress bar, in which case this is used as the upper bound for said progress bar. (the lower bound is always 0)"""
+        }
+    )
+    overrides: t.Mapping[str, "DestinyStatOverrideDefinition"] = dt.field(
+        metadata={
+            "description": """The game has the ability to override, based on the stat group, what the localized text is that is displayed for Stats being shown on the item.
+Mercifully, no Stat Groups use this feature currently. If they start using them, we'll all need to start using them (and those of you who are more prudent than I am can go ahead and start pre-checking for this.)"""
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    scaled_stats: t.Sequence["DestinyStatDisplayDefinition"] = dt.field(
+        metadata={
+            "description": """Any stat that requires scaling to be transformed from an "Investment" stat to a "Display" stat will have an entry in this list. For more information on what those types of stats mean and the transformation process, see DestinyStatDefinition.
+In retrospect, I wouldn't mind if this was a dictionary keyed by the stat hash instead. But I'm going to leave it be because [[After Apple Picking]]."""
+        }
+    )
+    ui_position: int = dt.field(
+        metadata={
+            "description": "This apparently indicates the position of the stats in the UI? I've returned it in case anyone can use it, but it's not of any use to us on BNet. Something's being lost in translation with this value."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -744,14 +1380,28 @@ class DestinyStatDisplayDefinition:
     that BNet can get to the in-game display value of the stat)
     """
 
-    display_as_numeric: bool  # If this is true, the stat should be displayed as a number. Otherwise, display it as a progress bar. Or, you know, do whatever you want. There's no displayAsNumeric police.
-    display_interpolation: t.Sequence[
-        "InterpolationPoint"
-    ]  # The interpolation table representing how the Investment Stat is transformed into a Display Stat.  See DestinyStatDefinition for a description of the stages of stat transformation.
-    maximum_value: int  # Regardless of the output of interpolation, this is the maximum possible value that the stat can be. It should also be used as the upper bound for displaying the stat as a progress bar (the minimum always being 0)
-    stat_hash: ManifestReference[
-        "DestinyStatDefinition"
-    ]  # The hash identifier for the stat being transformed into a Display stat. Use it to look up the DestinyStatDefinition, or key into a DestinyInventoryItemDefinition's stats property.
+    display_as_numeric: bool = dt.field(
+        metadata={
+            "description": "If this is true, the stat should be displayed as a number. Otherwise, display it as a progress bar. Or, you know, do whatever you want. There's no displayAsNumeric police."
+        }
+    )
+    display_interpolation: t.Sequence["InterpolationPoint"] = dt.field(
+        metadata={
+            "description": """The interpolation table representing how the Investment Stat is transformed into a Display Stat. 
+See DestinyStatDefinition for a description of the stages of stat transformation."""
+        }
+    )
+    maximum_value: int = dt.field(
+        metadata={
+            "description": "Regardless of the output of interpolation, this is the maximum possible value that the stat can be. It should also be used as the upper bound for displaying the stat as a progress bar (the minimum always being 0)"
+        }
+    )
+    stat_hash: ManifestReference["DestinyStatDefinition"] = dt.field(
+        metadata={
+            "description": """The hash identifier for the stat being transformed into a Display stat.
+Use it to look up the DestinyStatDefinition, or key into a DestinyInventoryItemDefinition's stats property."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -780,10 +1430,16 @@ class DestinyStatOverrideDefinition:
     still show the default stat's name/description.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # The display properties to show instead of the base DestinyStatDefinition display properties.
-    stat_hash: ManifestReference[
-        "DestinyStatDefinition"
-    ]  # The hash identifier of the stat whose display properties are being overridden.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "The display properties to show instead of the base DestinyStatDefinition display properties."
+        }
+    )
+    stat_hash: ManifestReference["DestinyStatDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the stat whose display properties are being overridden."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -800,19 +1456,48 @@ class DestinyEquippingBlockDefinition:
     can be equipped.
     """
 
-    ammo_type: "DestinyAmmunitionType"  # Ammo type used by a weapon is no longer determined by the bucket in which it is contained. If the item has an ammo type - i.e. if it is a weapon - this will be the type of ammunition expected.
-    attributes: "EquippingItemBlockAttributes"  # These are custom attributes on the equippability of the item. For now, this can only be "equip on acquire", which would mean that the item will be automatically equipped as soon as you pick it up.
-    display_strings: t.Sequence[
-        str
-    ]  # These are strings that represent the possible Game/Account/Character state failure conditions that can occur when trying to equip the item. They match up one-to-one with requiredUnlockExpressions.
+    ammo_type: "DestinyAmmunitionType" = dt.field(
+        metadata={
+            "description": "Ammo type used by a weapon is no longer determined by the bucket in which it is contained. If the item has an ammo type - i.e. if it is a weapon - this will be the type of ammunition expected."
+        }
+    )
+    attributes: "EquippingItemBlockAttributes" = dt.field(
+        metadata={
+            "description": """These are custom attributes on the equippability of the item.
+For now, this can only be "equip on acquire", which would mean that the item will be automatically equipped as soon as you pick it up."""
+        }
+    )
+    display_strings: t.Sequence[str] = dt.field(
+        metadata={
+            "description": "These are strings that represent the possible Game/Account/Character state failure conditions that can occur when trying to equip the item. They match up one-to-one with requiredUnlockExpressions."
+        }
+    )
     equipment_slot_type_hash: ManifestReference[
         "DestinyEquipmentSlotDefinition"
-    ]  # An equipped item *must* be equipped in an Equipment Slot. This is the hash identifier of the DestinyEquipmentSlotDefinition into which it must be equipped.
-    unique_label: str  # If defined, this is the label used to check if the item has other items of matching types already equipped.  For instance, when you aren't allowed to equip more than one Exotic Weapon, that's because all exotic weapons have identical uniqueLabels and the game checks the to-be-equipped item's uniqueLabel vs. all other already equipped items (other than the item in the slot that's about to be occupied).
-    unique_label_hash: int  # The hash of that unique label. Does not point to a specific definition.
+    ] = dt.field(
+        metadata={
+            "description": "An equipped item *must* be equipped in an Equipment Slot. This is the hash identifier of the DestinyEquipmentSlotDefinition into which it must be equipped."
+        }
+    )
+    unique_label: str = dt.field(
+        metadata={
+            "description": """If defined, this is the label used to check if the item has other items of matching types already equipped. 
+For instance, when you aren't allowed to equip more than one Exotic Weapon, that's because all exotic weapons have identical uniqueLabels and the game checks the to-be-equipped item's uniqueLabel vs. all other already equipped items (other than the item in the slot that's about to be occupied)."""
+        }
+    )
+    unique_label_hash: int = dt.field(
+        metadata={
+            "description": "The hash of that unique label. Does not point to a specific definition."
+        }
+    )
     gearset_item_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
-    ] = None  # If the item is part of a gearset, this is a reference to that gearset item.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the item is part of a gearset, this is a reference to that gearset item."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -841,18 +1526,41 @@ class DestinyEquipmentSlotDefinition:
     inventory buckets must have Equipment Slots.
     """
 
-    apply_custom_art_dyes: bool  # If True, equipped items should have their custom art dyes applied when rendering the item. Otherwise, custom art dyes on an item should be ignored if the item is equipped in this slot.
-    art_dye_channels: t.Sequence[
-        "DestinyArtDyeReference"
-    ]  # The Art Dye Channels that apply to this equipment slot.
-    bucket_type_hash: ManifestReference[
-        "DestinyInventoryBucketDefinition"
-    ]  # The inventory bucket that owns this equipment slot.
+    apply_custom_art_dyes: bool = dt.field(
+        metadata={
+            "description": "If True, equipped items should have their custom art dyes applied when rendering the item. Otherwise, custom art dyes on an item should be ignored if the item is equipped in this slot."
+        }
+    )
+    art_dye_channels: t.Sequence["DestinyArtDyeReference"] = dt.field(
+        metadata={
+            "description": "The Art Dye Channels that apply to this equipment slot."
+        }
+    )
+    bucket_type_hash: ManifestReference["DestinyInventoryBucketDefinition"] = dt.field(
+        metadata={"description": "The inventory bucket that owns this equipment slot."}
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    equipment_category_hash: int  # These technically point to "Equipment Category Definitions". But don't get excited. There's nothing of significant value in those definitions, so I didn't bother to expose them. You can use the hash here to group equipment slots by common functionality, which serves the same purpose as if we had the Equipment Category definitions exposed.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    equipment_category_hash: int = dt.field(
+        metadata={
+            "description": "These technically point to \"Equipment Category Definitions\". But don't get excited. There's nothing of significant value in those definitions, so I didn't bother to expose them. You can use the hash here to group equipment slots by common functionality, which serves the same purpose as if we had the Equipment Category definitions exposed."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -922,18 +1630,42 @@ class DestinyClassDefinition:
     Hunter.
     """
 
-    class_type: "DestinyClass"  # In Destiny 1, we added a convenience Enumeration for referring to classes. We've kept it, though mostly for posterity. This is the enum value for this definition's class.
+    class_type: "DestinyClass" = dt.field(
+        metadata={
+            "description": "In Destiny 1, we added a convenience Enumeration for referring to classes. We've kept it, though mostly for posterity. This is the enum value for this definition's class."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    gendered_class_names: t.Mapping[
-        str, str
-    ]  # A localized string referring to the singular form of the Class's name when referred to in gendered form. Keyed by the DestinyGender.
+    gendered_class_names: t.Mapping[str, str] = dt.field(
+        metadata={
+            "description": "A localized string referring to the singular form of the Class's name when referred to in gendered form. Keyed by the DestinyGender."
+        }
+    )
     gendered_class_names_by_gender_hash: t.Mapping[str, str]
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     mentor_vendor_hash: t.Optional[
         ManifestReference["DestinyVendorDefinition"]
-    ] = None  # Mentors don't really mean anything anymore. Don't expect this to be populated.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "Mentors don't really mean anything anymore. Don't expect this to be populated."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -960,10 +1692,27 @@ class DestinyGenderDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    gender_type: "DestinyGender"  # This is a quick reference enumeration for all of the currently defined Genders. We use the enumeration for quicker lookups in related data, like DestinyClassDefinition.genderedClassNames.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    gender_type: "DestinyGender" = dt.field(
+        metadata={
+            "description": "This is a quick reference enumeration for all of the currently defined Genders. We use the enumeration for quicker lookups in related data, like DestinyClassDefinition.genderedClassNames."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -989,73 +1738,186 @@ class DestinyVendorDefinition:
     Since Vendors are so many things to so many parts of the game, the definition is understandably complex. You will want to combine this data with live Vendor information from the API when it is available.
     """
 
-    accepted_items: t.Sequence[
-        "DestinyVendorAcceptedItemDefinition"
-    ]  # If the Vendor is actually a vehicle for the transferring of items (like the Vault and Postmaster vendors), this defines the list of source->destination buckets for transferring.
-    actions: t.Sequence[
-        "DestinyVendorActionDefinition"
-    ]  # Describes "actions" that can be performed on a vendor. Currently, none of these exist. But theoretically a Vendor could let you interact with it by performing actions. We'll see what these end up looking like if they ever get used.
-    buy_string: str  # If the vendor has a custom localized string describing the "buy" action, that is returned here.
-    categories: t.Sequence[
-        "DestinyVendorCategoryEntryDefinition"
-    ]  # These are the headers for sections of items that the vendor is selling. When you see items organized by category in the header, it is these categories that it is showing. Well, technically not *exactly* these. On BNet, it doesn't make sense to have categories be "paged" as we do in Destiny, so we run some heuristics to attempt to aggregate pages of categories together.  These are the categories post-concatenation, if the vendor had concatenation applied. If you want the pre-aggregated category data, use originalCategories.
-    consolidate_categories: bool  # If TRUE, consolidate categories that only differ by trivial properties (such as having minor differences in name)
-    display_categories: t.Sequence[
-        "DestinyDisplayCategoryDefinition"
-    ]  # Display Categories are different from "categories" in that these are specifically for visual grouping and display of categories in Vendor UI.  The "categories" structure is for validation of the contained items, and can be categorized entirely separately from "Display Categories", there need be and often will be no meaningful relationship between the two.
-    display_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # If the vendor has an item that should be displayed as the "featured" item, this is the hash identifier for that DestinyVendorItemDefinition. Apparently this is usually a related currency, like a reputation token. But it need not be restricted to that.
+    accepted_items: t.Sequence["DestinyVendorAcceptedItemDefinition"] = dt.field(
+        metadata={
+            "description": "If the Vendor is actually a vehicle for the transferring of items (like the Vault and Postmaster vendors), this defines the list of source->destination buckets for transferring."
+        }
+    )
+    actions: t.Sequence["DestinyVendorActionDefinition"] = dt.field(
+        metadata={
+            "description": 'Describes "actions" that can be performed on a vendor. Currently, none of these exist. But theoretically a Vendor could let you interact with it by performing actions. We\'ll see what these end up looking like if they ever get used.'
+        }
+    )
+    buy_string: str = dt.field(
+        metadata={
+            "description": 'If the vendor has a custom localized string describing the "buy" action, that is returned here.'
+        }
+    )
+    categories: t.Sequence["DestinyVendorCategoryEntryDefinition"] = dt.field(
+        metadata={
+            "description": """These are the headers for sections of items that the vendor is selling. When you see items organized by category in the header, it is these categories that it is showing.
+Well, technically not *exactly* these. On BNet, it doesn't make sense to have categories be "paged" as we do in Destiny, so we run some heuristics to attempt to aggregate pages of categories together. 
+These are the categories post-concatenation, if the vendor had concatenation applied. If you want the pre-aggregated category data, use originalCategories."""
+        }
+    )
+    consolidate_categories: bool = dt.field(
+        metadata={
+            "description": "If TRUE, consolidate categories that only differ by trivial properties (such as having minor differences in name)"
+        }
+    )
+    display_categories: t.Sequence["DestinyDisplayCategoryDefinition"] = dt.field(
+        metadata={
+            "description": """Display Categories are different from "categories" in that these are specifically for visual grouping and display of categories in Vendor UI. 
+The "categories" structure is for validation of the contained items, and can be categorized entirely separately from "Display Categories", there need be and often will be no meaningful relationship between the two."""
+        }
+    )
+    display_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": """If the vendor has an item that should be displayed as the "featured" item, this is the hash identifier for that DestinyVendorItemDefinition.
+Apparently this is usually a related currency, like a reputation token. But it need not be restricted to that."""
+        }
+    )
     display_properties: "DestinyVendorDisplayPropertiesDefinition"
-    enabled: bool  # If a vendor is not enabled, we won't even save the vendor's definition, and we won't return any items or info about them. It's as if they don't exist.
-    faction_hash: ManifestReference[
-        "DestinyFactionDefinition"
-    ]  # If the Vendor has a faction, this hash will be valid and point to a DestinyFactionDefinition. The game UI and BNet often mine the faction definition for additional elements and details to place on the screen, such as the faction's Progression status (aka "Reputation").
-    failure_strings: t.Sequence[
-        str
-    ]  # If an item can't be purchased from the vendor, there may be many "custom"/game state specific reasons why not. This is a list of localized strings with messages for those custom failures. The live BNet data will return a failureIndexes property for items that can't be purchased: using those values to index into this array, you can show the user the appropriate failure message for the item that can't be bought.
-    groups: t.Sequence[
-        "DestinyVendorGroupReference"
-    ]  # A vendor can be a part of 0 or 1 "groups" at a time: a group being a collection of Vendors related by either location or function/purpose. It's used for our our Companion Vendor UI. Only one of these can be active for a Vendor at a time.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    ignore_sale_item_hashes: t.Sequence[
-        int
-    ]  # Some items don't make sense to return in the API, for example because they represent an action to be performed rather than an item being sold. I'd rather we not do this, but at least in the short term this is a workable workaround.
-    index: int  # The index of the entity as it was found in the investment tables.
-    inhibit_buying: bool  # If this is true, you aren't allowed to buy whatever the vendor is selling.
-    inhibit_selling: bool  # If this is true, you're not allowed to sell whatever the vendor is buying.
-    interactions: t.Sequence[
-        "DestinyVendorInteractionDefinition"
-    ]  # In addition to selling items, vendors can have "interactions": UI where you "talk" with the vendor and they offer you a reward, some item, or merely acknowledge via dialog that you did something cool.
-    inventory_flyouts: t.Sequence[
-        "DestinyVendorInventoryFlyoutDefinition"
-    ]  # If the vendor shows you items from your own inventory - such as the Vault vendor does - this data describes the UI around showing those inventory buckets and which ones get shown.
-    item_list: t.Sequence[
-        "DestinyVendorItemDefinition"
-    ]  # If the vendor sells items (or merely has a list of items to show like the "Sack" vendors do), this is the list of those items that the vendor can sell. From this list, only a subset will be available from the vendor at any given time, selected randomly and reset on the vendor's refresh interval. Note that a vendor can sell the same item multiple ways: for instance, nothing stops a vendor from selling you some specific weapon but using two different currencies, or the same weapon at multiple "item levels".
-    locations: t.Sequence[
-        "DestinyVendorLocationDefinition"
-    ]  # A vendor can be at different places in the world depending on the game/character/account state. This is the list of possible locations for the vendor, along with conditions we use to determine which one is currently active.
-    original_categories: t.Sequence[
-        "DestinyVendorCategoryEntryDefinition"
-    ]  # See the categories property for a description of categories and why originalCategories exists.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    reset_interval_minutes: int  # A number used for calculating the frequency of a vendor's inventory resetting/refreshing. Don't worry about calculating this - we do it on the server side and send you the next refresh date with the live data.
-    reset_offset_minutes: int  # Again, used for reset/refreshing of inventory. Don't worry too much about it. Unless you want to.
-    return_with_vendor_request: bool  # As many of you know, Vendor data has historically been pretty brutal on the BNet servers. In an effort to reduce this workload, only Vendors with this flag set will be returned on Vendor requests. This allows us to filter out Vendors that don't dynamic data that's particularly useful: things like "Preview/Sack" vendors, for example, that you can usually suss out the details for using just the definitions themselves.
-    sell_string: str  # Ditto for selling. Not that you can sell items to a vendor anymore. Will it come back? Who knows. The string's still there.
-    services: t.Sequence[
-        "DestinyVendorServiceDefinition"
-    ]  # BNet doesn't use this data yet, but it appears to be an optional list of flavor text about services that the Vendor can provide.
-    unlock_ranges: t.Sequence[
-        "DateRange"
-    ]  # If we were able to predict the dates when this Vendor will be visible/available, this will be the list of those date ranges. Sadly, we're not able to predict this very frequently, so this will often be useless data.
-    vendor_banner: str  # If the vendor has a custom banner image, that can be found here.
-    vendor_identifier: str  # The internal identifier for the Vendor. A holdover from the old days of Vendors, but we don't have time to refactor it away.
-    vendor_portrait: str  # A portrait of the Vendor's smiling mug. Or frothing tentacles.
-    vendor_progression_type: "DestinyVendorProgressionType"  # The type of reward progression that this vendor has. Default - The original rank progression from token redemption. Ritual - Progression from ranks in ritual content. For example: Crucible (Shaxx), Gambit (Drifter), and Battlegrounds (War Table).
-    vendor_subcategory_identifier: str  # The identifier of the VendorCategoryDefinition for this vendor's subcategory.
-    visible: bool  # If a vendor is not visible, we still have and will give vendor definition info, but we won't use them for things like Advisors or UI.
+    enabled: bool = dt.field(
+        metadata={
+            "description": "If a vendor is not enabled, we won't even save the vendor's definition, and we won't return any items or info about them. It's as if they don't exist."
+        }
+    )
+    faction_hash: ManifestReference["DestinyFactionDefinition"] = dt.field(
+        metadata={
+            "description": """If the Vendor has a faction, this hash will be valid and point to a DestinyFactionDefinition.
+The game UI and BNet often mine the faction definition for additional elements and details to place on the screen, such as the faction's Progression status (aka "Reputation")."""
+        }
+    )
+    failure_strings: t.Sequence[str] = dt.field(
+        metadata={
+            "description": """If an item can't be purchased from the vendor, there may be many "custom"/game state specific reasons why not.
+This is a list of localized strings with messages for those custom failures. The live BNet data will return a failureIndexes property for items that can't be purchased: using those values to index into this array, you can show the user the appropriate failure message for the item that can't be bought."""
+        }
+    )
+    groups: t.Sequence["DestinyVendorGroupReference"] = dt.field(
+        metadata={
+            "description": 'A vendor can be a part of 0 or 1 "groups" at a time: a group being a collection of Vendors related by either location or function/purpose. It\'s used for our our Companion Vendor UI. Only one of these can be active for a Vendor at a time.'
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    ignore_sale_item_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "Some items don't make sense to return in the API, for example because they represent an action to be performed rather than an item being sold. I'd rather we not do this, but at least in the short term this is a workable workaround."
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    inhibit_buying: bool = dt.field(
+        metadata={
+            "description": "If this is true, you aren't allowed to buy whatever the vendor is selling."
+        }
+    )
+    inhibit_selling: bool = dt.field(
+        metadata={
+            "description": "If this is true, you're not allowed to sell whatever the vendor is buying."
+        }
+    )
+    interactions: t.Sequence["DestinyVendorInteractionDefinition"] = dt.field(
+        metadata={
+            "description": 'In addition to selling items, vendors can have "interactions": UI where you "talk" with the vendor and they offer you a reward, some item, or merely acknowledge via dialog that you did something cool.'
+        }
+    )
+    inventory_flyouts: t.Sequence["DestinyVendorInventoryFlyoutDefinition"] = dt.field(
+        metadata={
+            "description": "If the vendor shows you items from your own inventory - such as the Vault vendor does - this data describes the UI around showing those inventory buckets and which ones get shown."
+        }
+    )
+    item_list: t.Sequence["DestinyVendorItemDefinition"] = dt.field(
+        metadata={
+            "description": """If the vendor sells items (or merely has a list of items to show like the "Sack" vendors do), this is the list of those items that the vendor can sell. From this list, only a subset will be available from the vendor at any given time, selected randomly and reset on the vendor's refresh interval.
+Note that a vendor can sell the same item multiple ways: for instance, nothing stops a vendor from selling you some specific weapon but using two different currencies, or the same weapon at multiple "item levels"."""
+        }
+    )
+    locations: t.Sequence["DestinyVendorLocationDefinition"] = dt.field(
+        metadata={
+            "description": "A vendor can be at different places in the world depending on the game/character/account state. This is the list of possible locations for the vendor, along with conditions we use to determine which one is currently active."
+        }
+    )
+    original_categories: t.Sequence["DestinyVendorCategoryEntryDefinition"] = dt.field(
+        metadata={
+            "description": "See the categories property for a description of categories and why originalCategories exists."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    reset_interval_minutes: int = dt.field(
+        metadata={
+            "description": """A number used for calculating the frequency of a vendor's inventory resetting/refreshing.
+Don't worry about calculating this - we do it on the server side and send you the next refresh date with the live data."""
+        }
+    )
+    reset_offset_minutes: int = dt.field(
+        metadata={
+            "description": "Again, used for reset/refreshing of inventory. Don't worry too much about it. Unless you want to."
+        }
+    )
+    return_with_vendor_request: bool = dt.field(
+        metadata={
+            "description": "As many of you know, Vendor data has historically been pretty brutal on the BNet servers. In an effort to reduce this workload, only Vendors with this flag set will be returned on Vendor requests. This allows us to filter out Vendors that don't dynamic data that's particularly useful: things like \"Preview/Sack\" vendors, for example, that you can usually suss out the details for using just the definitions themselves."
+        }
+    )
+    sell_string: str = dt.field(
+        metadata={
+            "description": "Ditto for selling. Not that you can sell items to a vendor anymore. Will it come back? Who knows. The string's still there."
+        }
+    )
+    services: t.Sequence["DestinyVendorServiceDefinition"] = dt.field(
+        metadata={
+            "description": "BNet doesn't use this data yet, but it appears to be an optional list of flavor text about services that the Vendor can provide."
+        }
+    )
+    unlock_ranges: t.Sequence["DateRange"] = dt.field(
+        metadata={
+            "description": "If we were able to predict the dates when this Vendor will be visible/available, this will be the list of those date ranges. Sadly, we're not able to predict this very frequently, so this will often be useless data."
+        }
+    )
+    vendor_banner: str = dt.field(
+        metadata={
+            "description": "If the vendor has a custom banner image, that can be found here."
+        }
+    )
+    vendor_identifier: str = dt.field(
+        metadata={
+            "description": "The internal identifier for the Vendor. A holdover from the old days of Vendors, but we don't have time to refactor it away."
+        }
+    )
+    vendor_portrait: str = dt.field(
+        metadata={
+            "description": "A portrait of the Vendor's smiling mug. Or frothing tentacles."
+        }
+    )
+    vendor_progression_type: "DestinyVendorProgressionType" = dt.field(
+        metadata={
+            "description": "The type of reward progression that this vendor has. Default - The original rank progression from token redemption. Ritual - Progression from ranks in ritual content. For example: Crucible (Shaxx), Gambit (Drifter), and Battlegrounds (War Table)."
+        }
+    )
+    vendor_subcategory_identifier: str = dt.field(
+        metadata={
+            "description": "The identifier of the VendorCategoryDefinition for this vendor's subcategory."
+        }
+    )
+    visible: bool = dt.field(
+        metadata={
+            "description": "If a vendor is not visible, we still have and will give vendor definition info, but we won't use them for things like Advisors or UI."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1101,18 +1963,52 @@ class DestinyVendorDefinition:
 class DestinyVendorDisplayPropertiesDefinition:
     description: str
     has_icon: bool
-    high_res_icon: str  # If this item has a high-res icon (at least for now, many things won't), then the path to that icon will be here.
-    icon: str  # Note that "icon" is sometimes misleading, and should be interpreted in the context of the entity. For instance, in Destiny 1 the DestinyRecordBookDefinition's icon was a big picture of a book. But usually, it will be a small square image that you can use as... well, an icon. They are currently represented as 96px x 96px images.
+    high_res_icon: str = dt.field(
+        metadata={
+            "description": "If this item has a high-res icon (at least for now, many things won't), then the path to that icon will be here."
+        }
+    )
+    icon: str = dt.field(
+        metadata={
+            "description": """Note that "icon" is sometimes misleading, and should be interpreted in the context of the entity. For instance, in Destiny 1 the DestinyRecordBookDefinition's icon was a big picture of a book.
+But usually, it will be a small square image that you can use as... well, an icon.
+They are currently represented as 96px x 96px images."""
+        }
+    )
     icon_sequences: t.Sequence["DestinyIconSequenceDefinition"]
-    large_icon: str  # I regret calling this a "large icon". It's more like a medium-sized image with a picture of the vendor's mug on it, trying their best to look cool. Not what one would call an icon.
-    large_transparent_icon: str  # This is apparently the "Watermark". I am not certain offhand where this is actually used in the Game UI, but some people may find it useful.
-    map_icon: str  # This is the icon used in the map overview, when the vendor is located on the map.
+    large_icon: str = dt.field(
+        metadata={
+            "description": "I regret calling this a \"large icon\". It's more like a medium-sized image with a picture of the vendor's mug on it, trying their best to look cool. Not what one would call an icon."
+        }
+    )
+    large_transparent_icon: str = dt.field(
+        metadata={
+            "description": 'This is apparently the "Watermark". I am not certain offhand where this is actually used in the Game UI, but some people may find it useful.'
+        }
+    )
+    map_icon: str = dt.field(
+        metadata={
+            "description": "This is the icon used in the map overview, when the vendor is located on the map."
+        }
+    )
     name: str
-    original_icon: str  # If we replaced the icon with something more glitzy, this is the original icon that the vendor had according to the game's content. It may be more lame and/or have less razzle-dazzle. But who am I to tell you which icon to use.
+    original_icon: str = dt.field(
+        metadata={
+            "description": "If we replaced the icon with something more glitzy, this is the original icon that the vendor had according to the game's content. It may be more lame and/or have less razzle-dazzle. But who am I to tell you which icon to use."
+        }
+    )
     requirements_display: t.Sequence[
         "DestinyVendorRequirementDisplayEntryDefinition"
-    ]  # Vendors, in addition to expected display property data, may also show some "common requirements" as statically defined definition data. This might be when a vendor accepts a single type of currency, or when the currency is unique to the vendor and the designers wanted to show that currency when you interact with the vendor.
-    small_transparent_icon: str  # This is the icon used in parts of the game UI such as the vendor's waypoint.
+    ] = dt.field(
+        metadata={
+            "description": 'Vendors, in addition to expected display property data, may also show some "common requirements" as statically defined definition data. This might be when a vendor accepts a single type of currency, or when the currency is unique to the vendor and the designers wanted to show that currency when you interact with the vendor.'
+        }
+    )
+    small_transparent_icon: str = dt.field(
+        metadata={
+            "description": "This is the icon used in parts of the game UI such as the vendor's waypoint."
+        }
+    )
     subtitle: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -1191,24 +2087,72 @@ class DestinyVendorCategoryEntryDefinition:
     """This is the definition for a single Vendor Category, into which Sale
     Items are grouped."""
 
-    buy_string_override: str  # The localized string for making purchases from this category, if it is different from the vendor's string for purchasing.
-    category_hash: int  # The hashed identifier for the category.
-    category_index: int  # The index of the category in the original category definitions for the vendor.
-    disabled_description: str  # If the category is disabled, this is the localized description to show.
-    display_title: str  # The localized title of the category.
-    hide_from_regular_purchase: bool  # True if this category doesn't allow purchases.
-    hide_if_no_currency: bool  # If you don't have the currency required to buy items from this category, should the items be hidden?
-    is_display_only: bool  # If true, this category only displays items: you can't purchase anything in them.
-    is_preview: bool  # Sometimes a category isn't actually used to sell items, but rather to preview them. This implies different UI (and manual placement of the category in the UI) in the game, and special treatment.
-    overlay: "DestinyVendorCategoryOverlayDefinition"  # If this category has an overlay prompt that should appear, this contains the details of that prompt.
-    quantity_available: int  # The amount of items that will be available when this category is shown.
+    buy_string_override: str = dt.field(
+        metadata={
+            "description": "The localized string for making purchases from this category, if it is different from the vendor's string for purchasing."
+        }
+    )
+    category_hash: int = dt.field(
+        metadata={"description": "The hashed identifier for the category."}
+    )
+    category_index: int = dt.field(
+        metadata={
+            "description": "The index of the category in the original category definitions for the vendor."
+        }
+    )
+    disabled_description: str = dt.field(
+        metadata={
+            "description": "If the category is disabled, this is the localized description to show."
+        }
+    )
+    display_title: str = dt.field(
+        metadata={"description": "The localized title of the category."}
+    )
+    hide_from_regular_purchase: bool = dt.field(
+        metadata={"description": "True if this category doesn't allow purchases."}
+    )
+    hide_if_no_currency: bool = dt.field(
+        metadata={
+            "description": "If you don't have the currency required to buy items from this category, should the items be hidden?"
+        }
+    )
+    is_display_only: bool = dt.field(
+        metadata={
+            "description": "If true, this category only displays items: you can't purchase anything in them."
+        }
+    )
+    is_preview: bool = dt.field(
+        metadata={
+            "description": "Sometimes a category isn't actually used to sell items, but rather to preview them. This implies different UI (and manual placement of the category in the UI) in the game, and special treatment."
+        }
+    )
+    overlay: "DestinyVendorCategoryOverlayDefinition" = dt.field(
+        metadata={
+            "description": "If this category has an overlay prompt that should appear, this contains the details of that prompt."
+        }
+    )
+    quantity_available: int = dt.field(
+        metadata={
+            "description": "The amount of items that will be available when this category is shown."
+        }
+    )
     reset_interval_minutes_override: int
     reset_offset_minutes_override: int
-    show_unavailable_items: bool  # If items aren't up for sale in this category, should we still show them (greyed out)?
-    sort_value: int  # Used in sorting items in vendors... but there's a lot more to it. Just go with the order provided in the itemIndexes property on the DestinyVendorCategoryComponent instead, it should be more reliable than trying to recalculate it yourself.
-    vendor_item_indexes: t.Sequence[
-        int
-    ]  # A shortcut for the vendor item indexes sold under this category. Saves us from some expensive reorganization at runtime.
+    show_unavailable_items: bool = dt.field(
+        metadata={
+            "description": "If items aren't up for sale in this category, should we still show them (greyed out)?"
+        }
+    )
+    sort_value: int = dt.field(
+        metadata={
+            "description": "Used in sorting items in vendors... but there's a lot more to it. Just go with the order provided in the itemIndexes property on the DestinyVendorCategoryComponent instead, it should be more reliable than trying to recalculate it yourself."
+        }
+    )
+    vendor_item_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A shortcut for the vendor item indexes sold under this category. Saves us from some expensive reorganization at runtime."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1247,7 +2191,12 @@ class DestinyVendorCategoryOverlayDefinition:
     title: str
     currency_item_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
-    ] = None  # If this overlay has a currency item that it features, this is said featured item.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this overlay has a currency item that it features, this is said featured item."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1271,18 +2220,41 @@ class DestinyDisplayCategoryDefinition:
     """
 
     display_category_hash: int
-    display_in_banner: bool  # If true, this category should be displayed in the "Banner" section of the vendor's UI.
+    display_in_banner: bool = dt.field(
+        metadata={
+            "description": 'If true, this category should be displayed in the "Banner" section of the vendor\'s UI.'
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    display_style_identifier: str  # An indicator of how the category will be displayed in the UI. It's up to you to do something cool or interesting in response to this, or just to treat it as a normal category.
-    identifier: str  # A string identifier for the display category.
+    display_style_identifier: str = dt.field(
+        metadata={
+            "description": "An indicator of how the category will be displayed in the UI. It's up to you to do something cool or interesting in response to this, or just to treat it as a normal category."
+        }
+    )
+    identifier: str = dt.field(
+        metadata={"description": "A string identifier for the display category."}
+    )
     index: int
-    sort_order: "VendorDisplayCategorySortOrder"  # If this category sorts items in a nonstandard way, this will be the way we sort.
-    display_style_hash: t.Optional[
-        int
-    ] = None  # An indicator of how the category will be displayed in the UI. It's up to you to do something cool or interesting in response to this, or just to treat it as a normal category.
+    sort_order: "VendorDisplayCategorySortOrder" = dt.field(
+        metadata={
+            "description": "If this category sorts items in a nonstandard way, this will be the way we sort."
+        }
+    )
+    display_style_hash: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "An indicator of how the category will be displayed in the UI. It's up to you to do something cool or interesting in response to this, or just to treat it as a normal category."
+        },
+    )
     progression_hash: t.Optional[
         ManifestReference["DestinyProgressionDefinition"]
-    ] = None  # If it exists, this is the hash identifier of a DestinyProgressionDefinition that represents the progression to show on this display category. Specific categories can now have thier own distinct progression, apparently. So that's cool.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """If it exists, this is the hash identifier of a DestinyProgressionDefinition that represents the progression to show on this display category.
+Specific categories can now have thier own distinct progression, apparently. So that's cool."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1307,25 +2279,71 @@ class DestinyVendorInteractionDefinition:
     by choosing an option or reward.
     """
 
-    flavor_line_one: str  # If the vendor interaction has flavor text, this is some of it.
-    flavor_line_two: str  # If the vendor interaction has flavor text, this is the rest of it.
-    header_display_properties: "DestinyDisplayPropertiesDefinition"  # The header for the interaction dialog.
-    instructions: str  # The localized text telling the player what to do when they see this dialog.
-    interaction_index: int  # The position of this interaction in its parent array. Note that this is NOT content agnostic, and should not be used as such.
-    interaction_type: "VendorInteractionType"  # The enumerated version of the possible UI hints for vendor interactions, which is a little easier to grok than the hash found in uiInteractionType.
-    questline_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # If this interaction dialog is about a quest, this is the questline related to the interaction. You can use this to show the quest overview, or even the character's status with the quest if you use it to find the character's current Quest Step by checking their inventory against this questlineItemHash's DestinyInventoryItemDefinition.setData.
-    replies: t.Sequence[
-        "DestinyVendorInteractionReplyDefinition"
-    ]  # The potential replies that the user can make to the interaction.
-    reward_block_label: str  # If this interaction is displaying rewards, this is the text to use for the header of the reward-displaying section of the interaction.
-    reward_vendor_category_index: int  # If the vendor's reward list is sourced from one of his categories, this is the index into the category array of items to show.
+    flavor_line_one: str = dt.field(
+        metadata={
+            "description": "If the vendor interaction has flavor text, this is some of it."
+        }
+    )
+    flavor_line_two: str = dt.field(
+        metadata={
+            "description": "If the vendor interaction has flavor text, this is the rest of it."
+        }
+    )
+    header_display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={"description": "The header for the interaction dialog."}
+    )
+    instructions: str = dt.field(
+        metadata={
+            "description": "The localized text telling the player what to do when they see this dialog."
+        }
+    )
+    interaction_index: int = dt.field(
+        metadata={
+            "description": "The position of this interaction in its parent array. Note that this is NOT content agnostic, and should not be used as such."
+        }
+    )
+    interaction_type: "VendorInteractionType" = dt.field(
+        metadata={
+            "description": "The enumerated version of the possible UI hints for vendor interactions, which is a little easier to grok than the hash found in uiInteractionType."
+        }
+    )
+    questline_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "If this interaction dialog is about a quest, this is the questline related to the interaction. You can use this to show the quest overview, or even the character's status with the quest if you use it to find the character's current Quest Step by checking their inventory against this questlineItemHash's DestinyInventoryItemDefinition.setData."
+        }
+    )
+    replies: t.Sequence["DestinyVendorInteractionReplyDefinition"] = dt.field(
+        metadata={
+            "description": "The potential replies that the user can make to the interaction."
+        }
+    )
+    reward_block_label: str = dt.field(
+        metadata={
+            "description": "If this interaction is displaying rewards, this is the text to use for the header of the reward-displaying section of the interaction."
+        }
+    )
+    reward_vendor_category_index: int = dt.field(
+        metadata={
+            "description": "If the vendor's reward list is sourced from one of his categories, this is the index into the category array of items to show."
+        }
+    )
     sack_interaction_list: t.Sequence[
         "DestinyVendorInteractionSackEntryDefinition"
-    ]  # If this interaction is meant to show you sacks, this is the list of types of sacks to be shown. If empty, the interaction is not meant to show sacks.
-    ui_interaction_type: int  # A UI hint for the behavior of the interaction screen. This is useful to determine what type of interaction is occurring, such as a prompt to receive a rank up reward or a prompt to choose a reward for completing a quest. The hash isn't as useful as the Enum in retrospect, well what can you do. Try using interactionType instead.
-    vendor_category_index: int  # If >= 0, this is the category of sale items to show along with this interaction dialog.
+    ] = dt.field(
+        metadata={
+            "description": "If this interaction is meant to show you sacks, this is the list of types of sacks to be shown. If empty, the interaction is not meant to show sacks."
+        }
+    )
+    ui_interaction_type: int = dt.field(
+        metadata={
+            "description": "A UI hint for the behavior of the interaction screen. This is useful to determine what type of interaction is occurring, such as a prompt to receive a rank up reward or a prompt to choose a reward for completing a quest. The hash isn't as useful as the Enum in retrospect, well what can you do. Try using interactionType instead."
+        }
+    )
+    vendor_category_index: int = dt.field(
+        metadata={
+            "description": "If >= 0, this is the category of sale items to show along with this interaction dialog."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1355,9 +2373,13 @@ class DestinyVendorInteractionReplyDefinition:
     vendors.
     """
 
-    item_rewards_selection: "DestinyVendorInteractionRewardSelection"  # The rewards granted upon responding to the vendor.
-    reply: str  # The localized text for the reply.
-    reply_type: "DestinyVendorReplyType"  # An enum indicating the type of reply being made.
+    item_rewards_selection: "DestinyVendorInteractionRewardSelection" = dt.field(
+        metadata={"description": "The rewards granted upon responding to the vendor."}
+    )
+    reply: str = dt.field(metadata={"description": "The localized text for the reply."})
+    reply_type: "DestinyVendorReplyType" = dt.field(
+        metadata={"description": "An enum indicating the type of reply being made."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1389,16 +2411,33 @@ class DestinyVendorInventoryFlyoutDefinition:
     part of an otherwise hidden vendor inventory: like the Vault inventory
     buckets."""
 
-    buckets: t.Sequence[
-        "DestinyVendorInventoryFlyoutBucketDefinition"
-    ]  # A list of inventory buckets and other metadata to show on the screen.
-    display_properties: "DestinyDisplayPropertiesDefinition"  # The title and other common properties of the flyout.
-    flyout_id: int  # An identifier for the flyout, in case anything else needs to refer to them.
-    locked_description: str  # If the flyout is locked, this is the reason why.
-    suppress_newness: bool  # If this is true, don't show any of the glistening "this is a new item" UI elements, like we show on the inventory items themselves in in-game UI.
-    equipment_slot_hash: t.Optional[
-        int
-    ] = None  # If this flyout is meant to show you the contents of the player's equipment slot, this is the slot to show.
+    buckets: t.Sequence["DestinyVendorInventoryFlyoutBucketDefinition"] = dt.field(
+        metadata={
+            "description": "A list of inventory buckets and other metadata to show on the screen."
+        }
+    )
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={"description": "The title and other common properties of the flyout."}
+    )
+    flyout_id: int = dt.field(
+        metadata={
+            "description": "An identifier for the flyout, in case anything else needs to refer to them."
+        }
+    )
+    locked_description: str = dt.field(
+        metadata={"description": "If the flyout is locked, this is the reason why."}
+    )
+    suppress_newness: bool = dt.field(
+        metadata={
+            "description": 'If this is true, don\'t show any of the glistening "this is a new item" UI elements, like we show on the inventory items themselves in in-game UI.'
+        }
+    )
+    equipment_slot_hash: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this flyout is meant to show you the contents of the player's equipment slot, this is the slot to show."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1416,11 +2455,21 @@ class DestinyVendorInventoryFlyoutBucketDefinition:
     """Information about a single inventory bucket in a vendor flyout UI and
     how it is shown."""
 
-    collapsible: bool  # If true, the inventory bucket should be able to be collapsed visually.
+    collapsible: bool = dt.field(
+        metadata={
+            "description": "If true, the inventory bucket should be able to be collapsed visually."
+        }
+    )
     inventory_bucket_hash: ManifestReference[
         "DestinyInventoryBucketDefinition"
-    ]  # The inventory bucket whose contents should be shown.
-    sort_items_by: "DestinyItemSortType"  # The methodology to use for sorting items from the flyout.
+    ] = dt.field(
+        metadata={"description": "The inventory bucket whose contents should be shown."}
+    )
+    sort_items_by: "DestinyItemSortType" = dt.field(
+        metadata={
+            "description": "The methodology to use for sorting items from the flyout."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1434,50 +2483,142 @@ class DestinyVendorInventoryFlyoutBucketDefinition:
 class DestinyVendorItemDefinition:
     """This represents an item being sold by the vendor."""
 
-    action: "DestinyVendorSaleItemActionBlockDefinition"  # The action to be performed when purchasing the item, if it's not just "buy".
-    category_index: int  # The index into the DestinyVendorDefinition.categories array, so you can find the category associated with this item.
-    creation_levels: t.Sequence[
-        "DestinyItemCreationEntryLevelDefinition"
-    ]  # The Default level at which the item will spawn. Almost always driven by an adjusto these days. Ideally should be singular. It's a long story how this ended up as a list, but there is always either going to be 0:1 of these entities.
-    currencies: t.Sequence[
-        "DestinyVendorItemQuantity"
-    ]  # This is a pre-compiled aggregation of item value and priceOverrideList, so that we have one place to check for what the purchaser must pay for the item. Use this instead of trying to piece together the price separately. The somewhat crappy part about this is that, now that item quantity overrides have dynamic modifiers, this will not necessarily be statically true. If you were using this instead of live data, switch to using live data.
-    display_category: str  # The string identifier for the category selling this item.
-    display_category_index: int  # This is an index specifically into the display category, as opposed to the server-side Categories (which do not need to match or pair with each other in any way: server side categories are really just structures for common validation. Display Category will let us more easily categorize items visually)
-    exclusivity: "BungieMembershipType"  # If this item can only be purchased by a given platform, this indicates the platform to which it is restricted.
-    expiration_tooltip: str  # If this item can expire, this is the tooltip message to show with its expiration info.
-    failure_indexes: t.Sequence[
-        int
-    ]  # An list of indexes into the DestinyVendorDefinition.failureStrings array, indicating the possible failure strings that can be relevant for this item.
+    action: "DestinyVendorSaleItemActionBlockDefinition" = dt.field(
+        metadata={
+            "description": 'The action to be performed when purchasing the item, if it\'s not just "buy".'
+        }
+    )
+    category_index: int = dt.field(
+        metadata={
+            "description": "The index into the DestinyVendorDefinition.categories array, so you can find the category associated with this item."
+        }
+    )
+    creation_levels: t.Sequence["DestinyItemCreationEntryLevelDefinition"] = dt.field(
+        metadata={
+            "description": "The Default level at which the item will spawn. Almost always driven by an adjusto these days. Ideally should be singular. It's a long story how this ended up as a list, but there is always either going to be 0:1 of these entities."
+        }
+    )
+    currencies: t.Sequence["DestinyVendorItemQuantity"] = dt.field(
+        metadata={
+            "description": """This is a pre-compiled aggregation of item value and priceOverrideList, so that we have one place to check for what the purchaser must pay for the item. Use this instead of trying to piece together the price separately.
+The somewhat crappy part about this is that, now that item quantity overrides have dynamic modifiers, this will not necessarily be statically true. If you were using this instead of live data, switch to using live data."""
+        }
+    )
+    display_category: str = dt.field(
+        metadata={
+            "description": "The string identifier for the category selling this item."
+        }
+    )
+    display_category_index: int = dt.field(
+        metadata={
+            "description": "This is an index specifically into the display category, as opposed to the server-side Categories (which do not need to match or pair with each other in any way: server side categories are really just structures for common validation. Display Category will let us more easily categorize items visually)"
+        }
+    )
+    exclusivity: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "If this item can only be purchased by a given platform, this indicates the platform to which it is restricted."
+        }
+    )
+    expiration_tooltip: str = dt.field(
+        metadata={
+            "description": "If this item can expire, this is the tooltip message to show with its expiration info."
+        }
+    )
+    failure_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "An list of indexes into the DestinyVendorDefinition.failureStrings array, indicating the possible failure strings that can be relevant for this item."
+        }
+    )
     inventory_bucket_hash: ManifestReference[
         "DestinyInventoryBucketDefinition"
-    ]  # The inventory bucket into which this item will be placed upon purchase.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier of the item being sold (DestinyInventoryItemDefinition). Note that a vendor can sell the same item in multiple ways, so don't assume that itemHash is a unique identifier for this entity.
-    maximum_level: int  # The maximum character level at which this item is available for sale.
-    minimum_level: int  # The minimum character level at which this item is available for sale.
-    original_category_index: int  # Same as above, but for the original category indexes.
-    purchasable_scope: "DestinyGatingScope"  # Similar to visibilityScope, it represents the most restrictive scope that determines whether the item can be purchased. It will at least be as restrictive as visibilityScope, but could be more restrictive if the item has additional purchase requirements beyond whether it is merely visible or not. See DestinyGatingScope's documentation for more information.
-    quantity: int  # The amount you will recieve of the item described in itemHash if you make the purchase.
-    redirect_to_sale_indexes: t.Sequence[
-        int
-    ]  # If this is populated, the purchase of this item should redirect to purchasing these other items instead.
-    refund_policy: "DestinyVendorItemRefundPolicy"  # If this item can be refunded, this is the policy for what will be refundd, how, and in what time period.
-    refund_time_limit: int  # The amount of time before refundability of the newly purchased item will expire.
+    ] = dt.field(
+        metadata={
+            "description": "The inventory bucket into which this item will be placed upon purchase."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": """The hash identifier of the item being sold (DestinyInventoryItemDefinition).
+Note that a vendor can sell the same item in multiple ways, so don't assume that itemHash is a unique identifier for this entity."""
+        }
+    )
+    maximum_level: int = dt.field(
+        metadata={
+            "description": "The maximum character level at which this item is available for sale."
+        }
+    )
+    minimum_level: int = dt.field(
+        metadata={
+            "description": "The minimum character level at which this item is available for sale."
+        }
+    )
+    original_category_index: int = dt.field(
+        metadata={
+            "description": "Same as above, but for the original category indexes."
+        }
+    )
+    purchasable_scope: "DestinyGatingScope" = dt.field(
+        metadata={
+            "description": """Similar to visibilityScope, it represents the most restrictive scope that determines whether the item can be purchased. It will at least be as restrictive as visibilityScope, but could be more restrictive if the item has additional purchase requirements beyond whether it is merely visible or not.
+See DestinyGatingScope's documentation for more information."""
+        }
+    )
+    quantity: int = dt.field(
+        metadata={
+            "description": "The amount you will recieve of the item described in itemHash if you make the purchase."
+        }
+    )
+    redirect_to_sale_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "If this is populated, the purchase of this item should redirect to purchasing these other items instead."
+        }
+    )
+    refund_policy: "DestinyVendorItemRefundPolicy" = dt.field(
+        metadata={
+            "description": "If this item can be refunded, this is the policy for what will be refundd, how, and in what time period."
+        }
+    )
+    refund_time_limit: int = dt.field(
+        metadata={
+            "description": "The amount of time before refundability of the newly purchased item will expire."
+        }
+    )
     socket_overrides: t.Sequence["DestinyVendorItemSocketOverride"]
-    sort_value: int  # *if* the category this item is in supports non-default sorting, this value should represent the sorting value to use, pre-processed and ready to go.
-    vendor_item_index: int  # The index into the DestinyVendorDefinition.saleList. This is what we use to refer to items being sold throughout live and definition data.
-    visibility_scope: "DestinyGatingScope"  # The most restrictive scope that determines whether the item is available in the Vendor's inventory. See DestinyGatingScope's documentation for more information. This can be determined by Unlock gating, or by whether or not the item has purchase level requirements (minimumLevel and maximumLevel properties).
-    is_crm: t.Optional[
-        bool
-    ] = None  # If this sale can only be performed as the result of receiving a CRM offer, this is true.
-    is_offer: t.Optional[
-        bool
-    ] = None  # If this sale can only be performed as the result of an offer check, this is true.
-    unpurchasable: t.Optional[
-        bool
-    ] = None  # If true, this item is some sort of dummy sale item that cannot actually be purchased. It may be a display only item, or some fluff left by a content designer for testing purposes, or something that got disabled because it was a terrible idea. You get the picture. We won't know *why* it can't be purchased, only that it can't be. Sorry. This is also only whether it's unpurchasable as a static property according to game content. There are other reasons why an item may or may not be purchasable at runtime, so even if this isn't set to True you should trust the runtime value for this sale item over the static definition if this is unset.
+    sort_value: int = dt.field(
+        metadata={
+            "description": "*if* the category this item is in supports non-default sorting, this value should represent the sorting value to use, pre-processed and ready to go."
+        }
+    )
+    vendor_item_index: int = dt.field(
+        metadata={
+            "description": "The index into the DestinyVendorDefinition.saleList. This is what we use to refer to items being sold throughout live and definition data."
+        }
+    )
+    visibility_scope: "DestinyGatingScope" = dt.field(
+        metadata={
+            "description": """The most restrictive scope that determines whether the item is available in the Vendor's inventory. See DestinyGatingScope's documentation for more information.
+This can be determined by Unlock gating, or by whether or not the item has purchase level requirements (minimumLevel and maximumLevel properties)."""
+        }
+    )
+    is_crm: t.Optional[bool] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this sale can only be performed as the result of receiving a CRM offer, this is true."
+        },
+    )
+    is_offer: t.Optional[bool] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this sale can only be performed as the result of an offer check, this is true."
+        },
+    )
+    unpurchasable: t.Optional[bool] = dt.field(
+        default=None,
+        metadata={
+            "description": """If true, this item is some sort of dummy sale item that cannot actually be purchased. It may be a display only item, or some fluff left by a content designer for testing purposes, or something that got disabled because it was a terrible idea. You get the picture. We won't know *why* it can't be purchased, only that it can't be. Sorry.
+This is also only whether it's unpurchasable as a static property according to game content. There are other reasons why an item may or may not be purchasable at runtime, so even if this isn't set to True you should trust the runtime value for this sale item over the static definition if this is unset."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1520,14 +2661,27 @@ class DestinyVendorItemQuantity:
     the BNet servers, but it's there)
     """
 
-    has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
-    item_instance_id: t.Optional[
-        int
-    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
+    has_conditional_visibility: bool = dt.field(
+        metadata={
+            "description": "Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition."
+        }
+    )
+    quantity: int = dt.field(
+        metadata={
+            "description": "The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used."
+        }
+    )
+    item_instance_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1570,13 +2724,25 @@ class DestinyVendorItemSocketOverride:
     """The information for how the vendor purchase should override a given
     socket with custom plug data."""
 
-    randomized_options_count: int  # If this is greater than -1, the number of randomized plugs on this socket will be set to this quantity instead of whatever it's set to by default.
-    socket_type_hash: ManifestReference[
-        "DestinySocketTypeDefinition"
-    ]  # This appears to be used to select which socket ultimately gets the override defined here.
+    randomized_options_count: int = dt.field(
+        metadata={
+            "description": "If this is greater than -1, the number of randomized plugs on this socket will be set to this quantity instead of whatever it's set to by default."
+        }
+    )
+    socket_type_hash: ManifestReference["DestinySocketTypeDefinition"] = dt.field(
+        metadata={
+            "description": "This appears to be used to select which socket ultimately gets the override defined here."
+        }
+    )
     single_item_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
-    ] = None  # If this is populated, the socket will be overridden with a specific plug. If this isn't populated, it's being overridden by something more complicated that is only known by the Game Server and God, which means we can't tell you in advance what it'll be.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """If this is populated, the socket will be overridden with a specific plug.
+If this isn't populated, it's being overridden by something more complicated that is only known by the Game Server and God, which means we can't tell you in advance what it'll be."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1591,7 +2757,9 @@ class DestinyVendorServiceDefinition:
     """When a vendor provides services, this is the localized name of those
     services."""
 
-    name: str  # The localized name of a service provided.
+    name: str = dt.field(
+        metadata={"description": "The localized name of a service provided."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1615,10 +2783,18 @@ class DestinyVendorAcceptedItemDefinition:
 
     accepted_inventory_bucket_hash: ManifestReference[
         "DestinyInventoryBucketDefinition"
-    ]  # The "source" bucket for a transfer. When a user wants to transfer an item, the appropriate DestinyVendorDefinition's acceptedItems property is evaluated, looking for an entry where acceptedInventoryBucketHash matches the bucket that the item being transferred is currently located. If it exists, the item will be transferred into whatever bucket is defined by destinationInventoryBucketHash.
+    ] = dt.field(
+        metadata={
+            "description": 'The "source" bucket for a transfer. When a user wants to transfer an item, the appropriate DestinyVendorDefinition\'s acceptedItems property is evaluated, looking for an entry where acceptedInventoryBucketHash matches the bucket that the item being transferred is currently located. If it exists, the item will be transferred into whatever bucket is defined by destinationInventoryBucketHash.'
+        }
+    )
     destination_inventory_bucket_hash: ManifestReference[
         "DestinyInventoryBucketDefinition"
-    ]  # This is the bucket where the item being transferred will be put, given that it was being transferred *from* the bucket defined in acceptedInventoryBucketHash.
+    ] = dt.field(
+        metadata={
+            "description": "This is the bucket where the item being transferred will be put, given that it was being transferred *from* the bucket defined in acceptedInventoryBucketHash."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1642,23 +2818,53 @@ class DestinyDestinationDefinition:
 
     activity_graph_entries: t.Sequence[
         "DestinyActivityGraphListEntryDefinition"
-    ]  # If the Destination has default Activity Graphs (i.e. "Map") that should be shown in the director, this is the list of those Graphs. At most, only one should be active at any given time for a Destination: these would represent, for example, different variants on a Map if the Destination is changing on a macro level based on game state.
-    bubble_settings: t.Sequence[
-        "DestinyDestinationBubbleSettingDefinition"
-    ]  # A Destination may have many "Bubbles" zones with human readable properties. We don't get as much info as I'd like about them - I'd love to return info like where on the map they are located - but at least this gives you the name of those bubbles. bubbleSettings and bubbles both have the identical number of entries, and you should match up their indexes to provide matching bubble and bubbleSettings data. DEPRECATED - Just use bubbles, it now has this data.
-    bubbles: t.Sequence[
-        "DestinyBubbleDefinition"
-    ]  # This provides the unique identifiers for every bubble in the destination (only guaranteed unique within the destination), and any intrinsic properties of the bubble. bubbleSettings and bubbles both have the identical number of entries, and you should match up their indexes to provide matching bubble and bubbleSettings data.
+    ] = dt.field(
+        metadata={
+            "description": 'If the Destination has default Activity Graphs (i.e. "Map") that should be shown in the director, this is the list of those Graphs. At most, only one should be active at any given time for a Destination: these would represent, for example, different variants on a Map if the Destination is changing on a macro level based on game state.'
+        }
+    )
+    bubble_settings: t.Sequence["DestinyDestinationBubbleSettingDefinition"] = dt.field(
+        metadata={
+            "description": """A Destination may have many "Bubbles" zones with human readable properties.
+We don't get as much info as I'd like about them - I'd love to return info like where on the map they are located - but at least this gives you the name of those bubbles. bubbleSettings and bubbles both have the identical number of entries, and you should match up their indexes to provide matching bubble and bubbleSettings data.
+DEPRECATED - Just use bubbles, it now has this data."""
+        }
+    )
+    bubbles: t.Sequence["DestinyBubbleDefinition"] = dt.field(
+        metadata={
+            "description": """This provides the unique identifiers for every bubble in the destination (only guaranteed unique within the destination), and any intrinsic properties of the bubble.
+bubbleSettings and bubbles both have the identical number of entries, and you should match up their indexes to provide matching bubble and bubbleSettings data."""
+        }
+    )
     default_freeroam_activity_hash: ManifestReference[
         "DestinyActivityDefinition"
-    ]  # If this Destination has a default Free-Roam activity, this is the hash for that Activity. Use it to look up the DestinyActivityDefintion.
+    ] = dt.field(
+        metadata={
+            "description": "If this Destination has a default Free-Roam activity, this is the hash for that Activity. Use it to look up the DestinyActivityDefintion."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    place_hash: ManifestReference[
-        "DestinyPlaceDefinition"
-    ]  # The place that "owns" this Destination. Use this hash to look up the DestinyPlaceDefinition.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    place_hash: ManifestReference["DestinyPlaceDefinition"] = dt.field(
+        metadata={
+            "description": 'The place that "owns" this Destination. Use this hash to look up the DestinyPlaceDefinition.'
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1683,9 +2889,11 @@ class DestinyActivityGraphListEntryDefinition:
     it is relevant.
     """
 
-    activity_graph_hash: ManifestReference[
-        "DestinyActivityGraphDefinition"
-    ]  # The hash identifier of the DestinyActivityGraphDefinition that should be shown when opening the director.
+    activity_graph_hash: ManifestReference["DestinyActivityGraphDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the DestinyActivityGraphDefinition that should be shown when opening the director."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1706,67 +2914,166 @@ class DestinyActivityDefinition:
 
     activity_graph_list: t.Sequence[
         "DestinyActivityGraphListEntryDefinition"
-    ]  # Unfortunately, in practice this is almost never populated. In theory, this is supposed to tell which Activity Graph to show if you bring up the director while in this activity.
-    activity_light_level: int  # The recommended light level for this activity.
+    ] = dt.field(
+        metadata={
+            "description": "Unfortunately, in practice this is almost never populated. In theory, this is supposed to tell which Activity Graph to show if you bring up the director while in this activity."
+        }
+    )
+    activity_light_level: int = dt.field(
+        metadata={"description": "The recommended light level for this activity."}
+    )
     activity_location_mappings: t.Sequence[
         "DestinyEnvironmentLocationMapping"
-    ]  # A list of location mappings that are affected by this activity. Pulled out of DestinyLocationDefinitions for our/your lookup convenience.
-    activity_mode_hashes: t.Sequence[
-        int
-    ]  # The hash identifiers for Activity Modes relevant to this activity.  Note that if this is a playlist, the specific playlist entry chosen will determine the actual activity modes that end up being relevant.
-    activity_mode_types: t.Sequence[
-        "DestinyActivityModeType"
-    ]  # The activity modes - if any - in enum form. Because we can't seem to escape the enums.
-    activity_type_hash: ManifestReference[
-        "DestinyActivityTypeDefinition"
-    ]  # The hash identifier for the Activity Type of this Activity. You may use it to look up the DestinyActivityTypeDefinition for human readable info, but be forewarned: Playlists and many PVP Map Activities will map to generic Activity Types. You'll have to use your knowledge of the Activity Mode being played to get more specific information about what the user is playing.
-    challenges: t.Sequence[
-        "DestinyActivityChallengeDefinition"
-    ]  # An activity can have many Challenges, of which any subset of them may be active for play at any given period of time. This gives the information about the challenges and data that we use to understand when they're active and what rewards they provide. Sadly, at the moment there's no central definition for challenges: much like "Skulls" were in Destiny 1, these are defined on individual activities and there can be many duplicates/near duplicates across the Destiny 2 ecosystem. I have it in mind to centralize these in a future revision of the API, but we are out of time.
-    destination_hash: ManifestReference[
-        "DestinyDestinationDefinition"
-    ]  # The hash identifier for the Destination on which this Activity is played. Use it to look up the DestinyDestinationDefinition for human readable info about the destination. A Destination can be thought of as a more specific location than a "Place". For instance, if the "Place" is Earth, the "Destination" would be a specific city or region on Earth.
-    display_properties: "DestinyDisplayPropertiesDefinition"  # The title, subtitle, and icon for the activity. We do a little post-processing on this to try and account for Activities where the designers have left this data too minimal to determine what activity is actually being played.
-    guided_game: "DestinyActivityGuidedBlockDefinition"  # This block of data, if it exists, provides information about the guided game experience and restrictions for this activity. If it doesn't exist, the game is not able to be played as a guided game.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    insertion_points: t.Sequence[
-        "DestinyActivityInsertionPointDefinition"
-    ]  # The list of phases or points of entry into an activity, along with information we can use to determine their gating and availability.
-    is_playlist: bool  # If True, this Activity is actually a Playlist that refers to multiple possible specific Activities and Activity Modes. For instance, a Crucible Playlist may have references to multiple Activities (Maps) with multiple Activity Modes (specific PvP gameplay modes). If this is true, refer to the playlistItems property for the specific entries in the playlist.
-    is_pv_p: bool  # If true, this activity is a PVP activity or playlist.
-    loadouts: t.Sequence[
-        "DestinyActivityLoadoutRequirementSet"
-    ]  # The set of all possible loadout requirements that could be active for this activity. Only one will be active at any given time, and you can discover which one through activity-associated data such as Milestones that have activity info on them.
-    matchmaking: "DestinyActivityMatchmakingBlockDefinition"  # This block of data provides information about the Activity's matchmaking attributes: how many people can join and such.
-    modifiers: t.Sequence[
-        "DestinyActivityModifierReferenceDefinition"
-    ]  # Activities can have Modifiers, as defined in DestinyActivityModifierDefinition. These are references to the modifiers that *can* be applied to that activity, along with data that we use to determine if that modifier is actually active at any given point in time.
+    ] = dt.field(
+        metadata={
+            "description": "A list of location mappings that are affected by this activity. Pulled out of DestinyLocationDefinitions for our/your lookup convenience."
+        }
+    )
+    activity_mode_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The hash identifiers for Activity Modes relevant to this activity.  Note that if this is a playlist, the specific playlist entry chosen will determine the actual activity modes that end up being relevant."
+        }
+    )
+    activity_mode_types: t.Sequence["DestinyActivityModeType"] = dt.field(
+        metadata={
+            "description": "The activity modes - if any - in enum form. Because we can't seem to escape the enums."
+        }
+    )
+    activity_type_hash: ManifestReference["DestinyActivityTypeDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the Activity Type of this Activity. You may use it to look up the DestinyActivityTypeDefinition for human readable info, but be forewarned: Playlists and many PVP Map Activities will map to generic Activity Types. You'll have to use your knowledge of the Activity Mode being played to get more specific information about what the user is playing."
+        }
+    )
+    challenges: t.Sequence["DestinyActivityChallengeDefinition"] = dt.field(
+        metadata={
+            "description": "An activity can have many Challenges, of which any subset of them may be active for play at any given period of time. This gives the information about the challenges and data that we use to understand when they're active and what rewards they provide. Sadly, at the moment there's no central definition for challenges: much like \"Skulls\" were in Destiny 1, these are defined on individual activities and there can be many duplicates/near duplicates across the Destiny 2 ecosystem. I have it in mind to centralize these in a future revision of the API, but we are out of time."
+        }
+    )
+    destination_hash: ManifestReference["DestinyDestinationDefinition"] = dt.field(
+        metadata={
+            "description": 'The hash identifier for the Destination on which this Activity is played. Use it to look up the DestinyDestinationDefinition for human readable info about the destination. A Destination can be thought of as a more specific location than a "Place". For instance, if the "Place" is Earth, the "Destination" would be a specific city or region on Earth.'
+        }
+    )
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "The title, subtitle, and icon for the activity. We do a little post-processing on this to try and account for Activities where the designers have left this data too minimal to determine what activity is actually being played."
+        }
+    )
+    guided_game: "DestinyActivityGuidedBlockDefinition" = dt.field(
+        metadata={
+            "description": "This block of data, if it exists, provides information about the guided game experience and restrictions for this activity. If it doesn't exist, the game is not able to be played as a guided game."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    insertion_points: t.Sequence["DestinyActivityInsertionPointDefinition"] = dt.field(
+        metadata={
+            "description": "The list of phases or points of entry into an activity, along with information we can use to determine their gating and availability."
+        }
+    )
+    is_playlist: bool = dt.field(
+        metadata={
+            "description": "If True, this Activity is actually a Playlist that refers to multiple possible specific Activities and Activity Modes. For instance, a Crucible Playlist may have references to multiple Activities (Maps) with multiple Activity Modes (specific PvP gameplay modes). If this is true, refer to the playlistItems property for the specific entries in the playlist."
+        }
+    )
+    is_pv_p: bool = dt.field(
+        metadata={
+            "description": "If true, this activity is a PVP activity or playlist."
+        }
+    )
+    loadouts: t.Sequence["DestinyActivityLoadoutRequirementSet"] = dt.field(
+        metadata={
+            "description": "The set of all possible loadout requirements that could be active for this activity. Only one will be active at any given time, and you can discover which one through activity-associated data such as Milestones that have activity info on them."
+        }
+    )
+    matchmaking: "DestinyActivityMatchmakingBlockDefinition" = dt.field(
+        metadata={
+            "description": "This block of data provides information about the Activity's matchmaking attributes: how many people can join and such."
+        }
+    )
+    modifiers: t.Sequence["DestinyActivityModifierReferenceDefinition"] = dt.field(
+        metadata={
+            "description": "Activities can have Modifiers, as defined in DestinyActivityModifierDefinition. These are references to the modifiers that *can* be applied to that activity, along with data that we use to determine if that modifier is actually active at any given point in time."
+        }
+    )
     optional_unlock_strings: t.Sequence[
         "DestinyActivityUnlockStringDefinition"
-    ]  # If there are status strings related to the activity and based on internal state of the game, account, or character, then this will be the definition of those strings and the states needed in order for the strings to be shown.
-    original_display_properties: "DestinyDisplayPropertiesDefinition"  # The unadulterated form of the display properties, as they ought to be shown in the Director (if the activity appears in the director).
-    pgcr_image: str  # When Activities are completed, we generate a "Post-Game Carnage Report", or PGCR, with details about what happened in that activity (how many kills someone got, which team won, etc...) We use this image as the background when displaying PGCR information, and often use it when we refer to the Activity in general.
-    place_hash: ManifestReference[
-        "DestinyPlaceDefinition"
-    ]  # The hash identifier for the "Place" on which this Activity is played. Use it to look up the DestinyPlaceDefinition for human readable info about the Place. A Place is the largest-scoped concept for location information. For instance, if the "Place" is Earth, the "Destination" would be a specific city or region on Earth.
-    playlist_items: t.Sequence[
-        "DestinyActivityPlaylistItemDefinition"
-    ]  # Represents all of the possible activities that could be played in the Playlist, along with information that we can use to determine if they are active at the present time.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    release_icon: str  # If the activity has an icon associated with a specific release (such as a DLC), this is the path to that release's icon.
-    release_time: int  # If the activity will not be visible until a specific and known time, this will be the seconds since the Epoch when it will become visible.
-    rewards: t.Sequence[
-        "DestinyActivityRewardDefinition"
-    ]  # The expected possible rewards for the activity. These rewards may or may not be accessible for an individual player based on their character state, the account state, and even the game's state overall. But it is a useful reference for possible rewards you can earn in the activity. These match up to rewards displayed when you hover over the Activity in the in-game Director, and often refer to Placeholder or "Dummy" items: items that tell you what you can earn in vague terms rather than what you'll specifically be earning (partly because the game doesn't even know what you'll earn specifically until you roll for it at the end)
-    selection_screen_display_properties: "DestinyDisplayPropertiesDefinition"  # The title, subtitle, and icon for the activity as determined by Selection Screen data, if there is any for this activity. There won't be data in this field if the activity is never shown in a selection/options screen.
-    tier: int  # The difficulty tier of the activity.
+    ] = dt.field(
+        metadata={
+            "description": "If there are status strings related to the activity and based on internal state of the game, account, or character, then this will be the definition of those strings and the states needed in order for the strings to be shown."
+        }
+    )
+    original_display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "The unadulterated form of the display properties, as they ought to be shown in the Director (if the activity appears in the director)."
+        }
+    )
+    pgcr_image: str = dt.field(
+        metadata={
+            "description": 'When Activities are completed, we generate a "Post-Game Carnage Report", or PGCR, with details about what happened in that activity (how many kills someone got, which team won, etc...) We use this image as the background when displaying PGCR information, and often use it when we refer to the Activity in general.'
+        }
+    )
+    place_hash: ManifestReference["DestinyPlaceDefinition"] = dt.field(
+        metadata={
+            "description": 'The hash identifier for the "Place" on which this Activity is played. Use it to look up the DestinyPlaceDefinition for human readable info about the Place. A Place is the largest-scoped concept for location information. For instance, if the "Place" is Earth, the "Destination" would be a specific city or region on Earth.'
+        }
+    )
+    playlist_items: t.Sequence["DestinyActivityPlaylistItemDefinition"] = dt.field(
+        metadata={
+            "description": "Represents all of the possible activities that could be played in the Playlist, along with information that we can use to determine if they are active at the present time."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    release_icon: str = dt.field(
+        metadata={
+            "description": "If the activity has an icon associated with a specific release (such as a DLC), this is the path to that release's icon."
+        }
+    )
+    release_time: int = dt.field(
+        metadata={
+            "description": "If the activity will not be visible until a specific and known time, this will be the seconds since the Epoch when it will become visible."
+        }
+    )
+    rewards: t.Sequence["DestinyActivityRewardDefinition"] = dt.field(
+        metadata={
+            "description": "The expected possible rewards for the activity. These rewards may or may not be accessible for an individual player based on their character state, the account state, and even the game's state overall. But it is a useful reference for possible rewards you can earn in the activity. These match up to rewards displayed when you hover over the Activity in the in-game Director, and often refer to Placeholder or \"Dummy\" items: items that tell you what you can earn in vague terms rather than what you'll specifically be earning (partly because the game doesn't even know what you'll earn specifically until you roll for it at the end)"
+        }
+    )
+    selection_screen_display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "The title, subtitle, and icon for the activity as determined by Selection Screen data, if there is any for this activity. There won't be data in this field if the activity is never shown in a selection/options screen."
+        }
+    )
+    tier: int = dt.field(
+        metadata={"description": "The difficulty tier of the activity."}
+    )
     direct_activity_mode_hash: t.Optional[
         ManifestReference["DestinyActivityModeDefinition"]
-    ] = None  # If this activity had an activity mode directly defined on it, this will be the hash of that mode.
-    direct_activity_mode_type: t.Optional[
-        int
-    ] = None  # If the activity had an activity mode directly defined on it, this will be the enum value of that mode.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this activity had an activity mode directly defined on it, this will be the hash of that mode."
+        },
+    )
+    direct_activity_mode_type: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the activity had an activity mode directly defined on it, this will be the enum value of that mode."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1814,10 +3121,15 @@ class DestinyActivityRewardDefinition:
     These are the definitions for those tooltip friendly rewards.
     """
 
-    reward_items: t.Sequence[
-        "DestinyItemQuantity"
-    ]  # The "Items provided" in the reward. This is almost always a pointer to a DestinyInventoryItemDefintion for an item that you can't actually earn in-game, but that has name/description/icon information for the vague concept of the rewards you will receive. This is because the actual reward generation is non-deterministic and extremely complicated, so the best the game can do is tell you what you'll get in vague terms. And so too shall we. Interesting trivia: you actually *do* earn these items when you complete the activity. They go into a single-slot bucket on your profile, which is how you see the pop-ups of these rewards when you complete an activity that match these "dummy" items. You can even see them if you look at the last one you earned in your profile-level inventory through the BNet API! Who said reading documentation is a waste of time?
-    reward_text: str  # The header for the reward set, if any.
+    reward_items: t.Sequence["DestinyItemQuantity"] = dt.field(
+        metadata={
+            "description": """The "Items provided" in the reward. This is almost always a pointer to a DestinyInventoryItemDefintion for an item that you can't actually earn in-game, but that has name/description/icon information for the vague concept of the rewards you will receive. This is because the actual reward generation is non-deterministic and extremely complicated, so the best the game can do is tell you what you'll get in vague terms. And so too shall we.
+Interesting trivia: you actually *do* earn these items when you complete the activity. They go into a single-slot bucket on your profile, which is how you see the pop-ups of these rewards when you complete an activity that match these "dummy" items. You can even see them if you look at the last one you earned in your profile-level inventory through the BNet API! Who said reading documentation is a waste of time?"""
+        }
+    )
+    reward_text: str = dt.field(
+        metadata={"description": "The header for the reward set, if any."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1836,7 +3148,11 @@ class DestinyActivityModifierReferenceDefinition:
 
     activity_modifier_hash: ManifestReference[
         "DestinyActivityModifierDefinition"
-    ]  # The hash identifier for the DestinyActivityModifierDefinition referenced by this activity.
+    ] = dt.field(
+        metadata={
+            "description": "The hash identifier for the DestinyActivityModifierDefinition referenced by this activity."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1849,12 +3165,17 @@ class DestinyActivityChallengeDefinition:
     """Represents a reference to a Challenge, which for now is just an
     Objective."""
 
-    dummy_rewards: t.Sequence[
-        "DestinyItemQuantity"
-    ]  # The rewards as they're represented in the UI. Note that they generally link to "dummy" items that give a summary of rewards rather than direct, real items themselves. If the quantity is 0, don't show the quantity.
-    objective_hash: ManifestReference[
-        "DestinyObjectiveDefinition"
-    ]  # The hash for the Objective that matches this challenge. Use it to look up the DestinyObjectiveDefinition.
+    dummy_rewards: t.Sequence["DestinyItemQuantity"] = dt.field(
+        metadata={
+            "description": """The rewards as they're represented in the UI. Note that they generally link to "dummy" items that give a summary of rewards rather than direct, real items themselves.
+If the quantity is 0, don't show the quantity."""
+        }
+    )
+    objective_hash: ManifestReference["DestinyObjectiveDefinition"] = dt.field(
+        metadata={
+            "description": "The hash for the Objective that matches this challenge. Use it to look up the DestinyObjectiveDefinition."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1875,27 +3196,98 @@ class DestinyObjectiveDefinition:
     Objectives have progress, a notion of having been Completed, human readable data describing the task to be accomplished, and a lot of optional tack-on data that can enhance the information provided about the task.
     """
 
-    allow_negative_value: bool  # If true, the value is allowed to go negative.
-    allow_overcompletion: bool  # If True, the progress will continue even beyond the point where the objective met its minimum completion requirements. Your UI will have to accommodate it.
-    allow_value_change_when_completed: bool  # If true, you can effectively "un-complete" this objective if you lose progress after crossing the completion threshold.  If False, once you complete the task it will remain completed forever by locking the value.
-    completed_value_style: "DestinyUnlockValueUIStyle"  # The style to use when the objective is completed.
-    completion_value: int  # The value that the unlock value defined in unlockValueHash must reach in order for the objective to be considered Completed. Used in calculating progress and completion status.
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Ideally, this should tell you what your task is. I'm not going to lie to you though. Sometimes this doesn't have useful information at all. Which sucks, but there's nothing either of us can do about it.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    in_progress_value_style: "DestinyUnlockValueUIStyle"  # The style to use when the objective is still in progress.
-    index: int  # The index of the entity as it was found in the investment tables.
-    is_counting_downward: bool  # If true, completion means having an unlock value less than or equal to the completionValue. If False, completion means having an unlock value greater than or equal to the completionValue.
-    location_hash: ManifestReference[
-        "DestinyLocationDefinition"
-    ]  # OPTIONAL: a hash identifier for the location at which this objective must be accomplished, if there is a location defined. Look up the DestinyLocationDefinition for this hash for that additional location info.
-    minimum_visibility_threshold: int  # If nonzero, this is the minimum value at which the objective's progression should be shown. Otherwise, don't show it yet.
-    perks: "DestinyObjectivePerkEntryDefinition"  # If this objective enables Perks intrinsically, the conditions for that enabling are defined here.
-    progress_description: str  # Text to describe the progress bar.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    scope: "DestinyGatingScope"  # A shortcut for determining the most restrictive gating that this Objective is set to use. This includes both the dynamic determination of progress and of completion values. See the DestinyGatingScope enum's documentation for more details.
-    show_value_on_complete: bool  # If True, you should continue showing the progression value in the UI after it's complete. I mean, we already do that in BNet anyways, but if you want to be better behaved than us you could honor this flag.
-    stats: "DestinyObjectiveStatEntryDefinition"  # If this objective enables modifications on a player's stats intrinsically, the conditions are defined here.
-    value_style: "DestinyUnlockValueUIStyle"  # The UI style applied to the objective. It's an enum, take a look at DestinyUnlockValueUIStyle for details of the possible styles. Use this info as you wish to customize your UI.
+    allow_negative_value: bool = dt.field(
+        metadata={"description": "If true, the value is allowed to go negative."}
+    )
+    allow_overcompletion: bool = dt.field(
+        metadata={
+            "description": "If True, the progress will continue even beyond the point where the objective met its minimum completion requirements. Your UI will have to accommodate it."
+        }
+    )
+    allow_value_change_when_completed: bool = dt.field(
+        metadata={
+            "description": """If true, you can effectively "un-complete" this objective if you lose progress after crossing the completion threshold. 
+If False, once you complete the task it will remain completed forever by locking the value."""
+        }
+    )
+    completed_value_style: "DestinyUnlockValueUIStyle" = dt.field(
+        metadata={"description": "The style to use when the objective is completed."}
+    )
+    completion_value: int = dt.field(
+        metadata={
+            "description": "The value that the unlock value defined in unlockValueHash must reach in order for the objective to be considered Completed. Used in calculating progress and completion status."
+        }
+    )
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "Ideally, this should tell you what your task is. I'm not going to lie to you though. Sometimes this doesn't have useful information at all. Which sucks, but there's nothing either of us can do about it."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    in_progress_value_style: "DestinyUnlockValueUIStyle" = dt.field(
+        metadata={
+            "description": "The style to use when the objective is still in progress."
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    is_counting_downward: bool = dt.field(
+        metadata={
+            "description": """If true, completion means having an unlock value less than or equal to the completionValue.
+If False, completion means having an unlock value greater than or equal to the completionValue."""
+        }
+    )
+    location_hash: ManifestReference["DestinyLocationDefinition"] = dt.field(
+        metadata={
+            "description": "OPTIONAL: a hash identifier for the location at which this objective must be accomplished, if there is a location defined. Look up the DestinyLocationDefinition for this hash for that additional location info."
+        }
+    )
+    minimum_visibility_threshold: int = dt.field(
+        metadata={
+            "description": "If nonzero, this is the minimum value at which the objective's progression should be shown. Otherwise, don't show it yet."
+        }
+    )
+    perks: "DestinyObjectivePerkEntryDefinition" = dt.field(
+        metadata={
+            "description": "If this objective enables Perks intrinsically, the conditions for that enabling are defined here."
+        }
+    )
+    progress_description: str = dt.field(
+        metadata={"description": "Text to describe the progress bar."}
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    scope: "DestinyGatingScope" = dt.field(
+        metadata={
+            "description": "A shortcut for determining the most restrictive gating that this Objective is set to use. This includes both the dynamic determination of progress and of completion values. See the DestinyGatingScope enum's documentation for more details."
+        }
+    )
+    show_value_on_complete: bool = dt.field(
+        metadata={
+            "description": "If True, you should continue showing the progression value in the UI after it's complete. I mean, we already do that in BNet anyways, but if you want to be better behaved than us you could honor this flag."
+        }
+    )
+    stats: "DestinyObjectiveStatEntryDefinition" = dt.field(
+        metadata={
+            "description": "If this objective enables modifications on a player's stats intrinsically, the conditions are defined here."
+        }
+    )
+    value_style: "DestinyUnlockValueUIStyle" = dt.field(
+        metadata={
+            "description": "The UI style applied to the objective. It's an enum, take a look at DestinyUnlockValueUIStyle for details of the possible styles. Use this info as you wish to customize your UI."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1932,10 +3324,16 @@ class DestinyObjectivePerkEntryDefinition:
     a perk that modifies gameplay in some interesting way.
     """
 
-    perk_hash: ManifestReference[
-        "DestinySandboxPerkDefinition"
-    ]  # The hash identifier of the DestinySandboxPerkDefinition that will be applied to the character.
-    style: "DestinyObjectiveGrantStyle"  # An enumeration indicating whether it will be applied as long as the Objective is active, when it's completed, or until it's completed.
+    perk_hash: ManifestReference["DestinySandboxPerkDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the DestinySandboxPerkDefinition that will be applied to the character."
+        }
+    )
+    style: "DestinyObjectiveGrantStyle" = dt.field(
+        metadata={
+            "description": "An enumeration indicating whether it will be applied as long as the Objective is active, when it's completed, or until it's completed."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1956,17 +3354,56 @@ class DestinySandboxPerkDefinition:
     What Perks often don't have is human readable information, so we attempt to reverse engineer that by pulling that data from places that uniquely refer to these perks: namely, Talent Nodes and Plugs. That only gives us a subset of perks that are human readable, but those perks are the ones people generally care about anyways. The others are left as a mystery, their true purpose mostly unknown and undocumented.
     """
 
-    damage_type: "DamageType"  # If this perk grants a damage type to a weapon, the damage type will be defined here. Unless you have a compelling reason to use this enum value, use the damageTypeHash instead to look up the actual DestinyDamageTypeDefinition.
-    display_properties: "DestinyDisplayPropertiesDefinition"  # These display properties are by no means guaranteed to be populated. Usually when it is, it's only because we back-filled them with the displayProperties of some Talent Node or Plug item that happened to be uniquely providing that perk.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    is_displayable: bool  # If true, you can actually show the perk in the UI. Otherwise, it doesn't have useful player-facing information.
-    perk_groups: "DestinyTalentNodeStepGroups"  # An old holdover from the original Armory, this was an attempt to group perks by functionality. It is as yet unpopulated, and there will be quite a bit of work needed to restore it to its former working order.
-    perk_identifier: str  # The string identifier for the perk.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    damage_type: "DamageType" = dt.field(
+        metadata={
+            "description": """If this perk grants a damage type to a weapon, the damage type will be defined here.
+Unless you have a compelling reason to use this enum value, use the damageTypeHash instead to look up the actual DestinyDamageTypeDefinition."""
+        }
+    )
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "These display properties are by no means guaranteed to be populated. Usually when it is, it's only because we back-filled them with the displayProperties of some Talent Node or Plug item that happened to be uniquely providing that perk."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    is_displayable: bool = dt.field(
+        metadata={
+            "description": "If true, you can actually show the perk in the UI. Otherwise, it doesn't have useful player-facing information."
+        }
+    )
+    perk_groups: "DestinyTalentNodeStepGroups" = dt.field(
+        metadata={
+            "description": """An old holdover from the original Armory, this was an attempt to group perks by functionality.
+It is as yet unpopulated, and there will be quite a bit of work needed to restore it to its former working order."""
+        }
+    )
+    perk_identifier: str = dt.field(
+        metadata={"description": "The string identifier for the perk."}
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     damage_type_hash: t.Optional[
         ManifestReference["DestinyDamageTypeDefinition"]
-    ] = None  # The hash identifier for looking up the DestinyDamageTypeDefinition, if this perk has a damage type. This is preferred over using the damageType enumeration value, which has been left purely because it is occasionally convenient.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """The hash identifier for looking up the DestinyDamageTypeDefinition, if this perk has a damage type.
+This is preferred over using the damageType enumeration value, which has been left purely because it is occasionally convenient."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2074,13 +3511,40 @@ class DestinyDamageTypeDefinition:
     """All damage types that are possible in the game are defined here, along
     with localized info and icons as needed."""
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # The description of the damage type, icon etc...
-    enum_value: "DamageType"  # We have an enumeration for damage types for quick reference. This is the current definition's damage type enum value.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    show_icon: bool  # If TRUE, the game shows this damage type's icon. Otherwise, it doesn't. Whether you show it or not is up to you.
-    transparent_icon_path: str  # A variant of the icon that is transparent and colorless.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={"description": "The description of the damage type, icon etc..."}
+    )
+    enum_value: "DamageType" = dt.field(
+        metadata={
+            "description": "We have an enumeration for damage types for quick reference. This is the current definition's damage type enum value."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    show_icon: bool = dt.field(
+        metadata={
+            "description": "If TRUE, the game shows this damage type's icon. Otherwise, it doesn't. Whether you show it or not is up to you."
+        }
+    )
+    transparent_icon_path: str = dt.field(
+        metadata={
+            "description": "A variant of the icon that is transparent and colorless."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2099,8 +3563,14 @@ class DestinyObjectiveStatEntryDefinition:
     """Defines the conditions under which stat modifications will be applied to
     a Character while participating in an objective."""
 
-    stat: "DestinyItemInvestmentStatDefinition"  # The stat being modified, and the value used.
-    style: "DestinyObjectiveGrantStyle"  # Whether it will be applied as long as the objective is active, when it's completed, or until it's completed.
+    stat: "DestinyItemInvestmentStatDefinition" = dt.field(
+        metadata={"description": "The stat being modified, and the value used."}
+    )
+    style: "DestinyObjectiveGrantStyle" = dt.field(
+        metadata={
+            "description": "Whether it will be applied as long as the objective is active, when it's completed, or until it's completed."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2121,11 +3591,21 @@ class DestinyItemInvestmentStatDefinition:
     processed statistics.
     """
 
-    is_conditionally_active: bool  # If this is true, the stat will only be applied on the item in certain game state conditions, and we can't know statically whether or not this stat will be applied. Check the "live" API data instead for whether this value is being applied on a specific instance of the item in question, and you can use this to decide whether you want to show the stat on the generic view of the item, or whether you want to show some kind of caveat or warning about the stat value being conditional on game state.
-    stat_type_hash: ManifestReference[
-        "DestinyStatDefinition"
-    ]  # The hash identifier for the DestinyStatDefinition defining this stat.
-    value: int  # The raw "Investment" value for the stat, before transformations are performed to turn this raw stat into stats that are displayed in the game UI.
+    is_conditionally_active: bool = dt.field(
+        metadata={
+            "description": 'If this is true, the stat will only be applied on the item in certain game state conditions, and we can\'t know statically whether or not this stat will be applied. Check the "live" API data instead for whether this value is being applied on a specific instance of the item in question, and you can use this to decide whether you want to show the stat on the generic view of the item, or whether you want to show some kind of caveat or warning about the stat value being conditional on game state.'
+        }
+    )
+    stat_type_hash: ManifestReference["DestinyStatDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the DestinyStatDefinition defining this stat."
+        }
+    )
+    value: int = dt.field(
+        metadata={
+            "description": 'The raw "Investment" value for the stat, before transformations are performed to turn this raw stat into stats that are displayed in the game UI.'
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2146,15 +3626,32 @@ class DestinyLocationDefinition:
     Activity, Destination, and Place being referred to by the Objective.
     """
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    location_releases: t.Sequence[
-        "DestinyLocationReleaseDefinition"
-    ]  # A Location may refer to different specific spots in the world based on the world's current state. This is a list of those potential spots, and the data we can use at runtime to determine which one of the spots is the currently valid one.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    vendor_hash: ManifestReference[
-        "DestinyVendorDefinition"
-    ]  # If the location has a Vendor on it, this is the hash identifier for that Vendor. Look them up with DestinyVendorDefinition.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    location_releases: t.Sequence["DestinyLocationReleaseDefinition"] = dt.field(
+        metadata={
+            "description": "A Location may refer to different specific spots in the world based on the world's current state. This is a list of those potential spots, and the data we can use at runtime to determine which one of the spots is the currently valid one."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    vendor_hash: ManifestReference["DestinyVendorDefinition"] = dt.field(
+        metadata={
+            "description": "If the location has a Vendor on it, this is the hash identifier for that Vendor. Look them up with DestinyVendorDefinition."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2173,26 +3670,60 @@ class DestinyLocationReleaseDefinition:
     Only one of these can be active at a time for a given Location.
     """
 
-    activity_bubble_name: int  # The Activity Bubble within the Destination. Look this up in the DestinyDestinationDefinition's bubbles and bubbleSettings properties.
-    activity_graph_hash: int  # The Activity Graph being pointed to by this location.
-    activity_graph_node_hash: int  # The Activity Graph Node being pointed to by this location. (Remember that Activity Graph Node hashes are only unique within an Activity Graph: so use the combination to find the node being spoken of)
-    activity_hash: ManifestReference[
-        "DestinyActivityDefinition"
-    ]  # The Activity being pointed to by this location.
-    activity_path_bundle: int  # If we had map information, this would tell us something cool about the path this location wants you to take. I wish we had map information.
-    activity_path_destination: int  # If we had map information, this would tell us about path information related to destination on the map. Sad. Maybe you can do something cool with it. Go to town man.
-    destination_hash: ManifestReference[
-        "DestinyDestinationDefinition"
-    ]  # The Destination being pointed to by this location.
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Sadly, these don't appear to be populated anymore (ever?)
+    activity_bubble_name: int = dt.field(
+        metadata={
+            "description": "The Activity Bubble within the Destination. Look this up in the DestinyDestinationDefinition's bubbles and bubbleSettings properties."
+        }
+    )
+    activity_graph_hash: int = dt.field(
+        metadata={
+            "description": "The Activity Graph being pointed to by this location."
+        }
+    )
+    activity_graph_node_hash: int = dt.field(
+        metadata={
+            "description": "The Activity Graph Node being pointed to by this location. (Remember that Activity Graph Node hashes are only unique within an Activity Graph: so use the combination to find the node being spoken of)"
+        }
+    )
+    activity_hash: ManifestReference["DestinyActivityDefinition"] = dt.field(
+        metadata={"description": "The Activity being pointed to by this location."}
+    )
+    activity_path_bundle: int = dt.field(
+        metadata={
+            "description": "If we had map information, this would tell us something cool about the path this location wants you to take. I wish we had map information."
+        }
+    )
+    activity_path_destination: int = dt.field(
+        metadata={
+            "description": "If we had map information, this would tell us about path information related to destination on the map. Sad. Maybe you can do something cool with it. Go to town man."
+        }
+    )
+    destination_hash: ManifestReference["DestinyDestinationDefinition"] = dt.field(
+        metadata={"description": "The Destination being pointed to by this location."}
+    )
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "Sadly, these don't appear to be populated anymore (ever?)"
+        }
+    )
     large_transparent_icon: str
     map_icon: str
-    nav_point_type: "DestinyActivityNavPointType"  # The type of Nav Point that this represents. See the enumeration for more info.
+    nav_point_type: "DestinyActivityNavPointType" = dt.field(
+        metadata={
+            "description": "The type of Nav Point that this represents. See the enumeration for more info."
+        }
+    )
     small_transparent_icon: str
-    spawn_point: int  # If we had map information, this spawnPoint would be interesting. But sadly, we don't have that info.
-    world_position: t.Sequence[
-        int
-    ]  # Looks like it should be the position on the map, but sadly it does not look populated... yet?
+    spawn_point: int = dt.field(
+        metadata={
+            "description": "If we had map information, this spawnPoint would be interesting. But sadly, we don't have that info."
+        }
+    )
+    world_position: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "Looks like it should be the position on the map, but sadly it does not look populated... yet?"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2223,7 +3754,11 @@ class DestinyActivityUnlockStringDefinition:
     determine which strings should be shown.
     """
 
-    display_string: str  # The string to be displayed if the conditions are met.
+    display_string: str = dt.field(
+        metadata={
+            "description": "The string to be displayed if the conditions are met."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2237,21 +3772,35 @@ class DestinyActivityPlaylistItemDefinition:
     entry in the playlist: a single possible combination of Activity and
     Activity Mode that can be chosen."""
 
-    activity_hash: ManifestReference[
-        "DestinyActivityDefinition"
-    ]  # The hash identifier of the Activity that can be played. Use it to look up the DestinyActivityDefinition.
-    activity_mode_hashes: t.Sequence[
-        int
-    ]  # The hash identifiers for Activity Modes relevant to this entry.
-    activity_mode_types: t.Sequence[
-        "DestinyActivityModeType"
-    ]  # The activity modes - if any - in enum form. Because we can't seem to escape the enums.
+    activity_hash: ManifestReference["DestinyActivityDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the Activity that can be played. Use it to look up the DestinyActivityDefinition."
+        }
+    )
+    activity_mode_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The hash identifiers for Activity Modes relevant to this entry."
+        }
+    )
+    activity_mode_types: t.Sequence["DestinyActivityModeType"] = dt.field(
+        metadata={
+            "description": "The activity modes - if any - in enum form. Because we can't seem to escape the enums."
+        }
+    )
     direct_activity_mode_hash: t.Optional[
         ManifestReference["DestinyActivityModeDefinition"]
-    ] = None  # If this playlist entry had an activity mode directly defined on it, this will be the hash of that mode.
-    direct_activity_mode_type: t.Optional[
-        int
-    ] = None  # If the playlist entry had an activity mode directly defined on it, this will be the enum value of that mode.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this playlist entry had an activity mode directly defined on it, this will be the hash of that mode."
+        },
+    )
+    direct_activity_mode_type: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the playlist entry had an activity mode directly defined on it, this will be the enum value of that mode."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2275,24 +3824,72 @@ class DestinyActivityModeDefinition:
     Activity modes are nested under each other in a hierarchy, so that if you ask for - for example - "AllPvP", you will get any PVP activities that the user has played, regardless of what specific PVP mode was being played.
     """
 
-    activity_mode_category: "DestinyActivityModeCategory"  # The type of play being performed in broad terms (PVP, PVE)
-    activity_mode_mappings: t.Mapping[
-        str, "DestinyActivityModeType"
-    ]  # If this exists, the mode has specific Activities (referred to by the Key) that should instead map to other Activity Modes when they are played. This was useful in D1 for Private Matches, where we wanted to have Private Matches as an activity mode while still referring to the specific mode being played.
-    display: bool  # If FALSE, we want to ignore this type when we're showing activity modes in BNet UI. It will still be returned in case 3rd parties want to use it for any purpose.
+    activity_mode_category: "DestinyActivityModeCategory" = dt.field(
+        metadata={
+            "description": "The type of play being performed in broad terms (PVP, PVE)"
+        }
+    )
+    activity_mode_mappings: t.Mapping[str, "DestinyActivityModeType"] = dt.field(
+        metadata={
+            "description": "If this exists, the mode has specific Activities (referred to by the Key) that should instead map to other Activity Modes when they are played. This was useful in D1 for Private Matches, where we wanted to have Private Matches as an activity mode while still referring to the specific mode being played."
+        }
+    )
+    display: bool = dt.field(
+        metadata={
+            "description": "If FALSE, we want to ignore this type when we're showing activity modes in BNet UI. It will still be returned in case 3rd parties want to use it for any purpose."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    friendly_name: str  # A Friendly identifier you can use for referring to this Activity Mode. We really only used this in our URLs, so... you know, take that for whatever it's worth.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    is_aggregate_mode: bool  # If true, this mode is an aggregation of other, more specific modes rather than being a mode in itself. This includes modes that group Features/Events rather than Gameplay, such as Trials of The Nine: Trials of the Nine being an Event that is interesting to see aggregate data for, but when you play the activities within Trials of the Nine they are more specific activity modes such as Clash.
-    is_team_based: bool  # If True, this mode has oppositional teams fighting against each other rather than "Free-For-All" or Co-operative modes of play. Note that Aggregate modes are never marked as team based, even if they happen to be team based at the moment. At any time, an aggregate whose subordinates are only team based could be changed so that one or more aren't team based, and then this boolean won't make much sense (the aggregation would become "sometimes team based"). Let's not deal with that right now.
-    mode_type: "DestinyActivityModeType"  # The Enumeration value for this Activity Mode. Pass this identifier into Stats endpoints to get aggregate stats for this mode.
-    order: int  # The relative ordering of activity modes.
-    parent_hashes: t.Sequence[
-        int
-    ]  # The hash identifiers of the DestinyActivityModeDefinitions that represent all of the "parent" modes for this mode. For instance, the Nightfall Mode is also a member of AllStrikes and AllPvE.
-    pgcr_image: str  # If this activity mode has a related PGCR image, this will be the path to said image.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    friendly_name: str = dt.field(
+        metadata={
+            "description": "A Friendly identifier you can use for referring to this Activity Mode. We really only used this in our URLs, so... you know, take that for whatever it's worth."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    is_aggregate_mode: bool = dt.field(
+        metadata={
+            "description": "If true, this mode is an aggregation of other, more specific modes rather than being a mode in itself. This includes modes that group Features/Events rather than Gameplay, such as Trials of The Nine: Trials of the Nine being an Event that is interesting to see aggregate data for, but when you play the activities within Trials of the Nine they are more specific activity modes such as Clash."
+        }
+    )
+    is_team_based: bool = dt.field(
+        metadata={
+            "description": """If True, this mode has oppositional teams fighting against each other rather than "Free-For-All" or Co-operative modes of play.
+Note that Aggregate modes are never marked as team based, even if they happen to be team based at the moment. At any time, an aggregate whose subordinates are only team based could be changed so that one or more aren't team based, and then this boolean won't make much sense (the aggregation would become "sometimes team based"). Let's not deal with that right now."""
+        }
+    )
+    mode_type: "DestinyActivityModeType" = dt.field(
+        metadata={
+            "description": "The Enumeration value for this Activity Mode. Pass this identifier into Stats endpoints to get aggregate stats for this mode."
+        }
+    )
+    order: int = dt.field(
+        metadata={"description": "The relative ordering of activity modes."}
+    )
+    parent_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": 'The hash identifiers of the DestinyActivityModeDefinitions that represent all of the "parent" modes for this mode. For instance, the Nightfall Mode is also a member of AllStrikes and AllPvE.'
+        }
+    )
+    pgcr_image: str = dt.field(
+        metadata={
+            "description": "If this activity mode has a related PGCR image, this will be the path to said image."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2317,11 +3914,29 @@ class DestinyActivityModeDefinition:
 class DestinyActivityMatchmakingBlockDefinition:
     """Information about matchmaking and party size for the activity."""
 
-    is_matchmade: bool  # If TRUE, the activity is matchmade. Otherwise, it requires explicit forming of a party.
-    max_party: int  # The maximum # of people allowed in a Fireteam.
-    max_players: int  # The maximum # of people allowed across all teams in the activity.
-    min_party: int  # The minimum # of people in the fireteam for the activity to launch.
-    requires_guardian_oath: bool  # If true, you have to Solemnly Swear to be up to Nothing But Good(tm) to play.
+    is_matchmade: bool = dt.field(
+        metadata={
+            "description": "If TRUE, the activity is matchmade. Otherwise, it requires explicit forming of a party."
+        }
+    )
+    max_party: int = dt.field(
+        metadata={"description": "The maximum # of people allowed in a Fireteam."}
+    )
+    max_players: int = dt.field(
+        metadata={
+            "description": "The maximum # of people allowed across all teams in the activity."
+        }
+    )
+    min_party: int = dt.field(
+        metadata={
+            "description": "The minimum # of people in the fireteam for the activity to launch."
+        }
+    )
+    requires_guardian_oath: bool = dt.field(
+        metadata={
+            "description": "If true, you have to Solemnly Swear to be up to Nothing But Good(tm) to play."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2337,9 +3952,21 @@ class DestinyActivityMatchmakingBlockDefinition:
 class DestinyActivityGuidedBlockDefinition:
     """Guided Game information for this activity."""
 
-    guided_disband_count: int  # If -1, the guided group cannot be disbanded. Otherwise, take the total # of players in the activity and subtract this number: that is the total # of votes needed for the guided group to disband.
-    guided_max_lobby_size: int  # The maximum amount of people that can be in the waiting lobby.
-    guided_min_lobby_size: int  # The minimum amount of people that can be in the waiting lobby.
+    guided_disband_count: int = dt.field(
+        metadata={
+            "description": "If -1, the guided group cannot be disbanded. Otherwise, take the total # of players in the activity and subtract this number: that is the total # of votes needed for the guided group to disband."
+        }
+    )
+    guided_max_lobby_size: int = dt.field(
+        metadata={
+            "description": "The maximum amount of people that can be in the waiting lobby."
+        }
+    )
+    guided_min_lobby_size: int = dt.field(
+        metadata={
+            "description": "The minimum amount of people that can be in the waiting lobby."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2351,9 +3978,11 @@ class DestinyActivityGuidedBlockDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyActivityLoadoutRequirementSet:
-    requirements: t.Sequence[
-        "DestinyActivityLoadoutRequirement"
-    ]  # The set of requirements that will be applied on the activity if this requirement set is active.
+    requirements: t.Sequence["DestinyActivityLoadoutRequirement"] = dt.field(
+        metadata={
+            "description": "The set of requirements that will be applied on the activity if this requirement set is active."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2384,7 +4013,11 @@ class DestinyActivityInsertionPointDefinition:
     UPDATE: Turns out this information isn't actually useless, and is in fact actually useful for people. Who would have thought? We still don't have localized info for it, but at least this will help people when they're looking at phase indexes in stats data, or when they want to know what phases have been completed on a weekly achievement.
     """
 
-    phase_hash: int  # A unique hash value representing the phase. This can be useful for, for example, comparing how different instances of Raids have phases in different orders!
+    phase_hash: int = dt.field(
+        metadata={
+            "description": "A unique hash value representing the phase. This can be useful for, for example, comparing how different instances of Raids have phases in different orders!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2403,9 +4036,22 @@ class DestinyPlaceDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2434,9 +4080,22 @@ class DestinyActivityTypeDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2459,7 +4118,11 @@ class DestinyUnlockExpressionDefinition:
     using an IUnlockContext parsed from Babel.
     """
 
-    scope: "DestinyGatingScope"  # A shortcut for determining the most restrictive gating that this expression performs. See the DestinyGatingScope enum's documentation for more details.
+    scope: "DestinyGatingScope" = dt.field(
+        metadata={
+            "description": "A shortcut for determining the most restrictive gating that this expression performs. See the DestinyGatingScope enum's documentation for more details."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2487,8 +4150,16 @@ class DestinyBubbleDefinition:
     Combine with DestinyDestinationBubbleSettingDefinition - see DestinyDestinationDefinition.bubbleSettings for more information.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # The display properties of this bubble, so you don't have to look them up in a separate list anymore.
-    hash: int  # The identifier for the bubble: only guaranteed to be unique within the Destination.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "The display properties of this bubble, so you don't have to look them up in a separate list anymore."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": "The identifier for the bubble: only guaranteed to be unique within the Destination."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2499,9 +4170,11 @@ class DestinyBubbleDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyVendorGroupReference:
-    vendor_group_hash: ManifestReference[
-        "DestinyVendorGroupDefinition"
-    ]  # The DestinyVendorGroupDefinition to which this Vendor can belong.
+    vendor_group_hash: ManifestReference["DestinyVendorGroupDefinition"] = dt.field(
+        metadata={
+            "description": "The DestinyVendorGroupDefinition to which this Vendor can belong."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2524,11 +4197,30 @@ class DestinyVendorGroupDefinition:
     Companion.
     """
 
-    category_name: str  # For now, a group just has a name.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    order: int  # The recommended order in which to render the groups, Ascending order.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    category_name: str = dt.field(
+        metadata={"description": "For now, a group just has a name."}
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    order: int = dt.field(
+        metadata={
+            "description": "The recommended order in which to render the groups, Ascending order."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2555,24 +4247,45 @@ class DestinyFactionDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    progression_hash: ManifestReference[
-        "DestinyProgressionDefinition"
-    ]  # The hash identifier for the DestinyProgressionDefinition that indicates the character's relationship with this faction in terms of experience and levels.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    reward_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The faction reward item hash, usually an engram.
-    reward_vendor_hash: ManifestReference[
-        "DestinyVendorDefinition"
-    ]  # The faction reward vendor hash, used for faction engram previews.
-    token_values: t.Mapping[
-        str, int
-    ]  # The faction token item hashes, and their respective progression values.
-    vendors: t.Sequence[
-        "DestinyFactionVendorDefinition"
-    ]  # List of vendors that are associated with this faction. The last vendor that passes the unlock flag checks is the one that should be shown.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    progression_hash: ManifestReference["DestinyProgressionDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the DestinyProgressionDefinition that indicates the character's relationship with this faction in terms of experience and levels."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    reward_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={"description": "The faction reward item hash, usually an engram."}
+    )
+    reward_vendor_hash: ManifestReference["DestinyVendorDefinition"] = dt.field(
+        metadata={
+            "description": "The faction reward vendor hash, used for faction engram previews."
+        }
+    )
+    token_values: t.Mapping[str, int] = dt.field(
+        metadata={
+            "description": "The faction token item hashes, and their respective progression values."
+        }
+    )
+    vendors: t.Sequence["DestinyFactionVendorDefinition"] = dt.field(
+        metadata={
+            "description": "List of vendors that are associated with this faction. The last vendor that passes the unlock flag checks is the one that should be shown."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2597,13 +4310,19 @@ class DestinyFactionVendorDefinition:
     available at two different locations.
     """
 
-    background_image_path: str  # The relative path to the background image representing this Vendor at this location, for use in a banner.
-    destination_hash: ManifestReference[
-        "DestinyDestinationDefinition"
-    ]  # The hash identifier for a Destination at which this vendor may be located. Each destination where a Vendor may exist will only ever have a single entry.
-    vendor_hash: ManifestReference[
-        "DestinyVendorDefinition"
-    ]  # The faction vendor hash.
+    background_image_path: str = dt.field(
+        metadata={
+            "description": "The relative path to the background image representing this Vendor at this location, for use in a banner."
+        }
+    )
+    destination_hash: ManifestReference["DestinyDestinationDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for a Destination at which this vendor may be located. Each destination where a Vendor may exist will only ever have a single entry."
+        }
+    )
+    vendor_hash: ManifestReference["DestinyVendorDefinition"] = dt.field(
+        metadata={"description": "The faction vendor hash."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2625,15 +4344,34 @@ class DestinyItemPreviewBlockDefinition:
 
     derived_item_categories: t.Sequence[
         "DestinyDerivedItemCategoryDefinition"
-    ]  # This is a list of the items being previewed, categorized in the same way as they are in the preview UI.
-    preview_action_string: str  # If the preview has an associated action (like "Open"), this will be the localized string for that action.
-    preview_vendor_hash: ManifestReference[
-        "DestinyVendorDefinition"
-    ]  # If the preview data is derived from a fake "Preview" Vendor, this will be the hash identifier for the DestinyVendorDefinition of that fake vendor.
-    screen_style: str  # A string that the game UI uses as a hint for which detail screen to show for the item. You, too, can leverage this for your own custom screen detail views. Note, however, that these are arbitrarily defined by designers: there's no guarantees of a fixed, known number of these - so fall back to something reasonable if you don't recognize it.
+    ] = dt.field(
+        metadata={
+            "description": "This is a list of the items being previewed, categorized in the same way as they are in the preview UI."
+        }
+    )
+    preview_action_string: str = dt.field(
+        metadata={
+            "description": 'If the preview has an associated action (like "Open"), this will be the localized string for that action.'
+        }
+    )
+    preview_vendor_hash: ManifestReference["DestinyVendorDefinition"] = dt.field(
+        metadata={
+            "description": 'If the preview data is derived from a fake "Preview" Vendor, this will be the hash identifier for the DestinyVendorDefinition of that fake vendor.'
+        }
+    )
+    screen_style: str = dt.field(
+        metadata={
+            "description": "A string that the game UI uses as a hint for which detail screen to show for the item. You, too, can leverage this for your own custom screen detail views. Note, however, that these are arbitrarily defined by designers: there's no guarantees of a fixed, known number of these - so fall back to something reasonable if you don't recognize it."
+        }
+    )
     artifact_hash: t.Optional[
         ManifestReference["DestinyArtifactDefinition"]
-    ] = None  # If this item should show you Artifact information when you preview it, this is the hash identifier of the DestinyArtifactDefinition for the artifact whose data should be shown.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this item should show you Artifact information when you preview it, this is the hash identifier of the DestinyArtifactDefinition for the artifact whose data should be shown."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2659,25 +4397,53 @@ class DestinyItemQualityBlockDefinition:
     also contains some information about Infusion.
     """
 
-    current_version: int  # The latest version available for this item.
-    display_version_watermark_icons: t.Sequence[
-        str
-    ]  # Icon overlays to denote the item version and power cap status.
-    infusion_category_hash: int  # The hash identifier for the infusion. It does not map to a Definition entity. DEPRECATED: Items can now have multiple infusion categories. Please use infusionCategoryHashes instead.
-    infusion_category_hashes: t.Sequence[
-        int
-    ]  # If any one of these hashes matches any value in another item's infusionCategoryHashes, the two can infuse with each other.
-    infusion_category_name: str  # The string identifier for this item's "infusability", if any.  Items that match the same infusionCategoryName are allowed to infuse with each other. DEPRECATED: Items can now have multiple infusion categories. Please use infusionCategoryHashes instead.
-    item_levels: t.Sequence[
-        int
-    ]  # The "base" defined level of an item. This is a list because, in theory, each Expansion could define its own base level for an item. In practice, not only was that never done in Destiny 1, but now this isn't even populated at all. When it's not populated, the level at which it spawns has to be inferred by Reward information, of which BNet receives an imperfect view and will only be reliable on instanced data as a result.
+    current_version: int = dt.field(
+        metadata={"description": "The latest version available for this item."}
+    )
+    display_version_watermark_icons: t.Sequence[str] = dt.field(
+        metadata={
+            "description": "Icon overlays to denote the item version and power cap status."
+        }
+    )
+    infusion_category_hash: int = dt.field(
+        metadata={
+            "description": """The hash identifier for the infusion. It does not map to a Definition entity.
+DEPRECATED: Items can now have multiple infusion categories. Please use infusionCategoryHashes instead."""
+        }
+    )
+    infusion_category_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "If any one of these hashes matches any value in another item's infusionCategoryHashes, the two can infuse with each other."
+        }
+    )
+    infusion_category_name: str = dt.field(
+        metadata={
+            "description": """The string identifier for this item's "infusability", if any. 
+Items that match the same infusionCategoryName are allowed to infuse with each other.
+DEPRECATED: Items can now have multiple infusion categories. Please use infusionCategoryHashes instead."""
+        }
+    )
+    item_levels: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """The "base" defined level of an item. This is a list because, in theory, each Expansion could define its own base level for an item.
+In practice, not only was that never done in Destiny 1, but now this isn't even populated at all. When it's not populated, the level at which it spawns has to be inferred by Reward information, of which BNet receives an imperfect view and will only be reliable on instanced data as a result."""
+        }
+    )
     progression_level_requirement_hash: ManifestReference[
         "DestinyProgressionLevelRequirementDefinition"
-    ]  # An item can refer to pre-set level requirements. They are defined in DestinyProgressionLevelRequirementDefinition, and you can use this hash to find the appropriate definition.
-    quality_level: int  # qualityLevel is used in combination with the item's level to calculate stats like Attack and Defense. It plays a role in that calculation, but not nearly as large as itemLevel does.
-    versions: t.Sequence[
-        "DestinyItemVersionDefinition"
-    ]  # The list of versions available for this item.
+    ] = dt.field(
+        metadata={
+            "description": "An item can refer to pre-set level requirements. They are defined in DestinyProgressionLevelRequirementDefinition, and you can use this hash to find the appropriate definition."
+        }
+    )
+    quality_level: int = dt.field(
+        metadata={
+            "description": "qualityLevel is used in combination with the item's level to calculate stats like Attack and Defense. It plays a role in that calculation, but not nearly as large as itemLevel does."
+        }
+    )
+    versions: t.Sequence["DestinyItemVersionDefinition"] = dt.field(
+        metadata={"description": "The list of versions available for this item."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2702,9 +4468,9 @@ class DestinyItemVersionDefinition:
     """The version definition currently just holds a reference to the power
     cap."""
 
-    power_cap_hash: ManifestReference[
-        "DestinyPowerCapDefinition"
-    ]  # A reference to the power cap for this item version.
+    power_cap_hash: ManifestReference["DestinyPowerCapDefinition"] = dt.field(
+        metadata={"description": "A reference to the power cap for this item version."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2728,10 +4494,16 @@ class DestinyItemValueBlockDefinition:
     where they put arbitrary items and quantities into the item.
     """
 
-    item_value: t.Sequence[
-        "DestinyItemQuantity"
-    ]  # References to the items that make up this item's "value", and the quantity.
-    value_description: str  # If there's a localized text description of the value provided, this will be said description.
+    item_value: t.Sequence["DestinyItemQuantity"] = dt.field(
+        metadata={
+            "description": 'References to the items that make up this item\'s "value", and the quantity.'
+        }
+    )
+    value_description: str = dt.field(
+        metadata={
+            "description": "If there's a localized text description of the value provided, this will be said description."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2744,16 +4516,26 @@ class DestinyItemValueBlockDefinition:
 class DestinyItemSourceBlockDefinition:
     """Data about an item's "sources": ways that the item can be obtained."""
 
-    exclusive: "BungieMembershipType"  # If we found that this item is exclusive to a specific platform, this will be set to the BungieMembershipType enumeration that matches that platform.
-    source_hashes: t.Sequence[
-        int
-    ]  # The list of hash identifiers for Reward Sources that hint where the item can be found (DestinyRewardSourceDefinition).
-    sources: t.Sequence[
-        "DestinyItemSourceDefinition"
-    ]  # A collection of details about the stats that were computed for the ways we found that the item could be spawned.
-    vendor_sources: t.Sequence[
-        "DestinyItemVendorSourceReference"
-    ]  # A denormalized reference back to vendors that potentially sell this item.
+    exclusive: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "If we found that this item is exclusive to a specific platform, this will be set to the BungieMembershipType enumeration that matches that platform."
+        }
+    )
+    source_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The list of hash identifiers for Reward Sources that hint where the item can be found (DestinyRewardSourceDefinition)."
+        }
+    )
+    sources: t.Sequence["DestinyItemSourceDefinition"] = dt.field(
+        metadata={
+            "description": "A collection of details about the stats that were computed for the ways we found that the item could be spawned."
+        }
+    )
+    vendor_sources: t.Sequence["DestinyItemVendorSourceReference"] = dt.field(
+        metadata={
+            "description": "A denormalized reference back to vendors that potentially sell this item."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2783,11 +4565,28 @@ class DestinyRewardSourceDefinition:
     Nightfall, either during play or as an after-completion reward.
     """
 
-    category: "DestinyRewardSourceCategory"  # Sources are grouped into categories: common ways that items are provided. I hope to see this expand in Destiny 2 once we have time to generate accurate reward source data.
+    category: "DestinyRewardSourceCategory" = dt.field(
+        metadata={
+            "description": "Sources are grouped into categories: common ways that items are provided. I hope to see this expand in Destiny 2 once we have time to generate accurate reward source data."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2825,12 +4624,16 @@ class DestinyItemVendorSourceReference:
     may be multiple vendorItemIndexes for a single Vendor hash.
     """
 
-    vendor_hash: ManifestReference[
-        "DestinyVendorDefinition"
-    ]  # The identifier for the vendor that may sell this item.
-    vendor_item_indexes: t.Sequence[
-        int
-    ]  # The Vendor sale item indexes that represent the sale information for this item. The same vendor may sell an item in multiple "ways", hence why this is a list. (for instance, a weapon may be "sold" as a reward in a quest, for Glimmer, and for Masterwork Cores: each of those ways would be represented by a different vendor sale item with a different index)
+    vendor_hash: ManifestReference["DestinyVendorDefinition"] = dt.field(
+        metadata={
+            "description": "The identifier for the vendor that may sell this item."
+        }
+    )
+    vendor_item_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": 'The Vendor sale item indexes that represent the sale information for this item. The same vendor may sell an item in multiple "ways", hence why this is a list. (for instance, a weapon may be "sold" as a reward in a quest, for Glimmer, and for Masterwork Cores: each of those ways would be represented by a different vendor sale item with a different index)'
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2850,24 +4653,55 @@ class DestinyItemObjectiveBlockDefinition:
     information.
     """
 
-    display_activity_hashes: t.Sequence[
-        int
-    ]  # For every entry in objectiveHashes, there is a corresponding entry in this array at the same index. If the objective is meant to be associated with a specific DestinyActivityDefinition, there will be a valid hash at that index. Otherwise, it will be invalid (0). Rendered somewhat obsolete by perObjectiveDisplayProperties, which currently has much the same information but may end up with more info in the future.
+    display_activity_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """For every entry in objectiveHashes, there is a corresponding entry in this array at the same index. If the objective is meant to be associated with a specific DestinyActivityDefinition, there will be a valid hash at that index. Otherwise, it will be invalid (0).
+Rendered somewhat obsolete by perObjectiveDisplayProperties, which currently has much the same information but may end up with more info in the future."""
+        }
+    )
     display_as_stat_tracker: bool
-    narrative: str  # The localized string for narrative text related to this quest step, if any.
-    objective_hashes: t.Sequence[
-        int
-    ]  # The hashes to Objectives (DestinyObjectiveDefinition) that are part of this Quest Step, in the order that they should be rendered.
-    objective_verb_name: str  # The localized string describing an action to be performed associated with the objectives, if any.
+    narrative: str = dt.field(
+        metadata={
+            "description": "The localized string for narrative text related to this quest step, if any."
+        }
+    )
+    objective_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The hashes to Objectives (DestinyObjectiveDefinition) that are part of this Quest Step, in the order that they should be rendered."
+        }
+    )
+    objective_verb_name: str = dt.field(
+        metadata={
+            "description": "The localized string describing an action to be performed associated with the objectives, if any."
+        }
+    )
     per_objective_display_properties: t.Sequence[
         "DestinyObjectiveDisplayProperties"
-    ]  # One entry per Objective on the item, it will have related display information.
-    quest_type_hash: int  # A hashed value for the questTypeIdentifier, because apparently I like to be redundant.
-    quest_type_identifier: str  # The identifier for the type of quest being performed, if any. Not associated with any fixed definition, yet.
-    questline_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash for the DestinyInventoryItemDefinition representing the Quest to which this Quest Step belongs.
-    require_full_objective_completion: bool  # If True, all objectives must be completed for the step to be completed. If False, any one objective can be completed for the step to be completed.
+    ] = dt.field(
+        metadata={
+            "description": "One entry per Objective on the item, it will have related display information."
+        }
+    )
+    quest_type_hash: int = dt.field(
+        metadata={
+            "description": "A hashed value for the questTypeIdentifier, because apparently I like to be redundant."
+        }
+    )
+    quest_type_identifier: str = dt.field(
+        metadata={
+            "description": "The identifier for the type of quest being performed, if any. Not associated with any fixed definition, yet."
+        }
+    )
+    questline_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash for the DestinyInventoryItemDefinition representing the Quest to which this Quest Step belongs."
+        }
+    )
+    require_full_objective_completion: bool = dt.field(
+        metadata={
+            "description": "If True, all objectives must be completed for the step to be completed. If False, any one objective can be completed for the step to be completed."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2890,10 +4724,19 @@ class DestinyItemObjectiveBlockDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyObjectiveDisplayProperties:
-    display_on_item_preview_screen: bool  # If true, the game shows this objective on item preview screens.
+    display_on_item_preview_screen: bool = dt.field(
+        metadata={
+            "description": "If true, the game shows this objective on item preview screens."
+        }
+    )
     activity_hash: t.Optional[
         ManifestReference["DestinyActivityDefinition"]
-    ] = None  # The activity associated with this objective in the context of this item, if any.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "The activity associated with this objective in the context of this item, if any."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2906,9 +4749,11 @@ class DestinyObjectiveDisplayProperties:
 class DestinyItemMetricBlockDefinition:
     """The metrics available for display and selection on an item."""
 
-    available_metric_category_node_hashes: t.Sequence[
-        int
-    ]  # Hash identifiers for any DestinyPresentationNodeDefinition entry that can be used to list available metrics. Any metric listed directly below these nodes, or in any of these nodes' children will be made available for selection.
+    available_metric_category_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "Hash identifiers for any DestinyPresentationNodeDefinition entry that can be used to list available metrics. Any metric listed directly below these nodes, or in any of these nodes' children will be made available for selection."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2927,12 +4772,25 @@ class DestinyMaterialRequirementSetDefinition:
     payments for actions that can be performed in game.
     """
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    materials: t.Sequence[
-        "DestinyMaterialRequirement"
-    ]  # The list of all materials that are required.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    materials: t.Sequence["DestinyMaterialRequirement"] = dt.field(
+        metadata={"description": "The list of all materials that are required."}
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2947,12 +4805,24 @@ class DestinyMaterialRequirementSetDefinition:
 class DestinyMaterialRequirement:
     """Many actions relating to items require you to expend materials: - Activating a talent node - Inserting a plug into a socket The items will refer to material requirements by a materialRequirementsHash in these cases, and this is the definition for those requirements in terms of the item required, how much of it is required and other interesting info. This is one of the rare/strange times where a single contract class is used both in definitions *and* in live data response contracts. I'm not sure yet whether I regret that."""
 
-    count: int  # The amount of the material required.
-    delete_on_action: bool  # If True, the material will be removed from the character's inventory when the action is performed.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier of the material required. Use it to look up the material's DestinyInventoryItemDefinition.
-    omit_from_requirements: bool  # If True, this requirement is "silent": don't bother showing it in a material requirements display. I mean, I'm not your mom: I'm not going to tell you you *can't* show it. But we won't show it in our UI.
+    count: int = dt.field(
+        metadata={"description": "The amount of the material required."}
+    )
+    delete_on_action: bool = dt.field(
+        metadata={
+            "description": "If True, the material will be removed from the character's inventory when the action is performed."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the material required. Use it to look up the material's DestinyInventoryItemDefinition."
+        }
+    )
+    omit_from_requirements: bool = dt.field(
+        metadata={
+            "description": "If True, this requirement is \"silent\": don't bother showing it in a material requirements display. I mean, I'm not your mom: I'm not going to tell you you *can't* show it. But we won't show it in our UI."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2974,9 +4844,22 @@ class DestinyUnlockValueDefinition:
     numeric values.
     """
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -2993,10 +4876,16 @@ class DestinyItemGearsetBlockDefinition:
     progress toward gearset completion (a very rare use for unlock
     expressions!)"""
 
-    item_list: t.Sequence[
-        int
-    ]  # The list of hashes for items in the gearset. Use them to look up DestinyInventoryItemDefinition entries for the items in the set.
-    tracking_value_max: int  # The maximum possible number of items that can be collected.
+    item_list: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The list of hashes for items in the gearset. Use them to look up DestinyInventoryItemDefinition entries for the items in the set."
+        }
+    )
+    tracking_value_max: int = dt.field(
+        metadata={
+            "description": "The maximum possible number of items that can be collected."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3009,8 +4898,16 @@ class DestinyItemGearsetBlockDefinition:
 class DestinyItemSackBlockDefinition:
     """Some items are "sacks" - they can be "opened" to produce other items. This is information related to its sack status, mostly UI strings. Engrams are an example of items that are considered to be "Sacks"."""
 
-    detail_action: str  # A description of what will happen when you open the sack. As far as I can tell, this is blank currently. Unknown whether it will eventually be populated with useful info.
-    open_action: str  # The localized name of the action being performed when you open the sack.
+    detail_action: str = dt.field(
+        metadata={
+            "description": "A description of what will happen when you open the sack. As far as I can tell, this is blank currently. Unknown whether it will eventually be populated with useful info."
+        }
+    )
+    open_action: str = dt.field(
+        metadata={
+            "description": "The localized name of the action being performed when you open the sack."
+        }
+    )
     open_on_acquire: bool
     select_item_count: int
     vendor_sack_type: str
@@ -3029,16 +4926,28 @@ class DestinyItemSackBlockDefinition:
 class DestinyItemSocketBlockDefinition:
     """If defined, the item has at least one socket."""
 
-    detail: str  # This was supposed to be a string that would give per-item details about sockets. In practice, it turns out that all this ever has is the localized word "details". ... that's lame, but perhaps it will become something cool in the future.
+    detail: str = dt.field(
+        metadata={
+            "description": 'This was supposed to be a string that would give per-item details about sockets. In practice, it turns out that all this ever has is the localized word "details". ... that\'s lame, but perhaps it will become something cool in the future.'
+        }
+    )
     intrinsic_sockets: t.Sequence[
         "DestinyItemIntrinsicSocketEntryDefinition"
-    ]  # Each intrinsic (or immutable/permanent) socket on an item is defined here, along with the plug that is permanently affixed to the socket.
-    socket_categories: t.Sequence[
-        "DestinyItemSocketCategoryDefinition"
-    ]  # A convenience property, that refers to the sockets in the "sockets" property, pre-grouped by category and ordered in the manner that they should be grouped in the UI. You could form this yourself with the existing data, but why would you want to? Enjoy life man.
-    socket_entries: t.Sequence[
-        "DestinyItemSocketEntryDefinition"
-    ]  # Each non-intrinsic (or mutable) socket on an item is defined here. Check inside for more info.
+    ] = dt.field(
+        metadata={
+            "description": "Each intrinsic (or immutable/permanent) socket on an item is defined here, along with the plug that is permanently affixed to the socket."
+        }
+    )
+    socket_categories: t.Sequence["DestinyItemSocketCategoryDefinition"] = dt.field(
+        metadata={
+            "description": 'A convenience property, that refers to the sockets in the "sockets" property, pre-grouped by category and ordered in the manner that they should be grouped in the UI. You could form this yourself with the existing data, but why would you want to? Enjoy life man.'
+        }
+    )
+    socket_entries: t.Sequence["DestinyItemSocketEntryDefinition"] = dt.field(
+        metadata={
+            "description": "Each non-intrinsic (or mutable) socket on an item is defined here. Check inside for more info."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3056,25 +4965,65 @@ class DestinyItemSocketEntryDefinition:
     This will determine how the socket behaves in-game.
     """
 
-    default_visible: bool  # If true, then this socket is visible in the item's "default" state. If you have an instance, you should always check the runtime state, as that can override this visibility setting: but if you're looking at the item on a conceptual level, this property can be useful for hiding data such as legacy sockets - which remain defined on items for infrastructure purposes, but can be confusing for users to see.
-    hide_perks_in_item_tooltip: bool  # If this is true, the perks provided by this socket shouldn't be shown in the item's tooltip. This might be useful if it's providing a hidden bonus, or if the bonus is less important than other benefits on the item.
-    plug_sources: "SocketPlugSources"  # Indicates where you should go to get plugs for this socket. This will affect how you populate your UI, as well as what plugs are valid for this socket. It's an alternative to having to check for the existence of certain properties (reusablePlugItems for example) to infer where plugs should come from.
-    prevent_initialization_on_vendor_purchase: bool  # If this is true, then the socket will not be initialized with a plug if the item is purchased from a Vendor. Remember that Vendors are much more than conceptual vendors: they include "Collection Kiosks" and other entities. See DestinyVendorDefinition for more information.
+    default_visible: bool = dt.field(
+        metadata={
+            "description": "If true, then this socket is visible in the item's \"default\" state. If you have an instance, you should always check the runtime state, as that can override this visibility setting: but if you're looking at the item on a conceptual level, this property can be useful for hiding data such as legacy sockets - which remain defined on items for infrastructure purposes, but can be confusing for users to see."
+        }
+    )
+    hide_perks_in_item_tooltip: bool = dt.field(
+        metadata={
+            "description": "If this is true, the perks provided by this socket shouldn't be shown in the item's tooltip. This might be useful if it's providing a hidden bonus, or if the bonus is less important than other benefits on the item."
+        }
+    )
+    plug_sources: "SocketPlugSources" = dt.field(
+        metadata={
+            "description": "Indicates where you should go to get plugs for this socket. This will affect how you populate your UI, as well as what plugs are valid for this socket. It's an alternative to having to check for the existence of certain properties (reusablePlugItems for example) to infer where plugs should come from."
+        }
+    )
+    prevent_initialization_on_vendor_purchase: bool = dt.field(
+        metadata={
+            "description": """If this is true, then the socket will not be initialized with a plug if the item is purchased from a Vendor.
+Remember that Vendors are much more than conceptual vendors: they include "Collection Kiosks" and other entities. See DestinyVendorDefinition for more information."""
+        }
+    )
     reusable_plug_items: t.Sequence[
         "DestinyItemSocketEntryPlugItemDefinition"
-    ]  # This is a list of pre-determined plugs that can *always* be plugged into this socket, without the character having the plug in their inventory. If this list is populated, you will not be allowed to plug an arbitrary item in the socket: you will only be able to choose from one of these reusable plugs.
+    ] = dt.field(
+        metadata={
+            "description": """This is a list of pre-determined plugs that can *always* be plugged into this socket, without the character having the plug in their inventory.
+If this list is populated, you will not be allowed to plug an arbitrary item in the socket: you will only be able to choose from one of these reusable plugs."""
+        }
+    )
     single_initial_item_hash: ManifestReference[
         "DestinyInventoryItemDefinition"
-    ]  # If a valid hash, this is the hash identifier for the DestinyInventoryItemDefinition representing the Plug that will be initially inserted into the item on item creation. Otherwise, this Socket will either start without a plug inserted, or will have one randomly inserted.
-    socket_type_hash: ManifestReference[
-        "DestinySocketTypeDefinition"
-    ]  # All sockets have a type, and this is the hash identifier for this particular type. Use it to look up the DestinySocketTypeDefinition: read there for more information on how socket types affect the behavior of the socket.
+    ] = dt.field(
+        metadata={
+            "description": "If a valid hash, this is the hash identifier for the DestinyInventoryItemDefinition representing the Plug that will be initially inserted into the item on item creation. Otherwise, this Socket will either start without a plug inserted, or will have one randomly inserted."
+        }
+    )
+    socket_type_hash: ManifestReference["DestinySocketTypeDefinition"] = dt.field(
+        metadata={
+            "description": "All sockets have a type, and this is the hash identifier for this particular type. Use it to look up the DestinySocketTypeDefinition: read there for more information on how socket types affect the behavior of the socket."
+        }
+    )
     randomized_plug_set_hash: t.Optional[
         ManifestReference["DestinyPlugSetDefinition"]
-    ] = None  # This field replaces "randomizedPlugItems" as of Shadowkeep launch. If a socket has randomized plugs, this is a pointer to the set of plugs that could be used, as defined in DestinyPlugSetDefinition.  If null, the item has no randomized plugs.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """This field replaces "randomizedPlugItems" as of Shadowkeep launch. If a socket has randomized plugs, this is a pointer to the set of plugs that could be used, as defined in DestinyPlugSetDefinition.
+ If null, the item has no randomized plugs."""
+        },
+    )
     reusable_plug_set_hash: t.Optional[
         ManifestReference["DestinyPlugSetDefinition"]
-    ] = None  # If this socket's plugs come from a reusable DestinyPlugSetDefinition, this is the identifier for that set. We added this concept to reduce some major duplication that's going to come from sockets as replacements for what was once implemented as large sets of items and kiosks (like Emotes).  As of Shadowkeep, these will come up much more frequently and be driven by game content rather than custom curation.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """If this socket's plugs come from a reusable DestinyPlugSetDefinition, this is the identifier for that set. We added this concept to reduce some major duplication that's going to come from sockets as replacements for what was once implemented as large sets of items and kiosks (like Emotes).
+ As of Shadowkeep, these will come up much more frequently and be driven by game content rather than custom curation."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3097,9 +5046,11 @@ class DestinyItemSocketEntryPlugItemDefinition:
     """The definition of a known, reusable plug that can be applied to a
     socket."""
 
-    plug_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier of a DestinyInventoryItemDefinition representing the plug that can be inserted.
+    plug_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of a DestinyInventoryItemDefinition representing the plug that can be inserted."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3109,10 +5060,16 @@ class DestinyItemSocketEntryPlugItemDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyItemSocketEntryPlugItemRandomizedDefinition:
-    currently_can_roll: bool  # Indicates if the plug can be rolled on the current version of the item. For example, older versions of weapons may have plug rolls that are no longer possible on the current versions.
-    plug_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier of a DestinyInventoryItemDefinition representing the plug that can be inserted.
+    currently_can_roll: bool = dt.field(
+        metadata={
+            "description": "Indicates if the plug can be rolled on the current version of the item. For example, older versions of weapons may have plug rolls that are no longer possible on the current versions."
+        }
+    )
+    plug_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of a DestinyInventoryItemDefinition representing the plug that can be inserted."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3129,13 +5086,19 @@ class DestinyItemIntrinsicSocketEntryDefinition:
     visual plug/Mod on it, but that plug/Mod should never change.
     """
 
-    default_visible: bool  # If true, then this socket is visible in the item's "default" state. If you have an instance, you should always check the runtime state, as that can override this visibility setting: but if you're looking at the item on a conceptual level, this property can be useful for hiding data such as legacy sockets - which remain defined on items for infrastructure purposes, but can be confusing for users to see.
-    plug_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # Indicates the plug that is intrinsically inserted into this socket.
-    socket_type_hash: ManifestReference[
-        "DestinySocketTypeDefinition"
-    ]  # Indicates the type of this intrinsic socket.
+    default_visible: bool = dt.field(
+        metadata={
+            "description": "If true, then this socket is visible in the item's \"default\" state. If you have an instance, you should always check the runtime state, as that can override this visibility setting: but if you're looking at the item on a conceptual level, this property can be useful for hiding data such as legacy sockets - which remain defined on items for infrastructure purposes, but can be confusing for users to see."
+        }
+    )
+    plug_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "Indicates the plug that is intrinsically inserted into this socket."
+        }
+    )
+    socket_type_hash: ManifestReference["DestinySocketTypeDefinition"] = dt.field(
+        metadata={"description": "Indicates the type of this intrinsic socket."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3155,10 +5118,16 @@ class DestinyItemSocketCategoryDefinition:
 
     socket_category_hash: ManifestReference[
         "DestinySocketCategoryDefinition"
-    ]  # The hash for the Socket Category: a quick way to go get the header display information for the category. Use it to look up DestinySocketCategoryDefinition info.
-    socket_indexes: t.Sequence[
-        int
-    ]  # Use these indexes to look up the sockets in the "sockets.socketEntries" property on the item definition. These are the indexes under the category, in game-rendered order.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the Socket Category: a quick way to go get the header display information for the category. Use it to look up DestinySocketCategoryDefinition info."
+        }
+    )
+    socket_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": 'Use these indexes to look up the sockets in the "sockets.socketEntries" property on the item definition. These are the indexes under the category, in game-rendered order.'
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3174,7 +5143,11 @@ class DestinyItemSummaryBlockDefinition:
     We don't currently use it on BNet.
     """
 
-    sort_priority: int  # Apparently when rendering an item in a reward, this should be used as a sort priority. We're not doing it presently.
+    sort_priority: int = dt.field(
+        metadata={
+            "description": "Apparently when rendering an item in a reward, this should be used as a sort priority. We're not doing it presently."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3193,13 +5166,31 @@ class DestinyItemTalentGridBlockDefinition:
     still have talent grids with meaningful Nodes.
     """
 
-    build_name: str  # A shortcut string identifier for the "build" in question, if this talent grid has an associated build. Doesn't map to anything we can expose at the moment.
-    hud_damage_type: "DamageType"  # If the talent grid implies a damage type, this is the enum value for that damage type.
-    hud_icon: str  # If the talent grid has a special icon that's shown in the game UI (like builds, funny that), this is the identifier for that icon. Sadly, we don't actually get that icon right now. I'll be looking to replace this with a path to the actual icon itself.
-    item_detail_string: str  # This is meant to be a subtitle for looking at the talent grid. In practice, somewhat frustratingly, this always merely says the localized word for "Details". Great. Maybe it'll have more if talent grids ever get used for more than builds and subclasses again.
-    talent_grid_hash: ManifestReference[
-        "DestinyTalentGridDefinition"
-    ]  # The hash identifier of the DestinyTalentGridDefinition attached to this item.
+    build_name: str = dt.field(
+        metadata={
+            "description": 'A shortcut string identifier for the "build" in question, if this talent grid has an associated build. Doesn\'t map to anything we can expose at the moment.'
+        }
+    )
+    hud_damage_type: "DamageType" = dt.field(
+        metadata={
+            "description": "If the talent grid implies a damage type, this is the enum value for that damage type."
+        }
+    )
+    hud_icon: str = dt.field(
+        metadata={
+            "description": "If the talent grid has a special icon that's shown in the game UI (like builds, funny that), this is the identifier for that icon. Sadly, we don't actually get that icon right now. I'll be looking to replace this with a path to the actual icon itself."
+        }
+    )
+    item_detail_string: str = dt.field(
+        metadata={
+            "description": 'This is meant to be a subtitle for looking at the talent grid. In practice, somewhat frustratingly, this always merely says the localized word for "Details". Great. Maybe it\'ll have more if talent grids ever get used for more than builds and subclasses again.'
+        }
+    )
+    talent_grid_hash: ManifestReference["DestinyTalentGridDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the DestinyTalentGridDefinition attached to this item."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3241,29 +5232,66 @@ class DestinyTalentGridDefinition:
     DestinyInventoryItem.talentGrid.talentGridHash defines an item's linked Talent Grid, which brings you to this definition that contains enough satic data about talent grids to make your head spin. These *must* be combined with instanced data - found when live data returns DestinyItemTalentGridComponent - in order to derive meaning. The instanced data will reference nodes and steps within these definitions, which you will then have to look up in the definition and combine with the instanced data to give the user the visual representation of their item's talent grid.
     """
 
-    exclusive_sets: t.Sequence[
-        "DestinyTalentNodeExclusiveSetDefinition"
-    ]  # Talent Nodes can exist in "exclusive sets": these are sets of nodes in which only a single node in the set can be activated at any given time. Activating a node in this set will automatically deactivate the other nodes in the set (referred to as a "Swap"). If a node in the exclusive set has already been activated, the game will not charge you materials to activate another node in the set, even if you have never activated it before, because you already paid the cost to activate one node in the set. Not to be confused with Exclusive Groups. (how the heck do we NOT get confused by that? Jeez) See the groups property for information about that only-tangentially-related concept.
-    grid_level_per_column: int  # The meaning of this has been lost in the sands of time: it still exists as a property, but appears to be unused in the modern UI of talent grids. It used to imply that each visual "column" of talent nodes required identical progression levels in order to be activated. Returning this value in case it is still useful to someone? Perhaps it's just a bit of interesting history.
-    groups: t.Mapping[
-        str, "DestinyTalentExclusiveGroup"
-    ]  # Talent Nodes can have "Exclusive Groups". These are not to be confused with Exclusive Sets (see exclusiveSets property). Look at the definition of DestinyTalentExclusiveGroup for more information and how they work. These groups are keyed by the "groupHash" from DestinyTalentExclusiveGroup.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    independent_node_indexes: t.Sequence[
-        int
-    ]  # This is a quick reference to the indexes of nodes that are not part of exclusive sets. Handy for knowing which talent nodes can only be activated directly, rather than via swapping.
-    index: int  # The index of the entity as it was found in the investment tables.
-    max_grid_level: int  # The maximum possible level of the Talent Grid: at this level, any nodes are allowed to be activated.
-    node_categories: t.Sequence[
-        "DestinyTalentNodeCategory"
-    ]  # BNet wants to show talent nodes grouped by similar purpose with localized titles. This is the ordered list of those categories: if you want to show nodes by category, you can iterate over this list, render the displayProperties for the category as the title, and then iterate over the talent nodes referenced by the category to show the related nodes. Note that this is different from Exclusive Groups or Sets, because these categories also incorporate "Independent" nodes that belong to neither sets nor groups. These are purely for visual grouping of nodes rather than functional grouping.
-    nodes: t.Sequence[
-        "DestinyTalentNodeDefinition"
-    ]  # The list of Talent Nodes on the Grid (recall that Nodes themselves are really just locations in the UI to show whatever their current Step is. You will only know the current step for a node by retrieving instanced data through platform calls to the API that return DestinyItemTalentGridComponent).
-    progression_hash: ManifestReference[
-        "DestinyProgressionDefinition"
-    ]  # The hash identifier of the Progression (DestinyProgressionDefinition) that drives whether and when Talent Nodes can be activated on the Grid. Items will have instances of this Progression, and will gain experience that will eventually cause the grid to increase in level. As the grid's level increases, it will cross the threshold where nodes can be activated. See DestinyTalentGridStepDefinition's activation requirements for more information.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    exclusive_sets: t.Sequence["DestinyTalentNodeExclusiveSetDefinition"] = dt.field(
+        metadata={
+            "description": """Talent Nodes can exist in "exclusive sets": these are sets of nodes in which only a single node in the set can be activated at any given time. Activating a node in this set will automatically deactivate the other nodes in the set (referred to as a "Swap").
+If a node in the exclusive set has already been activated, the game will not charge you materials to activate another node in the set, even if you have never activated it before, because you already paid the cost to activate one node in the set.
+Not to be confused with Exclusive Groups. (how the heck do we NOT get confused by that? Jeez) See the groups property for information about that only-tangentially-related concept."""
+        }
+    )
+    grid_level_per_column: int = dt.field(
+        metadata={
+            "description": 'The meaning of this has been lost in the sands of time: it still exists as a property, but appears to be unused in the modern UI of talent grids. It used to imply that each visual "column" of talent nodes required identical progression levels in order to be activated. Returning this value in case it is still useful to someone? Perhaps it\'s just a bit of interesting history.'
+        }
+    )
+    groups: t.Mapping[str, "DestinyTalentExclusiveGroup"] = dt.field(
+        metadata={
+            "description": """Talent Nodes can have "Exclusive Groups". These are not to be confused with Exclusive Sets (see exclusiveSets property).
+Look at the definition of DestinyTalentExclusiveGroup for more information and how they work. These groups are keyed by the "groupHash" from DestinyTalentExclusiveGroup."""
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    independent_node_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "This is a quick reference to the indexes of nodes that are not part of exclusive sets. Handy for knowing which talent nodes can only be activated directly, rather than via swapping."
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    max_grid_level: int = dt.field(
+        metadata={
+            "description": "The maximum possible level of the Talent Grid: at this level, any nodes are allowed to be activated."
+        }
+    )
+    node_categories: t.Sequence["DestinyTalentNodeCategory"] = dt.field(
+        metadata={
+            "description": """BNet wants to show talent nodes grouped by similar purpose with localized titles. This is the ordered list of those categories: if you want to show nodes by category, you can iterate over this list, render the displayProperties for the category as the title, and then iterate over the talent nodes referenced by the category to show the related nodes.
+Note that this is different from Exclusive Groups or Sets, because these categories also incorporate "Independent" nodes that belong to neither sets nor groups. These are purely for visual grouping of nodes rather than functional grouping."""
+        }
+    )
+    nodes: t.Sequence["DestinyTalentNodeDefinition"] = dt.field(
+        metadata={
+            "description": "The list of Talent Nodes on the Grid (recall that Nodes themselves are really just locations in the UI to show whatever their current Step is. You will only know the current step for a node by retrieving instanced data through platform calls to the API that return DestinyItemTalentGridComponent)."
+        }
+    )
+    progression_hash: ManifestReference["DestinyProgressionDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the Progression (DestinyProgressionDefinition) that drives whether and when Talent Nodes can be activated on the Grid. Items will have instances of this Progression, and will gain experience that will eventually cause the grid to increase in level. As the grid's level increases, it will cross the threshold where nodes can be activated. See DestinyTalentGridStepDefinition's activation requirements for more information."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3294,35 +5322,112 @@ class DestinyTalentNodeDefinition:
     were used in Destiny 1).
     """
 
-    auto_unlocks: bool  # If true, this node will automatically unlock when the Talent Grid's level reaches the required level of the current step of this node.
-    binary_pair_node_index: int  # At one point, Talent Nodes supported the idea of "Binary Pairs": nodes that overlapped each other visually, and where activating one deactivated the other. They ended up not being used, mostly because Exclusive Sets are *almost* a superset of this concept, but the potential for it to be used still exists in theory. If this is ever used, this will be the index into the DestinyTalentGridDefinition.nodes property for the node that is the binary pair match to this node. Activating one deactivates the other.
-    column: int  # The visual "column" where the node should be shown in the UI. If negative, the node is hidden.
-    exclusive_with_node_hashes: t.Sequence[
-        int
-    ]  # The nodeHash values for nodes that are in an Exclusive Set with this node. See DestinyTalentGridDefinition.exclusiveSets for more info about exclusive sets. Again, note that these are nodeHashes and *not* nodeIndexes.
-    ignore_for_completion: bool  # Comes from the talent grid node style: if true, then this node should be ignored for determining whether the grid is complete.
-    is_random: bool  # If this is true, the node's step is determined randomly rather than the first step being chosen.
-    is_random_repurchasable: bool  # If this is true, the node can be "re-rolled" to acquire a different random current step. This is not used, but still exists for a theoretical future of talent grids.
-    last_step_repeats: bool  # At one point, Nodes were going to be able to be activated multiple times, changing the current step and potentially piling on multiple effects from the previously activated steps. This property would indicate if the last step could be activated multiple times.  This is not currently used, but it isn't out of the question that this could end up being used again in a theoretical future.
-    layout_identifier: str  # A string identifier for a custom visual layout to apply to this talent node. Unfortunately, we do not have any data for rendering these custom layouts. It will be up to you to interpret these strings and change your UI if you want to have custom UI matching these layouts.
-    node_hash: int  # The hash identifier for the node, which unfortunately is also content version dependent but can be (and ideally, should be) used instead of the nodeIndex to uniquely identify the node. The two exist side-by-side for backcompat reasons due to the Great Talent Node Restructuring of Destiny 1, and I ran out of time to remove one of them and standardize on the other. Sorry!
-    node_index: int  # The index into the DestinyTalentGridDefinition's "nodes" property where this node is located. Used to uniquely identify the node within the Talent Grid. Note that this is content version dependent: make sure you have the latest version of content before trying to use these properties.
-    node_style_identifier: str  # Comes from the talent grid node style: this identifier should be used to determine how to render the node in the UI.
-    prerequisite_node_indexes: t.Sequence[
-        int
-    ]  # Indexes into the DestinyTalentGridDefinition.nodes property for any nodes that must be activated before this one is allowed to be activated. I would have liked to change this to hashes for Destiny 2, but we have run out of time.
-    random_activation_requirement: "DestinyNodeActivationRequirement"  # At one point, you were going to be able to repurchase talent nodes that had random steps, to "re-roll" the current step of the node (and thus change the properties of your item). This was to be the activation requirement for performing that re-roll. The system still exists to do this, as far as I know, so it may yet come back around!
-    random_start_progression_bar_at_progression: int  # If the node's step is randomly selected, this is the amount of the Talent Grid's progression experience at which the progression bar for the node should be shown.
-    row: int  # The visual "row" where the node should be shown in the UI. If negative, then the node is hidden.
-    steps: t.Sequence[
-        "DestinyNodeStepDefinition"
-    ]  # At this point, "steps" have been obfuscated into conceptual entities, aggregating the underlying notions of "properties" and "true steps". If you need to know a step as it truly exists - such as when recreating Node logic when processing Vendor data - you'll have to use the "realSteps" property below.
-    group_hash: t.Optional[
-        int
-    ] = None  # As of Destiny 2, nodes can exist as part of "Exclusive Groups". These differ from exclusive sets in that, within the group, many nodes can be activated. But the act of activating any node in the group will cause "opposing" nodes (nodes in groups that are not allowed to be activated at the same time as this group) to deactivate. See DestinyTalentExclusiveGroup for more information on the details. This is an identifier for this node's group, if it is part of one.
-    lore_hash: t.Optional[
-        ManifestReference["DestinyLoreDefinition"]
-    ] = None  # Talent nodes can be associated with a piece of Lore, generally rendered in a tooltip. This is the hash identifier of the lore element to show, if there is one to be show.
+    auto_unlocks: bool = dt.field(
+        metadata={
+            "description": "If true, this node will automatically unlock when the Talent Grid's level reaches the required level of the current step of this node."
+        }
+    )
+    binary_pair_node_index: int = dt.field(
+        metadata={
+            "description": """At one point, Talent Nodes supported the idea of "Binary Pairs": nodes that overlapped each other visually, and where activating one deactivated the other. They ended up not being used, mostly because Exclusive Sets are *almost* a superset of this concept, but the potential for it to be used still exists in theory.
+If this is ever used, this will be the index into the DestinyTalentGridDefinition.nodes property for the node that is the binary pair match to this node. Activating one deactivates the other."""
+        }
+    )
+    column: int = dt.field(
+        metadata={
+            "description": 'The visual "column" where the node should be shown in the UI. If negative, the node is hidden.'
+        }
+    )
+    exclusive_with_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """The nodeHash values for nodes that are in an Exclusive Set with this node.
+See DestinyTalentGridDefinition.exclusiveSets for more info about exclusive sets.
+Again, note that these are nodeHashes and *not* nodeIndexes."""
+        }
+    )
+    ignore_for_completion: bool = dt.field(
+        metadata={
+            "description": "Comes from the talent grid node style: if true, then this node should be ignored for determining whether the grid is complete."
+        }
+    )
+    is_random: bool = dt.field(
+        metadata={
+            "description": "If this is true, the node's step is determined randomly rather than the first step being chosen."
+        }
+    )
+    is_random_repurchasable: bool = dt.field(
+        metadata={
+            "description": 'If this is true, the node can be "re-rolled" to acquire a different random current step. This is not used, but still exists for a theoretical future of talent grids.'
+        }
+    )
+    last_step_repeats: bool = dt.field(
+        metadata={
+            "description": """At one point, Nodes were going to be able to be activated multiple times, changing the current step and potentially piling on multiple effects from the previously activated steps. This property would indicate if the last step could be activated multiple times. 
+This is not currently used, but it isn't out of the question that this could end up being used again in a theoretical future."""
+        }
+    )
+    layout_identifier: str = dt.field(
+        metadata={
+            "description": "A string identifier for a custom visual layout to apply to this talent node. Unfortunately, we do not have any data for rendering these custom layouts. It will be up to you to interpret these strings and change your UI if you want to have custom UI matching these layouts."
+        }
+    )
+    node_hash: int = dt.field(
+        metadata={
+            "description": """The hash identifier for the node, which unfortunately is also content version dependent but can be (and ideally, should be) used instead of the nodeIndex to uniquely identify the node.
+The two exist side-by-side for backcompat reasons due to the Great Talent Node Restructuring of Destiny 1, and I ran out of time to remove one of them and standardize on the other. Sorry!"""
+        }
+    )
+    node_index: int = dt.field(
+        metadata={
+            "description": 'The index into the DestinyTalentGridDefinition\'s "nodes" property where this node is located. Used to uniquely identify the node within the Talent Grid. Note that this is content version dependent: make sure you have the latest version of content before trying to use these properties.'
+        }
+    )
+    node_style_identifier: str = dt.field(
+        metadata={
+            "description": "Comes from the talent grid node style: this identifier should be used to determine how to render the node in the UI."
+        }
+    )
+    prerequisite_node_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """Indexes into the DestinyTalentGridDefinition.nodes property for any nodes that must be activated before this one is allowed to be activated.
+I would have liked to change this to hashes for Destiny 2, but we have run out of time."""
+        }
+    )
+    random_activation_requirement: "DestinyNodeActivationRequirement" = dt.field(
+        metadata={
+            "description": """At one point, you were going to be able to repurchase talent nodes that had random steps, to "re-roll" the current step of the node (and thus change the properties of your item). This was to be the activation requirement for performing that re-roll.
+The system still exists to do this, as far as I know, so it may yet come back around!"""
+        }
+    )
+    random_start_progression_bar_at_progression: int = dt.field(
+        metadata={
+            "description": "If the node's step is randomly selected, this is the amount of the Talent Grid's progression experience at which the progression bar for the node should be shown."
+        }
+    )
+    row: int = dt.field(
+        metadata={
+            "description": 'The visual "row" where the node should be shown in the UI. If negative, then the node is hidden.'
+        }
+    )
+    steps: t.Sequence["DestinyNodeStepDefinition"] = dt.field(
+        metadata={
+            "description": """At this point, "steps" have been obfuscated into conceptual entities, aggregating the underlying notions of "properties" and "true steps".
+If you need to know a step as it truly exists - such as when recreating Node logic when processing Vendor data - you'll have to use the "realSteps" property below."""
+        }
+    )
+    group_hash: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """As of Destiny 2, nodes can exist as part of "Exclusive Groups". These differ from exclusive sets in that, within the group, many nodes can be activated. But the act of activating any node in the group will cause "opposing" nodes (nodes in groups that are not allowed to be activated at the same time as this group) to deactivate.
+See DestinyTalentExclusiveGroup for more information on the details. This is an identifier for this node's group, if it is part of one."""
+        },
+    )
+    lore_hash: t.Optional[ManifestReference["DestinyLoreDefinition"]] = dt.field(
+        default=None,
+        metadata={
+            "description": "Talent nodes can be associated with a piece of Lore, generally rendered in a tooltip. This is the hash identifier of the lore element to show, if there is one to be show."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3360,10 +5465,18 @@ class DestinyNodeActivationRequirement:
     whether a talent node can be activated.
     """
 
-    grid_level: int  # The Progression level on the Talent Grid required to activate this node. See DestinyTalentGridDefinition.progressionHash for the related Progression, and read DestinyProgressionDefinition's documentation to learn more about Progressions.
-    material_requirement_hashes: t.Sequence[
-        int
-    ]  # The list of hash identifiers for material requirement sets: materials that are required for the node to be activated. See DestinyMaterialRequirementSetDefinition for more information about material requirements. In this case, only a single DestinyMaterialRequirementSetDefinition will be chosen from this list, and we won't know which one will be chosen until an instance of the item is created.
+    grid_level: int = dt.field(
+        metadata={
+            "description": """The Progression level on the Talent Grid required to activate this node.
+See DestinyTalentGridDefinition.progressionHash for the related Progression, and read DestinyProgressionDefinition's documentation to learn more about Progressions."""
+        }
+    )
+    material_requirement_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """The list of hash identifiers for material requirement sets: materials that are required for the node to be activated. See DestinyMaterialRequirementSetDefinition for more information about material requirements.
+In this case, only a single DestinyMaterialRequirementSetDefinition will be chosen from this list, and we won't know which one will be chosen until an instance of the item is created."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3387,31 +5500,98 @@ class DestinyNodeStepDefinition:
     Note that, when dealing with Talent Node Steps, you must ensure that you have the latest version of content. stepIndex and nodeStepHash - two ways of identifying the step within a node - are both content version dependent, and thus are subject to change between content updates.
     """
 
-    activation_requirement: "DestinyNodeActivationRequirement"  # If the step has requirements for activation (they almost always do, if nothing else than for the Talent Grid's Progression to have reached a certain level), they will be defined here.
-    affects_level: bool  # If true, this step can affect the level of the item. See DestinyInventoryItemDefintion for more information about item levels and their effect on stats.
-    affects_quality: bool  # If this is true, the step affects the item's Quality in some way. See DestinyInventoryItemDefinition for more information about the meaning of Quality. I already made a joke about Zen and the Art of Motorcycle Maintenance elsewhere in the documentation, so I will avoid doing it again. Oops too late
-    can_activate_next_step: bool  # There was a time when talent nodes could be activated multiple times, and the effects of subsequent Steps would be compounded on each other, essentially "upgrading" the node. We have moved away from this, but theoretically the capability still exists. I continue to return this in case it is used in the future: if true and this step is the current step in the node, you are allowed to activate the node a second time to receive the benefits of the next step in the node, which will then become the active step.
-    damage_type: "DamageType"  # An enum representing a damage type granted by activating this step, if any.
-    display_properties: "DestinyDisplayPropertiesDefinition"  # These are the display properties actually used to render the Talent Node. The currently active step's displayProperties are shown.
-    interaction_description: str  # If you can interact with this node in some way, this is the localized description of that interaction.
-    is_next_step_random: bool  # If true, the next step to be chosen is random, and if you're allowed to activate the next step. (if canActivateNextStep = true)
-    next_step_index: int  # The stepIndex of the next step in the talent node, or -1 if this is the last step or if the next step to be chosen is random. This doesn't really matter anymore unless canActivateNextStep begins to be used again.
-    node_step_hash: int  # The hash of this node step. Unfortunately, while it can be used to uniquely identify the step within a node, it is also content version dependent and should not be relied on without ensuring you have the latest vesion of content.
-    perk_hashes: t.Sequence[
-        int
-    ]  # The list of hash identifiers for Perks (DestinySandboxPerkDefinition) that are applied when this step is active. Perks provide a variety of benefits and modifications - examine DestinySandboxPerkDefinition to learn more.
-    socket_replacements: t.Sequence[
-        "DestinyNodeSocketReplaceResponse"
-    ]  # If this step is activated, this will be a list of information used to replace socket items with new Plugs. See DestinyInventoryItemDefinition for more information about sockets and plugs.
-    start_progression_bar_at_progress: int  # When the Talent Grid's progression reaches this value, the circular "progress bar" that surrounds the talent node should be shown. This also indicates the lower bound of said progress bar, with the upper bound being the progress required to reach activationRequirement.gridLevel. (at some point I should precalculate the upper bound and put it in the definition to save people time)
-    stat_hashes: t.Sequence[
-        int
-    ]  # When the step provides stat benefits on the item or character, this is the list of hash identifiers for stats (DestinyStatDefinition) that are provided.
-    step_groups: "DestinyTalentNodeStepGroups"  # In Destiny 1, the Armory's Perk Filtering was driven by a concept of TalentNodeStepGroups: categorizations of talent nodes based on their functionality. While the Armory isn't a BNet-facing thing for now, and the new Armory will need to account for Sockets rather than Talent Nodes, this categorization capability feels useful enough to still keep around.
-    step_index: int  # The index of this step in the list of Steps on the Talent Node. Unfortunately, this is the closest thing we have to an identifier for the Step: steps are not provided a content version agnostic identifier. This means that, when you are dealing with talent nodes, you will need to first ensure that you have the latest version of content.
+    activation_requirement: "DestinyNodeActivationRequirement" = dt.field(
+        metadata={
+            "description": "If the step has requirements for activation (they almost always do, if nothing else than for the Talent Grid's Progression to have reached a certain level), they will be defined here."
+        }
+    )
+    affects_level: bool = dt.field(
+        metadata={
+            "description": "If true, this step can affect the level of the item. See DestinyInventoryItemDefintion for more information about item levels and their effect on stats."
+        }
+    )
+    affects_quality: bool = dt.field(
+        metadata={
+            "description": "If this is true, the step affects the item's Quality in some way. See DestinyInventoryItemDefinition for more information about the meaning of Quality. I already made a joke about Zen and the Art of Motorcycle Maintenance elsewhere in the documentation, so I will avoid doing it again. Oops too late"
+        }
+    )
+    can_activate_next_step: bool = dt.field(
+        metadata={
+            "description": """There was a time when talent nodes could be activated multiple times, and the effects of subsequent Steps would be compounded on each other, essentially "upgrading" the node. We have moved away from this, but theoretically the capability still exists.
+I continue to return this in case it is used in the future: if true and this step is the current step in the node, you are allowed to activate the node a second time to receive the benefits of the next step in the node, which will then become the active step."""
+        }
+    )
+    damage_type: "DamageType" = dt.field(
+        metadata={
+            "description": "An enum representing a damage type granted by activating this step, if any."
+        }
+    )
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "These are the display properties actually used to render the Talent Node. The currently active step's displayProperties are shown."
+        }
+    )
+    interaction_description: str = dt.field(
+        metadata={
+            "description": "If you can interact with this node in some way, this is the localized description of that interaction."
+        }
+    )
+    is_next_step_random: bool = dt.field(
+        metadata={
+            "description": "If true, the next step to be chosen is random, and if you're allowed to activate the next step. (if canActivateNextStep = true)"
+        }
+    )
+    next_step_index: int = dt.field(
+        metadata={
+            "description": """The stepIndex of the next step in the talent node, or -1 if this is the last step or if the next step to be chosen is random.
+This doesn't really matter anymore unless canActivateNextStep begins to be used again."""
+        }
+    )
+    node_step_hash: int = dt.field(
+        metadata={
+            "description": "The hash of this node step. Unfortunately, while it can be used to uniquely identify the step within a node, it is also content version dependent and should not be relied on without ensuring you have the latest vesion of content."
+        }
+    )
+    perk_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The list of hash identifiers for Perks (DestinySandboxPerkDefinition) that are applied when this step is active. Perks provide a variety of benefits and modifications - examine DestinySandboxPerkDefinition to learn more."
+        }
+    )
+    socket_replacements: t.Sequence["DestinyNodeSocketReplaceResponse"] = dt.field(
+        metadata={
+            "description": "If this step is activated, this will be a list of information used to replace socket items with new Plugs. See DestinyInventoryItemDefinition for more information about sockets and plugs."
+        }
+    )
+    start_progression_bar_at_progress: int = dt.field(
+        metadata={
+            "description": """When the Talent Grid's progression reaches this value, the circular "progress bar" that surrounds the talent node should be shown.
+This also indicates the lower bound of said progress bar, with the upper bound being the progress required to reach activationRequirement.gridLevel. (at some point I should precalculate the upper bound and put it in the definition to save people time)"""
+        }
+    )
+    stat_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "When the step provides stat benefits on the item or character, this is the list of hash identifiers for stats (DestinyStatDefinition) that are provided."
+        }
+    )
+    step_groups: "DestinyTalentNodeStepGroups" = dt.field(
+        metadata={
+            "description": "In Destiny 1, the Armory's Perk Filtering was driven by a concept of TalentNodeStepGroups: categorizations of talent nodes based on their functionality. While the Armory isn't a BNet-facing thing for now, and the new Armory will need to account for Sockets rather than Talent Nodes, this categorization capability feels useful enough to still keep around."
+        }
+    )
+    step_index: int = dt.field(
+        metadata={
+            "description": """The index of this step in the list of Steps on the Talent Node.
+Unfortunately, this is the closest thing we have to an identifier for the Step: steps are not provided a content version agnostic identifier. This means that, when you are dealing with talent nodes, you will need to first ensure that you have the latest version of content."""
+        }
+    )
     damage_type_hash: t.Optional[
         ManifestReference["DestinyDamageTypeDefinition"]
-    ] = None  # If the step provides a damage type, this will be the hash identifier used to look up the damage type's DestinyDamageTypeDefinition.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the step provides a damage type, this will be the hash identifier used to look up the damage type's DestinyDamageTypeDefinition."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3447,12 +5627,16 @@ class DestinyNodeSocketReplaceResponse:
     the indicated plug item.
     """
 
-    plug_item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier of the plug item that will be inserted into the socket found.
-    socket_type_hash: ManifestReference[
-        "DestinySocketTypeDefinition"
-    ]  # The hash identifier of the socket type to find amidst the item's sockets (the item to which this talent grid is attached). See DestinyInventoryItemDefinition.sockets.socketEntries to find the socket type of sockets on the item in question.
+    plug_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the plug item that will be inserted into the socket found."
+        }
+    )
+    socket_type_hash: ManifestReference["DestinySocketTypeDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the socket type to find amidst the item's sockets (the item to which this talent grid is attached). See DestinyInventoryItemDefinition.sockets.socketEntries to find the socket type of sockets on the item in question."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3469,9 +5653,11 @@ class DestinyTalentNodeExclusiveSetDefinition:
     (See DestinyTalentNodeDefinition.nodeIndex)
     """
 
-    node_indexes: t.Sequence[
-        int
-    ]  # The list of node indexes for the exclusive set. Historically, these were indexes. I would have liked to replace this with nodeHashes for consistency, but it's way too late for that. (9:09 PM, he's right!)
+    node_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The list of node indexes for the exclusive set. Historically, these were indexes. I would have liked to replace this with nodeHashes for consistency, but it's way too late for that. (9:09 PM, he's right!)"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3490,19 +5676,32 @@ class DestinyTalentExclusiveGroup:
     deactivate.
     """
 
-    group_hash: int  # The identifier for this exclusive group. Only guaranteed unique within the talent grid, not globally.
-    node_hashes: t.Sequence[
-        int
-    ]  # A quick reference of the talent nodes that are part of this group, by their Talent Node hashes. (See DestinyTalentNodeDefinition.nodeHash)
-    opposing_group_hashes: t.Sequence[
-        int
-    ]  # A quick reference of Groups whose nodes will be deactivated if any node in this group is activated.
-    opposing_node_hashes: t.Sequence[
-        int
-    ]  # A quick reference of Nodes that will be deactivated if any node in this group is activated, by their Talent Node hashes. (See DestinyTalentNodeDefinition.nodeHash)
-    lore_hash: t.Optional[
-        ManifestReference["DestinyLoreDefinition"]
-    ] = None  # If this group has an associated piece of lore to show next to it, this will be the identifier for that DestinyLoreDefinition.
+    group_hash: int = dt.field(
+        metadata={
+            "description": "The identifier for this exclusive group. Only guaranteed unique within the talent grid, not globally."
+        }
+    )
+    node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference of the talent nodes that are part of this group, by their Talent Node hashes. (See DestinyTalentNodeDefinition.nodeHash)"
+        }
+    )
+    opposing_group_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference of Groups whose nodes will be deactivated if any node in this group is activated."
+        }
+    )
+    opposing_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference of Nodes that will be deactivated if any node in this group is activated, by their Talent Node hashes. (See DestinyTalentNodeDefinition.nodeHash)"
+        }
+    )
+    lore_hash: t.Optional[ManifestReference["DestinyLoreDefinition"]] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this group has an associated piece of lore to show next to it, this will be the identifier for that DestinyLoreDefinition."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3523,12 +5722,26 @@ class DestinyTalentNodeCategory:
     common trait or purpose.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Will contain at least the "name", which will be the title of the category. We will likely not have description and an icon yet, but I'm going to keep my options open.
-    identifier: str  # Mostly just for debug purposes, but if you find it useful you can have it. This is BNet's manually created identifier for this category.
-    is_lore_driven: bool  # If true, we found the localized content in a related DestinyLoreDefinition instead of local BNet localization files. This is mostly for ease of my own future investigations.
-    node_hashes: t.Sequence[
-        int
-    ]  # The set of all hash identifiers for Talent Nodes (DestinyTalentNodeDefinition) in this Talent Grid that are part of this Category.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": 'Will contain at least the "name", which will be the title of the category. We will likely not have description and an icon yet, but I\'m going to keep my options open.'
+        }
+    )
+    identifier: str = dt.field(
+        metadata={
+            "description": "Mostly just for debug purposes, but if you find it useful you can have it. This is BNet's manually created identifier for this category."
+        }
+    )
+    is_lore_driven: bool = dt.field(
+        metadata={
+            "description": "If true, we found the localized content in a related DestinyLoreDefinition instead of local BNet localization files. This is mostly for ease of my own future investigations."
+        }
+    )
+    node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "The set of all hash identifiers for Talent Nodes (DestinyTalentNodeDefinition) in this Talent Grid that are part of this Category."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3544,11 +5757,21 @@ class DestinyItemPerkEntryDefinition:
     """An intrinsic perk on an item, and the requirements for it to be
     activated."""
 
-    perk_hash: ManifestReference[
-        "DestinySandboxPerkDefinition"
-    ]  # A hash identifier for the DestinySandboxPerkDefinition being provided on the item.
-    perk_visibility: "ItemPerkVisibility"  # Indicates whether this perk should be shown, or if it should be shown disabled.
-    requirement_display_string: str  # If this perk is not active, this is the string to show for why it's not providing its benefits.
+    perk_hash: ManifestReference["DestinySandboxPerkDefinition"] = dt.field(
+        metadata={
+            "description": "A hash identifier for the DestinySandboxPerkDefinition being provided on the item."
+        }
+    )
+    perk_visibility: "ItemPerkVisibility" = dt.field(
+        metadata={
+            "description": "Indicates whether this perk should be shown, or if it should be shown disabled."
+        }
+    )
+    requirement_display_string: str = dt.field(
+        metadata={
+            "description": "If this perk is not active, this is the string to show for why it's not providing its benefits."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3575,29 +5798,103 @@ class DestinyItemCategoryDefinition:
     categories that you wish would be added!
     """
 
-    deprecated: bool  # If True, this category has been deprecated: it may have no items left, or there may be only legacy items that remain in it which are no longer relevant to the game.
+    deprecated: bool = dt.field(
+        metadata={
+            "description": "If True, this category has been deprecated: it may have no items left, or there may be only legacy items that remain in it which are no longer relevant to the game."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    grant_destiny_breaker_type: "DestinyBreakerType"  # If the item in question has this category, it also should have this breaker type.
-    grant_destiny_class: "DestinyClass"  # If an item belongs to this category, it will also get this class restriction enum value. See the other "grant"-prefixed properties on this definition for my color commentary.
-    grant_destiny_item_type: "DestinyItemType"  # If an item belongs to this category, it will also receive this item type. This is now how DestinyItemType is populated for items: it used to be an even jankier process, but that's a story that requires more alcohol.
-    grant_destiny_sub_type: "DestinyItemSubType"  # If an item belongs to this category, it will also receive this subtype enum value. I know what you're thinking - what if it belongs to multiple categories that provide sub-types? The last one processed wins, as is the case with all of these "grant" enums. Now you can see one reason why we moved away from these enums... but they're so convenient when they work, aren't they?
-    group_category_only: bool  # If true, this category is only used for grouping, and should not be evaluated with its own checks. Rather, the item only has this category if it has one of its child categories.
-    grouped_category_hashes: t.Sequence[
-        int
-    ]  # If this category is a "parent" category of other categories, those children will have their hashes listed in rendering order here, and can be looked up using these hashes against DestinyItemCategoryDefinition. In this way, you can build up a visual hierarchy of item categories. That's what we did, and you can do it too. I believe in you. Yes, you, Carl. (I hope someone named Carl reads this someday)
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    item_type_regex: str  # The janky regular expression we used against the item type to try and discern whether the item belongs to this category.
-    item_type_regex_not: str  # If the item type matches this janky regex, it does *not* belong to this category.
-    origin_bucket_identifier: str  # If the item belongs to this bucket, it does belong to this category.
-    parent_category_hashes: t.Sequence[
-        int
-    ]  # All item category hashes of "parent" categories: categories that contain this as a child through the hierarchy of groupedCategoryHashes. It's a bit redundant, but having this child-centric list speeds up some calculations.
-    plug_category_identifier: str  # If the item is a plug, this is the identifier we expect to find associated with it if it is in this category.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    short_title: str  # A shortened version of the title. The reason why we have this is because the Armory in German had titles that were too long to display in our UI, so these were localized abbreviated versions of those categories. The property still exists today, even though the Armory doesn't exist for D2... yet.
-    trait_id: str  # The traitId that can be found on items that belong to this category.
-    visible: bool  # If True, this category should be visible in UI. Sometimes we make categories that we don't think are interesting externally. It's up to you if you want to skip on showing them.
+    grant_destiny_breaker_type: "DestinyBreakerType" = dt.field(
+        metadata={
+            "description": "If the item in question has this category, it also should have this breaker type."
+        }
+    )
+    grant_destiny_class: "DestinyClass" = dt.field(
+        metadata={
+            "description": """If an item belongs to this category, it will also get this class restriction enum value.
+See the other "grant"-prefixed properties on this definition for my color commentary."""
+        }
+    )
+    grant_destiny_item_type: "DestinyItemType" = dt.field(
+        metadata={
+            "description": "If an item belongs to this category, it will also receive this item type. This is now how DestinyItemType is populated for items: it used to be an even jankier process, but that's a story that requires more alcohol."
+        }
+    )
+    grant_destiny_sub_type: "DestinyItemSubType" = dt.field(
+        metadata={
+            "description": """If an item belongs to this category, it will also receive this subtype enum value.
+I know what you're thinking - what if it belongs to multiple categories that provide sub-types?
+The last one processed wins, as is the case with all of these "grant" enums. Now you can see one reason why we moved away from these enums... but they're so convenient when they work, aren't they?"""
+        }
+    )
+    group_category_only: bool = dt.field(
+        metadata={
+            "description": "If true, this category is only used for grouping, and should not be evaluated with its own checks. Rather, the item only has this category if it has one of its child categories."
+        }
+    )
+    grouped_category_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """If this category is a "parent" category of other categories, those children will have their hashes listed in rendering order here, and can be looked up using these hashes against DestinyItemCategoryDefinition.
+In this way, you can build up a visual hierarchy of item categories. That's what we did, and you can do it too. I believe in you. Yes, you, Carl.
+(I hope someone named Carl reads this someday)"""
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    item_type_regex: str = dt.field(
+        metadata={
+            "description": "The janky regular expression we used against the item type to try and discern whether the item belongs to this category."
+        }
+    )
+    item_type_regex_not: str = dt.field(
+        metadata={
+            "description": "If the item type matches this janky regex, it does *not* belong to this category."
+        }
+    )
+    origin_bucket_identifier: str = dt.field(
+        metadata={
+            "description": "If the item belongs to this bucket, it does belong to this category."
+        }
+    )
+    parent_category_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": 'All item category hashes of "parent" categories: categories that contain this as a child through the hierarchy of groupedCategoryHashes. It\'s a bit redundant, but having this child-centric list speeds up some calculations.'
+        }
+    )
+    plug_category_identifier: str = dt.field(
+        metadata={
+            "description": "If the item is a plug, this is the identifier we expect to find associated with it if it is in this category."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    short_title: str = dt.field(
+        metadata={
+            "description": "A shortened version of the title. The reason why we have this is because the Armory in German had titles that were too long to display in our UI, so these were localized abbreviated versions of those categories. The property still exists today, even though the Armory doesn't exist for D2... yet."
+        }
+    )
+    trait_id: str = dt.field(
+        metadata={
+            "description": "The traitId that can be found on items that belong to this category."
+        }
+    )
+    visible: bool = dt.field(
+        metadata={
+            "description": "If True, this category should be visible in UI. Sometimes we make categories that we don't think are interesting externally. It's up to you if you want to skip on showing them."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3627,16 +5924,29 @@ class DestinyItemCategoryDefinition:
 class DestinyProgressionRewardItemQuantity:
     acquisition_behavior: "DestinyProgressionRewardItemAcquisitionBehavior"
     claim_unlock_display_strings: t.Sequence[str]
-    has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
+    has_conditional_visibility: bool = dt.field(
+        metadata={
+            "description": "Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition."
+        }
+    )
+    quantity: int = dt.field(
+        metadata={
+            "description": "The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used."
+        }
+    )
     rewarded_at_progression_level: int
     ui_display_style: str
-    item_instance_id: t.Optional[
-        int
-    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
+    item_instance_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3662,14 +5972,33 @@ class DestinyRaceDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    gendered_race_names: t.Mapping[
-        str, str
-    ]  # A localized string referring to the singular form of the Race's name when referred to in gendered form. Keyed by the DestinyGender.
+    gendered_race_names: t.Mapping[str, str] = dt.field(
+        metadata={
+            "description": "A localized string referring to the singular form of the Race's name when referred to in gendered form. Keyed by the DestinyGender."
+        }
+    )
     gendered_race_names_by_gender_hash: t.Mapping[str, str]
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    race_type: "DestinyRace"  # An enumeration defining the existing, known Races/Species for player characters. This value will be the enum value matching this definition.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    race_type: "DestinyRace" = dt.field(
+        metadata={
+            "description": "An enumeration defining the existing, known Races/Species for player characters. This value will be the enum value matching this definition."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3691,10 +6020,27 @@ class DestinyUnlockDefinition:
     that the game server uses for an extremely wide range of state checks,
     progress storage, and other interesting tidbits of information."""
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Sometimes, but not frequently, these unlock flags also have human readable information: usually when they are being directly tested for some requirement, in which case the string is a localized description of why the requirement check failed.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "Sometimes, but not frequently, these unlock flags also have human readable information: usually when they are being directly tested for some requirement, in which case the string is a localized description of why the requirement check failed."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3716,11 +6062,28 @@ class DestinyMedalTierDefinition:
     updated over time, if Medals continue to exist.
     """
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    order: int  # If you're rendering medals by tier, render them in this order (ascending)
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    tier_name: str  # The name of the tier.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    order: int = dt.field(
+        metadata={
+            "description": "If you're rendering medals by tier, render them in this order (ascending)"
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    tier_name: str = dt.field(metadata={"description": "The name of the tier."})
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3740,10 +6103,16 @@ class DestinyEntitySearchResult:
     experimenting to see what might be useful.
     """
 
-    results: "SearchResultOfDestinyEntitySearchResultItem"  # The items found that are matches/near matches for the searched-for term, sorted by something vaguely resembling "relevance". Hopefully this will get better in the future.
-    suggested_words: t.Sequence[
-        str
-    ]  # A list of suggested words that might make for better search results, based on the text searched for.
+    results: "SearchResultOfDestinyEntitySearchResultItem" = dt.field(
+        metadata={
+            "description": 'The items found that are matches/near matches for the searched-for term, sorted by something vaguely resembling "relevance". Hopefully this will get better in the future.'
+        }
+    )
+    suggested_words: t.Sequence[str] = dt.field(
+        metadata={
+            "description": "A list of suggested words that might make for better search results, based on the text searched for."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -3756,10 +6125,26 @@ class DestinyEntitySearchResult:
 class DestinyEntitySearchResultItem:
     """An individual Destiny Entity returned from the entity search."""
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Basic display properties on the entity, so you don't have to look up the definition to show basic results for the item.
-    entity_type: str  # The type of entity, returned as a string matching the DestinyDefinition's contract class name. You'll have to have your own mapping from class names to actually looking up those definitions in the manifest databases.
-    hash: int  # The hash identifier of the entity. You will use this to look up the DestinyDefinition relevant for the entity found.
-    weight: float  # The ranking value for sorting that we calculated using our relevance formula. This will hopefully get better with time and iteration.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "Basic display properties on the entity, so you don't have to look up the definition to show basic results for the item."
+        }
+    )
+    entity_type: str = dt.field(
+        metadata={
+            "description": "The type of entity, returned as a string matching the DestinyDefinition's contract class name. You'll have to have your own mapping from class names to actually looking up those definitions in the manifest databases."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": "The hash identifier of the entity. You will use this to look up the DestinyDefinition relevant for the entity found."
+        }
+    )
+    weight: float = dt.field(
+        metadata={
+            "description": "The ranking value for sorting that we calculated using our relevance formula. This will hopefully get better with time and iteration."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

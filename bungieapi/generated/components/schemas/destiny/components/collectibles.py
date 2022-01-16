@@ -11,10 +11,18 @@ class DestinyCollectiblesComponent:
     collectibles: t.Mapping[str, "DestinyCollectibleComponent"]
     collection_badges_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Collection Badges.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Collection Badges."
+        }
+    )
     collection_categories_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Collection categories.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Collection categories."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -43,16 +51,29 @@ class DestinyProfileCollectiblesComponent:
     collectibles: t.Mapping[str, "DestinyCollectibleComponent"]
     collection_badges_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Collection Badges.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Collection Badges."
+        }
+    )
     collection_categories_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Collection categories.
-    newness_flagged_collectible_hashes: t.Sequence[
-        int
-    ]  # The list of collectibles determined by the game as having been "recently" acquired. The game client itself actually controls this data, so I personally question whether anyone will get much use out of this: because we can't edit this value through the API. But in case anyone finds it useful, here it is.
-    recent_collectible_hashes: t.Sequence[
-        int
-    ]  # The list of collectibles determined by the game as having been "recently" acquired.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Collection categories."
+        }
+    )
+    newness_flagged_collectible_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """The list of collectibles determined by the game as having been "recently" acquired.
+The game client itself actually controls this data, so I personally question whether anyone will get much use out of this: because we can't edit this value through the API. But in case anyone finds it useful, here it is."""
+        }
+    )
+    recent_collectible_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": 'The list of collectibles determined by the game as having been "recently" acquired.'
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

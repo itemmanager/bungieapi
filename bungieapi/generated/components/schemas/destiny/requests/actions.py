@@ -32,7 +32,9 @@ class DestinyCharacterActionRequest:
 @dt.dataclass(frozen=True)
 class DestinyItemActionRequest:
     character_id: int
-    item_id: int  # The instance ID of the item for this action request.
+    item_id: int = dt.field(
+        metadata={"description": "The instance ID of the item for this action request."}
+    )
     membership_type: "BungieMembershipType"
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -46,7 +48,9 @@ class DestinyItemActionRequest:
 @dt.dataclass(frozen=True)
 class DestinyPostmasterTransferRequest:
     character_id: int
-    item_id: int  # The instance ID of the item for this action request.
+    item_id: int = dt.field(
+        metadata={"description": "The instance ID of the item for this action request."}
+    )
     item_reference_hash: ManifestReference["DestinyInventoryItemDefinition"]
     membership_type: "BungieMembershipType"
     stack_size: int
@@ -78,7 +82,9 @@ class DestinyItemSetActionRequest:
 @dt.dataclass(frozen=True)
 class DestinyItemStateRequest:
     character_id: int
-    item_id: int  # The instance ID of the item for this action request.
+    item_id: int = dt.field(
+        metadata={"description": "The instance ID of the item for this action request."}
+    )
     membership_type: "BungieMembershipType"
     state: bool
 
@@ -93,11 +99,21 @@ class DestinyItemStateRequest:
 
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsActionRequest:
-    action_token: str  # Action token provided by the AwaGetActionToken API call.
+    action_token: str = dt.field(
+        metadata={
+            "description": "Action token provided by the AwaGetActionToken API call."
+        }
+    )
     character_id: int
-    item_instance_id: int  # The instance ID of the item having a plug inserted. Only instanced items can have sockets.
+    item_instance_id: int = dt.field(
+        metadata={
+            "description": "The instance ID of the item having a plug inserted. Only instanced items can have sockets."
+        }
+    )
     membership_type: "BungieMembershipType"
-    plug: "DestinyInsertPlugsRequestEntry"  # The plugs being inserted.
+    plug: "DestinyInsertPlugsRequestEntry" = dt.field(
+        metadata={"description": "The plugs being inserted."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -118,9 +134,22 @@ class DestinyInsertPlugsRequestEntry:
     guys, let's play nice.
     """
 
-    plug_item_hash: int  # Plugs are never instanced (except in infusion). So with the hash alone, we should be able to: 1) Infer whether the player actually needs to have the item, or if it's a reusable plug 2) Perform any operation needed to use the Plug, including removing the plug item and running reward sheets.
-    socket_array_type: "DestinySocketArrayType"  # This property, combined with the socketIndex, tells us which socket we are referring to (since operations can be performed on both Intrinsic and "default" sockets, and they occupy different arrays in the Inventory Item Definition). I know, I know. Don't give me that look.
-    socket_index: int  # The index into the socket array, which identifies the specific socket being operated on. We also need to know the socketArrayType in order to uniquely identify the socket. Don't point to or try to insert a plug into an infusion socket. It won't work.
+    plug_item_hash: int = dt.field(
+        metadata={
+            "description": "Plugs are never instanced (except in infusion). So with the hash alone, we should be able to: 1) Infer whether the player actually needs to have the item, or if it's a reusable plug 2) Perform any operation needed to use the Plug, including removing the plug item and running reward sheets."
+        }
+    )
+    socket_array_type: "DestinySocketArrayType" = dt.field(
+        metadata={
+            "description": 'This property, combined with the socketIndex, tells us which socket we are referring to (since operations can be performed on both Intrinsic and "default" sockets, and they occupy different arrays in the Inventory Item Definition). I know, I know. Don\'t give me that look.'
+        }
+    )
+    socket_index: int = dt.field(
+        metadata={
+            "description": """The index into the socket array, which identifies the specific socket being operated on. We also need to know the socketArrayType in order to uniquely identify the socket.
+Don't point to or try to insert a plug into an infusion socket. It won't work."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -148,9 +177,13 @@ class DestinySocketArrayType(Enum):
 @dt.dataclass(frozen=True)
 class DestinyInsertPlugsFreeActionRequest:
     character_id: int
-    item_id: int  # The instance ID of the item for this action request.
+    item_id: int = dt.field(
+        metadata={"description": "The instance ID of the item for this action request."}
+    )
     membership_type: "BungieMembershipType"
-    plug: "DestinyInsertPlugsRequestEntry"  # The plugs being inserted.
+    plug: "DestinyInsertPlugsRequestEntry" = dt.field(
+        metadata={"description": "The plugs being inserted."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

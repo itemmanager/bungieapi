@@ -8,8 +8,16 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class AwaInitializeResponse:
-    correlation_id: str  # ID used to get the token. Present this ID to the user as it will identify this specific request on their device.
-    sent_to_self: bool  # True if the PUSH message will only be sent to the device that made this request.
+    correlation_id: str = dt.field(
+        metadata={
+            "description": "ID used to get the token. Present this ID to the user as it will identify this specific request on their device."
+        }
+    )
+    sent_to_self: bool = dt.field(
+        metadata={
+            "description": "True if the PUSH message will only be sent to the device that made this request."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -20,14 +28,24 @@ class AwaInitializeResponse:
 
 @dt.dataclass(frozen=True)
 class AwaPermissionRequested:
-    membership_type: "BungieMembershipType"  # Destiny membership type of the account to modify.
-    type: "AwaType"  # Type of advanced write action.
-    affected_item_id: t.Optional[
-        int
-    ] = None  # Item instance ID the action shall be applied to. This is optional for all but a new AwaType values. Rule of thumb is to provide the item instance ID if one is available.
-    character_id: t.Optional[
-        int
-    ] = None  # Destiny character ID, if applicable, that will be affected by the action.
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={"description": "Destiny membership type of the account to modify."}
+    )
+    type: "AwaType" = dt.field(
+        metadata={"description": "Type of advanced write action."}
+    )
+    affected_item_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "Item instance ID the action shall be applied to. This is optional for all but a new AwaType values. Rule of thumb is to provide the item instance ID if one is available."
+        },
+    )
+    character_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "Destiny character ID, if applicable, that will be affected by the action."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -45,9 +63,17 @@ class AwaType(Enum):
 
 @dt.dataclass(frozen=True)
 class AwaUserResponse:
-    correlation_id: str  # Correlation ID of the request
-    nonce: t.Sequence[str]  # Secret nonce received via the PUSH notification.
-    selection: "AwaUserSelection"  # Indication of the selection the user has made (Approving or rejecting the action)
+    correlation_id: str = dt.field(
+        metadata={"description": "Correlation ID of the request"}
+    )
+    nonce: t.Sequence[str] = dt.field(
+        metadata={"description": "Secret nonce received via the PUSH notification."}
+    )
+    selection: "AwaUserSelection" = dt.field(
+        metadata={
+            "description": "Indication of the selection the user has made (Approving or rejecting the action)"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -65,14 +91,38 @@ class AwaUserSelection(Enum):
 
 @dt.dataclass(frozen=True)
 class AwaAuthorizationResult:
-    action_token: str  # Credential used to prove the user authorized an advanced write action.
-    developer_note: str  # Message to the app developer to help understand the response.
-    maximum_number_of_uses: int  # This token may be used to perform the requested action this number of times, at a maximum. If this value is 0, then there is no limit.
-    membership_type: "BungieMembershipType"  # MembershipType from the permission request.
+    action_token: str = dt.field(
+        metadata={
+            "description": "Credential used to prove the user authorized an advanced write action."
+        }
+    )
+    developer_note: str = dt.field(
+        metadata={
+            "description": "Message to the app developer to help understand the response."
+        }
+    )
+    maximum_number_of_uses: int = dt.field(
+        metadata={
+            "description": "This token may be used to perform the requested action this number of times, at a maximum. If this value is 0, then there is no limit."
+        }
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={"description": "MembershipType from the permission request."}
+    )
     response_reason: "AwaResponseReason"
-    type: "AwaType"  # Advanced Write Action Type from the permission request.
-    user_selection: "AwaUserSelection"  # Indication of how the user responded to the request. If the value is "Approved" the actionToken will contain the token that can be presented when performing the advanced write action.
-    valid_until: t.Optional[str] = None  # Time, UTC, when token expires.
+    type: "AwaType" = dt.field(
+        metadata={
+            "description": "Advanced Write Action Type from the permission request."
+        }
+    )
+    user_selection: "AwaUserSelection" = dt.field(
+        metadata={
+            "description": 'Indication of how the user responded to the request. If the value is "Approved" the actionToken will contain the token that can be presented when performing the advanced write action.'
+        }
+    )
+    valid_until: t.Optional[str] = dt.field(
+        default=None, metadata={"description": "Time, UTC, when token expires."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

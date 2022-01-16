@@ -15,32 +15,87 @@ class DestinyFactionProgression:
     DestinyFactionDefinition of the faction related to the progression.
     """
 
-    current_progress: int  # This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)
-    daily_limit: int  # If this progression has a daily limit, this is that limit.
-    daily_progress: int  # The amount of progress earned today for this progression.
-    faction_hash: ManifestReference[
-        "DestinyFactionDefinition"
-    ]  # The hash identifier of the Faction related to this progression. Use it to look up the DestinyFactionDefinition for more rendering info.
-    faction_vendor_index: int  # The index of the Faction vendor that is currently available. Will be set to -1 if no vendors are available.
-    level: int  # This is the level of the progression (for instance, the Character Level).
-    level_cap: int  # This is the maximum possible level you can achieve for this progression (for example, the maximum character level obtainable)
-    next_level_at: int  # The total amount of progression (i.e. "Experience") needed in order to reach the next level.
-    progress_to_next_level: int  # The amount of progression (i.e. "Experience") needed to reach the next level of this Progression. Jeez, progression is such an overloaded word.
-    progression_hash: ManifestReference[
-        "DestinyProgressionDefinition"
-    ]  # The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data.
-    reward_item_states: t.Sequence[
-        "DestinyProgressionRewardItemState"
-    ]  # Information about historical rewards for this progression, if there is any data for it.
-    season_resets: t.Sequence[
-        "DestinyProgressionResetEntry"
-    ]  # Information about historical resets of this progression, if there is any data for it.
-    step_index: int  # Progressions define their levels in "steps". Since the last step may be repeatable, the user may be at a higher level than the actual Step achieved in the progression. Not necessarily useful, but potentially interesting for those cruising the API. Relate this to the "steps" property of the DestinyProgression to see which step the user is on, if you care about that. (Note that this is Content Version dependent since it refers to indexes.)
-    weekly_limit: int  # If this progression has a weekly limit, this is that limit.
-    weekly_progress: int  # The amount of progress earned toward this progression in the current week.
-    current_reset_count: t.Optional[
-        int
-    ] = None  # The number of resets of this progression you've executed this season, if applicable to this progression.
+    current_progress: int = dt.field(
+        metadata={
+            "description": "This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)"
+        }
+    )
+    daily_limit: int = dt.field(
+        metadata={
+            "description": "If this progression has a daily limit, this is that limit."
+        }
+    )
+    daily_progress: int = dt.field(
+        metadata={
+            "description": "The amount of progress earned today for this progression."
+        }
+    )
+    faction_hash: ManifestReference["DestinyFactionDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the Faction related to this progression. Use it to look up the DestinyFactionDefinition for more rendering info."
+        }
+    )
+    faction_vendor_index: int = dt.field(
+        metadata={
+            "description": "The index of the Faction vendor that is currently available. Will be set to -1 if no vendors are available."
+        }
+    )
+    level: int = dt.field(
+        metadata={
+            "description": "This is the level of the progression (for instance, the Character Level)."
+        }
+    )
+    level_cap: int = dt.field(
+        metadata={
+            "description": "This is the maximum possible level you can achieve for this progression (for example, the maximum character level obtainable)"
+        }
+    )
+    next_level_at: int = dt.field(
+        metadata={
+            "description": 'The total amount of progression (i.e. "Experience") needed in order to reach the next level.'
+        }
+    )
+    progress_to_next_level: int = dt.field(
+        metadata={
+            "description": 'The amount of progression (i.e. "Experience") needed to reach the next level of this Progression. Jeez, progression is such an overloaded word.'
+        }
+    )
+    progression_hash: ManifestReference["DestinyProgressionDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data."
+        }
+    )
+    reward_item_states: t.Sequence["DestinyProgressionRewardItemState"] = dt.field(
+        metadata={
+            "description": "Information about historical rewards for this progression, if there is any data for it."
+        }
+    )
+    season_resets: t.Sequence["DestinyProgressionResetEntry"] = dt.field(
+        metadata={
+            "description": "Information about historical resets of this progression, if there is any data for it."
+        }
+    )
+    step_index: int = dt.field(
+        metadata={
+            "description": 'Progressions define their levels in "steps". Since the last step may be repeatable, the user may be at a higher level than the actual Step achieved in the progression. Not necessarily useful, but potentially interesting for those cruising the API. Relate this to the "steps" property of the DestinyProgression to see which step the user is on, if you care about that. (Note that this is Content Version dependent since it refers to indexes.)'
+        }
+    )
+    weekly_limit: int = dt.field(
+        metadata={
+            "description": "If this progression has a weekly limit, this is that limit."
+        }
+    )
+    weekly_progress: int = dt.field(
+        metadata={
+            "description": "The amount of progress earned toward this progression in the current week."
+        }
+    )
+    current_reset_count: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "The number of resets of this progression you've executed this season, if applicable to this progression."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

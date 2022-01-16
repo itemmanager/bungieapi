@@ -8,10 +8,27 @@ from bungieapi.json import to_json
 @dt.dataclass(frozen=True)
 class DestinyBreakerTypeDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
-    enum_value: "DestinyBreakerType"  # We have an enumeration for Breaker types for quick reference. This is the current definition's breaker type enum value.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    enum_value: "DestinyBreakerType" = dt.field(
+        metadata={
+            "description": "We have an enumeration for Breaker types for quick reference. This is the current definition's breaker type enum value."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

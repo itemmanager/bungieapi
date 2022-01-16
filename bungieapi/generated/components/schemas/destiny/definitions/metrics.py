@@ -9,14 +9,29 @@ from bungieapi.types import ManifestReference
 @dt.dataclass(frozen=True)
 class DestinyMetricDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
     lower_value_is_better: bool
-    parent_node_hashes: t.Sequence[
-        int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    parent_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents."
+        }
+    )
     presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     tracking_objective_hash: ManifestReference["DestinyObjectiveDefinition"]
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]

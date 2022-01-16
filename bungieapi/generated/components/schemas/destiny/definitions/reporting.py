@@ -18,12 +18,27 @@ class DestinyReportReasonCategoryDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    reasons: t.Mapping[
-        str, "DestinyReportReasonDefinition"
-    ]  # The specific reasons for the report under this category.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    reasons: t.Mapping[str, "DestinyReportReasonDefinition"] = dt.field(
+        metadata={
+            "description": "The specific reasons for the report under this category."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -47,7 +62,11 @@ class DestinyReportReasonDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    reason_hash: int  # The identifier for the reason: they are only guaranteed unique under the Category in which they are found.
+    reason_hash: int = dt.field(
+        metadata={
+            "description": "The identifier for the reason: they are only guaranteed unique under the Category in which they are found."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

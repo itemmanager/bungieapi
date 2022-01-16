@@ -15,16 +15,38 @@ class DestinyVendorReceipt:
     to refund a purchase *yet*, but you know.
     """
 
-    currency_paid: t.Sequence[
-        "DestinyItemQuantity"
-    ]  # The amount paid for the item, in terms of items that were consumed in the purchase and their quantity.
-    expires_on: str  # The date at which this receipt is rendered invalid.
-    item_received: "DestinyItemQuantity"  # The item that was received, and its quantity.
-    license_unlock_hash: int  # The unlock flag used to determine whether you still have the purchased item.
-    purchased_by_character_id: int  # The ID of the character who made the purchase.
-    refund_policy: "DestinyVendorItemRefundPolicy"  # Whether you can get a refund, and what happens in order for the refund to be received. See the DestinyVendorItemRefundPolicy enum for details.
-    sequence_number: int  # The identifier of this receipt.
-    time_to_expiration: int  # The seconds since epoch at which this receipt is rendered invalid.
+    currency_paid: t.Sequence["DestinyItemQuantity"] = dt.field(
+        metadata={
+            "description": "The amount paid for the item, in terms of items that were consumed in the purchase and their quantity."
+        }
+    )
+    expires_on: str = dt.field(
+        metadata={"description": "The date at which this receipt is rendered invalid."}
+    )
+    item_received: "DestinyItemQuantity" = dt.field(
+        metadata={"description": "The item that was received, and its quantity."}
+    )
+    license_unlock_hash: int = dt.field(
+        metadata={
+            "description": "The unlock flag used to determine whether you still have the purchased item."
+        }
+    )
+    purchased_by_character_id: int = dt.field(
+        metadata={"description": "The ID of the character who made the purchase."}
+    )
+    refund_policy: "DestinyVendorItemRefundPolicy" = dt.field(
+        metadata={
+            "description": "Whether you can get a refund, and what happens in order for the refund to be received. See the DestinyVendorItemRefundPolicy enum for details."
+        }
+    )
+    sequence_number: int = dt.field(
+        metadata={"description": "The identifier of this receipt."}
+    )
+    time_to_expiration: int = dt.field(
+        metadata={
+            "description": "The seconds since epoch at which this receipt is rendered invalid."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

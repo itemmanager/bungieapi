@@ -12,7 +12,9 @@ class ComponentResponse:
     indicate information about the state of the component being returned."""
 
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

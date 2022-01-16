@@ -12,41 +12,100 @@ class DestinyItemComponent:
     useful to know in any item request or that don't feel worthwhile to put in
     their own component."""
 
-    bind_status: "ItemBindStatus"  # If the item is bound to a location, it will be specified in this enum.
-    bucket_hash: ManifestReference[
-        "DestinyInventoryBucketDefinition"
-    ]  # The hash identifier for the specific inventory bucket in which the item is located.
-    is_wrapper: bool  # If this is true, the object is actually a "wrapper" of the object it's representing. This means that it's not the actual item itself, but rather an item that must be "opened" in game before you have and can use the item.  Wrappers are an evolution of "bundles", which give an easy way to let you preview the contents of what you purchased while still letting you get a refund before you "open" it.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The identifier for the item's definition, which is where most of the useful static information for the item can be found.
-    item_value_visibility: t.Sequence[
-        bool
-    ]  # If available, a list that describes which item values (rewards) should be shown (true) or hidden (false).
-    location: "ItemLocation"  # An easy reference for where the item is located. Redundant if you got the item from an Inventory, but useful when making detail calls on specific items.
-    lockable: bool  # If the item can be locked, this will indicate that state.
-    metric_objective: "DestinyObjectiveProgress"  # The objective progress for the currently-selected metric definition, to be displayed on the emblem nameplate.
-    quantity: int  # The quantity of the item in this stack. Note that Instanced items cannot stack. If an instanced item, this value will always be 1 (as the stack has exactly one item in it)
-    state: "ItemState"  # A flags enumeration indicating the transient/custom states of the item that affect how it is rendered: whether it's tracked or locked for example, or whether it has a masterwork plug inserted.
-    tooltip_notification_indexes: t.Sequence[
-        int
-    ]  # If this is populated, it is a list of indexes into DestinyInventoryItemDefinition.tooltipNotifications for any special tooltip messages that need to be shown for this item.
-    transfer_status: "TransferStatuses"  # If there is a known error state that would cause this item to not be transferable, this Flags enum will indicate all of those error states. Otherwise, it will be 0 (CanTransfer).
-    expiration_date: t.Optional[
-        str
-    ] = None  # If the item can expire, this is the date at which it will/did expire.
-    item_instance_id: t.Optional[
-        int
-    ] = None  # If the item is instanced, it will have an instance ID. Lack of an instance ID implies that the item has no distinct local qualities aside from stack size.
-    metric_hash: t.Optional[
-        ManifestReference["DestinyMetricDefinition"]
-    ] = None  # The identifier for the currently-selected metric definition, to be displayed on the emblem nameplate.
+    bind_status: "ItemBindStatus" = dt.field(
+        metadata={
+            "description": "If the item is bound to a location, it will be specified in this enum."
+        }
+    )
+    bucket_hash: ManifestReference["DestinyInventoryBucketDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the specific inventory bucket in which the item is located."
+        }
+    )
+    is_wrapper: bool = dt.field(
+        metadata={
+            "description": """If this is true, the object is actually a "wrapper" of the object it's representing. This means that it's not the actual item itself, but rather an item that must be "opened" in game before you have and can use the item.
+ Wrappers are an evolution of "bundles", which give an easy way to let you preview the contents of what you purchased while still letting you get a refund before you "open" it."""
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The identifier for the item's definition, which is where most of the useful static information for the item can be found."
+        }
+    )
+    item_value_visibility: t.Sequence[bool] = dt.field(
+        metadata={
+            "description": "If available, a list that describes which item values (rewards) should be shown (true) or hidden (false)."
+        }
+    )
+    location: "ItemLocation" = dt.field(
+        metadata={
+            "description": "An easy reference for where the item is located. Redundant if you got the item from an Inventory, but useful when making detail calls on specific items."
+        }
+    )
+    lockable: bool = dt.field(
+        metadata={
+            "description": "If the item can be locked, this will indicate that state."
+        }
+    )
+    metric_objective: "DestinyObjectiveProgress" = dt.field(
+        metadata={
+            "description": "The objective progress for the currently-selected metric definition, to be displayed on the emblem nameplate."
+        }
+    )
+    quantity: int = dt.field(
+        metadata={
+            "description": "The quantity of the item in this stack. Note that Instanced items cannot stack. If an instanced item, this value will always be 1 (as the stack has exactly one item in it)"
+        }
+    )
+    state: "ItemState" = dt.field(
+        metadata={
+            "description": "A flags enumeration indicating the transient/custom states of the item that affect how it is rendered: whether it's tracked or locked for example, or whether it has a masterwork plug inserted."
+        }
+    )
+    tooltip_notification_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "If this is populated, it is a list of indexes into DestinyInventoryItemDefinition.tooltipNotifications for any special tooltip messages that need to be shown for this item."
+        }
+    )
+    transfer_status: "TransferStatuses" = dt.field(
+        metadata={
+            "description": "If there is a known error state that would cause this item to not be transferable, this Flags enum will indicate all of those error states. Otherwise, it will be 0 (CanTransfer)."
+        }
+    )
+    expiration_date: t.Optional[str] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the item can expire, this is the date at which it will/did expire."
+        },
+    )
+    item_instance_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the item is instanced, it will have an instance ID. Lack of an instance ID implies that the item has no distinct local qualities aside from stack size."
+        },
+    )
+    metric_hash: t.Optional[ManifestReference["DestinyMetricDefinition"]] = dt.field(
+        default=None,
+        metadata={
+            "description": "The identifier for the currently-selected metric definition, to be displayed on the emblem nameplate."
+        },
+    )
     override_style_item_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
-    ] = None  # If populated, this is the hash of the item whose icon (and other secondary styles, but *not* the human readable strings) should override whatever icons/styles are on the item being sold. If you don't do this, certain items whose styles are being overridden by socketed items - such as the "Recycle Shader" item - would show whatever their default icon/style is, and it wouldn't be pretty or look accurate.
-    version_number: t.Optional[
-        int
-    ] = None  # The version of this item, used to index into the versions list in the item definition quality block.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """If populated, this is the hash of the item whose icon (and other secondary styles, but *not* the human readable strings) should override whatever icons/styles are on the item being sold.
+If you don't do this, certain items whose styles are being overridden by socketed items - such as the "Recycle Shader" item - would show whatever their default icon/style is, and it wouldn't be pretty or look accurate."""
+        },
+    )
+    version_number: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "The version of this item, used to index into the versions list in the item definition quality block."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -78,9 +137,11 @@ class DestinyItemPerksComponent:
     Talent Grids, Sockets, and the item itself can apply Perks, which are then summarized here for your convenience.
     """
 
-    perks: t.Sequence[
-        "DestinyPerkReference"
-    ]  # The list of perks to display in an item tooltip - and whether or not they have been activated.
+    perks: t.Sequence["DestinyPerkReference"] = dt.field(
+        metadata={
+            "description": "The list of perks to display in an item tooltip - and whether or not they have been activated."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -96,13 +157,23 @@ class DestinyItemObjectivesComponent:
     Objectives and progression tied to this item.
     """
 
-    flavor_objective: "DestinyObjectiveProgress"  # I may regret naming it this way - but this represents when an item has an objective that doesn't serve a beneficial purpose, but rather is used for "flavor" or additional information. For instance, when Emblems track specific stats, those stats are represented as Objectives on the item.
-    objectives: t.Sequence[
-        "DestinyObjectiveProgress"
-    ]  # If the item has a hard association with objectives, your progress on them will be defined here.  Objectives are our standard way to describe a series of tasks that have to be completed for a reward.
-    date_completed: t.Optional[
-        str
-    ] = None  # If we have any information on when these objectives were completed, this will be the date of that completion. This won't be on many items, but could be interesting for some items that do store this information.
+    flavor_objective: "DestinyObjectiveProgress" = dt.field(
+        metadata={
+            "description": 'I may regret naming it this way - but this represents when an item has an objective that doesn\'t serve a beneficial purpose, but rather is used for "flavor" or additional information. For instance, when Emblems track specific stats, those stats are represented as Objectives on the item.'
+        }
+    )
+    objectives: t.Sequence["DestinyObjectiveProgress"] = dt.field(
+        metadata={
+            "description": """If the item has a hard association with objectives, your progress on them will be defined here. 
+Objectives are our standard way to describe a series of tasks that have to be completed for a reward."""
+        }
+    )
+    date_completed: t.Optional[str] = dt.field(
+        default=None,
+        metadata={
+            "description": "If we have any information on when these objectives were completed, this will be the date of that completion. This won't be on many items, but could be interesting for some items that do store this information."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -128,27 +199,79 @@ class DestinyItemInstanceComponent:
     definition.inventory.isInstanceItem property.
     """
 
-    can_equip: bool  # If this is an equippable item, you can check it here. There are permanent as well as transitory reasons why an item might not be able to be equipped: check cannotEquipReason for details.
-    cannot_equip_reason: "EquipFailureReason"  # If you cannot equip the item, this is a flags enum that enumerates all of the reasons why you couldn't equip the item. You may need to refine your UI further by using unlockHashesRequiredToEquip and equipRequiredLevel.
-    damage_type: "DamageType"  # If the item has a damage type, this is the item's current damage type.
-    energy: "DestinyItemInstanceEnergy"  # IF populated, this item supports Energy mechanics (i.e. Armor 2.0), and these are the current details of its energy type and available capacity to spend energy points.
-    equip_required_level: int  # If the item cannot be equipped until you reach a certain level, that level will be reflected here.
-    is_equipped: bool  # Is the item currently equipped on the given character?
-    item_level: int  # The Item's "Level" has the most significant bearing on its stats, such as Light and Power.
-    primary_stat: "DestinyStat"  # The item stat that we consider to be "primary" for the item. For instance, this would be "Attack" for Weapons or "Defense" for armor.
-    quality: int  # The "Quality" of the item has a lesser - but still impactful - bearing on stats like Light and Power.
-    unlock_hashes_required_to_equip: t.Sequence[
-        int
-    ]  # Sometimes, there are limitations to equipping that are represented by character-level flags called "unlocks". This is a list of flags that they need in order to equip the item that the character has not met. Use these to look up the descriptions to show in your UI by looking up the relevant DestinyUnlockDefinitions for the hashes.
-    breaker_type: t.Optional[
-        int
-    ] = None  # If populated, this item has a breaker type corresponding to the given value. See DestinyBreakerTypeDefinition for more details.
+    can_equip: bool = dt.field(
+        metadata={
+            "description": "If this is an equippable item, you can check it here. There are permanent as well as transitory reasons why an item might not be able to be equipped: check cannotEquipReason for details."
+        }
+    )
+    cannot_equip_reason: "EquipFailureReason" = dt.field(
+        metadata={
+            "description": "If you cannot equip the item, this is a flags enum that enumerates all of the reasons why you couldn't equip the item. You may need to refine your UI further by using unlockHashesRequiredToEquip and equipRequiredLevel."
+        }
+    )
+    damage_type: "DamageType" = dt.field(
+        metadata={
+            "description": "If the item has a damage type, this is the item's current damage type."
+        }
+    )
+    energy: "DestinyItemInstanceEnergy" = dt.field(
+        metadata={
+            "description": "IF populated, this item supports Energy mechanics (i.e. Armor 2.0), and these are the current details of its energy type and available capacity to spend energy points."
+        }
+    )
+    equip_required_level: int = dt.field(
+        metadata={
+            "description": "If the item cannot be equipped until you reach a certain level, that level will be reflected here."
+        }
+    )
+    is_equipped: bool = dt.field(
+        metadata={
+            "description": "Is the item currently equipped on the given character?"
+        }
+    )
+    item_level: int = dt.field(
+        metadata={
+            "description": 'The Item\'s "Level" has the most significant bearing on its stats, such as Light and Power.'
+        }
+    )
+    primary_stat: "DestinyStat" = dt.field(
+        metadata={
+            "description": 'The item stat that we consider to be "primary" for the item. For instance, this would be "Attack" for Weapons or "Defense" for armor.'
+        }
+    )
+    quality: int = dt.field(
+        metadata={
+            "description": 'The "Quality" of the item has a lesser - but still impactful - bearing on stats like Light and Power.'
+        }
+    )
+    unlock_hashes_required_to_equip: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """Sometimes, there are limitations to equipping that are represented by character-level flags called "unlocks".
+This is a list of flags that they need in order to equip the item that the character has not met. Use these to look up the descriptions to show in your UI by looking up the relevant DestinyUnlockDefinitions for the hashes."""
+        }
+    )
+    breaker_type: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If populated, this item has a breaker type corresponding to the given value. See DestinyBreakerTypeDefinition for more details."
+        },
+    )
     breaker_type_hash: t.Optional[
         ManifestReference["DestinyBreakerTypeDefinition"]
-    ] = None  # If populated, this is the hash identifier for the item's breaker type. See DestinyBreakerTypeDefinition for more details.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If populated, this is the hash identifier for the item's breaker type. See DestinyBreakerTypeDefinition for more details."
+        },
+    )
     damage_type_hash: t.Optional[
         ManifestReference["DestinyDamageTypeDefinition"]
-    ] = None  # The current damage type's hash, so you can look up localized info and icons for it.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "The current damage type's hash, so you can look up localized info and icons for it."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -172,13 +295,31 @@ class DestinyItemInstanceComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyItemInstanceEnergy:
-    energy_capacity: int  # The total capacity of Energy that the item currently has, regardless of if it is currently being used.
-    energy_type: "DestinyEnergyType"  # This is the enum version of the Energy Type value, for convenience.
-    energy_type_hash: ManifestReference[
-        "DestinyEnergyTypeDefinition"
-    ]  # The type of energy for this item. Plugs that require Energy can only be inserted if they have the "Any" Energy Type or the matching energy type of this item. This is a reference to the DestinyEnergyTypeDefinition for the energy type, where you can find extended info about it.
-    energy_unused: int  # The amount of energy still available for inserting new plugs.
-    energy_used: int  # The amount of Energy currently in use by inserted plugs.
+    energy_capacity: int = dt.field(
+        metadata={
+            "description": "The total capacity of Energy that the item currently has, regardless of if it is currently being used."
+        }
+    )
+    energy_type: "DestinyEnergyType" = dt.field(
+        metadata={
+            "description": "This is the enum version of the Energy Type value, for convenience."
+        }
+    )
+    energy_type_hash: ManifestReference["DestinyEnergyTypeDefinition"] = dt.field(
+        metadata={
+            "description": 'The type of energy for this item. Plugs that require Energy can only be inserted if they have the "Any" Energy Type or the matching energy type of this item. This is a reference to the DestinyEnergyTypeDefinition for the energy type, where you can find extended info about it.'
+        }
+    )
+    energy_unused: int = dt.field(
+        metadata={
+            "description": "The amount of energy still available for inserting new plugs."
+        }
+    )
+    energy_used: int = dt.field(
+        metadata={
+            "description": "The amount of Energy currently in use by inserted plugs."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -198,10 +339,18 @@ class DestinyItemRenderComponent:
     to render this specific instance of the item.
     """
 
-    art_regions: t.Mapping[
-        str, int
-    ]  # A dictionary for rendering gear components, with: key = Art Arrangement Region Index value = The chosen Arrangement Index for the Region, based on the value of a stat on the item used for making the choice.
-    use_custom_dyes: bool  # If you should use custom dyes on this item, it will be indicated here.
+    art_regions: t.Mapping[str, int] = dt.field(
+        metadata={
+            "description": """A dictionary for rendering gear components, with:
+key = Art Arrangement Region Index
+value = The chosen Arrangement Index for the Region, based on the value of a stat on the item used for making the choice."""
+        }
+    )
+    use_custom_dyes: bool = dt.field(
+        metadata={
+            "description": "If you should use custom dyes on this item, it will be indicated here."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -218,9 +367,11 @@ class DestinyItemStatsComponent:
     Note that some stats have additional computation in-game at runtime - for instance, Magazine Size - and thus these stats might not be 100% accurate compared to what you see in-game for some stats. I know, it sucks. I hate it too.
     """
 
-    stats: t.Mapping[
-        str, "DestinyStat"
-    ]  # If the item has stats that it provides (damage, defense, etc...), it will be given here.
+    stats: t.Mapping[str, "DestinyStat"] = dt.field(
+        metadata={
+            "description": "If the item has stats that it provides (damage, defense, etc...), it will be given here."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -238,9 +389,11 @@ class DestinyItemSocketsComponent:
     these objects for more details.
     """
 
-    sockets: t.Sequence[
-        "DestinyItemSocketState"
-    ]  # The list of all sockets on the item, and their status information.
+    sockets: t.Sequence["DestinyItemSocketState"] = dt.field(
+        metadata={
+            "description": "The list of all sockets on the item, and their status information."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -258,14 +411,32 @@ class DestinyItemSocketState:
     item instead of most of these properties. :shrug:
     """
 
-    enable_fail_indexes: t.Sequence[
-        int
-    ]  # If a plug is inserted but not enabled, this will be populated with indexes into the plug item definition's plug.enabledRules property, so that you can show the reasons why it is not enabled.
-    is_enabled: bool  # Even if a plug is inserted, it doesn't mean it's enabled. This flag indicates whether the plug is active and providing its benefits.
-    is_visible: bool  # A plug may theoretically provide benefits but not be visible - for instance, some older items use a plug's damage type perk to modify their own damage type. These, though they are not visible, still affect the item. This field indicates that state. An invisible plug, while it provides benefits if it is Enabled, cannot be directly modified by the user.
+    enable_fail_indexes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "If a plug is inserted but not enabled, this will be populated with indexes into the plug item definition's plug.enabledRules property, so that you can show the reasons why it is not enabled."
+        }
+    )
+    is_enabled: bool = dt.field(
+        metadata={
+            "description": """Even if a plug is inserted, it doesn't mean it's enabled.
+This flag indicates whether the plug is active and providing its benefits."""
+        }
+    )
+    is_visible: bool = dt.field(
+        metadata={
+            "description": """A plug may theoretically provide benefits but not be visible - for instance, some older items use a plug's damage type perk to modify their own damage type. These, though they are not visible, still affect the item. This field indicates that state.
+An invisible plug, while it provides benefits if it is Enabled, cannot be directly modified by the user."""
+        }
+    )
     plug_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
-    ] = None  # The currently active plug, if any. Note that, because all plugs are statically defined, its effect on stats and perks can be statically determined using the plug item's definition. The stats and perks can be taken at face value on the plug item as the stats and perks it will provide to the user/item.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": """The currently active plug, if any.
+Note that, because all plugs are statically defined, its effect on stats and perks can be statically determined using the plug item's definition. The stats and perks can be taken at face value on the plug item as the stats and perks it will provide to the user/item."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -297,14 +468,29 @@ class DestinyItemTalentGridComponent:
     end.
     """
 
-    grid_progression: "DestinyProgression"  # If the item has a progression, it will be detailed here. A progression means that the item can gain experience. Thresholds of experience are what determines whether and when a talent node can be activated.
-    is_grid_complete: bool  # Indicates whether the talent grid on this item is completed, and thus whether it should have a gold border around it. Only will be true if the item actually *has* a talent grid, and only then if it is completed (i.e. every exclusive set has an activated node, and every non-exclusive set node has been activated)
-    nodes: t.Sequence[
-        "DestinyTalentNode"
-    ]  # Detailed information about the individual nodes in the talent grid. A node represents a single visual "pip" in the talent grid or Build detail view, though each node may have multiple "steps" which indicate the actual bonuses and visual representation of that node.
-    talent_grid_hash: ManifestReference[
-        "DestinyTalentGridDefinition"
-    ]  # Most items don't have useful talent grids anymore, but Builds in particular still do. You can use this hash to lookup the DestinyTalentGridDefinition attached to this item, which will be crucial for understanding the node values on the item.
+    grid_progression: "DestinyProgression" = dt.field(
+        metadata={
+            "description": "If the item has a progression, it will be detailed here. A progression means that the item can gain experience. Thresholds of experience are what determines whether and when a talent node can be activated."
+        }
+    )
+    is_grid_complete: bool = dt.field(
+        metadata={
+            "description": """Indicates whether the talent grid on this item is completed, and thus whether it should have a gold border around it.
+Only will be true if the item actually *has* a talent grid, and only then if it is completed (i.e. every exclusive set has an activated node, and every non-exclusive set node has been activated)"""
+        }
+    )
+    nodes: t.Sequence["DestinyTalentNode"] = dt.field(
+        metadata={
+            "description": """Detailed information about the individual nodes in the talent grid.
+A node represents a single visual "pip" in the talent grid or Build detail view, though each node may have multiple "steps" which indicate the actual bonuses and visual representation of that node."""
+        }
+    )
+    talent_grid_hash: ManifestReference["DestinyTalentGridDefinition"] = dt.field(
+        metadata={
+            "description": """Most items don't have useful talent grids anymore, but Builds in particular still do.
+You can use this hash to lookup the DestinyTalentGridDefinition attached to this item, which will be crucial for understanding the node values on the item."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

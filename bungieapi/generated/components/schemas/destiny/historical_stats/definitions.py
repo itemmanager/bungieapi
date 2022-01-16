@@ -97,24 +97,51 @@ class DestinyActivityModeType(Enum):
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsDefinition:
-    category: "DestinyStatsCategoryType"  # Category for the stat.
-    group: "DestinyStatsGroupType"  # Statistic group
-    icon_image: str  # Optional URI to an icon for the statistic
-    modes: t.Sequence[
-        "DestinyActivityModeType"
-    ]  # Game modes where this statistic can be reported.
-    period_types: t.Sequence["PeriodType"]  # Time periods the statistic covers
-    stat_description: str  # Description of a stat if applicable.
-    stat_id: str  # Unique programmer friendly ID for this stat
-    stat_name: str  # Display name
-    stat_name_abbr: str  # Display name abbreviated
-    unit_label: str  # Localized Unit Name for the stat.
-    unit_type: "UnitType"  # Unit, if any, for the statistic
-    weight: int  # Weight assigned to this stat indicating its relative impressiveness.
+    category: "DestinyStatsCategoryType" = dt.field(
+        metadata={"description": "Category for the stat."}
+    )
+    group: "DestinyStatsGroupType" = dt.field(
+        metadata={"description": "Statistic group"}
+    )
+    icon_image: str = dt.field(
+        metadata={"description": "Optional URI to an icon for the statistic"}
+    )
+    modes: t.Sequence["DestinyActivityModeType"] = dt.field(
+        metadata={"description": "Game modes where this statistic can be reported."}
+    )
+    period_types: t.Sequence["PeriodType"] = dt.field(
+        metadata={"description": "Time periods the statistic covers"}
+    )
+    stat_description: str = dt.field(
+        metadata={"description": "Description of a stat if applicable."}
+    )
+    stat_id: str = dt.field(
+        metadata={"description": "Unique programmer friendly ID for this stat"}
+    )
+    stat_name: str = dt.field(metadata={"description": "Display name"})
+    stat_name_abbr: str = dt.field(metadata={"description": "Display name abbreviated"})
+    unit_label: str = dt.field(
+        metadata={"description": "Localized Unit Name for the stat."}
+    )
+    unit_type: "UnitType" = dt.field(
+        metadata={"description": "Unit, if any, for the statistic"}
+    )
+    weight: int = dt.field(
+        metadata={
+            "description": "Weight assigned to this stat indicating its relative impressiveness."
+        }
+    )
     medal_tier_hash: t.Optional[
         ManifestReference["DestinyMedalTierDefinition"]
-    ] = None  # The tier associated with this medal - be it implicitly or explicitly.
-    merge_method: t.Optional[int] = None  # Optional icon for the statistic
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "The tier associated with this medal - be it implicitly or explicitly."
+        },
+    )
+    merge_method: t.Optional[int] = dt.field(
+        default=None, metadata={"description": "Optional icon for the statistic"}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

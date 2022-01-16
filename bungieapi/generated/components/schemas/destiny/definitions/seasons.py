@@ -14,10 +14,27 @@ class DestinySeasonDefinition:
 
     background_image_path: str
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    preview: "DestinySeasonPreviewDefinition"  # Optional - Defines the promotional text, images, and links to preview this season.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    preview: "DestinySeasonPreviewDefinition" = dt.field(
+        metadata={
+            "description": "Optional - Defines the promotional text, images, and links to preview this season."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     season_number: int
     artifact_item_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
@@ -63,12 +80,24 @@ class DestinySeasonPreviewDefinition:
     """Defines the promotional text, images, and links to preview this
     season."""
 
-    description: str  # A localized description of the season.
-    images: t.Sequence[
-        "DestinySeasonPreviewImageDefinition"
-    ]  # A list of images to preview the seasonal content. Should have at least three to show.
-    link_path: str  # A relative path to learn more about the season. Web browsers should be automatically redirected to the user's Bungie.net locale. For example: "/SeasonOfTheChosen" will redirect to "/7/en/Seasons/SeasonOfTheChosen" for English users.
-    video_link: str  # An optional link to a localized video, probably YouTube.
+    description: str = dt.field(
+        metadata={"description": "A localized description of the season."}
+    )
+    images: t.Sequence["DestinySeasonPreviewImageDefinition"] = dt.field(
+        metadata={
+            "description": "A list of images to preview the seasonal content. Should have at least three to show."
+        }
+    )
+    link_path: str = dt.field(
+        metadata={
+            "description": 'A relative path to learn more about the season. Web browsers should be automatically redirected to the user\'s Bungie.net locale. For example: "/SeasonOfTheChosen" will redirect to "/7/en/Seasons/SeasonOfTheChosen" for English users.'
+        }
+    )
+    video_link: str = dt.field(
+        metadata={
+            "description": "An optional link to a localized video, probably YouTube."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -84,8 +113,16 @@ class DestinySeasonPreviewImageDefinition:
     """Defines the thumbnail icon, high-res image, and video link for
     promotional images."""
 
-    high_res_image: str  # An optional path to a high-resolution image, probably 1920x1080.
-    thumbnail_image: str  # A thumbnail icon path to preview seasonal content, probably 480x270.
+    high_res_image: str = dt.field(
+        metadata={
+            "description": "An optional path to a high-resolution image, probably 1920x1080."
+        }
+    )
+    thumbnail_image: str = dt.field(
+        metadata={
+            "description": "A thumbnail icon path to preview seasonal content, probably 480x270."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -97,15 +134,37 @@ class DestinySeasonPreviewImageDefinition:
 @dt.dataclass(frozen=True)
 class DestinySeasonPassDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
     prestige_progression_hash: ManifestReference[
         "DestinyProgressionDefinition"
-    ]  # I know what you're thinking, but I promise we're not going to duplicate and drown you. Instead, we're giving you sweet, sweet power bonuses.  Prestige progression is further progression that you can make on the Season pass after you gain max ranks, that will ultimately increase your power/light level over the theoretical limit.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    ] = dt.field(
+        metadata={
+            "description": """I know what you're thinking, but I promise we're not going to duplicate and drown you. Instead, we're giving you sweet, sweet power bonuses.
+ Prestige progression is further progression that you can make on the Season pass after you gain max ranks, that will ultimately increase your power/light level over the theoretical limit."""
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     reward_progression_hash: ManifestReference[
         "DestinyProgressionDefinition"
-    ]  # This is the progression definition related to the progression for the initial levels 1-100 that provide item rewards for the Season pass. Further experience after you reach the limit is provided in the "Prestige" progression referred to by prestigeProgressionHash.
+    ] = dt.field(
+        metadata={
+            "description": 'This is the progression definition related to the progression for the initial levels 1-100 that provide item rewards for the Season pass. Further experience after you reach the limit is provided in the "Prestige" progression referred to by prestigeProgressionHash.'
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
