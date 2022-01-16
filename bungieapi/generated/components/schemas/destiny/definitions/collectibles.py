@@ -12,23 +12,51 @@ class DestinyCollectibleDefinition:
 
     acquisition_info: "DestinyCollectibleAcquisitionBlock"
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
     item_hash: ManifestReference["DestinyInventoryItemDefinition"]
-    parent_node_hashes: t.Sequence[
-        int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    parent_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents."
+        }
+    )
     presentation_info: "DestinyPresentationChildBlock"
     presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    scope: "DestinyScope"  # Indicates whether the state of this Collectible is determined on a per-character or on an account-wide basis.
-    source_string: str  # A human readable string for a hint about how to acquire the item.
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    scope: "DestinyScope" = dt.field(
+        metadata={
+            "description": "Indicates whether the state of this Collectible is determined on a per-character or on an account-wide basis."
+        }
+    )
+    source_string: str = dt.field(
+        metadata={
+            "description": "A human readable string for a hint about how to acquire the item."
+        }
+    )
     state_info: "DestinyCollectibleStateBlock"
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
-    source_hash: t.Optional[
-        int
-    ] = None  # This is a hash identifier we are building on the BNet side in an attempt to let people group collectibles by similar sources. I can't promise that it's going to be 100% accurate, but if the designers were consistent in assigning the same source strings to items with the same sources, it *ought to* be. No promises though. This hash also doesn't relate to an actual definition, just to note: we've got nothing useful other than the source string for this data.
+    source_hash: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """This is a hash identifier we are building on the BNet side in an attempt to let people group collectibles by similar sources.
+I can't promise that it's going to be 100% accurate, but if the designers were consistent in assigning the same source strings to items with the same sources, it *ought to* be. No promises though.
+This hash also doesn't relate to an actual definition, just to note: we've got nothing useful other than the source string for this data."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

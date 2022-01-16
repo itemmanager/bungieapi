@@ -68,12 +68,16 @@ class DestinyItemPeerView:
     """Bare minimum summary information for an item, for the sake of 3D
     rendering the item."""
 
-    dyes: t.Sequence[
-        "DyeReference"
-    ]  # The list of dyes that have been applied to this item.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
+    dyes: t.Sequence["DyeReference"] = dt.field(
+        metadata={
+            "description": "The list of dyes that have been applied to this item."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

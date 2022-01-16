@@ -10,10 +10,18 @@ from bungieapi.types import ManifestReference
 class DestinyRecordsComponent:
     record_categories_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Triumph categories.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Triumph categories."
+        }
+    )
     record_seals_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Triumph Seals.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Triumph Seals."
+        }
+    )
     records: t.Mapping[str, "DestinyRecordComponent"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -31,13 +39,18 @@ class DestinyRecordComponent:
     interval_objectives: t.Sequence["DestinyObjectiveProgress"]
     intervals_redeemed_count: int
     objectives: t.Sequence["DestinyObjectiveProgress"]
-    reward_visibilty: t.Sequence[
-        bool
-    ]  # If available, a list that describes which reward rewards should be shown (true) or hidden (false). This property is for regular record rewards, and not for interval objective rewards.
+    reward_visibilty: t.Sequence[bool] = dt.field(
+        metadata={
+            "description": "If available, a list that describes which reward rewards should be shown (true) or hidden (false). This property is for regular record rewards, and not for interval objective rewards."
+        }
+    )
     state: "DestinyRecordState"
-    completed_count: t.Optional[
-        int
-    ] = None  # If available, this is the number of times this record has been completed. For example, the number of times a seal title has been gilded.
+    completed_count: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If available, this is the number of times this record has been completed. For example, the number of times a seal title has been gilded."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -52,20 +65,43 @@ class DestinyRecordComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyProfileRecordsComponent:
-    active_score: int  # Your 'active' Triumphs score.
-    legacy_score: int  # Your 'legacy' Triumphs score.
-    lifetime_score: int  # Your 'lifetime' Triumphs score.
+    active_score: int = dt.field(
+        metadata={"description": "Your 'active' Triumphs score."}
+    )
+    legacy_score: int = dt.field(
+        metadata={"description": "Your 'legacy' Triumphs score."}
+    )
+    lifetime_score: int = dt.field(
+        metadata={"description": "Your 'lifetime' Triumphs score."}
+    )
     record_categories_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Triumph categories.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Triumph categories."
+        }
+    )
     record_seals_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Triumph Seals.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Triumph Seals."
+        }
+    )
     records: t.Mapping[str, "DestinyRecordComponent"]
-    score: int  # Your 'active' Triumphs score, maintained for backwards compatibility.
+    score: int = dt.field(
+        metadata={
+            "description": "Your 'active' Triumphs score, maintained for backwards compatibility."
+        }
+    )
     tracked_record_hash: t.Optional[
         ManifestReference["DestinyRecordDefinition"]
-    ] = None  # If this profile is tracking a record, this is the hash identifier of the record it is tracking.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this profile is tracking a record, this is the hash identifier of the record it is tracking."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -87,10 +123,18 @@ class DestinyCharacterRecordsComponent:
     featured_record_hashes: t.Sequence[int]
     record_categories_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Triumph categories.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Triumph categories."
+        }
+    )
     record_seals_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
-    ]  # The hash for the root presentation node definition of Triumph Seals.
+    ] = dt.field(
+        metadata={
+            "description": "The hash for the root presentation node definition of Triumph Seals."
+        }
+    )
     records: t.Mapping[str, "DestinyRecordComponent"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:

@@ -9,7 +9,9 @@ from bungieapi.types import ManifestReference
 @dt.dataclass(frozen=True)
 class DestinyItemTransferRequest:
     character_id: int
-    item_id: int  # The instance ID of the item for this action request.
+    item_id: int = dt.field(
+        metadata={"description": "The instance ID of the item for this action request."}
+    )
     item_reference_hash: ManifestReference["DestinyInventoryItemDefinition"]
     membership_type: "BungieMembershipType"
     stack_size: int

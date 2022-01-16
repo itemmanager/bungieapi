@@ -13,13 +13,28 @@ class DestinyPresentationNodeBaseDefinition:
     Presentation Nodes, Records, Collectibles, and Metrics.
     """
 
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    parent_node_hashes: t.Sequence[
-        int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    parent_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents."
+        }
+    )
     presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
 
@@ -37,14 +52,29 @@ class DestinyPresentationNodeBaseDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyScoredPresentationNodeBaseDefinition:
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
     max_category_record_score: int
-    parent_node_hashes: t.Sequence[
-        int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    parent_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents."
+        }
+    )
     presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
 
@@ -72,32 +102,89 @@ class DestinyPresentationNodeDefinition:
     We'll see if I come to regret this as well.
     """
 
-    children: "DestinyPresentationNodeChildrenBlock"  # The child entities contained by this presentation node.
-    disable_child_subscreen_navigation: bool  # If this presentation node has children, but the game doesn't let you inspect the details of those children, that is indicated here.
+    children: "DestinyPresentationNodeChildrenBlock" = dt.field(
+        metadata={
+            "description": "The child entities contained by this presentation node."
+        }
+    )
+    disable_child_subscreen_navigation: bool = dt.field(
+        metadata={
+            "description": "If this presentation node has children, but the game doesn't let you inspect the details of those children, that is indicated here."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    display_style: "DestinyPresentationDisplayStyle"  # A hint for how to display this presentation node when it's shown in a list.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
+    display_style: "DestinyPresentationDisplayStyle" = dt.field(
+        metadata={
+            "description": "A hint for how to display this presentation node when it's shown in a list."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
     max_category_record_score: int
     node_type: "DestinyPresentationNodeType"
-    original_icon: str  # The original icon for this presentation node, before we futzed with it.
-    parent_node_hashes: t.Sequence[
-        int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    original_icon: str = dt.field(
+        metadata={
+            "description": "The original icon for this presentation node, before we futzed with it."
+        }
+    )
+    parent_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents."
+        }
+    )
     presentation_node_type: "DestinyPresentationNodeType"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    requirements: "DestinyPresentationNodeRequirementsBlock"  # The requirements for being able to interact with this presentation node and its children.
-    root_view_icon: str  # Some presentation nodes are meant to be explicitly shown on the "root" or "entry" screens for the feature to which they are related. You should use this icon when showing them on such a view, if you have a similar "entry point" view in your UI. If you don't have a UI, then I guess it doesn't matter either way does it?
-    scope: "DestinyScope"  # Indicates whether this presentation node's state is determined on a per-character or on an account-wide basis.
-    screen_style: "DestinyPresentationScreenStyle"  # A hint for how to display this presentation node when it's shown in its own detail screen.
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    requirements: "DestinyPresentationNodeRequirementsBlock" = dt.field(
+        metadata={
+            "description": "The requirements for being able to interact with this presentation node and its children."
+        }
+    )
+    root_view_icon: str = dt.field(
+        metadata={
+            "description": 'Some presentation nodes are meant to be explicitly shown on the "root" or "entry" screens for the feature to which they are related. You should use this icon when showing them on such a view, if you have a similar "entry point" view in your UI. If you don\'t have a UI, then I guess it doesn\'t matter either way does it?'
+        }
+    )
+    scope: "DestinyScope" = dt.field(
+        metadata={
+            "description": "Indicates whether this presentation node's state is determined on a per-character or on an account-wide basis."
+        }
+    )
+    screen_style: "DestinyPresentationScreenStyle" = dt.field(
+        metadata={
+            "description": "A hint for how to display this presentation node when it's shown in its own detail screen."
+        }
+    )
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
     completion_record_hash: t.Optional[
         ManifestReference["DestinyRecordDefinition"]
-    ] = None  # If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": 'If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.'
+        },
+    )
     objective_hash: t.Optional[
         ManifestReference["DestinyObjectiveDefinition"]
-    ] = None  # If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -179,7 +266,11 @@ class DestinyPresentationNodeRequirementsBlock:
     be shown if these requirements aren't met.
     """
 
-    entitlement_unavailable_message: str  # If this node is not accessible due to Entitlements (for instance, you don't own the required game expansion), this is the message to show.
+    entitlement_unavailable_message: str = dt.field(
+        metadata={
+            "description": "If this node is not accessible due to Entitlements (for instance, you don't own the required game expansion), this is the message to show."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

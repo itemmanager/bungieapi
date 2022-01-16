@@ -8,19 +8,40 @@ from bungieapi.types import ManifestReference
 
 @dt.dataclass(frozen=True)
 class DestinyEnvironmentLocationMapping:
-    activation_source: str  # A hint that the UI uses to figure out how this location is activated by the player.
-    location_hash: ManifestReference[
-        "DestinyLocationDefinition"
-    ]  # The location that is revealed on the director by this mapping.
+    activation_source: str = dt.field(
+        metadata={
+            "description": "A hint that the UI uses to figure out how this location is activated by the player."
+        }
+    )
+    location_hash: ManifestReference["DestinyLocationDefinition"] = dt.field(
+        metadata={
+            "description": "The location that is revealed on the director by this mapping."
+        }
+    )
     activity_hash: t.Optional[
         ManifestReference["DestinyActivityDefinition"]
-    ] = None  # If this is populated, this is the activity you have to be playing in order to see this location appear because of this mapping. (theoretically, a location can have multiple mappings, and some might require you to be in a specific activity when others don't)
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this is populated, this is the activity you have to be playing in order to see this location appear because of this mapping. (theoretically, a location can have multiple mappings, and some might require you to be in a specific activity when others don't)"
+        },
+    )
     item_hash: t.Optional[
         ManifestReference["DestinyInventoryItemDefinition"]
-    ] = None  # If this is populated, it is the item that you must possess for this location to be active because of this mapping. (theoretically, a location can have multiple mappings, and some might require an item while others don't)
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this is populated, it is the item that you must possess for this location to be active because of this mapping. (theoretically, a location can have multiple mappings, and some might require an item while others don't)"
+        },
+    )
     objective_hash: t.Optional[
         ManifestReference["DestinyObjectiveDefinition"]
-    ] = None  # If this is populated, this is an objective related to the location.
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this is populated, this is an objective related to the location."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -21,6 +21,17 @@ def linear_comment(something: t.Any) -> str:
     return ""
 
 
+def metadata(something: t.Any) -> str:
+    description = getattr(something, "description", "")
+    if description:
+        if "\n" in description:
+            return f"metadata={{'description': '''{description}'''}}"
+        else:
+            description = description.replace("'", r"\'")
+            return f"metadata={{'description': '{description}'}}"
+    return ""
+
+
 @generate_schema.register
 def generate_object(
     object: api.Object, name: str, module: t.Sequence[str]
@@ -45,9 +56,16 @@ def generate_object(
         ]
 
         for name, property in sorted(required):
-            yield f"    {camel_to_snake(name)}: {literal_bare(property, module)} {linear_comment(property)}"
+            if meta := metadata(property):
+                yield f"    {camel_to_snake(name)}: {literal_bare(property, module)} = dt.field({meta})"
+            else:
+                yield f"    {camel_to_snake(name)}: {literal_bare(property, module)}"
+
         for name, property in sorted(nullable):
-            yield f"    {camel_to_snake(name)}: {literal(property, module)} = None {linear_comment(property)}"
+            if meta := metadata(property):
+                yield f"    {camel_to_snake(name)}: {literal(property, module)} = dt.field(default=None, {meta})"
+            else:
+                yield f"    {camel_to_snake(name)}: {literal(property, module)} = None"
 
     if object.additional_properties:
         yield f"    additional: t.Mapping[str, {literal_bare(object.additional_properties, [])}]  = dt.field(default_factory=dict)"

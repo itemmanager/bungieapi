@@ -29,14 +29,35 @@ class DestinyChecklistDefinition:
     """
 
     display_properties: "DestinyDisplayPropertiesDefinition"
-    entries: t.Sequence[
-        "DestinyChecklistEntryDefinition"
-    ]  # The individual checklist items. Gotta catch 'em all.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    scope: "DestinyScope"  # Indicates whether you will find this checklist on the Profile or Character components.
-    view_action_string: str  # A localized string prompting you to view the checklist.
+    entries: t.Sequence["DestinyChecklistEntryDefinition"] = dt.field(
+        metadata={"description": "The individual checklist items. Gotta catch 'em all."}
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    scope: "DestinyScope" = dt.field(
+        metadata={
+            "description": "Indicates whether you will find this checklist on the Profile or Character components."
+        }
+    )
+    view_action_string: str = dt.field(
+        metadata={
+            "description": "A localized string prompting you to view the checklist."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -61,13 +82,29 @@ class DestinyChecklistEntryDefinition:
     actually be able to be associated with some other Destiny entity.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Even if no other associations exist, we will give you *something* for display properties. In cases where we have no associated entities, it may be as simple as a numerical identifier.
-    hash: int  # The identifier for this Checklist entry. Guaranteed unique only within this Checklist Definition, and not globally/for all checklists.
-    scope: "DestinyScope"  # The scope at which this specific entry can be computed.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "Even if no other associations exist, we will give you *something* for display properties. In cases where we have no associated entities, it may be as simple as a numerical identifier."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": "The identifier for this Checklist entry. Guaranteed unique only within this Checklist Definition, and not globally/for all checklists."
+        }
+    )
+    scope: "DestinyScope" = dt.field(
+        metadata={
+            "description": "The scope at which this specific entry can be computed."
+        }
+    )
     activity_hash: t.Optional[ManifestReference["DestinyActivityDefinition"]] = None
-    bubble_hash: t.Optional[
-        int
-    ] = None  # Note that a Bubble's hash doesn't uniquely identify a "top level" entity in Destiny. Only the combination of location and bubble can uniquely identify a place in the world of Destiny: so if bubbleHash is populated, locationHash must too be populated for it to have any meaning. You can use this property if it is populated to look up the DestinyLocationDefinition's associated .locationReleases[].activityBubbleName property.
+    bubble_hash: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """Note that a Bubble's hash doesn't uniquely identify a "top level" entity in Destiny. Only the combination of location and bubble can uniquely identify a place in the world of Destiny: so if bubbleHash is populated, locationHash must too be populated for it to have any meaning.
+You can use this property if it is populated to look up the DestinyLocationDefinition's associated .locationReleases[].activityBubbleName property."""
+        },
+    )
     destination_hash: t.Optional[
         ManifestReference["DestinyDestinationDefinition"]
     ] = None

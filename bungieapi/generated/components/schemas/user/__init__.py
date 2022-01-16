@@ -10,13 +10,28 @@ from bungieapi.types import BitMask
 class UserMembership:
     """Very basic info about a user as returned by the Account server."""
 
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
+    bungie_global_display_name: str = dt.field(
+        metadata={"description": "The bungie global display name, if set."}
+    )
+    display_name: str = dt.field(
+        metadata={
+            "description": "Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API."
+        }
+    )
+    membership_id: int = dt.field(
+        metadata={
+            "description": "Membership ID as they user is known in the Accounts service"
+        }
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "Type of the membership. Not necessarily the native type."
+        }
+    )
+    bungie_global_display_name_code: t.Optional[int] = dt.field(
+        default=None,
+        metadata={"description": "The bungie global display name code, if set."},
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -38,18 +53,42 @@ class CrossSaveUserMembership:
     Do NOT use as a request contract.
     """
 
-    applicable_membership_types: t.Sequence[
-        "BungieMembershipType"
-    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    is_public: bool  # If True, this is a public user membership.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
+    applicable_membership_types: t.Sequence["BungieMembershipType"] = dt.field(
+        metadata={
+            "description": """The list of Membership Types indicating the platforms on which this Membership can be used.
+ Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list"""
+        }
+    )
+    bungie_global_display_name: str = dt.field(
+        metadata={"description": "The bungie global display name, if set."}
+    )
+    cross_save_override: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "If there is a cross save override in effect, this value will tell you the type that is overridding this one."
+        }
+    )
+    display_name: str = dt.field(
+        metadata={
+            "description": "Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API."
+        }
+    )
+    is_public: bool = dt.field(
+        metadata={"description": "If True, this is a public user membership."}
+    )
+    membership_id: int = dt.field(
+        metadata={
+            "description": "Membership ID as they user is known in the Accounts service"
+        }
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "Type of the membership. Not necessarily the native type."
+        }
+    )
+    bungie_global_display_name_code: t.Optional[int] = dt.field(
+        default=None,
+        metadata={"description": "The bungie global display name code, if set."},
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -79,20 +118,48 @@ class UserInfoCard:
     other contracts.
     """
 
-    applicable_membership_types: t.Sequence[
-        "BungieMembershipType"
-    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    icon_path: str  # URL the Icon if available.
-    is_public: bool  # If True, this is a public user membership.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
-    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
+    applicable_membership_types: t.Sequence["BungieMembershipType"] = dt.field(
+        metadata={
+            "description": """The list of Membership Types indicating the platforms on which this Membership can be used.
+ Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list"""
+        }
+    )
+    bungie_global_display_name: str = dt.field(
+        metadata={"description": "The bungie global display name, if set."}
+    )
+    cross_save_override: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "If there is a cross save override in effect, this value will tell you the type that is overridding this one."
+        }
+    )
+    display_name: str = dt.field(
+        metadata={
+            "description": "Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API."
+        }
+    )
+    icon_path: str = dt.field(metadata={"description": "URL the Icon if available."})
+    is_public: bool = dt.field(
+        metadata={"description": "If True, this is a public user membership."}
+    )
+    membership_id: int = dt.field(
+        metadata={
+            "description": "Membership ID as they user is known in the Accounts service"
+        }
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "Type of the membership. Not necessarily the native type."
+        }
+    )
+    supplemental_display_name: str = dt.field(
+        metadata={
+            "description": "A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc."
+        }
+    )
+    bungie_global_display_name_code: t.Optional[int] = dt.field(
+        default=None,
+        metadata={"description": "The bungie global display name code, if set."},
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -210,12 +277,18 @@ class UserToUserContext:
 @dt.dataclass(frozen=True)
 class UserMembershipData:
     bungie_net_user: "GeneralUser"
-    destiny_memberships: t.Sequence[
-        "GroupUserInfoCard"
-    ]  # this allows you to see destiny memberships that are visible and linked to this account (regardless of whether or not they have characters on the world server)
-    primary_membership_id: t.Optional[
-        int
-    ] = None  # If this property is populated, it will have the membership ID of the account considered to be "primary" in this user's cross save relationship.  If null, this user has no cross save relationship, nor primary account.
+    destiny_memberships: t.Sequence["GroupUserInfoCard"] = dt.field(
+        metadata={
+            "description": "this allows you to see destiny memberships that are visible and linked to this account (regardless of whether or not they have characters on the world server)"
+        }
+    )
+    primary_membership_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """If this property is populated, it will have the membership ID of the account considered to be "primary" in this user's cross save relationship.
+ If null, this user has no cross save relationship, nor primary account."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -301,15 +374,19 @@ class ExactSearchRequest:
 class EmailSettings:
     """The set of all email subscription/opt-in settings and definitions."""
 
-    opt_in_definitions: t.Mapping[
-        str, "EmailOptInDefinition"
-    ]  # Keyed by the name identifier of the opt-in definition.
-    subscription_definitions: t.Mapping[
-        str, "EmailSubscriptionDefinition"
-    ]  # Keyed by the name identifier of the Subscription definition.
-    views: t.Mapping[
-        str, "EmailViewDefinition"
-    ]  # Keyed by the name identifier of the View definition.
+    opt_in_definitions: t.Mapping[str, "EmailOptInDefinition"] = dt.field(
+        metadata={
+            "description": "Keyed by the name identifier of the opt-in definition."
+        }
+    )
+    subscription_definitions: t.Mapping[str, "EmailSubscriptionDefinition"] = dt.field(
+        metadata={
+            "description": "Keyed by the name identifier of the Subscription definition."
+        }
+    )
+    views: t.Mapping[str, "EmailViewDefinition"] = dt.field(
+        metadata={"description": "Keyed by the name identifier of the View definition."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -324,12 +401,24 @@ class EmailOptInDefinition:
     """Defines a single opt-in category: a wide-scoped permission to send
     emails for the subject related to the opt-in."""
 
-    dependent_subscriptions: t.Sequence[
-        "EmailSubscriptionDefinition"
-    ]  # Information about the dependent subscriptions for this opt-in.
-    name: str  # The unique identifier for this opt-in category.
-    set_by_default: bool  # If true, this opt-in setting should be set by default in situations where accounts are created without explicit choices about what they're opting into.
-    value: "OptInFlags"  # The flag value for this opt-in category. For historical reasons, this is defined as a flags enum.
+    dependent_subscriptions: t.Sequence["EmailSubscriptionDefinition"] = dt.field(
+        metadata={
+            "description": "Information about the dependent subscriptions for this opt-in."
+        }
+    )
+    name: str = dt.field(
+        metadata={"description": "The unique identifier for this opt-in category."}
+    )
+    set_by_default: bool = dt.field(
+        metadata={
+            "description": "If true, this opt-in setting should be set by default in situations where accounts are created without explicit choices about what they're opting into."
+        }
+    )
+    value: "OptInFlags" = dt.field(
+        metadata={
+            "description": "The flag value for this opt-in category. For historical reasons, this is defined as a flags enum."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -359,11 +448,19 @@ class EmailSubscriptionDefinition:
     focused subject (generally timeboxed, such as for a specific release of a
     product or feature)."""
 
-    localization: t.Mapping[
-        str, "EMailSettingSubscriptionLocalization"
-    ]  # A dictionary of localized text for the EMail Opt-in setting, keyed by the locale.
-    name: str  # The unique identifier for this subscription.
-    value: int  # The bitflag value for this subscription. Should be a unique power of two value.
+    localization: t.Mapping[str, "EMailSettingSubscriptionLocalization"] = dt.field(
+        metadata={
+            "description": "A dictionary of localized text for the EMail Opt-in setting, keyed by the locale."
+        }
+    )
+    name: str = dt.field(
+        metadata={"description": "The unique identifier for this subscription."}
+    )
+    value: int = dt.field(
+        metadata={
+            "description": "The bitflag value for this subscription. Should be a unique power of two value."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -424,10 +521,10 @@ class EmailViewDefinition:
     consistently without further manual work.
     """
 
-    name: str  # The identifier for this view.
-    view_settings: t.Sequence[
-        "EmailViewDefinitionSetting"
-    ]  # The ordered list of settings to show in this view.
+    name: str = dt.field(metadata={"description": "The identifier for this view."})
+    view_settings: t.Sequence["EmailViewDefinitionSetting"] = dt.field(
+        metadata={"description": "The ordered list of settings to show in this view."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -438,15 +535,31 @@ class EmailViewDefinition:
 
 @dt.dataclass(frozen=True)
 class EmailViewDefinitionSetting:
-    localization: t.Mapping[
-        str, "EMailSettingLocalization"
-    ]  # A dictionary of localized text for the EMail setting, keyed by the locale.
-    name: str  # The identifier for this UI Setting, which can be used to relate it to custom strings or other data as desired.
-    opt_in_aggregate_value: "OptInFlags"  # The OptInFlags value to set or clear if this setting is set or cleared in the UI. It is the aggregate of all underlying opt-in flags related to this setting.
-    set_by_default: bool  # If true, this setting should be set by default if the user hasn't chosen whether it's set or cleared yet.
-    subscriptions: t.Sequence[
-        "EmailSubscriptionDefinition"
-    ]  # The subscriptions to show as children of this setting, if any.
+    localization: t.Mapping[str, "EMailSettingLocalization"] = dt.field(
+        metadata={
+            "description": "A dictionary of localized text for the EMail setting, keyed by the locale."
+        }
+    )
+    name: str = dt.field(
+        metadata={
+            "description": "The identifier for this UI Setting, which can be used to relate it to custom strings or other data as desired."
+        }
+    )
+    opt_in_aggregate_value: "OptInFlags" = dt.field(
+        metadata={
+            "description": "The OptInFlags value to set or clear if this setting is set or cleared in the UI. It is the aggregate of all underlying opt-in flags related to this setting."
+        }
+    )
+    set_by_default: bool = dt.field(
+        metadata={
+            "description": "If true, this setting should be set by default if the user hasn't chosen whether it's set or cleared yet."
+        }
+    )
+    subscriptions: t.Sequence["EmailSubscriptionDefinition"] = dt.field(
+        metadata={
+            "description": "The subscriptions to show as children of this setting, if any."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
