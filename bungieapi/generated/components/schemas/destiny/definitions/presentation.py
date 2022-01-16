@@ -72,7 +72,6 @@ class DestinyPresentationNodeDefinition:
     """
 
     children: "DestinyPresentationNodeChildrenBlock"  # The child entities contained by this presentation node.
-    completion_record_hash: int  # If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.
     disable_child_subscreen_navigation: bool  # If this presentation node has children, but the game doesn't let you inspect the details of those children, that is indicated here.
     display_properties: "DestinyDisplayPropertiesDefinition"
     display_style: "DestinyPresentationDisplayStyle"  # A hint for how to display this presentation node when it's shown in a list.
@@ -80,7 +79,6 @@ class DestinyPresentationNodeDefinition:
     index: int  # The index of the entity as it was found in the investment tables.
     max_category_record_score: int
     node_type: "DestinyPresentationNodeType"
-    objective_hash: int  # If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here.
     original_icon: str  # The original icon for this presentation node, before we futzed with it.
     parent_node_hashes: t.Sequence[
         int
@@ -93,6 +91,12 @@ class DestinyPresentationNodeDefinition:
     screen_style: "DestinyPresentationScreenStyle"  # A hint for how to display this presentation node when it's shown in its own detail screen.
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
+    completion_record_hash: t.Optional[
+        int
+    ] = None  # If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.
+    objective_hash: t.Optional[
+        int
+    ] = None  # If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

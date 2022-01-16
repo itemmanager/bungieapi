@@ -23,7 +23,6 @@ class DestinyRecordsComponent:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordComponent:
-    completed_count: int  # If available, this is the number of times this record has been completed. For example, the number of times a seal title has been gilded.
     interval_objectives: t.Sequence["DestinyObjectiveProgress"]
     intervals_redeemed_count: int
     objectives: t.Sequence["DestinyObjectiveProgress"]
@@ -31,6 +30,9 @@ class DestinyRecordComponent:
         bool
     ]  # If available, a list that describes which reward rewards should be shown (true) or hidden (false). This property is for regular record rewards, and not for interval objective rewards.
     state: "DestinyRecordState"
+    completed_count: t.Optional[
+        int
+    ] = None  # If available, this is the number of times this record has been completed. For example, the number of times a seal title has been gilded.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -52,7 +54,9 @@ class DestinyProfileRecordsComponent:
     record_seals_root_node_hash: int  # The hash for the root presentation node definition of Triumph Seals.
     records: t.Mapping[str, "DestinyRecordComponent"]
     score: int  # Your 'active' Triumphs score, maintained for backwards compatibility.
-    tracked_record_hash: int  # If this profile is tracking a record, this is the hash identifier of the record it is tracking.
+    tracked_record_hash: t.Optional[
+        int
+    ] = None  # If this profile is tracking a record, this is the hash identifier of the record it is tracking.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

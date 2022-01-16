@@ -99,7 +99,6 @@ class Destiny2CoreSettings:
     badges_root_node: int
     collection_root_node: int
     current_rank_progression_hashes: t.Sequence[int]
-    current_season_hash: int
     current_seasonal_artifact_hash: int
     exotic_catalysts_root_node_hash: int
     future_season_hashes: t.Sequence[int]
@@ -113,8 +112,9 @@ class Destiny2CoreSettings:
     metrics_root_node: int
     past_season_hashes: t.Sequence[int]
     records_root_node: int
-    seasonal_challenges_presentation_node_hash: int
     undiscovered_collectible_image: str
+    current_season_hash: t.Optional[int] = None
+    seasonal_challenges_presentation_node_hash: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

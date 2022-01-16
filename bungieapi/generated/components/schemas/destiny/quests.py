@@ -13,13 +13,19 @@ class DestinyObjectiveProgress:
     purposes.
     """
 
-    activity_hash: int  # If the Objective has an Activity associated with it, this is the unique identifier of the Activity being referred to. Use to look up the DestinyActivityDefinition in static data. This will give localized data about *what* you should be playing for the objective to be achieved.
     complete: bool  # Whether or not the Objective is completed.
     completion_value: int  # As of Forsaken, objectives' completion value is determined dynamically at runtime. This value represents the threshold of progress you need to surpass in order for this objective to be considered "complete". If you were using objective data, switch from using the DestinyObjectiveDefinition's "completionValue" to this value.
-    destination_hash: int  # If the Objective has a Destination associated with it, this is the unique identifier of the Destination being referred to. Use to look up the DestinyDestinationDefinition in static data. This will give localized data about *where* in the universe the objective should be achieved.
     objective_hash: int  # The unique identifier of the Objective being referred to. Use to look up the DestinyObjectiveDefinition in static data.
-    progress: int  # If progress has been made, and the progress can be measured numerically, this will be the value of that progress. You can compare it to the DestinyObjectiveDefinition.completionValue property for current vs. upper bounds, and use DestinyObjectiveDefinition.valueStyle to determine how this should be rendered. Note that progress, in Destiny 2, need not be a literal numeric progression. It could be one of a number of possible values, even a Timestamp. Always examine DestinyObjectiveDefinition.valueStyle before rendering progress.
     visible: bool  # If this is true, the objective is visible in-game. Otherwise, it's not yet visible to the player. Up to you if you want to honor this property.
+    activity_hash: t.Optional[
+        int
+    ] = None  # If the Objective has an Activity associated with it, this is the unique identifier of the Activity being referred to. Use to look up the DestinyActivityDefinition in static data. This will give localized data about *what* you should be playing for the objective to be achieved.
+    destination_hash: t.Optional[
+        int
+    ] = None  # If the Objective has a Destination associated with it, this is the unique identifier of the Destination being referred to. Use to look up the DestinyDestinationDefinition in static data. This will give localized data about *where* in the universe the objective should be achieved.
+    progress: t.Optional[
+        int
+    ] = None  # If progress has been made, and the progress can be measured numerically, this will be the value of that progress. You can compare it to the DestinyObjectiveDefinition.completionValue property for current vs. upper bounds, and use DestinyObjectiveDefinition.valueStyle to determine how this should be rendered. Note that progress, in Destiny 2, need not be a literal numeric progression. It could be one of a number of possible values, even a Timestamp. Always examine DestinyObjectiveDefinition.valueStyle before rendering progress.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -52,7 +58,9 @@ class DestinyQuestStatus:
         "DestinyObjectiveProgress"
     ]  # A step can have multiple objectives. This will give you the progress for each objective in the current step, in the order in which they are rendered in-game.
     tracked: bool  # Whether or not the quest is tracked
-    vendor_hash: int  # If the quest has a related Vendor that you should talk to in order to initiate the quest/earn rewards/continue the quest, this will be the hash identifier of that Vendor. Look it up its DestinyVendorDefinition.
+    vendor_hash: t.Optional[
+        int
+    ] = None  # If the quest has a related Vendor that you should talk to in order to initiate the quest/earn rewards/continue the quest, this will be the hash identifier of that Vendor. Look it up its DestinyVendorDefinition.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

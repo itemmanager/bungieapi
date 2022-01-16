@@ -36,7 +36,9 @@ class DestinyCharacterComponent:
     stats: t.Mapping[
         str, int
     ]  # Your character's stats, such as Agility, Resilience, etc... *not* historical stats. You'll have to call a different endpoint for those.
-    title_record_hash: int  # If this Character has a title assigned to it, this is the identifier of the DestinyRecordDefinition that has that title information.
+    title_record_hash: t.Optional[
+        int
+    ] = None  # If this Character has a title assigned to it, this is the identifier of the DestinyRecordDefinition that has that title information.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -149,13 +151,17 @@ class DestinyCharacterActivitiesComponent:
     current_activity_mode_hashes: t.Sequence[
         int
     ]  # If the user is in an activity, this will be the hashes of the DestinyActivityModeDefinition being played. Combine with currentActivityHash to give a person a full picture of what they're doing right now.
-    current_activity_mode_type: int  # And the current activity's most specific mode type, if it can be found.
     current_activity_mode_types: t.Sequence[
         "DestinyActivityModeType"
     ]  # All Activity Modes that apply to the current activity being played, in enum form.
-    current_playlist_activity_hash: int  # If the user is in a playlist, this is the hash identifier for the playlist that they chose.
     date_activity_started: str  # The last date that the user started playing an activity.
     last_completed_story_hash: int  # This will have the activity hash of the last completed story/campaign mission, in case you care about that.
+    current_activity_mode_type: t.Optional[
+        int
+    ] = None  # And the current activity's most specific mode type, if it can be found.
+    current_playlist_activity_hash: t.Optional[
+        int
+    ] = None  # If the user is in a playlist, this is the hash identifier for the playlist that they chose.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

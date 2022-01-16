@@ -126,11 +126,13 @@ class DestinyMilestoneQuestDefinition:
     activities: t.Mapping[
         str, "DestinyMilestoneActivityDefinition"
     ]  # The full set of all possible "conceptual activities" that are related to this Milestone. Tiers or alternative modes of play within these conceptual activities will be defined as sub-entities. Keyed by the Conceptual Activity Hash. Use the key to look up DestinyActivityDefinition.
-    destination_hash: int  # Sometimes, a Milestone's quest is related to an entire Destination rather than a specific activity. In that situation, this will be the hash of that Destination. Hotspots are currently the only Milestones that expose this data, but that does not preclude this data from being returned for other Milestones in the future.
     display_properties: "DestinyDisplayPropertiesDefinition"  # The individual quests may have different definitions from the overall milestone: if there's a specific active quest, use these displayProperties instead of that of the overall DestinyMilestoneDefinition.
     override_image: str  # If populated, this image can be shown instead of the generic milestone's image when this quest is live, or it can be used to show a background image for the quest itself that differs from that of the Activity or the Milestone.
     quest_item_hash: int  # The item representing this Milestone quest. Use this hash to look up the DestinyInventoryItemDefinition for the quest to find its steps and human readable data.
     quest_rewards: "DestinyMilestoneQuestRewardsDefinition"  # The rewards you will get for completing this quest, as best as we could extract them from our data. Sometimes, it'll be a decent amount of data. Sometimes, it's going to be sucky. Sorry.
+    destination_hash: t.Optional[
+        int
+    ] = None  # Sometimes, a Milestone's quest is related to an entire Destination rather than a specific activity. In that situation, this will be the hash of that Destination. Hotspots are currently the only Milestones that expose this data, but that does not preclude this data from being returned for other Milestones in the future.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -164,10 +166,16 @@ class DestinyMilestoneQuestRewardItem:
 
     has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
     item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    item_instance_id: int  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
     quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
-    vendor_hash: int  # The quest reward item *may* be associated with a vendor. If so, this is that vendor. Use this hash to look up the DestinyVendorDefinition.
-    vendor_item_index: int  # The quest reward item *may* be associated with a vendor. If so, this is the index of the item being sold, which we can use at runtime to find instanced item information for the reward item.
+    item_instance_id: t.Optional[
+        int
+    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
+    vendor_hash: t.Optional[
+        int
+    ] = None  # The quest reward item *may* be associated with a vendor. If so, this is that vendor. Use this hash to look up the DestinyVendorDefinition.
+    vendor_item_index: t.Optional[
+        int
+    ] = None  # The quest reward item *may* be associated with a vendor. If so, this is the index of the item being sold, which we can use at runtime to find instanced item information for the reward item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -259,7 +267,9 @@ class DestinyMilestoneRewardEntryDefinition:
     order: int  # If you want to follow BNet's ordering of these rewards, use this number within a given category to order the rewards. Yeah, I know. I feel dirty too.
     reward_entry_hash: int  # The identifier for this reward entry. Runtime data will refer to reward entries by this hash. Only guaranteed unique within the specific Milestone.
     reward_entry_identifier: str  # The string identifier, if you care about it. Only guaranteed unique within the specific Milestone.
-    vendor_hash: int  # If this reward is redeemed at a Vendor, this is the hash of the Vendor to go to in order to redeem the reward. Use this hash to look up the DestinyVendorDefinition.
+    vendor_hash: t.Optional[
+        int
+    ] = None  # If this reward is redeemed at a Vendor, this is the hash of the Vendor to go to in order to redeem the reward. Use this hash to look up the DestinyVendorDefinition.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

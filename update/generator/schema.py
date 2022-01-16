@@ -36,17 +36,17 @@ def generate_object(
         required = [
             (name, property)
             for name, property in object.properties.items()
-            if property.required
+            if not property.nullable
         ]
-        not_required = [
+        nullable = [
             (name, property)
             for name, property in object.properties.items()
-            if not property.required
+            if property.nullable
         ]
 
         for name, property in sorted(required):
             yield f"    {camel_to_snake(name)}: {literal_bare(property, module)} {linear_comment(property)}"
-        for name, property in sorted(not_required):
+        for name, property in sorted(nullable):
             yield f"    {camel_to_snake(name)}: {literal(property, module)} = None {linear_comment(property)}"
 
     if object.additional_properties:

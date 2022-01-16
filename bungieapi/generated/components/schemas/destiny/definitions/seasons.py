@@ -11,20 +11,20 @@ class DestinySeasonDefinition:
     the game highlights certain challenges, provides new loot, has new Clan-
     related rewards and celebrates various seasonal events."""
 
-    artifact_item_hash: int
     background_image_path: str
     display_properties: "DestinyDisplayPropertiesDefinition"
-    end_date: str
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
     preview: "DestinySeasonPreviewDefinition"  # Optional - Defines the promotional text, images, and links to preview this season.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    seal_presentation_node_hash: int
     season_number: int
-    season_pass_hash: int
-    season_pass_progression_hash: int
-    seasonal_challenges_presentation_node_hash: int
-    start_date: str
+    artifact_item_hash: t.Optional[int] = None
+    end_date: t.Optional[str] = None
+    seal_presentation_node_hash: t.Optional[int] = None
+    season_pass_hash: t.Optional[int] = None
+    season_pass_progression_hash: t.Optional[int] = None
+    seasonal_challenges_presentation_node_hash: t.Optional[int] = None
+    start_date: t.Optional[str] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

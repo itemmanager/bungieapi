@@ -18,7 +18,6 @@ class DestinyProgression:
     """
 
     current_progress: int  # This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)
-    current_reset_count: int  # The number of resets of this progression you've executed this season, if applicable to this progression.
     daily_limit: int  # If this progression has a daily limit, this is that limit.
     daily_progress: int  # The amount of progress earned today for this progression.
     level: int  # This is the level of the progression (for instance, the Character Level).
@@ -35,6 +34,9 @@ class DestinyProgression:
     step_index: int  # Progressions define their levels in "steps". Since the last step may be repeatable, the user may be at a higher level than the actual Step achieved in the progression. Not necessarily useful, but potentially interesting for those cruising the API. Relate this to the "steps" property of the DestinyProgression to see which step the user is on, if you care about that. (Note that this is Content Version dependent since it refers to indexes.)
     weekly_limit: int  # If this progression has a weekly limit, this is that limit.
     weekly_progress: int  # The amount of progress earned toward this progression in the current week.
+    current_reset_count: t.Optional[
+        int
+    ] = None  # The number of resets of this progression you've executed this season, if applicable to this progression.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -118,8 +120,10 @@ class DestinyItemQuantity:
 
     has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
     item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    item_instance_id: int  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
     quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
+    item_instance_id: t.Optional[
+        int
+    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -923,15 +927,21 @@ class DestinyActivity:
     can_lead: bool  # If true, the user is allowed to lead a Fireteam into this activity.
     challenges: t.Sequence["DestinyChallengeStatus"]
     difficulty_tier: "DestinyActivityDifficultyTier"  # A DestinyActivityDifficultyTier enum value indicating the difficulty of the activity.
-    display_level: int  # The difficulty level of the activity, if applicable.
     is_completed: bool  # If true, we both have the ability to know that the user has completed this activity and they have completed it. Unfortunately, we can't necessarily know this for all activities. As such, this should probably only be used if you already know in advance which specific activities you wish to check.
     is_new: bool  # If true, then the activity should have a "new" indicator in the Director UI.
     is_visible: bool  # If true, the user should be able to see this activity.
-    loadout_requirement_index: int  # If returned, this is the index into the DestinyActivityDefinition's "loadouts" property, indicating the currently active loadout requirements.
     modifier_hashes: t.Sequence[
         int
     ]  # If the activity has modifiers, this will be the list of modifiers that all variants have in common. Perform lookups against DestinyActivityModifierDefinition which defines the modifier being applied to get at the modifier data. Note that, in the DestiyActivityDefinition, you will see many more modifiers than this being referred to: those are all *possible* modifiers for the activity, not the active ones. Use only the active ones to match what's really live.
-    recommended_light: int  # The recommended light level for the activity, if applicable.
+    display_level: t.Optional[
+        int
+    ] = None  # The difficulty level of the activity, if applicable.
+    loadout_requirement_index: t.Optional[
+        int
+    ] = None  # If returned, this is the index into the DestinyActivityDefinition's "loadouts" property, indicating the currently active loadout requirements.
+    recommended_light: t.Optional[
+        int
+    ] = None  # The recommended light level for the activity, if applicable.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
