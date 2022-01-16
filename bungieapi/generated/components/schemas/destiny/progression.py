@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -17,13 +18,17 @@ class DestinyFactionProgression:
     current_progress: int  # This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)
     daily_limit: int  # If this progression has a daily limit, this is that limit.
     daily_progress: int  # The amount of progress earned today for this progression.
-    faction_hash: int  # The hash identifier of the Faction related to this progression. Use it to look up the DestinyFactionDefinition for more rendering info.
+    faction_hash: ManifestReference[
+        "DestinyFactionDefinition"
+    ]  # The hash identifier of the Faction related to this progression. Use it to look up the DestinyFactionDefinition for more rendering info.
     faction_vendor_index: int  # The index of the Faction vendor that is currently available. Will be set to -1 if no vendors are available.
     level: int  # This is the level of the progression (for instance, the Character Level).
     level_cap: int  # This is the maximum possible level you can achieve for this progression (for example, the maximum character level obtainable)
     next_level_at: int  # The total amount of progression (i.e. "Experience") needed in order to reach the next level.
     progress_to_next_level: int  # The amount of progression (i.e. "Experience") needed to reach the next level of this Progression. Jeez, progression is such an overloaded word.
-    progression_hash: int  # The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data.
+    progression_hash: ManifestReference[
+        "DestinyProgressionDefinition"
+    ]  # The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data.
     reward_item_states: t.Sequence[
         "DestinyProgressionRewardItemState"
     ]  # Information about historical rewards for this progression, if there is any data for it.
@@ -58,8 +63,13 @@ class DestinyFactionProgression:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyProgressionResetEntry,
     DestinyProgressionRewardItemState,
+)
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyFactionDefinition,
+    DestinyProgressionDefinition,
 )

@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -128,10 +129,12 @@ class DestinyMilestoneQuestDefinition:
     ]  # The full set of all possible "conceptual activities" that are related to this Milestone. Tiers or alternative modes of play within these conceptual activities will be defined as sub-entities. Keyed by the Conceptual Activity Hash. Use the key to look up DestinyActivityDefinition.
     display_properties: "DestinyDisplayPropertiesDefinition"  # The individual quests may have different definitions from the overall milestone: if there's a specific active quest, use these displayProperties instead of that of the overall DestinyMilestoneDefinition.
     override_image: str  # If populated, this image can be shown instead of the generic milestone's image when this quest is live, or it can be used to show a background image for the quest itself that differs from that of the Activity or the Milestone.
-    quest_item_hash: int  # The item representing this Milestone quest. Use this hash to look up the DestinyInventoryItemDefinition for the quest to find its steps and human readable data.
+    quest_item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The item representing this Milestone quest. Use this hash to look up the DestinyInventoryItemDefinition for the quest to find its steps and human readable data.
     quest_rewards: "DestinyMilestoneQuestRewardsDefinition"  # The rewards you will get for completing this quest, as best as we could extract them from our data. Sometimes, it'll be a decent amount of data. Sometimes, it's going to be sucky. Sorry.
     destination_hash: t.Optional[
-        int
+        ManifestReference["DestinyDestinationDefinition"]
     ] = None  # Sometimes, a Milestone's quest is related to an entire Destination rather than a specific activity. In that situation, this will be the hash of that Destination. Hotspots are currently the only Milestones that expose this data, but that does not preclude this data from being returned for other Milestones in the future.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -165,13 +168,15 @@ class DestinyMilestoneQuestRewardItem:
     If you want it, please ask! We're just out of time to wire it up right now. Or a clever person just may do it with our existing endpoints."""
 
     has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
-    item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
+    item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
     quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
     item_instance_id: t.Optional[
         int
     ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
     vendor_hash: t.Optional[
-        int
+        ManifestReference["DestinyVendorDefinition"]
     ] = None  # The quest reward item *may* be associated with a vendor. If so, this is that vendor. Use this hash to look up the DestinyVendorDefinition.
     vendor_item_index: t.Optional[
         int
@@ -199,7 +204,9 @@ class DestinyMilestoneActivityDefinition:
     and variants.
     """
 
-    conceptual_activity_hash: int  # The "Conceptual" activity hash. Basically, we picked the lowest level activity and are treating it as the canonical definition of the activity for rendering purposes. If you care about the specific difficulty modes and variations, use the activities under "Variants".
+    conceptual_activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The "Conceptual" activity hash. Basically, we picked the lowest level activity and are treating it as the canonical definition of the activity for rendering purposes. If you care about the specific difficulty modes and variations, use the activities under "Variants".
     variants: t.Mapping[
         str, "DestinyMilestoneActivityVariantDefinition"
     ]  # A milestone-referenced activity can have many variants, such as Tiers or alternative modes of play. Even if there is only a single variant, the details for these are represented within as a variant definition. It is assumed that, if this DestinyMilestoneActivityDefinition is active, then all variants should be active. If a Milestone could ever split the variants' active status conditionally, they should all have their own DestinyMilestoneActivityDefinition instead! The potential duplication will be worth it for the obviousness of processing and use.
@@ -221,7 +228,9 @@ class DestinyMilestoneActivityVariantDefinition:
     values.
     """
 
-    activity_hash: int  # The hash to use for looking up the variant Activity's definition (DestinyActivityDefinition), where you can find its distinguishing characteristics such as difficulty level and recommended light level.  Frequently, that will be the only distinguishing characteristics in practice, which is somewhat of a bummer.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The hash to use for looking up the variant Activity's definition (DestinyActivityDefinition), where you can find its distinguishing characteristics such as difficulty level and recommended light level.  Frequently, that will be the only distinguishing characteristics in practice, which is somewhat of a bummer.
     order: int  # If you care to do so, render the variants in the order prescribed by this value. When you combine live Milestone data with the definition, the order becomes more useful because you'll be cross-referencing between the definition and live data.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -268,7 +277,7 @@ class DestinyMilestoneRewardEntryDefinition:
     reward_entry_hash: int  # The identifier for this reward entry. Runtime data will refer to reward entries by this hash. Only guaranteed unique within the specific Milestone.
     reward_entry_identifier: str  # The string identifier, if you care about it. Only guaranteed unique within the specific Milestone.
     vendor_hash: t.Optional[
-        int
+        ManifestReference["DestinyVendorDefinition"]
     ] = None  # If this reward is redeemed at a Vendor, this is the hash of the Vendor to go to in order to redeem the reward. Use this hash to look up the DestinyVendorDefinition.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -293,7 +302,9 @@ class DestinyMilestoneVendorDefinition:
     state.
     """
 
-    vendor_hash: int  # The hash of the vendor whose wares should be shown as associated with the Milestone.
+    vendor_hash: ManifestReference[
+        "DestinyVendorDefinition"
+    ]  # The hash of the vendor whose wares should be shown as associated with the Milestone.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -325,7 +336,9 @@ class DestinyMilestoneChallengeActivityDefinition:
     activity_graph_nodes: t.Sequence[
         "DestinyMilestoneChallengeActivityGraphNodeEntry"
     ]  # If the activity and its challenge is visible on any of these nodes, it will be returned.
-    activity_hash: int  # The activity for which this challenge is active.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The activity for which this challenge is active.
     challenges: t.Sequence["DestinyMilestoneChallengeDefinition"]
     phases: t.Sequence[
         "DestinyMilestoneChallengeActivityPhase"
@@ -342,7 +355,9 @@ class DestinyMilestoneChallengeActivityDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeDefinition:
-    challenge_objective_hash: int  # The challenge related to this milestone.
+    challenge_objective_hash: ManifestReference[
+        "DestinyObjectiveDefinition"
+    ]  # The challenge related to this milestone.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -374,6 +389,13 @@ class DestinyMilestoneChallengeActivityPhase:
 
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyItemQuantity,
+)
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyDestinationDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyObjectiveDefinition,
+    DestinyVendorDefinition,
 )
 
 # imported at the end to do not case circular imports for type annotations

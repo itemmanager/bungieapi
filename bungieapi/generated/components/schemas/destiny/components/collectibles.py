@@ -3,13 +3,18 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
 class DestinyCollectiblesComponent:
     collectibles: t.Mapping[str, "DestinyCollectibleComponent"]
-    collection_badges_root_node_hash: int  # The hash for the root presentation node definition of Collection Badges.
-    collection_categories_root_node_hash: int  # The hash for the root presentation node definition of Collection categories.
+    collection_badges_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Collection Badges.
+    collection_categories_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Collection categories.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -36,8 +41,12 @@ class DestinyCollectibleComponent:
 @dt.dataclass(frozen=True)
 class DestinyProfileCollectiblesComponent:
     collectibles: t.Mapping[str, "DestinyCollectibleComponent"]
-    collection_badges_root_node_hash: int  # The hash for the root presentation node definition of Collection Badges.
-    collection_categories_root_node_hash: int  # The hash for the root presentation node definition of Collection categories.
+    collection_badges_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Collection Badges.
+    collection_categories_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Collection categories.
     newness_flagged_collectible_hashes: t.Sequence[
         int
     ]  # The list of collectibles determined by the game as having been "recently" acquired. The game client itself actually controls this data, so I personally question whether anyone will get much use out of this: because we can't edit this value through the API. But in case anyone finds it useful, here it is.
@@ -61,7 +70,11 @@ class DestinyProfileCollectiblesComponent:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyCollectibleState,
+)
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
+    DestinyPresentationNodeDefinition,
 )

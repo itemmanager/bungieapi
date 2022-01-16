@@ -3,20 +3,23 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
 class DestinyEnvironmentLocationMapping:
     activation_source: str  # A hint that the UI uses to figure out how this location is activated by the player.
-    location_hash: int  # The location that is revealed on the director by this mapping.
+    location_hash: ManifestReference[
+        "DestinyLocationDefinition"
+    ]  # The location that is revealed on the director by this mapping.
     activity_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityDefinition"]
     ] = None  # If this is populated, this is the activity you have to be playing in order to see this location appear because of this mapping. (theoretically, a location can have multiple mappings, and some might require you to be in a specific activity when others don't)
     item_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # If this is populated, it is the item that you must possess for this location to be active because of this mapping. (theoretically, a location can have multiple mappings, and some might require an item while others don't)
     objective_hash: t.Optional[
-        int
+        ManifestReference["DestinyObjectiveDefinition"]
     ] = None  # If this is populated, this is an objective related to the location.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -27,3 +30,12 @@ class DestinyEnvironmentLocationMapping:
             "objectiveHash": to_json(self.objective_hash),
             "activityHash": to_json(self.activity_hash),
         }
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyLocationDefinition,
+    DestinyObjectiveDefinition,
+)

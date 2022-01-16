@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 class DestinyActivityModeType(Enum):
@@ -111,7 +112,7 @@ class DestinyHistoricalStatsDefinition:
     unit_type: "UnitType"  # Unit, if any, for the statistic
     weight: int  # Weight assigned to this stat indicating its relative impressiveness.
     medal_tier_hash: t.Optional[
-        int
+        ManifestReference["DestinyMedalTierDefinition"]
     ] = None  # The tier associated with this medal - be it implicitly or explicitly.
     merge_method: t.Optional[int] = None  # Optional icon for the statistic
 
@@ -203,3 +204,9 @@ class PeriodType(Enum):
     DAILY = 1
     ALL_TIME = 2
     ACTIVITY = 3
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyMedalTierDefinition,
+)

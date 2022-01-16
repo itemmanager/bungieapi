@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -124,7 +125,9 @@ class DestinyActivityGraphNodeActivityDefinition:
     but only one is active for the week.
     """
 
-    activity_hash: int  # The activity that will be activated if the user clicks on this node. Controls all activity-related information displayed on the node if it is active (the text shown in the tooltip etc)
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The activity that will be activated if the user clicks on this node. Controls all activity-related information displayed on the node if it is active (the text shown in the tooltip etc)
     node_activity_id: int  # An identifier for this node activity. It is only guaranteed to be unique within the Activity Graph.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -193,7 +196,9 @@ class DestinyActivityGraphDisplayObjectiveDefinition:
     objectives as well as an identifier."""
 
     id: int  # $NOTE $amola 2017-01-19 This field is apparently something that CUI uses to manually wire up objectives to display info. I am unsure how it works.
-    objective_hash: int  # The objective being shown on the map.
+    objective_hash: ManifestReference[
+        "DestinyObjectiveDefinition"
+    ]  # The objective being shown on the map.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -255,6 +260,8 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyGraphNodeState,
 )
 from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyObjectiveDefinition,
     DestinyUnlockExpressionDefinition,
 )
 

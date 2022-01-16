@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -15,7 +16,9 @@ class DestinyItemPlugBase:
     insert_fail_indexes: t.Sequence[
         int
     ]  # If the plug cannot be inserted for some reason, this will have the indexes into the plug item definition's plug.insertionRules property, so you can show the reasons why it can't be inserted. This list will be empty if the plug can be inserted.
-    plug_item_hash: int  # The hash identifier of the DestinyInventoryItemDefinition that represents this plug.
+    plug_item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash identifier of the DestinyInventoryItemDefinition that represents this plug.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -37,7 +40,9 @@ class DestinyItemPlug:
     insert_fail_indexes: t.Sequence[
         int
     ]  # If the plug cannot be inserted for some reason, this will have the indexes into the plug item definition's plug.insertionRules property, so you can show the reasons why it can't be inserted. This list will be empty if the plug can be inserted.
-    plug_item_hash: int  # The hash identifier of the DestinyInventoryItemDefinition that represents this plug.
+    plug_item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash identifier of the DestinyInventoryItemDefinition that represents this plug.
     plug_objectives: t.Sequence[
         "DestinyObjectiveProgress"
     ]  # Sometimes, Plugs may have objectives: these are often used for flavor and display purposes, but they can be used for any arbitrary purpose (both fortunately and unfortunately). Recently (with Season 2) they were expanded in use to be used as the "gating" for whether the plug can be inserted at all. For instance, a Plug might be tracking the number of PVP kills you have made. It will use the parent item's data about that tracking status to determine what to show, and will generally show it using the DestinyObjectiveDefinition's progressDescription property. Refer to the plug's itemHash and objective property for more information if you would like to display even more data.
@@ -54,6 +59,9 @@ class DestinyItemPlug:
 
 
 # imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+)
 from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyObjectiveProgress,
 )

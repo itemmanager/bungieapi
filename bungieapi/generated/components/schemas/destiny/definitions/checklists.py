@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -63,14 +64,16 @@ class DestinyChecklistEntryDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"  # Even if no other associations exist, we will give you *something* for display properties. In cases where we have no associated entities, it may be as simple as a numerical identifier.
     hash: int  # The identifier for this Checklist entry. Guaranteed unique only within this Checklist Definition, and not globally/for all checklists.
     scope: "DestinyScope"  # The scope at which this specific entry can be computed.
-    activity_hash: t.Optional[int] = None
+    activity_hash: t.Optional[ManifestReference["DestinyActivityDefinition"]] = None
     bubble_hash: t.Optional[
         int
     ] = None  # Note that a Bubble's hash doesn't uniquely identify a "top level" entity in Destiny. Only the combination of location and bubble can uniquely identify a place in the world of Destiny: so if bubbleHash is populated, locationHash must too be populated for it to have any meaning. You can use this property if it is populated to look up the DestinyLocationDefinition's associated .locationReleases[].activityBubbleName property.
-    destination_hash: t.Optional[int] = None
-    item_hash: t.Optional[int] = None
-    location_hash: t.Optional[int] = None
-    vendor_hash: t.Optional[int] = None
+    destination_hash: t.Optional[
+        ManifestReference["DestinyDestinationDefinition"]
+    ] = None
+    item_hash: t.Optional[ManifestReference["DestinyInventoryItemDefinition"]] = None
+    location_hash: t.Optional[ManifestReference["DestinyLocationDefinition"]] = None
+    vendor_hash: t.Optional[ManifestReference["DestinyVendorDefinition"]] = None
     vendor_interaction_index: t.Optional[int] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -89,6 +92,13 @@ class DestinyChecklistEntryDefinition:
 
 
 from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyDestinationDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyLocationDefinition,
+    DestinyVendorDefinition,
+)
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402

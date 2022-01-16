@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -14,7 +15,9 @@ class DestinyVendorComponent:
     enabled: bool  # If True, the Vendor is currently accessible.  If False, they may not actually be visible in the world at the moment.
     next_refresh_date: str  # The date when this vendor's inventory will next rotate/refresh. Note that this is distinct from the date ranges that the vendor is visible/available in-game: this field indicates the specific time when the vendor's available items refresh and rotate, regardless of whether the vendor is actually available at that time. Unfortunately, these two values may be (and are, for the case of important vendors like Xur) different. Issue https://github.com/Bungie-net/api/issues/353 is tracking a fix to start providing visibility date ranges where possible in addition to this refresh date, so that all important dates for vendors are available for use.
     progression: "DestinyProgression"  # If the Vendor has a related Reputation, this is the Progression data that represents the character's Reputation level with this Vendor.
-    vendor_hash: int  # The unique identifier for the vendor. Use it to look up their DestinyVendorDefinition.
+    vendor_hash: ManifestReference[
+        "DestinyVendorDefinition"
+    ]  # The unique identifier for the vendor. Use it to look up their DestinyVendorDefinition.
     vendor_location_index: int  # An index into the vendor definition's "locations" property array, indicating which location they are at currently. If -1, then the vendor has no known location (and you may choose not to show them in your UI as a result. I mean, it's your bag honey)
     seasonal_rank: t.Optional[
         int
@@ -91,7 +94,9 @@ class DestinyVendorSaleItemComponent:
     failure_indexes: t.Sequence[
         int
     ]  # Indexes in to the "failureStrings" lookup table in DestinyVendorDefinition for the given Vendor. Gives some more reliable failure information for why you can't purchase an item. It is preferred to use these over requiredUnlocks and unlockStatuses: the latter are provided mostly in case someone can do something interesting with it that I didn't anticipate.
-    item_hash: int  # The hash of the item being sold, as a quick shortcut for looking up the DestinyInventoryItemDefinition of the sale item.
+    item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash of the item being sold, as a quick shortcut for looking up the DestinyInventoryItemDefinition of the sale item.
     item_value_visibility: t.Sequence[
         bool
     ]  # If available, a list that describes which item values (rewards) should be shown (true) or hidden (false).
@@ -111,7 +116,7 @@ class DestinyVendorSaleItemComponent:
         str
     ] = None  # If this item has its own custom date where it may be removed from the Vendor's rotation, this is that date. Note that there's not actually any guarantee that it will go away: it could be chosen again and end up still being in the Vendor's sale items! But this is the next date where that test will occur, and is also the date that the game shows for availability on things like Bounties being sold. So it's the best we can give.
     override_style_item_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # If populated, this is the hash of the item whose icon (and other secondary styles, but *not* the human readable strings) should override whatever icons/styles are on the item being sold. If you don't do this, certain items whose styles are being overridden by socketed items - such as the "Recycle Shader" item - would show whatever their default icon/style is, and it wouldn't be pretty or look accurate.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -139,4 +144,8 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyUnlockStatus,
     DestinyVendorItemState,
     VendorItemStatus,
+)
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+    DestinyVendorDefinition,
 )

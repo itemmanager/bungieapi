@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -13,7 +14,7 @@ class DestinyCollectibleDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
-    item_hash: int
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"]
     parent_node_hashes: t.Sequence[
         int
     ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
@@ -51,8 +52,12 @@ class DestinyCollectibleDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyCollectibleAcquisitionBlock:
-    acquire_material_requirement_hash: t.Optional[int] = None
-    acquire_timestamp_unlock_value_hash: t.Optional[int] = None
+    acquire_material_requirement_hash: t.Optional[
+        ManifestReference["DestinyMaterialRequirementSetDefinition"]
+    ] = None
+    acquire_timestamp_unlock_value_hash: t.Optional[
+        ManifestReference["DestinyUnlockValueDefinition"]
+    ] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -68,7 +73,9 @@ class DestinyCollectibleAcquisitionBlock:
 @dt.dataclass(frozen=True)
 class DestinyCollectibleStateBlock:
     requirements: "DestinyPresentationNodeRequirementsBlock"
-    obscured_override_item_hash: t.Optional[int] = None
+    obscured_override_item_hash: t.Optional[
+        ManifestReference["DestinyInventoryItemDefinition"]
+    ] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -80,6 +87,11 @@ class DestinyCollectibleStateBlock:
 from bungieapi.generated.components.schemas.destiny import DestinyScope  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyPresentationNodeType,
+)
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+    DestinyMaterialRequirementSetDefinition,
+    DestinyUnlockValueDefinition,
 )
 
 # imported at the end to do not case circular imports for type annotations

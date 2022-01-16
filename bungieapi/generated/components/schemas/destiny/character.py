@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -70,7 +71,9 @@ class DestinyItemPeerView:
     dyes: t.Sequence[
         "DyeReference"
     ]  # The list of dyes that have been applied to this item.
-    item_hash: int  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
+    item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash identifier of the item in question. Use it to look up the DestinyInventoryItemDefinition of the item for static rendering data.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -79,5 +82,9 @@ class DestinyItemPeerView:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import DyeReference  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+)

@@ -1,6 +1,16 @@
 import typing as t
 
 
+T = t.TypeVar("T")
+
+
+class ManifestReference(t.Generic[T]):
+    __slots__ = ("hash",)
+
+    def __init__(self, hash: int):
+        self.hash = hash
+
+
 class BitMaskMeta(type):
     def __new__(metacls, cls, bases, classdict, **kwds):
         fields = {}

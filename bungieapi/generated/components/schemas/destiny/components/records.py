@@ -3,12 +3,17 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
 class DestinyRecordsComponent:
-    record_categories_root_node_hash: int  # The hash for the root presentation node definition of Triumph categories.
-    record_seals_root_node_hash: int  # The hash for the root presentation node definition of Triumph Seals.
+    record_categories_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Triumph categories.
+    record_seals_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Triumph Seals.
     records: t.Mapping[str, "DestinyRecordComponent"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -50,12 +55,16 @@ class DestinyProfileRecordsComponent:
     active_score: int  # Your 'active' Triumphs score.
     legacy_score: int  # Your 'legacy' Triumphs score.
     lifetime_score: int  # Your 'lifetime' Triumphs score.
-    record_categories_root_node_hash: int  # The hash for the root presentation node definition of Triumph categories.
-    record_seals_root_node_hash: int  # The hash for the root presentation node definition of Triumph Seals.
+    record_categories_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Triumph categories.
+    record_seals_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Triumph Seals.
     records: t.Mapping[str, "DestinyRecordComponent"]
     score: int  # Your 'active' Triumphs score, maintained for backwards compatibility.
     tracked_record_hash: t.Optional[
-        int
+        ManifestReference["DestinyRecordDefinition"]
     ] = None  # If this profile is tracking a record, this is the hash identifier of the record it is tracking.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -76,8 +85,12 @@ class DestinyProfileRecordsComponent:
 @dt.dataclass(frozen=True)
 class DestinyCharacterRecordsComponent:
     featured_record_hashes: t.Sequence[int]
-    record_categories_root_node_hash: int  # The hash for the root presentation node definition of Triumph categories.
-    record_seals_root_node_hash: int  # The hash for the root presentation node definition of Triumph Seals.
+    record_categories_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Triumph categories.
+    record_seals_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]  # The hash for the root presentation node definition of Triumph Seals.
     records: t.Mapping[str, "DestinyRecordComponent"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -91,9 +104,16 @@ class DestinyCharacterRecordsComponent:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyRecordState,
+)
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
+    DestinyPresentationNodeDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.records import (  # noqa: E402
+    DestinyRecordDefinition,
 )
 from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyObjectiveProgress,

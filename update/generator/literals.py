@@ -31,6 +31,8 @@ def literal_object(t: api.Object, module: t.Sequence[str]) -> str:
 def literal_int(t: api.Integer, module: t.Sequence[str]) -> str:
     if t.enum_reference:
         return literal_bare(t.enum_reference, module)
+    if t.mapped_definition:
+        return f"ManifestReference[{literal_bare(t.mapped_definition, module)}]"
     return "int"
 
 

@@ -29,6 +29,8 @@ def reference_object(object: api.Object) -> t.Iterator[api.Reference]:
 def reference_integer(integer: api.Integer) -> t.Iterator[api.Reference]:
     if integer.enum_reference:
         yield integer.enum_reference
+    if integer.mapped_definition:
+        yield integer.mapped_definition
 
 
 @references.register

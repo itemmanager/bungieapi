@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -91,30 +92,38 @@ class CoreSetting:
 
 @dt.dataclass(frozen=True)
 class Destiny2CoreSettings:
-    active_seals_root_node_hash: int
-    active_triumphs_root_node_hash: int
+    active_seals_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
+    active_triumphs_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]
     ammo_type_heavy_icon: str
     ammo_type_primary_icon: str
     ammo_type_special_icon: str
-    badges_root_node: int
-    collection_root_node: int
+    badges_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
+    collection_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
     current_rank_progression_hashes: t.Sequence[int]
-    current_seasonal_artifact_hash: int
-    exotic_catalysts_root_node_hash: int
+    current_seasonal_artifact_hash: ManifestReference["DestinyVendorDefinition"]
+    exotic_catalysts_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]
     future_season_hashes: t.Sequence[int]
     insert_plug_free_blocked_socket_type_hashes: t.Sequence[int]
     insert_plug_free_protected_plug_item_hashes: t.Sequence[int]
-    legacy_seals_root_node_hash: int
-    legacy_triumphs_root_node_hash: int
-    lore_root_node_hash: int
-    medals_root_node: int
-    medals_root_node_hash: int
-    metrics_root_node: int
+    legacy_seals_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
+    legacy_triumphs_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]
+    lore_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
+    medals_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
+    medals_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
+    metrics_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
     past_season_hashes: t.Sequence[int]
-    records_root_node: int
+    records_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
     undiscovered_collectible_image: str
-    current_season_hash: t.Optional[int] = None
-    seasonal_challenges_presentation_node_hash: t.Optional[int] = None
+    current_season_hash: t.Optional[ManifestReference["DestinySeasonDefinition"]] = None
+    seasonal_challenges_presentation_node_hash: t.Optional[
+        ManifestReference["DestinyPresentationNodeDefinition"]
+    ] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -156,6 +165,16 @@ class Destiny2CoreSettings:
             "pastSeasonHashes": to_json(self.past_season_hashes),
         }
 
+
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyVendorDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
+    DestinyPresentationNodeDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.seasons import (  # noqa: E402
+    DestinySeasonDefinition,
+)
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.user import EmailSettings  # noqa: E402

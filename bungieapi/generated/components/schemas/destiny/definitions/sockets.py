@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -30,7 +31,7 @@ class DestinySocketTypeDefinition:
         "DestinyPlugWhitelistEntryDefinition"
     ]  # A list of Plug "Categories" that are allowed to be plugged into sockets of this type. These should be compared against a given plug item's DestinyInventoryItemDefinition.plug.plugCategoryHash, which indicates the plug item's category. If the plug's category matches any whitelisted plug, or if the whitelist is empty, it is allowed to be inserted.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    socket_category_hash: int
+    socket_category_hash: ManifestReference["DestinySocketCategoryDefinition"]
     visibility: "DestinySocketVisibility"  # Sometimes a socket isn't visible. These are some of the conditions under which sockets of this type are not visible. Unfortunately, the truth of visibility is much, much more complex. Best to rely on the live data for whether the socket is visible and enabled.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -95,7 +96,7 @@ class DestinyPlugWhitelistEntryDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinySocketTypeScalarMaterialRequirementEntry:
-    currency_item_hash: int
+    currency_item_hash: ManifestReference["DestinyInventoryItemDefinition"]
     scalar_value: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -173,6 +174,7 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     SocketTypeActionType,
 )
 from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
     DestinyItemSocketEntryPlugItemRandomizedDefinition,
 )
 
