@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -41,7 +42,7 @@ class DestinyProfileTransitoryComponent:
         "DestinyProfileTransitoryTrackingEntry"
     ]  # Information about tracked entities.
     last_orbited_destination_hash: t.Optional[
-        int
+        ManifestReference["DestinyDestinationDefinition"]
     ] = None  # The hash identifier for the DestinyDestinationDefinition of the last location you were orbiting when in orbit.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -71,7 +72,9 @@ class DestinyProfileTransitoryPartyMember:
     """
 
     display_name: str  # The player's last known display name.
-    emblem_hash: int  # The identifier for the DestinyInventoryItemDefinition of the player's emblem.
+    emblem_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The identifier for the DestinyInventoryItemDefinition of the player's emblem.
     membership_id: int  # The Membership ID that matches the party member.
     status: "DestinyPartyMemberStates"  # A Flags Enumeration value indicating the states that the player is in relevant to being on a fireteam.
 
@@ -146,19 +149,19 @@ class DestinyProfileTransitoryTrackingEntry:
     """
 
     activity_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityDefinition"]
     ] = None  # OPTIONAL - If this is tracking the status of a DestinyActivityDefinition, this is the identifier for that activity.
     item_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # OPTIONAL - If this is tracking the status of a DestinyInventoryItemDefinition, this is the identifier for that item.
     location_hash: t.Optional[
-        int
+        ManifestReference["DestinyLocationDefinition"]
     ] = None  # OPTIONAL - If this is tracking a DestinyLocationDefinition, this is the identifier for that location.
     objective_hash: t.Optional[
-        int
+        ManifestReference["DestinyObjectiveDefinition"]
     ] = None  # OPTIONAL - If this is tracking the status of a DestinyObjectiveDefinition, this is the identifier for that objective.
     questline_item_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # OPTIONAL - If this is tracking the status of a quest, this is the identifier for the DestinyInventoryItemDefinition that containst that questline data.
     tracked_date: t.Optional[
         str
@@ -184,4 +187,11 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.artifacts import (  # noqa: E402
     DestinyArtifactProfileScoped,
+)
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyDestinationDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyLocationDefinition,
+    DestinyObjectiveDefinition,
 )

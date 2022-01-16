@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -15,7 +16,7 @@ class DestinyArtifactProfileScoped:
     can be used for overview information.
     """
 
-    artifact_hash: int
+    artifact_hash: ManifestReference["DestinyArtifactDefinition"]
     point_progression: "DestinyProgression"
     points_acquired: int
     power_bonus: int
@@ -33,7 +34,7 @@ class DestinyArtifactProfileScoped:
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactCharacterScoped:
-    artifact_hash: int
+    artifact_hash: ManifestReference["DestinyArtifactDefinition"]
     points_used: int
     reset_count: int
     tiers: t.Sequence["DestinyArtifactTier"]
@@ -66,7 +67,7 @@ class DestinyArtifactTier:
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierItem:
     is_active: bool
-    item_hash: int
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -75,7 +76,14 @@ class DestinyArtifactTierItem:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyProgression,
+)
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+)
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions.artifacts import (  # noqa: E402
+    DestinyArtifactDefinition,
 )

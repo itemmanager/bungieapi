@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -92,10 +93,10 @@ class DestinyPresentationNodeDefinition:
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
     completion_record_hash: t.Optional[
-        int
+        ManifestReference["DestinyRecordDefinition"]
     ] = None  # If this presentation node has an associated "Record" that you can accomplish for completing its children, this is the identifier of that Record.
     objective_hash: t.Optional[
-        int
+        ManifestReference["DestinyObjectiveDefinition"]
     ] = None  # If this presentation node shows a related objective (for instance, if it tracks the progress of its children), the objective being tracked is indicated here.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -152,7 +153,7 @@ class DestinyPresentationNodeChildrenBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeChildEntry:
-    presentation_node_hash: int
+    presentation_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -162,7 +163,7 @@ class DestinyPresentationNodeChildEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeCollectibleChildEntry:
-    collectible_hash: int
+    collectible_hash: ManifestReference["DestinyCollectibleDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -206,7 +207,7 @@ class DestinyPresentationChildBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeRecordChildEntry:
-    record_hash: int
+    record_hash: ManifestReference["DestinyRecordDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -216,7 +217,7 @@ class DestinyPresentationNodeRecordChildEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeMetricChildEntry:
-    metric_hash: int
+    metric_hash: ManifestReference["DestinyMetricDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -231,6 +232,18 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyPresentationNodeType,
     DestinyPresentationScreenStyle,
 )
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyObjectiveDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.collectibles import (  # noqa: E402
+    DestinyCollectibleDefinition,
+)
 from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.metrics import (  # noqa: E402
+    DestinyMetricDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.records import (  # noqa: E402
+    DestinyRecordDefinition,
 )

@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -33,7 +34,9 @@ class DestinyPostGameCarnageReportData:
 class DestinyHistoricalStatsActivity:
     """Summary information about the activity that was played."""
 
-    director_activity_hash: int  # The unique hash identifier of the DestinyActivityDefinition that was played.
+    director_activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The unique hash identifier of the DestinyActivityDefinition that was played.
     instance_id: int  # The unique identifier for this *specific* match that was played. This value can be used to get additional data about this activity such as who else was playing via the GetPostGameCarnageReport endpoint.
     is_private: bool  # Whether or not the match was a private match.
     membership_type: "BungieMembershipType"  # The Membership Type indicating the platform on which this match was played.
@@ -41,7 +44,9 @@ class DestinyHistoricalStatsActivity:
     modes: t.Sequence[
         "DestinyActivityModeType"
     ]  # The list of all Activity Modes to which this activity applies, including aggregates. This will let you see, for example, whether the activity was both Clash and part of the Trials of the Nine event.
-    reference_id: int  # The unique hash identifier of the DestinyActivityDefinition that was played. If I had this to do over, it'd be named activityHash. Too late now.
+    reference_id: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The unique hash identifier of the DestinyActivityDefinition that was played. If I had this to do over, it'd be named activityHash. Too late now.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -116,12 +121,14 @@ class DestinyPlayer:
     character_level: int  # Level of the character if available. Zero if it is not available.
     clan_name: str  # Current clan name for the player. This value may be null or an empty string if the user does not have a clan.
     clan_tag: str  # Current clan tag for the player. This value may be null or an empty string if the user does not have a clan.
-    class_hash: int
+    class_hash: ManifestReference["DestinyClassDefinition"]
     destiny_user_info: "UserInfoCard"  # Details about the player as they are known in game (platform display name, Destiny emblem)
-    emblem_hash: int  # If we know the emblem's hash, this can be used to look up the player's emblem at the time of a match when receiving PGCR data, or otherwise their currently equipped emblem (if we are able to obtain it).
-    gender_hash: int
+    emblem_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # If we know the emblem's hash, this can be used to look up the player's emblem at the time of a match when receiving PGCR data, or otherwise their currently equipped emblem (if we are able to obtain it).
+    gender_hash: ManifestReference["DestinyGenderDefinition"]
     light_level: int  # Light Level of the character if available. Zero if it is not available.
-    race_hash: int
+    race_hash: ManifestReference["DestinyRaceDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -157,7 +164,9 @@ class DestinyPostGameCarnageReportExtendedData:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStats:
-    reference_id: int  # The hash ID of the item definition that describes the weapon.
+    reference_id: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash ID of the item definition that describes the weapon.
     values: t.Mapping[
         str, "DestinyHistoricalStatsValue"
     ]  # Collection of stats for the period.
@@ -372,7 +381,9 @@ class DestinyAggregateActivityResults:
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityStats:
-    activity_hash: int  # Hash ID that can be looked up in the DestinyActivityTable.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # Hash ID that can be looked up in the DestinyActivityTable.
     values: t.Mapping[
         str, "DestinyHistoricalStatsValue"
     ]  # Collection of stats for the player in this activity.
@@ -387,6 +398,13 @@ class DestinyAggregateActivityStats:
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyClassDefinition,
+    DestinyGenderDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyRaceDefinition,
+)
 from bungieapi.generated.components.schemas.destiny.historical_stats.definitions import (  # noqa: E402
     DestinyActivityModeType,
 )

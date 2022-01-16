@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -15,14 +16,20 @@ class DestinyCharacterComponent:
 
     base_character_level: int  # The "base" level of your character, not accounting for any light level.
     character_id: int  # The unique identifier for the character.
-    class_hash: int  # Use this hash to look up the character's DestinyClassDefinition.
+    class_hash: ManifestReference[
+        "DestinyClassDefinition"
+    ]  # Use this hash to look up the character's DestinyClassDefinition.
     class_type: "DestinyClass"  # Mostly for historical purposes at this point, this is an enumeration for the character's class. It'll be preferable in the general case to look up the related definition: but for some people this was too convenient to remove.
     date_last_played: str  # The last date that the user played Destiny.
     emblem_background_path: str  # A shortcut path to the user's currently equipped emblem background image. If you're just showing summary info for a user, this is more convenient than examining their equipped emblem and looking up the definition.
     emblem_color: "DestinyColor"  # A shortcut for getting the background color of the user's currently equipped emblem without having to do a DestinyInventoryItemDefinition lookup.
-    emblem_hash: int  # The hash of the currently equipped emblem for the user. Can be used to look up the DestinyInventoryItemDefinition.
+    emblem_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash of the currently equipped emblem for the user. Can be used to look up the DestinyInventoryItemDefinition.
     emblem_path: str  # A shortcut path to the user's currently equipped emblem image. If you're just showing summary info for a user, this is more convenient than examining their equipped emblem and looking up the definition.
-    gender_hash: int  # Use this hash to look up the character's DestinyGenderDefinition.
+    gender_hash: ManifestReference[
+        "DestinyGenderDefinition"
+    ]  # Use this hash to look up the character's DestinyGenderDefinition.
     gender_type: "DestinyGender"  # Mostly for historical purposes at this point, this is an enumeration for the character's Gender. It'll be preferable in the general case to look up the related definition: but for some people this was too convenient to remove. And yeah, it's an enumeration and not a boolean. Fight me.
     level_progression: "DestinyProgression"  # The progression that indicates your character's level. Not their light level, but their character level: you know, the thing you max out a couple hours in and then ignore for the sake of light level.
     light: int  # The user's calculated "Light Level". Light level is an indicator of your power that mostly matters in the end game, once you've reached the maximum character level: it's a level that's dependent on the average Attack/Defense power of your items.
@@ -31,13 +38,15 @@ class DestinyCharacterComponent:
     minutes_played_this_session: int  # If the user is currently playing, this is how long they've been playing.
     minutes_played_total: int  # If this value is 525,600, then they played Destiny for a year. Or they're a very dedicated Rent fan. Note that this includes idle time, not just time spent actually in activities shooting things.
     percent_to_next_level: float  # A number between 0 and 100, indicating the whole and fractional % remaining to get to the next character level.
-    race_hash: int  # Use this hash to look up the character's DestinyRaceDefinition.
+    race_hash: ManifestReference[
+        "DestinyRaceDefinition"
+    ]  # Use this hash to look up the character's DestinyRaceDefinition.
     race_type: "DestinyRace"  # Mostly for historical purposes at this point, this is an enumeration for the character's race. It'll be preferable in the general case to look up the related definition: but for some people this was too convenient to remove.
     stats: t.Mapping[
         str, int
     ]  # Your character's stats, such as Agility, Resilience, etc... *not* historical stats. You'll have to call a different endpoint for those.
     title_record_hash: t.Optional[
-        int
+        ManifestReference["DestinyRecordDefinition"]
     ] = None  # If this Character has a title assigned to it, this is the identifier of the DestinyRecordDefinition that has that title information.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -146,8 +155,12 @@ class DestinyCharacterActivitiesComponent:
     available_activities: t.Sequence[
         "DestinyActivity"
     ]  # The list of activities that the user can play.
-    current_activity_hash: int  # If the user is in an activity, this will be the hash of the Activity being played. Note that you must combine this info with currentActivityModeHash to get a real picture of what the user is doing right now. For instance, PVP "Activities" are just maps: it's the ActivityMode that determines what type of PVP game they're playing.
-    current_activity_mode_hash: int  # If the user is in an activity, this will be the hash of the activity mode being played. Combine with currentActivityHash to give a person a full picture of what they're doing right now.
+    current_activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # If the user is in an activity, this will be the hash of the Activity being played. Note that you must combine this info with currentActivityModeHash to get a real picture of what the user is doing right now. For instance, PVP "Activities" are just maps: it's the ActivityMode that determines what type of PVP game they're playing.
+    current_activity_mode_hash: ManifestReference[
+        "DestinyActivityModeDefinition"
+    ]  # If the user is in an activity, this will be the hash of the activity mode being played. Combine with currentActivityHash to give a person a full picture of what they're doing right now.
     current_activity_mode_hashes: t.Sequence[
         int
     ]  # If the user is in an activity, this will be the hashes of the DestinyActivityModeDefinition being played. Combine with currentActivityHash to give a person a full picture of what they're doing right now.
@@ -155,12 +168,14 @@ class DestinyCharacterActivitiesComponent:
         "DestinyActivityModeType"
     ]  # All Activity Modes that apply to the current activity being played, in enum form.
     date_activity_started: str  # The last date that the user started playing an activity.
-    last_completed_story_hash: int  # This will have the activity hash of the last completed story/campaign mission, in case you care about that.
+    last_completed_story_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # This will have the activity hash of the last completed story/campaign mission, in case you care about that.
     current_activity_mode_type: t.Optional[
         int
     ] = None  # And the current activity's most specific mode type, if it can be found.
     current_playlist_activity_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityDefinition"]
     ] = None  # If the user is in a playlist, this is the hash identifier for the playlist that they chose.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -193,6 +208,17 @@ from bungieapi.generated.components.schemas.destiny.artifacts import (  # noqa: 
 from bungieapi.generated.components.schemas.destiny.character import (  # noqa: E402
     DestinyCharacterCustomization,
     DestinyCharacterPeerView,
+)
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyActivityModeDefinition,
+    DestinyClassDefinition,
+    DestinyGenderDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyRaceDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.records import (  # noqa: E402
+    DestinyRecordDefinition,
 )
 from bungieapi.generated.components.schemas.destiny.entities.items import (  # noqa: E402
     DestinyItemPerksComponent,

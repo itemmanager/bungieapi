@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -16,7 +17,9 @@ class DestinyProgressionLevelRequirementDefinition:
 
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
-    progression_hash: int  # The progression whose level should be used to determine the level requirement. Look up the DestinyProgressionDefinition with this hash for more information about the progression in question.
+    progression_hash: ManifestReference[
+        "DestinyProgressionDefinition"
+    ]  # The progression whose level should be used to determine the level requirement. Look up the DestinyProgressionDefinition with this hash for more information about the progression in question.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
     requirement_curve: t.Sequence[
         "InterpolationPointFloat"
@@ -31,6 +34,10 @@ class DestinyProgressionLevelRequirementDefinition:
             "redacted": to_json(self.redacted),
         }
 
+
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyProgressionDefinition,
+)
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.interpolation import (  # noqa: E402

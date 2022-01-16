@@ -4,7 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
-from bungieapi.types import BitMask
+from bungieapi.types import BitMask, ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -24,7 +24,9 @@ class DestinyProgression:
     level_cap: int  # This is the maximum possible level you can achieve for this progression (for example, the maximum character level obtainable)
     next_level_at: int  # The total amount of progression (i.e. "Experience") needed in order to reach the next level.
     progress_to_next_level: int  # The amount of progression (i.e. "Experience") needed to reach the next level of this Progression. Jeez, progression is such an overloaded word.
-    progression_hash: int  # The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data.
+    progression_hash: ManifestReference[
+        "DestinyProgressionDefinition"
+    ]  # The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data.
     reward_item_states: t.Sequence[
         "DestinyProgressionRewardItemState"
     ]  # Information about historical rewards for this progression, if there is any data for it.
@@ -119,7 +121,9 @@ class DestinyItemQuantity:
     """
 
     has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
-    item_hash: int  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
+    item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
     quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
     item_instance_id: t.Optional[
         int
@@ -919,7 +923,9 @@ class DestinyActivity:
     picture of the Activity.
     """
 
-    activity_hash: int  # The hash identifier of the Activity. Use this to look up the DestinyActivityDefinition of the activity.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The hash identifier of the Activity. Use this to look up the DestinyActivityDefinition of the activity.
     boolean_activity_options: t.Mapping[
         str, bool
     ]  # The set of activity options for this activity, keyed by an identifier that's unique for this activity (not guaranteed to be unique between or across all activities, though should be unique for every *variant* of a given *conceptual* activity: for instance, the original D2 Raid has many variant DestinyActivityDefinitions. While other activities could potentially have the same option hashes, for any given D2 base Raid variant the hash will be unique). As a concrete example of this data, the hashes you get for Raids will correspond to the currently active "Challenge Mode". We don't have any human readable information for these, but saavy 3rd party app users could manually associate the key (a hash identifier for the "option" that is enabled/disabled) and the value (whether it's enabled or disabled presently) On our side, we don't necessarily even know what these are used for (the game designers know, but we don't), and we have no human readable data for them. In order to use them, you will have to do some experimentation.
@@ -983,7 +989,9 @@ class DestinyStat:
     """Represents a stat on an item *or* Character (NOT a Historical Stat, but
     a physical attribute stat like Attack, Defense etc...)"""
 
-    stat_hash: int  # The hash identifier for the Stat. Use it to look up the DestinyStatDefinition for static data about the stat.
+    stat_hash: ManifestReference[
+        "DestinyStatDefinition"
+    ]  # The hash identifier for the Stat. Use it to look up the DestinyStatDefinition for static data about the stat.
     value: int  # The current value of the Stat.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -1137,7 +1145,9 @@ class DestinyUnlockStatus:
     """
 
     is_set: bool  # Whether the unlock flag is set.
-    unlock_hash: int  # The hash identifier for the Unlock Flag. Use to lookup DestinyUnlockDefinition for static data. Not all unlocks have human readable data - in fact, most don't. But when they do, it can be very useful to show. Even if they don't have human readable data, you might be able to infer the meaning of an unlock flag with a bit of experimentation...
+    unlock_hash: ManifestReference[
+        "DestinyUnlockDefinition"
+    ]  # The hash identifier for the Unlock Flag. Use to lookup DestinyUnlockDefinition for static data. Not all unlocks have human readable data - in fact, most don't. But when they do, it can be very useful to show. Even if they don't have human readable data, you might be able to infer the meaning of an unlock flag with a bit of experimentation...
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1207,12 +1217,18 @@ class DestinyEquipItemResult:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.challenges import (  # noqa: E402
     DestinyChallengeStatus,
 )
+
+# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyInventoryItemDefinition,
     DestinyMaterialRequirement,
+    DestinyProgressionDefinition,
+    DestinyStatDefinition,
+    DestinyUnlockDefinition,
 )
 from bungieapi.generated.components.schemas.exceptions import (  # noqa: E402
     PlatformErrorCodes,

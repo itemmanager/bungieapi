@@ -20,6 +20,17 @@ async def test_can_get_manifest(client: Client):
 
 
 @pytest.mark.asyncio
+async def test_can_get_historical_stats_definition(client: Client):
+    async with client as root:
+        response = await root.destiny2.get_historical_stats_definition()
+        assert any(
+            medal_stat.medal_tier_hash.hash
+            for medal_stat in response.response.values()
+            if medal_stat.medal_tier_hash
+        )
+
+
+@pytest.mark.asyncio
 async def test_can_search_by_player_name(client: Client):
     async with client as root:
         result = await root.destiny2.search_destiny_player_by_bungie_name(

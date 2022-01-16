@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -16,7 +17,7 @@ class DestinyMetricDefinition:
     ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
     presentation_node_type: "DestinyPresentationNodeType"
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    tracking_objective_hash: int
+    tracking_objective_hash: ManifestReference["DestinyObjectiveDefinition"]
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
 
@@ -37,6 +38,9 @@ class DestinyMetricDefinition:
 
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyPresentationNodeType,
+)
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyObjectiveDefinition,
 )
 
 # imported at the end to do not case circular imports for type annotations

@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -18,12 +19,22 @@ class DestinySeasonDefinition:
     preview: "DestinySeasonPreviewDefinition"  # Optional - Defines the promotional text, images, and links to preview this season.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
     season_number: int
-    artifact_item_hash: t.Optional[int] = None
+    artifact_item_hash: t.Optional[
+        ManifestReference["DestinyInventoryItemDefinition"]
+    ] = None
     end_date: t.Optional[str] = None
-    seal_presentation_node_hash: t.Optional[int] = None
-    season_pass_hash: t.Optional[int] = None
-    season_pass_progression_hash: t.Optional[int] = None
-    seasonal_challenges_presentation_node_hash: t.Optional[int] = None
+    seal_presentation_node_hash: t.Optional[
+        ManifestReference["DestinyPresentationNodeDefinition"]
+    ] = None
+    season_pass_hash: t.Optional[
+        ManifestReference["DestinySeasonPassDefinition"]
+    ] = None
+    season_pass_progression_hash: t.Optional[
+        ManifestReference["DestinyProgressionDefinition"]
+    ] = None
+    seasonal_challenges_presentation_node_hash: t.Optional[
+        ManifestReference["DestinyPresentationNodeDefinition"]
+    ] = None
     start_date: t.Optional[str] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -88,9 +99,13 @@ class DestinySeasonPassDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
-    prestige_progression_hash: int  # I know what you're thinking, but I promise we're not going to duplicate and drown you. Instead, we're giving you sweet, sweet power bonuses.  Prestige progression is further progression that you can make on the Season pass after you gain max ranks, that will ultimately increase your power/light level over the theoretical limit.
+    prestige_progression_hash: ManifestReference[
+        "DestinyProgressionDefinition"
+    ]  # I know what you're thinking, but I promise we're not going to duplicate and drown you. Instead, we're giving you sweet, sweet power bonuses.  Prestige progression is further progression that you can make on the Season pass after you gain max ranks, that will ultimately increase your power/light level over the theoretical limit.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    reward_progression_hash: int  # This is the progression definition related to the progression for the initial levels 1-100 that provide item rewards for the Season pass. Further experience after you reach the limit is provided in the "Prestige" progression referred to by prestigeProgressionHash.
+    reward_progression_hash: ManifestReference[
+        "DestinyProgressionDefinition"
+    ]  # This is the progression definition related to the progression for the initial levels 1-100 that provide item rewards for the Season pass. Further experience after you reach the limit is provided in the "Prestige" progression referred to by prestigeProgressionHash.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -103,7 +118,15 @@ class DestinySeasonPassDefinition:
         }
 
 
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+    DestinyProgressionDefinition,
+)
+
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
+    DestinyPresentationNodeDefinition,
 )

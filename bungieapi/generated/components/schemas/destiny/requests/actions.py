@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -46,7 +47,7 @@ class DestinyItemActionRequest:
 class DestinyPostmasterTransferRequest:
     character_id: int
     item_id: int  # The instance ID of the item for this action request.
-    item_reference_hash: int
+    item_reference_hash: ManifestReference["DestinyInventoryItemDefinition"]
     membership_type: "BungieMembershipType"
     stack_size: int
 
@@ -162,3 +163,6 @@ class DestinyInsertPlugsFreeActionRequest:
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+)

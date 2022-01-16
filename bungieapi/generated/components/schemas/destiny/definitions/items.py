@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -101,13 +102,17 @@ class DestinyItemPlugDefinition:
 
     alternate_plug_style: "PlugUiStyles"  # The alternate plug of the plug: only applies when the item is in states that only the server can know about and control, unfortunately. See AlternateUiPlugLabel for the related label info.
     alternate_ui_plug_label: str  # If the plug meets certain state requirements, it may have an alternative label applied to it. This is the alternative label that will be applied in such a situation.
-    enabled_material_requirement_hash: int  # It's not enough for the plug to be inserted. It has to be enabled as well. For it to be enabled, it may require materials. This is the hash identifier for the DestinyMaterialRequirementSetDefinition for those requirements, if there is one.
+    enabled_material_requirement_hash: ManifestReference[
+        "DestinyMaterialRequirementSetDefinition"
+    ]  # It's not enough for the plug to be inserted. It has to be enabled as well. For it to be enabled, it may require materials. This is the hash identifier for the DestinyMaterialRequirementSetDefinition for those requirements, if there is one.
     enabled_rules: t.Sequence[
         "DestinyPlugRuleDefinition"
     ]  # The rules around whether the plug, once inserted, is enabled and providing its benefits. The live data DestinyItemPlugComponent.enableFailIndexes will be an index into this array, so you can pull out the failure strings appropriate for the user.
     energy_capacity: "DestinyEnergyCapacityEntry"  # IF not null, this plug provides Energy capacity to the item in which it is socketed. In Armor 2.0 for example, is implemented in a similar way to Masterworks, where visually it's a single area of the UI being clicked on to "Upgrade" to higher energy levels, but it's actually socketing new plugs.
     energy_cost: "DestinyEnergyCostEntry"  # IF not null, this plug has an energy cost. This contains the details of that cost.
-    insertion_material_requirement_hash: int  # If inserting this plug requires materials, this is the hash identifier for looking up the DestinyMaterialRequirementSetDefinition for those requirements.
+    insertion_material_requirement_hash: ManifestReference[
+        "DestinyMaterialRequirementSetDefinition"
+    ]  # If inserting this plug requires materials, this is the hash identifier for looking up the DestinyMaterialRequirementSetDefinition for those requirements.
     insertion_rules: t.Sequence[
         "DestinyPlugRuleDefinition"
     ]  # The rules around when this plug can be inserted into a socket, aside from the socket's individual restrictions. The live data DestinyItemPlugComponent.insertFailIndexes will be an index into this array, so you can pull out the failure strings appropriate for the user.
@@ -118,7 +123,9 @@ class DestinyItemPlugDefinition:
     plug_category_hash: int  # The hash for the plugCategoryIdentifier. You can use this instead if you wish: I put both in the definition for debugging purposes.
     plug_category_identifier: str  # The string identifier for the plug's category. Use the socket's DestinySocketTypeDefinition.plugWhitelist to determine whether this plug can be inserted into the socket.
     plug_style: "PlugUiStyles"
-    preview_item_override_hash: int  # In the game, if you're inspecting a plug item directly, this will be the item shown with the plug attached. Look up the DestinyInventoryItemDefinition for this hash for the item.
+    preview_item_override_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # In the game, if you're inspecting a plug item directly, this will be the item shown with the plug attached. Look up the DestinyInventoryItemDefinition for this hash for the item.
     ui_plug_label: str  # Plugs can have arbitrary, UI-defined identifiers that the UI designers use to determine the style applied to plugs. Unfortunately, we have neither a definitive list of these labels nor advance warning of when new labels might be applied or how that relates to how they get rendered. If you want to, you can refer to known labels to change your own styles: but know that new ones can be created arbitrarily, and we have no way of associating the labels with any specific UI style guidance... you'll have to piece that together on your end. Or do what we do, and just show plugs more generically, without specialized styles.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -190,7 +197,9 @@ class DestinyEnergyCapacityEntry:
 
     capacity_value: int  # How much energy capacity this plug provides.
     energy_type: "DestinyEnergyType"  # The Energy Type for this energy capacity, in enum form for easy use.
-    energy_type_hash: int  # Energy provided by a plug is always of a specific type - this is the hash identifier for the energy type for which it provides Capacity.
+    energy_type_hash: ManifestReference[
+        "DestinyEnergyTypeDefinition"
+    ]  # Energy provided by a plug is always of a specific type - this is the hash identifier for the energy type for which it provides Capacity.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -211,7 +220,9 @@ class DestinyEnergyCostEntry:
 
     energy_cost: int  # The Energy cost for inserting this plug.
     energy_type: "DestinyEnergyType"  # The type of energy that this plug costs, in enum form.
-    energy_type_hash: int  # The type of energy that this plug costs, as a reference to the DestinyEnergyTypeDefinition of the energy type.
+    energy_type_hash: ManifestReference[
+        "DestinyEnergyTypeDefinition"
+    ]  # The type of energy that this plug costs, as a reference to the DestinyEnergyTypeDefinition of the energy type.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -226,8 +237,15 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyEnergyType,
     PlugAvailabilityMode,
 )
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+    DestinyMaterialRequirementSetDefinition,
+)
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.energy_types import (  # noqa: E402
+    DestinyEnergyTypeDefinition,
 )

@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -22,7 +23,9 @@ class DestinyMilestone:
     available_quests: t.Sequence[
         "DestinyMilestoneQuest"
     ]  # Indicates what quests are available for this Milestone. Usually this will be only a single Quest, but some quests have multiple available that you can choose from at any given time. All possible quests for a milestone can be found in the DestinyMilestoneDefinition, but they must be combined with this Live data to determine which one(s) are actually active right now. It is possible for Milestones to not have any quests.
-    milestone_hash: int  # The unique identifier for the Milestone. Use it to look up the DestinyMilestoneDefinition, so you can combine the other data in this contract with static definition data.
+    milestone_hash: ManifestReference[
+        "DestinyMilestoneDefinition"
+    ]  # The unique identifier for the Milestone. Use it to look up the DestinyMilestoneDefinition, so you can combine the other data in this contract with static definition data.
     order: int  # Used for ordering milestones in a display to match how we order them in BNet. May pull from static data, or possibly in the future from dynamic information.
     rewards: t.Sequence[
         "DestinyMilestoneRewardCategory"
@@ -67,7 +70,9 @@ class DestinyMilestoneQuest:
     challenges: t.Sequence[
         "DestinyChallengeStatus"
     ]  # The activities referred to by this quest can have many associated challenges. They are all contained here, with activityHashes so that you can associate them with the specific activity variants in which they can be found. In retrospect, I probably should have put these under the specific Activity Variants, but it's too late to change it now. Theoretically, a quest without Activities can still have Challenges, which is why this is on a higher level than activity/variants, but it probably should have been in both places. That may come as a later revision.
-    quest_item_hash: int  # Quests are defined as Items in content. As such, this is the hash identifier of the DestinyInventoryItemDefinition that represents this quest. It will have pointers to all of the steps in the quest, and display information for the quest (title, description, icon etc) Individual steps will be referred to in the Quest item's DestinyInventoryItemDefinition.setData property, and themselves are Items with their own renderable data.
+    quest_item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # Quests are defined as Items in content. As such, this is the hash identifier of the DestinyInventoryItemDefinition that represents this quest. It will have pointers to all of the steps in the quest, and display information for the quest (title, description, icon etc) Individual steps will be referred to in the Quest item's DestinyInventoryItemDefinition.setData property, and themselves are Items with their own renderable data.
     status: "DestinyQuestStatus"  # The current status of the quest for the character making the request.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -89,7 +94,9 @@ class DestinyMilestoneActivity:
     think you get the point)
     """
 
-    activity_hash: int  # The hash of an arbitrarily chosen variant of this activity. We'll go ahead and call that the "canonical" activity, because if you're using this value you should only use it for properties that are common across the variants: things like the name of the activity, it's location, etc... Use this hash to look up the DestinyActivityDefinition of this activity for rendering data.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The hash of an arbitrarily chosen variant of this activity. We'll go ahead and call that the "canonical" activity, because if you're using this value you should only use it for properties that are common across the variants: things like the name of the activity, it's location, etc... Use this hash to look up the DestinyActivityDefinition of this activity for rendering data.
     modifier_hashes: t.Sequence[
         int
     ]  # If the activity has modifiers, this will be the list of modifiers that all variants have in common. Perform lookups against DestinyActivityModifierDefinition which defines the modifier being applied to get at the modifier data. Note that, in the DestiyActivityDefinition, you will see many more modifiers than this being referred to: those are all *possible* modifiers for the activity, not the active ones. Use only the active ones to match what's really live.
@@ -97,7 +104,7 @@ class DestinyMilestoneActivity:
         "DestinyMilestoneActivityVariant"
     ]  # If you want more than just name/location/etc... you're going to have to dig into and show the variants of the conceptual activity. These will differ in seemingly arbitrary ways, like difficulty level and modifiers applied. Show it in whatever way tickles your fancy.
     activity_mode_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityModeDefinition"]
     ] = None  # The hash identifier of the most specific Activity Mode under which this activity is played. This is useful for situations where the activity in question is - for instance - a PVP map, but it's not clear what mode the PVP map is being played under. If it's a playlist, this will be less specific: but hopefully useful in some way.
     activity_mode_type: t.Optional[
         int
@@ -118,10 +125,12 @@ class DestinyMilestoneActivityVariant:
     """Represents custom data that we know about an individual variant of an
     activity."""
 
-    activity_hash: int  # The hash for the specific variant of the activity related to this milestone. You can pull more detailed static info from the DestinyActivityDefinition, such as difficulty level.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The hash for the specific variant of the activity related to this milestone. You can pull more detailed static info from the DestinyActivityDefinition, such as difficulty level.
     completion_status: "DestinyMilestoneActivityCompletionStatus"  # An OPTIONAL component: if it makes sense to talk about this activity variant in terms of whether or not it has been completed or what progress you have made in it, this will be returned. Otherwise, this will be NULL.
     activity_mode_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityModeDefinition"]
     ] = None  # The hash identifier of the most specific Activity Mode under which this activity is played. This is useful for situations where the activity in question is - for instance - a PVP map, but it's not clear what mode the PVP map is being played under. If it's a playlist, this will be less specific: but hopefully useful in some way.
     activity_mode_type: t.Optional[
         int
@@ -183,7 +192,7 @@ class DestinyMilestoneActivityPhase:
 
 @dt.dataclass(frozen=True)
 class DestinyMilestoneChallengeActivity:
-    activity_hash: int
+    activity_hash: ManifestReference["DestinyActivityDefinition"]
     boolean_activity_options: t.Mapping[
         str, bool
     ]  # The set of activity options for this activity, keyed by an identifier that's unique for this activity (not guaranteed to be unique between or across all activities, though should be unique for every *variant* of a given *conceptual* activity: for instance, the original D2 Raid has many variant DestinyActivityDefinitions. While other activities could potentially have the same option hashes, for any given D2 base Raid variant the hash will be unique). As a concrete example of this data, the hashes you get for Raids will correspond to the currently active "Challenge Mode". We don't have any human readable information for these, but saavy 3rd party app users could manually associate the key (a hash identifier for the "option" that is enabled/disabled) and the value (whether it's enabled or disabled presently) On our side, we don't necessarily even know what these are used for (the game designers know, but we don't), and we have no human readable data for them. In order to use them, you will have to do some experimentation.
@@ -214,9 +223,11 @@ class DestinyMilestoneVendor:
     """If a Milestone has one or more Vendors that are relevant to it, this
     will contain information about that vendor that you can choose to show."""
 
-    vendor_hash: int  # The hash identifier of the Vendor related to this Milestone. You can show useful things from this, such as thier Faction icon or whatever you might care about.
+    vendor_hash: ManifestReference[
+        "DestinyVendorDefinition"
+    ]  # The hash identifier of the Vendor related to this Milestone. You can show useful things from this, such as thier Faction icon or whatever you might care about.
     preview_item_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # If this vendor is featuring a specific item for this event, this will be the hash identifier of that item. I'm taking bets now on how long we go before this needs to be a list or some other, more complex representation instead and I deprecate this too. I'm going to go with 5 months. Calling it now, 2017-09-14 at 9:46pm PST.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -324,7 +335,9 @@ class DestinyPublicMilestone:
     available_quests: t.Sequence[
         "DestinyPublicMilestoneQuest"
     ]  # A milestone not need have even a single quest, but if there are active quests they will be returned here.
-    milestone_hash: int  # The hash identifier for the milestone. Use it to look up the DestinyMilestoneDefinition for static data about the Milestone.
+    milestone_hash: ManifestReference[
+        "DestinyMilestoneDefinition"
+    ]  # The hash identifier for the milestone. Use it to look up the DestinyMilestoneDefinition for static data about the Milestone.
     order: int  # Used for ordering milestones in a display to match how we order them in BNet. May pull from static data, or possibly in the future from dynamic information.
     vendor_hashes: t.Sequence[
         int
@@ -358,7 +371,9 @@ class DestinyPublicMilestoneQuest:
     challenges: t.Sequence[
         "DestinyPublicMilestoneChallenge"
     ]  # For the given quest there could be 0-to-Many challenges: mini quests that you can perform in the course of doing this quest, that may grant you rewards and benefits.
-    quest_item_hash: int  # Quests are defined as Items in content. As such, this is the hash identifier of the DestinyInventoryItemDefinition that represents this quest. It will have pointers to all of the steps in the quest, and display information for the quest (title, description, icon etc) Individual steps will be referred to in the Quest item's DestinyInventoryItemDefinition.setData property, and themselves are Items with their own renderable data.
+    quest_item_hash: ManifestReference[
+        "DestinyMilestoneDefinition"
+    ]  # Quests are defined as Items in content. As such, this is the hash identifier of the DestinyInventoryItemDefinition that represents this quest. It will have pointers to all of the steps in the quest, and display information for the quest (title, description, icon etc) Individual steps will be referred to in the Quest item's DestinyInventoryItemDefinition.setData property, and themselves are Items with their own renderable data.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -380,7 +395,9 @@ class DestinyPublicMilestoneActivity:
     if we ever meet up in person.
     """
 
-    activity_hash: int  # The hash identifier of the activity that's been chosen to be considered the canonical "conceptual" activity definition. This may have many variants, defined herein.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The hash identifier of the activity that's been chosen to be considered the canonical "conceptual" activity definition. This may have many variants, defined herein.
     modifier_hashes: t.Sequence[
         int
     ]  # The activity may have 0-to-many modifiers: if it does, this will contain the hashes to the DestinyActivityModifierDefinition that defines the modifier being applied.
@@ -388,7 +405,7 @@ class DestinyPublicMilestoneActivity:
         "DestinyPublicMilestoneActivityVariant"
     ]  # Every relevant variation of this conceptual activity, including the conceptual activity itself, have variants defined here.
     activity_mode_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityModeDefinition"]
     ] = None  # The hash identifier of the most specific Activity Mode under which this activity is played. This is useful for situations where the activity in question is - for instance - a PVP map, but it's not clear what mode the PVP map is being played under. If it's a playlist, this will be less specific: but hopefully useful in some way.
     activity_mode_type: t.Optional[
         int
@@ -408,9 +425,11 @@ class DestinyPublicMilestoneActivity:
 class DestinyPublicMilestoneActivityVariant:
     """Represents a variant of an activity that's relevant to a milestone."""
 
-    activity_hash: int  # The hash identifier of this activity variant. Examine the activity's definition in the Manifest database to determine what makes it a distinct variant. Usually it will be difficulty level or whether or not it is a guided game variant of the activity, but theoretically it could be distinguished in any arbitrary way.
+    activity_hash: ManifestReference[
+        "DestinyActivityDefinition"
+    ]  # The hash identifier of this activity variant. Examine the activity's definition in the Manifest database to determine what makes it a distinct variant. Usually it will be difficulty level or whether or not it is a guided game variant of the activity, but theoretically it could be distinguished in any arbitrary way.
     activity_mode_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityModeDefinition"]
     ] = None  # The hash identifier of the most specific Activity Mode under which this activity is played. This is useful for situations where the activity in question is - for instance - a PVP map, but it's not clear what mode the PVP map is being played under. If it's a playlist, this will be less specific: but hopefully useful in some way.
     activity_mode_type: t.Optional[
         int
@@ -432,9 +451,11 @@ class DestinyPublicMilestoneChallenge:
     up play and provide extra rewards.
     """
 
-    objective_hash: int  # The objective for the Challenge, which should have human-readable data about what needs to be done to accomplish the objective. Use this hash to look up the DestinyObjectiveDefinition.
+    objective_hash: ManifestReference[
+        "DestinyObjectiveDefinition"
+    ]  # The objective for the Challenge, which should have human-readable data about what needs to be done to accomplish the objective. Use this hash to look up the DestinyObjectiveDefinition.
     activity_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityDefinition"]
     ] = None  # IF the Objective is related to a specific Activity, this will be that activity's hash. Use it to look up the DestinyActivityDefinition for additional data to show.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -446,7 +467,7 @@ class DestinyPublicMilestoneChallenge:
 
 @dt.dataclass(frozen=True)
 class DestinyPublicMilestoneChallengeActivity:
-    activity_hash: int
+    activity_hash: ManifestReference["DestinyActivityDefinition"]
     boolean_activity_options: t.Mapping[
         str, bool
     ]  # The set of activity options for this activity, keyed by an identifier that's unique for this activity (not guaranteed to be unique between or across all activities, though should be unique for every *variant* of a given *conceptual* activity: for instance, the original D2 Raid has many variant DestinyActivityDefinitions. While other activities could potentially have the same option hashes, for any given D2 base Raid variant the hash will be unique). As a concrete example of this data, the hashes you get for Raids will correspond to the currently active "Challenge Mode". We have no human readable information for this data, so it's up to you if you want to associate it with such info to show it.
@@ -474,9 +495,11 @@ class DestinyPublicMilestoneChallengeActivity:
 
 @dt.dataclass(frozen=True)
 class DestinyPublicMilestoneVendor:
-    vendor_hash: int  # The hash identifier of the Vendor related to this Milestone. You can show useful things from this, such as thier Faction icon or whatever you might care about.
+    vendor_hash: ManifestReference[
+        "DestinyVendorDefinition"
+    ]  # The hash identifier of the Vendor related to this Milestone. You can show useful things from this, such as thier Faction icon or whatever you might care about.
     preview_item_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # If this vendor is featuring a specific item for this event, this will be the hash identifier of that item. I'm taking bets now on how long we go before this needs to be a list or some other, more complex representation instead and I deprecate this too. I'm going to go with 5 months. Calling it now, 2017-09-14 at 9:46pm PST.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -489,8 +512,18 @@ class DestinyPublicMilestoneVendor:
 from bungieapi.generated.components.schemas.destiny.challenges import (  # noqa: E402
     DestinyChallengeStatus,
 )
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyActivityModeDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyObjectiveDefinition,
+    DestinyVendorDefinition,
+)
 
 # imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions.milestones import (  # noqa: E402
+    DestinyMilestoneDefinition,
+)
 from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyQuestStatus,
 )

@@ -17,7 +17,7 @@ def client(operation_tree: Tree[BindOperation]) -> t.Iterator[str]:
     yield "import dataclasses as dt"
     yield "import typing as t"
     yield "from bungieapi.generated import clients"
-    yield "from bungieapi.types import BitMask"
+    yield "from bungieapi.types import BitMask, ManifestReference"
     yield f"from bungieapi.base import BaseClient, clean_query_value, {','.join(CLIENT_REPLACEMENTS.values())}"
     yield "from bungieapi.forge import forge"
     yield "from bungieapi.json import to_json"

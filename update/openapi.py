@@ -154,6 +154,7 @@ class Integer(Schema, type=ApiType.INTEGER):
     enum_reference: t.Optional[Reference] = None
     enum: t.Optional[t.Sequence[int]] = None
     enum_values: t.Optional[t.Sequence[EnumValue]] = None
+    mapped_definition: t.Optional[Reference] = None
     is_bitmask: bool = False
 
     @staticmethod
@@ -164,6 +165,7 @@ class Integer(Schema, type=ApiType.INTEGER):
                 "x-enum-reference": "enum_reference",
                 "x-enum-values": "enum_values",
                 "x-enum-is-bitmask": "is_bitmask",
+                "x-mapped-definition": "mapped_definition",
             },
         )
 

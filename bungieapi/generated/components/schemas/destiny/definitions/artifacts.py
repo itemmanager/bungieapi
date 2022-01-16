@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -56,7 +57,9 @@ class DestinyArtifactTierDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierItemDefinition:
-    item_hash: int  # The identifier of the Plug Item unlocked by activating this item in the Artifact.
+    item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The identifier of the Plug Item unlocked by activating this item in the Artifact.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -65,6 +68,7 @@ class DestinyArtifactTierItemDefinition:
 
 
 from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
     DestinyItemTranslationBlockDefinition,
 )
 

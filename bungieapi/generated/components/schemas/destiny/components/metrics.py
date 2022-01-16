@@ -3,12 +3,13 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
 class DestinyMetricsComponent:
     metrics: t.Mapping[str, "DestinyMetricComponent"]
-    metrics_root_node_hash: int
+    metrics_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -30,6 +31,9 @@ class DestinyMetricComponent:
 
 
 # imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
+    DestinyPresentationNodeDefinition,
+)
 from bungieapi.generated.components.schemas.destiny.quests import (  # noqa: E402
     DestinyObjectiveProgress,
 )

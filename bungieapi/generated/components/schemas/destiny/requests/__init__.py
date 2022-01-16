@@ -3,13 +3,14 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
 class DestinyItemTransferRequest:
     character_id: int
     item_id: int  # The instance ID of the item for this action request.
-    item_reference_hash: int
+    item_reference_hash: ManifestReference["DestinyInventoryItemDefinition"]
     membership_type: "BungieMembershipType"
     stack_size: int
     transfer_to_vault: bool
@@ -25,5 +26,9 @@ class DestinyItemTransferRequest:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+)

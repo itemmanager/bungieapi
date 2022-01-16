@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -11,7 +12,7 @@ class DestinyTraitDefinition:
     hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
     index: int  # The index of the entity as it was found in the investment tables.
     redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    trait_category_hash: int
+    trait_category_hash: ManifestReference["DestinyTraitCategoryDefinition"]
     trait_category_id: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:

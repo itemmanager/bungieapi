@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -11,10 +12,18 @@ class DestinyVendorLocationDefinition:
     information at different times in the game."""
 
     background_image_path: str  # The relative path to the background image representing this Vendor at this location, for use in a banner.
-    destination_hash: int  # The hash identifier for a Destination at which this vendor may be located. Each destination where a Vendor may exist will only ever have a single entry.
+    destination_hash: ManifestReference[
+        "DestinyDestinationDefinition"
+    ]  # The hash identifier for a Destination at which this vendor may be located. Each destination where a Vendor may exist will only ever have a single entry.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "destinationHash": to_json(self.destination_hash),
             "backgroundImagePath": to_json(self.background_image_path),
         }
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyDestinationDefinition,
+)

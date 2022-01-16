@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -12,7 +13,9 @@ class DestinyPerkReference:
 
     icon_path: str  # The icon for the perk.
     is_active: bool  # Whether this perk is currently active. (We may return perks that you have not actually activated yet: these represent perks that you should show in the item's tooltip, but that the user has not yet activated.)
-    perk_hash: int  # The hash identifier for the perk, which can be used to look up DestinySandboxPerkDefinition if it exists. Be warned, perks frequently do not have user-viewable information. You should examine whether you actually found a name/description in the perk's definition before you show it to the user.
+    perk_hash: ManifestReference[
+        "DestinySandboxPerkDefinition"
+    ]  # The hash identifier for the perk, which can be used to look up DestinySandboxPerkDefinition if it exists. Be warned, perks frequently do not have user-viewable information. You should examine whether you actually found a name/description in the perk's definition before you show it to the user.
     visible: bool  # Some perks provide benefits, but aren't visible in the UI. This value will let you know if this is perk should be shown in your UI.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -22,3 +25,9 @@ class DestinyPerkReference:
             "isActive": to_json(self.is_active),
             "visible": to_json(self.visible),
         }
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinySandboxPerkDefinition,
+)

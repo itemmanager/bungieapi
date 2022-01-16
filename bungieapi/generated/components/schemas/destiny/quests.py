@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -15,13 +16,15 @@ class DestinyObjectiveProgress:
 
     complete: bool  # Whether or not the Objective is completed.
     completion_value: int  # As of Forsaken, objectives' completion value is determined dynamically at runtime. This value represents the threshold of progress you need to surpass in order for this objective to be considered "complete". If you were using objective data, switch from using the DestinyObjectiveDefinition's "completionValue" to this value.
-    objective_hash: int  # The unique identifier of the Objective being referred to. Use to look up the DestinyObjectiveDefinition in static data.
+    objective_hash: ManifestReference[
+        "DestinyObjectiveDefinition"
+    ]  # The unique identifier of the Objective being referred to. Use to look up the DestinyObjectiveDefinition in static data.
     visible: bool  # If this is true, the objective is visible in-game. Otherwise, it's not yet visible to the player. Up to you if you want to honor this property.
     activity_hash: t.Optional[
-        int
+        ManifestReference["DestinyActivityDefinition"]
     ] = None  # If the Objective has an Activity associated with it, this is the unique identifier of the Activity being referred to. Use to look up the DestinyActivityDefinition in static data. This will give localized data about *what* you should be playing for the objective to be achieved.
     destination_hash: t.Optional[
-        int
+        ManifestReference["DestinyDestinationDefinition"]
     ] = None  # If the Objective has a Destination associated with it, this is the unique identifier of the Destination being referred to. Use to look up the DestinyDestinationDefinition in static data. This will give localized data about *where* in the universe the objective should be achieved.
     progress: t.Optional[
         int
@@ -50,10 +53,14 @@ class DestinyQuestStatus:
 
     completed: bool  # Whether or not the whole quest has been completed, regardless of whether or not you have redeemed the rewards for the quest.
     item_instance_id: int  # The current Quest Step will be an instanced item in the player's inventory. If you care about that, this is the instance ID of that item.
-    quest_hash: int  # The hash identifier for the Quest Item. (Note: Quests are defined as Items, and thus you would use this to look up the quest's DestinyInventoryItemDefinition). For information on all steps in the quest, you can then examine its DestinyInventoryItemDefinition.setData property for Quest Steps (which are *also* items). You can use the Item Definition to display human readable data about the overall quest.
+    quest_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash identifier for the Quest Item. (Note: Quests are defined as Items, and thus you would use this to look up the quest's DestinyInventoryItemDefinition). For information on all steps in the quest, you can then examine its DestinyInventoryItemDefinition.setData property for Quest Steps (which are *also* items). You can use the Item Definition to display human readable data about the overall quest.
     redeemed: bool  # Whether or not you have redeemed rewards for this quest.
     started: bool  # Whether or not you have started this quest.
-    step_hash: int  # The hash identifier of the current Quest Step, which is also a DestinyInventoryItemDefinition. You can use this to get human readable data about the current step and what to do in that step.
+    step_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The hash identifier of the current Quest Step, which is also a DestinyInventoryItemDefinition. You can use this to get human readable data about the current step and what to do in that step.
     step_objectives: t.Sequence[
         "DestinyObjectiveProgress"
     ]  # A step can have multiple objectives. This will give you the progress for each objective in the current step, in the order in which they are rendered in-game.
@@ -74,3 +81,12 @@ class DestinyQuestStatus:
             "started": to_json(self.started),
             "vendorHash": to_json(self.vendor_hash),
         }
+
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyActivityDefinition,
+    DestinyDestinationDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyObjectiveDefinition,
+)

@@ -16,7 +16,7 @@ def responses_module_generator(
 ) -> t.Iterator[str]:
     yield "import typing as t"
     yield "import dataclasses as dt"
-    yield "from bungieapi.types import BitMask"
+    yield "from bungieapi.types import BitMask, ManifestReference"
     yield "from enum import Enum"
     yield "from bungieapi.json import to_json"
 
@@ -46,7 +46,7 @@ def schema_module_generator(
 ) -> t.Iterator[str]:
     yield "import typing as t"
     yield "import dataclasses as dt"
-    yield "from bungieapi.types import BitMask"
+    yield "from bungieapi.types import BitMask, ManifestReference"
     yield "from enum import Enum"
     yield "from bungieapi.forge import forge"
     yield "from bungieapi.json import to_json"

@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -31,7 +32,7 @@ class DestinyRecordDefinition:
     title_info: "DestinyRecordTitleBlock"
     trait_hashes: t.Sequence[int]
     trait_ids: t.Sequence[str]
-    lore_hash: t.Optional[int] = None
+    lore_hash: t.Optional[ManifestReference["DestinyLoreDefinition"]] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -66,7 +67,9 @@ class DestinyRecordTitleBlock:
     titles_by_gender_hash: t.Mapping[
         str, str
     ]  # For those who prefer to use the definitions.
-    gilding_tracking_record_hash: t.Optional[int] = None
+    gilding_tracking_record_hash: t.Optional[
+        ManifestReference["DestinyRecordDefinition"]
+    ] = None
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -142,7 +145,7 @@ class DestinyRecordIntervalBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyRecordIntervalObjective:
-    interval_objective_hash: int
+    interval_objective_hash: ManifestReference["DestinyObjectiveDefinition"]
     interval_score_value: int
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -169,10 +172,16 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyRecordToastStyle,
     DestinyRecordValueStyle,
 )
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyObjectiveDefinition,
+)
 
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny.definitions.common import (  # noqa: E402
     DestinyDisplayPropertiesDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.lore import (  # noqa: E402
+    DestinyLoreDefinition,
 )
 from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
     DestinyPresentationChildBlock,

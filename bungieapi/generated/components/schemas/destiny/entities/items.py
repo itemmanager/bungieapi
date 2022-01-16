@@ -3,6 +3,7 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -12,9 +13,13 @@ class DestinyItemComponent:
     their own component."""
 
     bind_status: "ItemBindStatus"  # If the item is bound to a location, it will be specified in this enum.
-    bucket_hash: int  # The hash identifier for the specific inventory bucket in which the item is located.
+    bucket_hash: ManifestReference[
+        "DestinyInventoryBucketDefinition"
+    ]  # The hash identifier for the specific inventory bucket in which the item is located.
     is_wrapper: bool  # If this is true, the object is actually a "wrapper" of the object it's representing. This means that it's not the actual item itself, but rather an item that must be "opened" in game before you have and can use the item.  Wrappers are an evolution of "bundles", which give an easy way to let you preview the contents of what you purchased while still letting you get a refund before you "open" it.
-    item_hash: int  # The identifier for the item's definition, which is where most of the useful static information for the item can be found.
+    item_hash: ManifestReference[
+        "DestinyInventoryItemDefinition"
+    ]  # The identifier for the item's definition, which is where most of the useful static information for the item can be found.
     item_value_visibility: t.Sequence[
         bool
     ]  # If available, a list that describes which item values (rewards) should be shown (true) or hidden (false).
@@ -34,10 +39,10 @@ class DestinyItemComponent:
         int
     ] = None  # If the item is instanced, it will have an instance ID. Lack of an instance ID implies that the item has no distinct local qualities aside from stack size.
     metric_hash: t.Optional[
-        int
+        ManifestReference["DestinyMetricDefinition"]
     ] = None  # The identifier for the currently-selected metric definition, to be displayed on the emblem nameplate.
     override_style_item_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # If populated, this is the hash of the item whose icon (and other secondary styles, but *not* the human readable strings) should override whatever icons/styles are on the item being sold. If you don't do this, certain items whose styles are being overridden by socketed items - such as the "Recycle Shader" item - would show whatever their default icon/style is, and it wouldn't be pretty or look accurate.
     version_number: t.Optional[
         int
@@ -139,10 +144,10 @@ class DestinyItemInstanceComponent:
         int
     ] = None  # If populated, this item has a breaker type corresponding to the given value. See DestinyBreakerTypeDefinition for more details.
     breaker_type_hash: t.Optional[
-        int
+        ManifestReference["DestinyBreakerTypeDefinition"]
     ] = None  # If populated, this is the hash identifier for the item's breaker type. See DestinyBreakerTypeDefinition for more details.
     damage_type_hash: t.Optional[
-        int
+        ManifestReference["DestinyDamageTypeDefinition"]
     ] = None  # The current damage type's hash, so you can look up localized info and icons for it.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -169,7 +174,9 @@ class DestinyItemInstanceComponent:
 class DestinyItemInstanceEnergy:
     energy_capacity: int  # The total capacity of Energy that the item currently has, regardless of if it is currently being used.
     energy_type: "DestinyEnergyType"  # This is the enum version of the Energy Type value, for convenience.
-    energy_type_hash: int  # The type of energy for this item. Plugs that require Energy can only be inserted if they have the "Any" Energy Type or the matching energy type of this item. This is a reference to the DestinyEnergyTypeDefinition for the energy type, where you can find extended info about it.
+    energy_type_hash: ManifestReference[
+        "DestinyEnergyTypeDefinition"
+    ]  # The type of energy for this item. Plugs that require Energy can only be inserted if they have the "Any" Energy Type or the matching energy type of this item. This is a reference to the DestinyEnergyTypeDefinition for the energy type, where you can find extended info about it.
     energy_unused: int  # The amount of energy still available for inserting new plugs.
     energy_used: int  # The amount of Energy currently in use by inserted plugs.
 
@@ -257,7 +264,7 @@ class DestinyItemSocketState:
     is_enabled: bool  # Even if a plug is inserted, it doesn't mean it's enabled. This flag indicates whether the plug is active and providing its benefits.
     is_visible: bool  # A plug may theoretically provide benefits but not be visible - for instance, some older items use a plug's damage type perk to modify their own damage type. These, though they are not visible, still affect the item. This field indicates that state. An invisible plug, while it provides benefits if it is Enabled, cannot be directly modified by the user.
     plug_hash: t.Optional[
-        int
+        ManifestReference["DestinyInventoryItemDefinition"]
     ] = None  # The currently active plug, if any. Note that, because all plugs are statically defined, its effect on stats and perks can be statically determined using the plug item's definition. The stats and perks can be taken at face value on the plug item as the stats and perks it will provide to the user/item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -295,7 +302,9 @@ class DestinyItemTalentGridComponent:
     nodes: t.Sequence[
         "DestinyTalentNode"
     ]  # Detailed information about the individual nodes in the talent grid. A node represents a single visual "pip" in the talent grid or Build detail view, though each node may have multiple "steps" which indicate the actual bonuses and visual representation of that node.
-    talent_grid_hash: int  # Most items don't have useful talent grids anymore, but Builds in particular still do. You can use this hash to lookup the DestinyTalentGridDefinition attached to this item, which will be crucial for understanding the node values on the item.
+    talent_grid_hash: ManifestReference[
+        "DestinyTalentGridDefinition"
+    ]  # Most items don't have useful talent grids anymore, but Builds in particular still do. You can use this hash to lookup the DestinyTalentGridDefinition attached to this item, which will be crucial for understanding the node values on the item.
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -306,7 +315,6 @@ class DestinyItemTalentGridComponent:
         }
 
 
-# imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.destiny import DamageType  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import DestinyStat  # noqa: E402
 from bungieapi.generated.components.schemas.destiny import ItemBindStatus  # noqa: E402
@@ -318,6 +326,23 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyTalentNode,
     EquipFailureReason,
     TransferStatuses,
+)
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyDamageTypeDefinition,
+    DestinyInventoryBucketDefinition,
+    DestinyInventoryItemDefinition,
+    DestinyTalentGridDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.breaker_types import (  # noqa: E402
+    DestinyBreakerTypeDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.energy_types import (  # noqa: E402
+    DestinyEnergyTypeDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.metrics import (  # noqa: E402
+    DestinyMetricDefinition,
 )
 from bungieapi.generated.components.schemas.destiny.perks import (  # noqa: E402
     DestinyPerkReference,
