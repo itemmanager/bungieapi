@@ -67,7 +67,7 @@ def generate_integer(
 ) -> t.Iterator[str]:
     if integer.is_bitmask:
         assert integer.enum_values
-        yield f"class {name}(BitMask):"
+        yield f"class {name}(Flag):"
         if integer.description:
             yield f'    """{integer.description}"""'
         for value in integer.enum_values:
