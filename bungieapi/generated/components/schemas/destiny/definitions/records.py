@@ -12,22 +12,48 @@ class DestinyRecordDefinition:
     display_properties: "DestinyDisplayPropertiesDefinition"
     expiration_info: "DestinyRecordExpirationBlock"
     for_title_gilding: bool
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    interval_info: "DestinyRecordIntervalBlock"  # Some records have multiple 'interval' objectives, and the record may be claimed at each completed interval
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    interval_info: "DestinyRecordIntervalBlock" = dt.field(
+        metadata={
+            "description": "Some records have multiple 'interval' objectives, and the record may be claimed at each completed interval"
+        }
+    )
     objective_hashes: t.Sequence[int]
-    parent_node_hashes: t.Sequence[
-        int
-    ]  # A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents.
+    parent_node_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A quick reference to presentation nodes that have this node as a child. Presentation nodes can be parented under multiple parents."
+        }
+    )
     presentation_info: "DestinyPresentationChildBlock"
     presentation_node_type: "DestinyPresentationNodeType"
     record_value_style: "DestinyRecordValueStyle"
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     requirements: "DestinyPresentationNodeRequirementsBlock"
-    reward_items: t.Sequence[
-        "DestinyItemQuantity"
-    ]  # If there is any publicly available information about rewards earned for achieving this record, this is the list of those items.  However, note that some records intentionally have "hidden" rewards. These will not be returned in this list.
-    scope: "DestinyScope"  # Indicates whether this Record's state is determined on a per-character or on an account-wide basis.
+    reward_items: t.Sequence["DestinyItemQuantity"] = dt.field(
+        metadata={
+            "description": """If there is any publicly available information about rewards earned for achieving this record, this is the list of those items.
+ However, note that some records intentionally have "hidden" rewards. These will not be returned in this list."""
+        }
+    )
+    scope: "DestinyScope" = dt.field(
+        metadata={
+            "description": "Indicates whether this Record's state is determined on a per-character or on an account-wide basis."
+        }
+    )
     state_info: "SchemaRecordStateBlock"
     title_info: "DestinyRecordTitleBlock"
     trait_hashes: t.Sequence[int]
@@ -64,9 +90,9 @@ class DestinyRecordDefinition:
 class DestinyRecordTitleBlock:
     has_title: bool
     titles_by_gender: t.Mapping[str, str]
-    titles_by_gender_hash: t.Mapping[
-        str, str
-    ]  # For those who prefer to use the definitions.
+    titles_by_gender_hash: t.Mapping[str, str] = dt.field(
+        metadata={"description": "For those who prefer to use the definitions."}
+    )
     gilding_tracking_record_hash: t.Optional[
         ManifestReference["DestinyRecordDefinition"]
     ] = None
@@ -83,7 +109,11 @@ class DestinyRecordTitleBlock:
 @dt.dataclass(frozen=True)
 class DestinyRecordCompletionBlock:
     score_value: int
-    partial_completion_objective_count_threshold: int  # The number of objectives that must be completed before the objective is considered "complete"
+    partial_completion_objective_count_threshold: int = dt.field(
+        metadata={
+            "description": 'The number of objectives that must be completed before the objective is considered "complete"'
+        }
+    )
     should_fire_toast: bool
     toast_style: "DestinyRecordToastStyle"
 

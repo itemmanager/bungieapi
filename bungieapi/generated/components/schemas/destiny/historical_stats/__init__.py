@@ -8,17 +8,24 @@ from bungieapi.types import ManifestReference
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportData:
-    activity_details: "DestinyHistoricalStatsActivity"  # Details about the activity.
-    entries: t.Sequence[
-        "DestinyPostGameCarnageReportEntry"
-    ]  # Collection of players and their data for this activity.
-    period: str  # Date and time for the activity.
-    teams: t.Sequence[
-        "DestinyPostGameCarnageReportTeamEntry"
-    ]  # Collection of stats for the player in this activity.
-    starting_phase_index: t.Optional[
-        int
-    ] = None  # If this activity has "phases", this is the phase at which the activity was started.
+    activity_details: "DestinyHistoricalStatsActivity" = dt.field(
+        metadata={"description": "Details about the activity."}
+    )
+    entries: t.Sequence["DestinyPostGameCarnageReportEntry"] = dt.field(
+        metadata={
+            "description": "Collection of players and their data for this activity."
+        }
+    )
+    period: str = dt.field(metadata={"description": "Date and time for the activity."})
+    teams: t.Sequence["DestinyPostGameCarnageReportTeamEntry"] = dt.field(
+        metadata={"description": "Collection of stats for the player in this activity."}
+    )
+    starting_phase_index: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": 'If this activity has "phases", this is the phase at which the activity was started.'
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -34,19 +41,40 @@ class DestinyPostGameCarnageReportData:
 class DestinyHistoricalStatsActivity:
     """Summary information about the activity that was played."""
 
-    director_activity_hash: ManifestReference[
-        "DestinyActivityDefinition"
-    ]  # The unique hash identifier of the DestinyActivityDefinition that was played.
-    instance_id: int  # The unique identifier for this *specific* match that was played. This value can be used to get additional data about this activity such as who else was playing via the GetPostGameCarnageReport endpoint.
-    is_private: bool  # Whether or not the match was a private match.
-    membership_type: "BungieMembershipType"  # The Membership Type indicating the platform on which this match was played.
-    mode: "DestinyActivityModeType"  # Indicates the most specific game mode of the activity that we could find.
-    modes: t.Sequence[
-        "DestinyActivityModeType"
-    ]  # The list of all Activity Modes to which this activity applies, including aggregates. This will let you see, for example, whether the activity was both Clash and part of the Trials of the Nine event.
-    reference_id: ManifestReference[
-        "DestinyActivityDefinition"
-    ]  # The unique hash identifier of the DestinyActivityDefinition that was played. If I had this to do over, it'd be named activityHash. Too late now.
+    director_activity_hash: ManifestReference["DestinyActivityDefinition"] = dt.field(
+        metadata={
+            "description": "The unique hash identifier of the DestinyActivityDefinition that was played."
+        }
+    )
+    instance_id: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this *specific* match that was played.
+This value can be used to get additional data about this activity such as who else was playing via the GetPostGameCarnageReport endpoint."""
+        }
+    )
+    is_private: bool = dt.field(
+        metadata={"description": "Whether or not the match was a private match."}
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "The Membership Type indicating the platform on which this match was played."
+        }
+    )
+    mode: "DestinyActivityModeType" = dt.field(
+        metadata={
+            "description": "Indicates the most specific game mode of the activity that we could find."
+        }
+    )
+    modes: t.Sequence["DestinyActivityModeType"] = dt.field(
+        metadata={
+            "description": "The list of all Activity Modes to which this activity applies, including aggregates. This will let you see, for example, whether the activity was both Clash and part of the Trials of the Nine event."
+        }
+    )
+    reference_id: ManifestReference["DestinyActivityDefinition"] = dt.field(
+        metadata={
+            "description": "The unique hash identifier of the DestinyActivityDefinition that was played. If I had this to do over, it'd be named activityHash. Too late now."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -62,14 +90,22 @@ class DestinyHistoricalStatsActivity:
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportEntry:
-    character_id: int  # ID of the player's character used in the activity.
-    extended: "DestinyPostGameCarnageReportExtendedData"  # Extended data extracted from the activity blob.
-    player: "DestinyPlayer"  # Identity details of the player
-    score: "DestinyHistoricalStatsValue"  # Score of the player if available
-    standing: int  # Standing of the player
-    values: t.Mapping[
-        str, "DestinyHistoricalStatsValue"
-    ]  # Collection of stats for the player in this activity.
+    character_id: int = dt.field(
+        metadata={"description": "ID of the player's character used in the activity."}
+    )
+    extended: "DestinyPostGameCarnageReportExtendedData" = dt.field(
+        metadata={"description": "Extended data extracted from the activity blob."}
+    )
+    player: "DestinyPlayer" = dt.field(
+        metadata={"description": "Identity details of the player"}
+    )
+    score: "DestinyHistoricalStatsValue" = dt.field(
+        metadata={"description": "Score of the player if available"}
+    )
+    standing: int = dt.field(metadata={"description": "Standing of the player"})
+    values: t.Mapping[str, "DestinyHistoricalStatsValue"] = dt.field(
+        metadata={"description": "Collection of stats for the player in this activity."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -84,13 +120,24 @@ class DestinyPostGameCarnageReportEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValue:
-    basic: "DestinyHistoricalStatsValuePair"  # Basic stat value.
-    pga: "DestinyHistoricalStatsValuePair"  # Per game average for the statistic, if applicable
-    stat_id: str  # Unique ID for this stat
-    weighted: "DestinyHistoricalStatsValuePair"  # Weighted value of the stat if a weight greater than 1 has been assigned.
-    activity_id: t.Optional[
-        int
-    ] = None  # When a stat represents the best, most, longest, fastest or some other personal best, the actual activity ID where that personal best was established is available on this property.
+    basic: "DestinyHistoricalStatsValuePair" = dt.field(
+        metadata={"description": "Basic stat value."}
+    )
+    pga: "DestinyHistoricalStatsValuePair" = dt.field(
+        metadata={"description": "Per game average for the statistic, if applicable"}
+    )
+    stat_id: str = dt.field(metadata={"description": "Unique ID for this stat"})
+    weighted: "DestinyHistoricalStatsValuePair" = dt.field(
+        metadata={
+            "description": "Weighted value of the stat if a weight greater than 1 has been assigned."
+        }
+    )
+    activity_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "When a stat represents the best, most, longest, fastest or some other personal best, the actual activity ID where that personal best was established is available on this property."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -104,8 +151,10 @@ class DestinyHistoricalStatsValue:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsValuePair:
-    display_value: str  # Localized formated version of the value.
-    value: float  # Raw value of the statistic
+    display_value: str = dt.field(
+        metadata={"description": "Localized formated version of the value."}
+    )
+    value: float = dt.field(metadata={"description": "Raw value of the statistic"})
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -116,18 +165,46 @@ class DestinyHistoricalStatsValuePair:
 
 @dt.dataclass(frozen=True)
 class DestinyPlayer:
-    bungie_net_user_info: "UserInfoCard"  # Details about the player as they are known on BungieNet. This will be undefined if the player has marked their credential private, or does not have a BungieNet account.
-    character_class: str  # Class of the character if applicable and available.
-    character_level: int  # Level of the character if available. Zero if it is not available.
-    clan_name: str  # Current clan name for the player. This value may be null or an empty string if the user does not have a clan.
-    clan_tag: str  # Current clan tag for the player. This value may be null or an empty string if the user does not have a clan.
+    bungie_net_user_info: "UserInfoCard" = dt.field(
+        metadata={
+            "description": "Details about the player as they are known on BungieNet. This will be undefined if the player has marked their credential private, or does not have a BungieNet account."
+        }
+    )
+    character_class: str = dt.field(
+        metadata={"description": "Class of the character if applicable and available."}
+    )
+    character_level: int = dt.field(
+        metadata={
+            "description": "Level of the character if available. Zero if it is not available."
+        }
+    )
+    clan_name: str = dt.field(
+        metadata={
+            "description": "Current clan name for the player. This value may be null or an empty string if the user does not have a clan."
+        }
+    )
+    clan_tag: str = dt.field(
+        metadata={
+            "description": "Current clan tag for the player. This value may be null or an empty string if the user does not have a clan."
+        }
+    )
     class_hash: ManifestReference["DestinyClassDefinition"]
-    destiny_user_info: "UserInfoCard"  # Details about the player as they are known in game (platform display name, Destiny emblem)
-    emblem_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # If we know the emblem's hash, this can be used to look up the player's emblem at the time of a match when receiving PGCR data, or otherwise their currently equipped emblem (if we are able to obtain it).
+    destiny_user_info: "UserInfoCard" = dt.field(
+        metadata={
+            "description": "Details about the player as they are known in game (platform display name, Destiny emblem)"
+        }
+    )
+    emblem_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "If we know the emblem's hash, this can be used to look up the player's emblem at the time of a match when receiving PGCR data, or otherwise their currently equipped emblem (if we are able to obtain it)."
+        }
+    )
     gender_hash: ManifestReference["DestinyGenderDefinition"]
-    light_level: int  # Light Level of the character if available. Zero if it is not available.
+    light_level: int = dt.field(
+        metadata={
+            "description": "Light Level of the character if available. Zero if it is not available."
+        }
+    )
     race_hash: ManifestReference["DestinyRaceDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -148,12 +225,12 @@ class DestinyPlayer:
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportExtendedData:
-    values: t.Mapping[
-        str, "DestinyHistoricalStatsValue"
-    ]  # Collection of stats for the player in this activity.
-    weapons: t.Sequence[
-        "DestinyHistoricalWeaponStats"
-    ]  # List of weapons and their perspective values.
+    values: t.Mapping[str, "DestinyHistoricalStatsValue"] = dt.field(
+        metadata={"description": "Collection of stats for the player in this activity."}
+    )
+    weapons: t.Sequence["DestinyHistoricalWeaponStats"] = dt.field(
+        metadata={"description": "List of weapons and their perspective values."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -164,12 +241,14 @@ class DestinyPostGameCarnageReportExtendedData:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStats:
-    reference_id: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash ID of the item definition that describes the weapon.
-    values: t.Mapping[
-        str, "DestinyHistoricalStatsValue"
-    ]  # Collection of stats for the period.
+    reference_id: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash ID of the item definition that describes the weapon."
+        }
+    )
+    values: t.Mapping[str, "DestinyHistoricalStatsValue"] = dt.field(
+        metadata={"description": "Collection of stats for the period."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -180,10 +259,14 @@ class DestinyHistoricalWeaponStats:
 
 @dt.dataclass(frozen=True)
 class DestinyPostGameCarnageReportTeamEntry:
-    score: "DestinyHistoricalStatsValue"  # Score earned by the team
-    standing: "DestinyHistoricalStatsValue"  # Team's standing relative to other teams.
-    team_id: int  # Integer ID for the team.
-    team_name: str  # Alpha or Bravo
+    score: "DestinyHistoricalStatsValue" = dt.field(
+        metadata={"description": "Score earned by the team"}
+    )
+    standing: "DestinyHistoricalStatsValue" = dt.field(
+        metadata={"description": "Team's standing relative to other teams."}
+    )
+    team_id: int = dt.field(metadata={"description": "Integer ID for the team."})
+    team_name: str = dt.field(metadata={"description": "Alpha or Bravo"})
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -208,10 +291,22 @@ class DestinyLeaderboard:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardEntry:
-    character_id: int  # ID of the player's best character for the reported stat.
-    player: "DestinyPlayer"  # Identity details of the player
-    rank: int  # Where this player ranks on the leaderboard. A value of 1 is the top rank.
-    value: "DestinyHistoricalStatsValue"  # Value of the stat for this player
+    character_id: int = dt.field(
+        metadata={
+            "description": "ID of the player's best character for the reported stat."
+        }
+    )
+    player: "DestinyPlayer" = dt.field(
+        metadata={"description": "Identity details of the player"}
+    )
+    rank: int = dt.field(
+        metadata={
+            "description": "Where this player ranks on the leaderboard. A value of 1 is the top rank."
+        }
+    )
+    value: "DestinyHistoricalStatsValue" = dt.field(
+        metadata={"description": "Value of the stat for this player"}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -224,12 +319,18 @@ class DestinyLeaderboardEntry:
 
 @dt.dataclass(frozen=True)
 class DestinyLeaderboardResults:
-    focus_character_id: t.Optional[
-        int
-    ] = None  # Indicate the character ID of the character that is the focal point of the provided leaderboards. May be null, in which case any character from the focus membership can appear in the provided leaderboards.
-    focus_membership_id: t.Optional[
-        int
-    ] = None  # Indicate the membership ID of the account that is the focal point of the provided leaderboards.
+    focus_character_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "Indicate the character ID of the character that is the focal point of the provided leaderboards. May be null, in which case any character from the focus membership can appear in the provided leaderboards."
+        },
+    )
+    focus_membership_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "Indicate the membership ID of the account that is the focal point of the provided leaderboards."
+        },
+    )
     additional: t.Mapping[str, t.Mapping[str, "DestinyLeaderboard"]] = dt.field(
         default_factory=dict
     )
@@ -243,9 +344,13 @@ class DestinyLeaderboardResults:
 
 @dt.dataclass(frozen=True)
 class DestinyClanAggregateStat:
-    mode: "DestinyActivityModeType"  # The id of the mode of stats (allPvp, allPvE, etc)
-    stat_id: str  # The id of the stat
-    value: "DestinyHistoricalStatsValue"  # Value of the stat for this player
+    mode: "DestinyActivityModeType" = dt.field(
+        metadata={"description": "The id of the mode of stats (allPvp, allPvE, etc)"}
+    )
+    stat_id: str = dt.field(metadata={"description": "The id of the stat"})
+    value: "DestinyHistoricalStatsValue" = dt.field(
+        metadata={"description": "Value of the stat for this player"}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -277,11 +382,19 @@ class DestinyHistoricalStatsByPeriod:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalStatsPeriodGroup:
-    activity_details: "DestinyHistoricalStatsActivity"  # If the period group is for a specific activity, this property will be set.
-    period: str  # Period for the group. If the stat periodType is day, then this will have a specific day. If the type is monthly, then this value will be the first day of the applicable month. This value is not set when the periodType is 'all time'.
-    values: t.Mapping[
-        str, "DestinyHistoricalStatsValue"
-    ]  # Collection of stats for the period.
+    activity_details: "DestinyHistoricalStatsActivity" = dt.field(
+        metadata={
+            "description": "If the period group is for a specific activity, this property will be set."
+        }
+    )
+    period: str = dt.field(
+        metadata={
+            "description": "Period for the group. If the stat periodType is day, then this will have a specific day. If the type is monthly, then this value will be the first day of the applicable month. This value is not set when the periodType is 'all time'."
+        }
+    )
+    values: t.Mapping[str, "DestinyHistoricalStatsValue"] = dt.field(
+        metadata={"description": "Collection of stats for the period."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -345,9 +458,9 @@ class DestinyHistoricalStatsPerCharacter:
 
 @dt.dataclass(frozen=True)
 class DestinyActivityHistoryResults:
-    activities: t.Sequence[
-        "DestinyHistoricalStatsPeriodGroup"
-    ]  # List of activities, the most recent activity first.
+    activities: t.Sequence["DestinyHistoricalStatsPeriodGroup"] = dt.field(
+        metadata={"description": "List of activities, the most recent activity first."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -357,9 +470,9 @@ class DestinyActivityHistoryResults:
 
 @dt.dataclass(frozen=True)
 class DestinyHistoricalWeaponStatsData:
-    weapons: t.Sequence[
-        "DestinyHistoricalWeaponStats"
-    ]  # List of weapons and their perspective values.
+    weapons: t.Sequence["DestinyHistoricalWeaponStats"] = dt.field(
+        metadata={"description": "List of weapons and their perspective values."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -369,9 +482,11 @@ class DestinyHistoricalWeaponStatsData:
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityResults:
-    activities: t.Sequence[
-        "DestinyAggregateActivityStats"
-    ]  # List of all activities the player has participated in.
+    activities: t.Sequence["DestinyAggregateActivityStats"] = dt.field(
+        metadata={
+            "description": "List of all activities the player has participated in."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -381,12 +496,14 @@ class DestinyAggregateActivityResults:
 
 @dt.dataclass(frozen=True)
 class DestinyAggregateActivityStats:
-    activity_hash: ManifestReference[
-        "DestinyActivityDefinition"
-    ]  # Hash ID that can be looked up in the DestinyActivityTable.
-    values: t.Mapping[
-        str, "DestinyHistoricalStatsValue"
-    ]  # Collection of stats for the player in this activity.
+    activity_hash: ManifestReference["DestinyActivityDefinition"] = dt.field(
+        metadata={
+            "description": "Hash ID that can be looked up in the DestinyActivityTable."
+        }
+    )
+    values: t.Mapping[str, "DestinyHistoricalStatsValue"] = dt.field(
+        metadata={"description": "Collection of stats for the player in this activity."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

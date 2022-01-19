@@ -125,20 +125,48 @@ class FireteamMember:
 class FireteamUserInfoCard:
     fireteam_display_name: str
     fireteam_membership_type: "BungieMembershipType"
-    applicable_membership_types: t.Sequence[
-        "BungieMembershipType"
-    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    icon_path: str  # URL the Icon if available.
-    is_public: bool  # If True, this is a public user membership.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
-    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
+    applicable_membership_types: t.Sequence["BungieMembershipType"] = dt.field(
+        metadata={
+            "description": """The list of Membership Types indicating the platforms on which this Membership can be used.
+ Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list"""
+        }
+    )
+    bungie_global_display_name: str = dt.field(
+        metadata={"description": "The bungie global display name, if set."}
+    )
+    cross_save_override: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "If there is a cross save override in effect, this value will tell you the type that is overridding this one."
+        }
+    )
+    display_name: str = dt.field(
+        metadata={
+            "description": "Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API."
+        }
+    )
+    icon_path: str = dt.field(metadata={"description": "URL the Icon if available."})
+    is_public: bool = dt.field(
+        metadata={"description": "If True, this is a public user membership."}
+    )
+    membership_id: int = dt.field(
+        metadata={
+            "description": "Membership ID as they user is known in the Accounts service"
+        }
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "Type of the membership. Not necessarily the native type."
+        }
+    )
+    supplemental_display_name: str = dt.field(
+        metadata={
+            "description": "A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc."
+        }
+    )
+    bungie_global_display_name_code: t.Optional[int] = dt.field(
+        default=None,
+        metadata={"description": "The bungie global display name code, if set."},
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

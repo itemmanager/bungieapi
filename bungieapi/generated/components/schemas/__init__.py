@@ -55,7 +55,14 @@ class SearchResultOfContentItemPublicContract:
     replacement_continuation_token: str
     results: t.Sequence["ContentItemPublicContract"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -77,7 +84,14 @@ class SearchResultOfPostResponse:
     replacement_continuation_token: str
     results: t.Sequence["PostResponse"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -102,7 +116,14 @@ class SearchResultOfGroupV2Card:
     replacement_continuation_token: str
     results: t.Sequence["GroupV2Card"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -124,7 +145,14 @@ class SearchResultOfGroupMember:
     replacement_continuation_token: str
     results: t.Sequence["GroupMember"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -146,7 +174,14 @@ class SearchResultOfGroupBan:
     replacement_continuation_token: str
     results: t.Sequence["GroupBan"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -168,7 +203,14 @@ class SearchResultOfGroupMemberApplication:
     replacement_continuation_token: str
     results: t.Sequence["GroupMemberApplication"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -190,7 +232,14 @@ class SearchResultOfGroupMembership:
     replacement_continuation_token: str
     results: t.Sequence["GroupMembership"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -212,7 +261,14 @@ class SearchResultOfGroupPotentialMembership:
     replacement_continuation_token: str
     results: t.Sequence["GroupPotentialMembership"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -231,7 +287,9 @@ class SearchResultOfGroupPotentialMembership:
 class SingleComponentResponseOfDestinyVendorReceiptsComponent:
     data: "DestinyVendorReceiptsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -245,7 +303,9 @@ class SingleComponentResponseOfDestinyVendorReceiptsComponent:
 class SingleComponentResponseOfDestinyInventoryComponent:
     data: "DestinyInventoryComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -259,7 +319,9 @@ class SingleComponentResponseOfDestinyInventoryComponent:
 class SingleComponentResponseOfDestinyProfileComponent:
     data: "DestinyProfileComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -273,7 +335,9 @@ class SingleComponentResponseOfDestinyProfileComponent:
 class SingleComponentResponseOfDestinyPlatformSilverComponent:
     data: "DestinyPlatformSilverComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -287,7 +351,9 @@ class SingleComponentResponseOfDestinyPlatformSilverComponent:
 class SingleComponentResponseOfDestinyKiosksComponent:
     data: "DestinyKiosksComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -301,7 +367,9 @@ class SingleComponentResponseOfDestinyKiosksComponent:
 class SingleComponentResponseOfDestinyPlugSetsComponent:
     data: "DestinyPlugSetsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -315,7 +383,9 @@ class SingleComponentResponseOfDestinyPlugSetsComponent:
 class SingleComponentResponseOfDestinyProfileProgressionComponent:
     data: "DestinyProfileProgressionComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -329,7 +399,9 @@ class SingleComponentResponseOfDestinyProfileProgressionComponent:
 class SingleComponentResponseOfDestinyPresentationNodesComponent:
     data: "DestinyPresentationNodesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -343,7 +415,9 @@ class SingleComponentResponseOfDestinyPresentationNodesComponent:
 class SingleComponentResponseOfDestinyProfileRecordsComponent:
     data: "DestinyProfileRecordsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -357,7 +431,9 @@ class SingleComponentResponseOfDestinyProfileRecordsComponent:
 class SingleComponentResponseOfDestinyProfileCollectiblesComponent:
     data: "DestinyProfileCollectiblesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -371,7 +447,9 @@ class SingleComponentResponseOfDestinyProfileCollectiblesComponent:
 class SingleComponentResponseOfDestinyProfileTransitoryComponent:
     data: "DestinyProfileTransitoryComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -385,7 +463,9 @@ class SingleComponentResponseOfDestinyProfileTransitoryComponent:
 class SingleComponentResponseOfDestinyMetricsComponent:
     data: "DestinyMetricsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -399,7 +479,9 @@ class SingleComponentResponseOfDestinyMetricsComponent:
 class SingleComponentResponseOfDestinyStringVariablesComponent:
     data: "DestinyStringVariablesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -413,7 +495,9 @@ class SingleComponentResponseOfDestinyStringVariablesComponent:
 class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
     data: t.Mapping[str, "DestinyCharacterComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -427,7 +511,9 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
 class DictionaryComponentResponseOfint64AndDestinyInventoryComponent:
     data: t.Mapping[str, "DestinyInventoryComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -441,7 +527,9 @@ class DictionaryComponentResponseOfint64AndDestinyInventoryComponent:
 class DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent:
     data: t.Mapping[str, "DestinyCharacterProgressionComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -455,7 +543,9 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent:
 class DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent:
     data: t.Mapping[str, "DestinyCharacterRenderComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -469,7 +559,9 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent:
 class DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent:
     data: t.Mapping[str, "DestinyCharacterActivitiesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -483,7 +575,9 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent:
 class DictionaryComponentResponseOfint64AndDestinyKiosksComponent:
     data: t.Mapping[str, "DestinyKiosksComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -497,7 +591,9 @@ class DictionaryComponentResponseOfint64AndDestinyKiosksComponent:
 class DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent:
     data: t.Mapping[str, "DestinyPlugSetsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -523,7 +619,9 @@ class DestinyBaseItemComponentSetOfuint32:
 class DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent:
     data: t.Mapping[str, "DestinyItemObjectivesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -537,7 +635,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemObjectivesComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent:
     data: t.Mapping[str, "DestinyItemPerksComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -551,7 +651,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemPerksComponent:
 class DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent:
     data: t.Mapping[str, "DestinyPresentationNodesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -565,7 +667,9 @@ class DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent:
 class DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent:
     data: t.Mapping[str, "DestinyCharacterRecordsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -579,7 +683,9 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent:
 class DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent:
     data: t.Mapping[str, "DestinyCollectiblesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -593,7 +699,9 @@ class DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent:
 class DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent:
     data: t.Mapping[str, "DestinyStringVariablesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -619,7 +727,9 @@ class DestinyBaseItemComponentSetOfint64:
 class DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent:
     data: t.Mapping[str, "DestinyItemObjectivesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -633,7 +743,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent:
 class DictionaryComponentResponseOfint64AndDestinyItemPerksComponent:
     data: t.Mapping[str, "DestinyItemPerksComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -675,7 +787,9 @@ class DestinyItemComponentSetOfint64:
 class DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent:
     data: t.Mapping[str, "DestinyItemInstanceComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -689,7 +803,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemInstanceComponent:
 class DictionaryComponentResponseOfint64AndDestinyItemRenderComponent:
     data: t.Mapping[str, "DestinyItemRenderComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -703,7 +819,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemRenderComponent:
 class DictionaryComponentResponseOfint64AndDestinyItemStatsComponent:
     data: t.Mapping[str, "DestinyItemStatsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -717,7 +835,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemStatsComponent:
 class DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent:
     data: t.Mapping[str, "DestinyItemSocketsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -731,7 +851,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemSocketsComponent:
 class DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent:
     data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -745,7 +867,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemReusablePlugsComponent:
 class DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent:
     data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -759,7 +883,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemPlugObjectivesComponent:
 class DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent:
     data: t.Mapping[str, "DestinyItemTalentGridComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -773,7 +899,9 @@ class DictionaryComponentResponseOfint64AndDestinyItemTalentGridComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent:
     data: t.Mapping[str, "DestinyItemPlugComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -787,7 +915,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemPlugComponent:
 class DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent:
     data: t.Mapping[str, "DestinyCurrenciesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -801,7 +931,9 @@ class DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent:
 class SingleComponentResponseOfDestinyCharacterComponent:
     data: "DestinyCharacterComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -815,7 +947,9 @@ class SingleComponentResponseOfDestinyCharacterComponent:
 class SingleComponentResponseOfDestinyCharacterProgressionComponent:
     data: "DestinyCharacterProgressionComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -829,7 +963,9 @@ class SingleComponentResponseOfDestinyCharacterProgressionComponent:
 class SingleComponentResponseOfDestinyCharacterRenderComponent:
     data: "DestinyCharacterRenderComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -843,7 +979,9 @@ class SingleComponentResponseOfDestinyCharacterRenderComponent:
 class SingleComponentResponseOfDestinyCharacterActivitiesComponent:
     data: "DestinyCharacterActivitiesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -857,7 +995,9 @@ class SingleComponentResponseOfDestinyCharacterActivitiesComponent:
 class SingleComponentResponseOfDestinyCharacterRecordsComponent:
     data: "DestinyCharacterRecordsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -871,7 +1011,9 @@ class SingleComponentResponseOfDestinyCharacterRecordsComponent:
 class SingleComponentResponseOfDestinyCollectiblesComponent:
     data: "DestinyCollectiblesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -885,7 +1027,9 @@ class SingleComponentResponseOfDestinyCollectiblesComponent:
 class SingleComponentResponseOfDestinyCurrenciesComponent:
     data: "DestinyCurrenciesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -899,7 +1043,9 @@ class SingleComponentResponseOfDestinyCurrenciesComponent:
 class SingleComponentResponseOfDestinyItemComponent:
     data: "DestinyItemComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -913,7 +1059,9 @@ class SingleComponentResponseOfDestinyItemComponent:
 class SingleComponentResponseOfDestinyItemInstanceComponent:
     data: "DestinyItemInstanceComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -927,7 +1075,9 @@ class SingleComponentResponseOfDestinyItemInstanceComponent:
 class SingleComponentResponseOfDestinyItemObjectivesComponent:
     data: "DestinyItemObjectivesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -941,7 +1091,9 @@ class SingleComponentResponseOfDestinyItemObjectivesComponent:
 class SingleComponentResponseOfDestinyItemPerksComponent:
     data: "DestinyItemPerksComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -955,7 +1107,9 @@ class SingleComponentResponseOfDestinyItemPerksComponent:
 class SingleComponentResponseOfDestinyItemRenderComponent:
     data: "DestinyItemRenderComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -969,7 +1123,9 @@ class SingleComponentResponseOfDestinyItemRenderComponent:
 class SingleComponentResponseOfDestinyItemStatsComponent:
     data: "DestinyItemStatsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -983,7 +1139,9 @@ class SingleComponentResponseOfDestinyItemStatsComponent:
 class SingleComponentResponseOfDestinyItemTalentGridComponent:
     data: "DestinyItemTalentGridComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -997,7 +1155,9 @@ class SingleComponentResponseOfDestinyItemTalentGridComponent:
 class SingleComponentResponseOfDestinyItemSocketsComponent:
     data: "DestinyItemSocketsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1011,7 +1171,9 @@ class SingleComponentResponseOfDestinyItemSocketsComponent:
 class SingleComponentResponseOfDestinyItemReusablePlugsComponent:
     data: "DestinyItemReusablePlugsComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1025,7 +1187,9 @@ class SingleComponentResponseOfDestinyItemReusablePlugsComponent:
 class SingleComponentResponseOfDestinyItemPlugObjectivesComponent:
     data: "DestinyItemPlugObjectivesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1039,7 +1203,9 @@ class SingleComponentResponseOfDestinyItemPlugObjectivesComponent:
 class SingleComponentResponseOfDestinyVendorGroupComponent:
     data: "DestinyVendorGroupComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1053,7 +1219,9 @@ class SingleComponentResponseOfDestinyVendorGroupComponent:
 class DictionaryComponentResponseOfuint32AndDestinyVendorComponent:
     data: t.Mapping[str, "DestinyVendorComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1067,7 +1235,9 @@ class DictionaryComponentResponseOfuint32AndDestinyVendorComponent:
 class DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent:
     data: t.Mapping[str, "DestinyVendorCategoriesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1091,7 +1261,9 @@ class DestinyVendorSaleItemSetComponentOfDestinyVendorSaleItemComponent:
 class DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent:
     data: t.Mapping[str, "PersonalDestinyVendorSaleItemSetComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1117,7 +1289,9 @@ class DestinyBaseItemComponentSetOfint32:
 class DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent:
     data: t.Mapping[str, "DestinyItemObjectivesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1131,7 +1305,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemObjectivesComponent:
 class DictionaryComponentResponseOfint32AndDestinyItemPerksComponent:
     data: t.Mapping[str, "DestinyItemPerksComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1173,7 +1349,9 @@ class DestinyItemComponentSetOfint32:
 class DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent:
     data: t.Mapping[str, "DestinyItemInstanceComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1187,7 +1365,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemInstanceComponent:
 class DictionaryComponentResponseOfint32AndDestinyItemRenderComponent:
     data: t.Mapping[str, "DestinyItemRenderComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1201,7 +1381,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemRenderComponent:
 class DictionaryComponentResponseOfint32AndDestinyItemStatsComponent:
     data: t.Mapping[str, "DestinyItemStatsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1215,7 +1397,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemStatsComponent:
 class DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent:
     data: t.Mapping[str, "DestinyItemSocketsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1229,7 +1413,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemSocketsComponent:
 class DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent:
     data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1243,7 +1429,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemReusablePlugsComponent:
 class DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent:
     data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1257,7 +1445,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemPlugObjectivesComponent:
 class DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent:
     data: t.Mapping[str, "DestinyItemTalentGridComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1271,7 +1461,9 @@ class DictionaryComponentResponseOfint32AndDestinyItemTalentGridComponent:
 class SingleComponentResponseOfDestinyVendorComponent:
     data: "DestinyVendorComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1285,7 +1477,9 @@ class SingleComponentResponseOfDestinyVendorComponent:
 class SingleComponentResponseOfDestinyVendorCategoriesComponent:
     data: "DestinyVendorCategoriesComponent"
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1299,7 +1493,9 @@ class SingleComponentResponseOfDestinyVendorCategoriesComponent:
 class DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent:
     data: t.Mapping[str, "DestinyVendorSaleItemComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1313,7 +1509,9 @@ class DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent:
 class DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent:
     data: t.Mapping[str, "DestinyPublicVendorComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1337,7 +1535,9 @@ class DestinyVendorSaleItemSetComponentOfDestinyPublicVendorSaleItemComponent:
 class DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent:
     data: t.Mapping[str, "PublicDestinyVendorSaleItemSetComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1379,7 +1579,9 @@ class DestinyItemComponentSetOfuint32:
 class DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent:
     data: t.Mapping[str, "DestinyItemInstanceComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1393,7 +1595,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemInstanceComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent:
     data: t.Mapping[str, "DestinyItemRenderComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1407,7 +1611,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemRenderComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent:
     data: t.Mapping[str, "DestinyItemStatsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1421,7 +1627,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemStatsComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent:
     data: t.Mapping[str, "DestinyItemSocketsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1435,7 +1643,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemSocketsComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent:
     data: t.Mapping[str, "DestinyItemReusablePlugsComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1449,7 +1659,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemReusablePlugsComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent:
     data: t.Mapping[str, "DestinyItemPlugObjectivesComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1463,7 +1675,9 @@ class DictionaryComponentResponseOfuint32AndDestinyItemPlugObjectivesComponent:
 class DictionaryComponentResponseOfuint32AndDestinyItemTalentGridComponent:
     data: t.Mapping[str, "DestinyItemTalentGridComponent"]
     privacy: "ComponentPrivacySetting"
-    disabled: t.Optional[bool] = None  # If true, this component is disabled.
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1480,7 +1694,14 @@ class SearchResultOfDestinyEntitySearchResultItem:
     replacement_continuation_token: str
     results: t.Sequence["DestinyEntitySearchResultItem"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1502,7 +1723,14 @@ class SearchResultOfTrendingEntry:
     replacement_continuation_token: str
     results: t.Sequence["TrendingEntry"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1524,7 +1752,14 @@ class SearchResultOfFireteamSummary:
     replacement_continuation_token: str
     results: t.Sequence["FireteamSummary"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1546,7 +1781,14 @@ class SearchResultOfFireteamResponse:
     replacement_continuation_token: str
     results: t.Sequence["FireteamResponse"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

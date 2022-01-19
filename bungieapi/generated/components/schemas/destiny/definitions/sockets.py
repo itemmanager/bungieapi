@@ -20,19 +20,52 @@ class DestinySocketTypeDefinition:
     always_randomize_sockets: bool
     avoid_duplicates_on_initialization: bool
     currency_scalars: t.Sequence["DestinySocketTypeScalarMaterialRequirementEntry"]
-    display_properties: "DestinyDisplayPropertiesDefinition"  # There are fields for this display data, but they appear to be unpopulated as of now. I am not sure where in the UI these would show if they even were populated, but I will continue to return this data in case it becomes useful.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "There are fields for this display data, but they appear to be unpopulated as of now. I am not sure where in the UI these would show if they even were populated, but I will continue to return this data in case it becomes useful."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
     hide_duplicate_reusable_plugs: bool
-    index: int  # The index of the entity as it was found in the investment tables.
-    insert_action: "DestinyInsertPlugActionDefinition"  # Defines what happens when a plug is inserted into sockets of this type.
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    insert_action: "DestinyInsertPlugActionDefinition" = dt.field(
+        metadata={
+            "description": "Defines what happens when a plug is inserted into sockets of this type."
+        }
+    )
     is_preview_enabled: bool
-    overrides_ui_appearance: bool  # This property indicates if the socket type determines whether Emblem icons and nameplates should be overridden by the inserted plug item's icon and nameplate.
-    plug_whitelist: t.Sequence[
-        "DestinyPlugWhitelistEntryDefinition"
-    ]  # A list of Plug "Categories" that are allowed to be plugged into sockets of this type. These should be compared against a given plug item's DestinyInventoryItemDefinition.plug.plugCategoryHash, which indicates the plug item's category. If the plug's category matches any whitelisted plug, or if the whitelist is empty, it is allowed to be inserted.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    overrides_ui_appearance: bool = dt.field(
+        metadata={
+            "description": "This property indicates if the socket type determines whether Emblem icons and nameplates should be overridden by the inserted plug item's icon and nameplate."
+        }
+    )
+    plug_whitelist: t.Sequence["DestinyPlugWhitelistEntryDefinition"] = dt.field(
+        metadata={
+            "description": """A list of Plug "Categories" that are allowed to be plugged into sockets of this type.
+These should be compared against a given plug item's DestinyInventoryItemDefinition.plug.plugCategoryHash, which indicates the plug item's category.
+If the plug's category matches any whitelisted plug, or if the whitelist is empty, it is allowed to be inserted."""
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     socket_category_hash: ManifestReference["DestinySocketCategoryDefinition"]
-    visibility: "DestinySocketVisibility"  # Sometimes a socket isn't visible. These are some of the conditions under which sockets of this type are not visible. Unfortunately, the truth of visibility is much, much more complex. Best to rely on the live data for whether the socket is visible and enabled.
+    visibility: "DestinySocketVisibility" = dt.field(
+        metadata={
+            "description": "Sometimes a socket isn't visible. These are some of the conditions under which sockets of this type are not visible. Unfortunately, the truth of visibility is much, much more complex. Best to rely on the live data for whether the socket is visible and enabled."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -60,8 +93,16 @@ class DestinyInsertPlugActionDefinition:
     """Data related to what happens while a plug is being inserted, mostly for
     UI purposes."""
 
-    action_execute_seconds: int  # How long it takes for the Plugging of the item to be completed once it is initiated, if you care.
-    action_type: "SocketTypeActionType"  # The type of action being performed when you act on this Socket Type. The most common value is "insert plug", but there are others as well (for instance, a "Masterwork" socket may allow for Re-initialization, and an Infusion socket allows for items to be consumed to upgrade the item)
+    action_execute_seconds: int = dt.field(
+        metadata={
+            "description": "How long it takes for the Plugging of the item to be completed once it is initiated, if you care."
+        }
+    )
+    action_type: "SocketTypeActionType" = dt.field(
+        metadata={
+            "description": 'The type of action being performed when you act on this Socket Type. The most common value is "insert plug", but there are others as well (for instance, a "Masterwork" socket may allow for Re-initialization, and an Infusion socket allows for items to be consumed to upgrade the item)'
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -78,11 +119,26 @@ class DestinyPlugWhitelistEntryDefinition:
     This should be compared against a given plug item's DestinyInventoryItemDefinition.plug.plugCategoryHash, which indicates the plug item's category.
     """
 
-    category_hash: int  # The hash identifier of the Plug Category to compare against the plug item's plug.plugCategoryHash. Note that this does NOT relate to any Definition in itself, it is only used for comparison purposes.
-    category_identifier: str  # The string identifier for the category, which is here mostly for debug purposes.
-    reinitialization_possible_plug_hashes: t.Sequence[
-        int
-    ]  # The list of all plug items (DestinyInventoryItemDefinition) that the socket may randomly be populated with when reinitialized. Which ones you should actually show are determined by the plug being inserted into the socket, and the socket’s type. When you inspect the plug that could go into a Masterwork Socket, look up the socket type of the socket being inspected and find the DestinySocketTypeDefinition. Then, look at the Plugs that can fit in that socket. Find the Whitelist in the DestinySocketTypeDefinition that matches the plug item’s categoryhash. That whitelist entry will potentially have a new “reinitializationPossiblePlugHashes” property.If it does, that means we know what it will roll if you try to insert this plug into this socket.
+    category_hash: int = dt.field(
+        metadata={
+            "description": """The hash identifier of the Plug Category to compare against the plug item's plug.plugCategoryHash.
+Note that this does NOT relate to any Definition in itself, it is only used for comparison purposes."""
+        }
+    )
+    category_identifier: str = dt.field(
+        metadata={
+            "description": "The string identifier for the category, which is here mostly for debug purposes."
+        }
+    )
+    reinitialization_possible_plug_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """The list of all plug items (DestinyInventoryItemDefinition) that the socket may randomly be populated with when reinitialized.
+Which ones you should actually show are determined by the plug being inserted into the socket, and the socket’s type.
+When you inspect the plug that could go into a Masterwork Socket, look up the socket type of the socket being inspected and find the DestinySocketTypeDefinition.
+Then, look at the Plugs that can fit in that socket. Find the Whitelist in the DestinySocketTypeDefinition that matches the plug item’s categoryhash.
+That whitelist entry will potentially have a new “reinitializationPossiblePlugHashes” property.If it does, that means we know what it will roll if you try to insert this plug into this socket."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -116,12 +172,34 @@ class DestinySocketCategoryDefinition:
     As a result, I will try to compile these rules into the individual sockets on items, and provide the best hint possible there through the plugSources property. In the future, I may attempt to use this information in conjunction with the item to provide a more usable UI hint on the socket layer, but for now improving the consistency of plugSources is the best I have time to provide. (See https://github.com/Bungie-net/api/issues/522 for more info)
     """
 
-    category_style: "DestinySocketCategoryStyle"  # Same as uiCategoryStyle, but in a more usable enumeration form.
+    category_style: "DestinySocketCategoryStyle" = dt.field(
+        metadata={
+            "description": "Same as uiCategoryStyle, but in a more usable enumeration form."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    ui_category_style: int  # A string hinting to the game's UI system about how the sockets in this category should be displayed. BNet doesn't use it: it's up to you to find valid values and make your own special UI if you want to honor this category style.
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    ui_category_style: int = dt.field(
+        metadata={
+            "description": """A string hinting to the game's UI system about how the sockets in this category should be displayed.
+BNet doesn't use it: it's up to you to find valid values and make your own special UI if you want to honor this category style."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -148,14 +226,41 @@ class DestinyPlugSetDefinition:
     DisplayProperties, in particular, will no longer be guaranteed to contain valid information. We will make a best effort to guess what ought to be populated there where possible, but it will be invalid for many/most plug sets.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # If you want to show these plugs in isolation, these are the display properties for them.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    is_fake_plug_set: bool  # Mostly for our debugging or reporting bugs, BNet is making "fake" plug sets in a desperate effort to reduce socket sizes.  If this is true, the plug set was generated by BNet: if it looks wrong, that's a good indicator that it's bungie.net that fucked this up.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "If you want to show these plugs in isolation, these are the display properties for them."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    is_fake_plug_set: bool = dt.field(
+        metadata={
+            "description": """Mostly for our debugging or reporting bugs, BNet is making "fake" plug sets in a desperate effort to reduce socket sizes.
+ If this is true, the plug set was generated by BNet: if it looks wrong, that's a good indicator that it's bungie.net that fucked this up."""
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
     reusable_plug_items: t.Sequence[
         "DestinyItemSocketEntryPlugItemRandomizedDefinition"
-    ]  # This is a list of pre-determined plugs that can be plugged into this socket, without the character having the plug in their inventory. If this list is populated, you will not be allowed to plug an arbitrary item in the socket: you will only be able to choose from one of these reusable plugs.
+    ] = dt.field(
+        metadata={
+            "description": """This is a list of pre-determined plugs that can be plugged into this socket, without the character having the plug in their inventory.
+If this list is populated, you will not be allowed to plug an arbitrary item in the socket: you will only be able to choose from one of these reusable plugs."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

@@ -8,22 +8,56 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class GroupUserInfoCard:
-    last_seen_display_name: str  # This will be the display name the clan server last saw the user as. If the account is an active cross save override, this will be the display name to use. Otherwise, this will match the displayName property.
-    last_seen_display_name_type: "BungieMembershipType"  # The platform of the LastSeenDisplayName
-    applicable_membership_types: t.Sequence[
-        "BungieMembershipType"
-    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    icon_path: str  # URL the Icon if available.
-    is_public: bool  # If True, this is a public user membership.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
-    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
+    last_seen_display_name: str = dt.field(
+        metadata={
+            "description": "This will be the display name the clan server last saw the user as. If the account is an active cross save override, this will be the display name to use. Otherwise, this will match the displayName property."
+        }
+    )
+    last_seen_display_name_type: "BungieMembershipType" = dt.field(
+        metadata={"description": "The platform of the LastSeenDisplayName"}
+    )
+    applicable_membership_types: t.Sequence["BungieMembershipType"] = dt.field(
+        metadata={
+            "description": """The list of Membership Types indicating the platforms on which this Membership can be used.
+ Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list"""
+        }
+    )
+    bungie_global_display_name: str = dt.field(
+        metadata={"description": "The bungie global display name, if set."}
+    )
+    cross_save_override: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "If there is a cross save override in effect, this value will tell you the type that is overridding this one."
+        }
+    )
+    display_name: str = dt.field(
+        metadata={
+            "description": "Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API."
+        }
+    )
+    icon_path: str = dt.field(metadata={"description": "URL the Icon if available."})
+    is_public: bool = dt.field(
+        metadata={"description": "If True, this is a public user membership."}
+    )
+    membership_id: int = dt.field(
+        metadata={
+            "description": "Membership ID as they user is known in the Accounts service"
+        }
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "Type of the membership. Not necessarily the native type."
+        }
+    )
+    supplemental_display_name: str = dt.field(
+        metadata={
+            "description": "A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc."
+        }
+    )
+    bungie_global_display_name_code: t.Optional[int] = dt.field(
+        default=None,
+        metadata={"description": "The bungie global display name code, if set."},
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -48,13 +82,23 @@ class GroupUserInfoCard:
 class GroupResponse:
     alliance_status: "GroupAllianceStatus"
     allied_ids: t.Sequence[int]
-    current_user_member_map: t.Mapping[
-        str, "GroupMember"
-    ]  # This property will be populated if the authenticated user is a member of the group. Note that because of account linking, a user can sometimes be part of a clan more than once. As such, this returns the highest member type available.
-    current_user_memberships_inactive_for_destiny: bool  # A convenience property that indicates if every membership you (the current user) have that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.
+    current_user_member_map: t.Mapping[str, "GroupMember"] = dt.field(
+        metadata={
+            "description": "This property will be populated if the authenticated user is a member of the group. Note that because of account linking, a user can sometimes be part of a clan more than once. As such, this returns the highest member type available."
+        }
+    )
+    current_user_memberships_inactive_for_destiny: bool = dt.field(
+        metadata={
+            "description": "A convenience property that indicates if every membership you (the current user) have that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save."
+        }
+    )
     current_user_potential_member_map: t.Mapping[
         str, "GroupPotentialMember"
-    ]  # This property will be populated if the authenticated user is an applicant or has an outstanding invitation to join. Note that because of account linking, a user can sometimes be part of a clan more than once.
+    ] = dt.field(
+        metadata={
+            "description": "This property will be populated if the authenticated user is an applicant or has an outstanding invitation to join. Note that because of account linking, a user can sometimes be part of a clan more than once."
+        }
+    )
     detail: "GroupV2"
     founder: "GroupMember"
     group_join_invite_count: int
@@ -175,14 +219,51 @@ class GroupPostPublicity(Enum):
 @dt.dataclass(frozen=True)
 class GroupFeatures:
     capabilities: "Capabilities"
-    host_guided_game_permission_override: "HostGuidedGamesPermissionLevel"  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
-    invite_permission_override: bool  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    join_level: "RuntimeGroupMemberType"  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
+    host_guided_game_permission_override: "HostGuidedGamesPermissionLevel" = dt.field(
+        metadata={
+            "description": """Minimum Member Level allowed to host guided games
+Always Allowed: Founder, Acting Founder, Admin
+Allowed Overrides: None, Member, Beginner
+Default is Member for clans, None for groups, although this means nothing for groups."""
+        }
+    )
+    invite_permission_override: bool = dt.field(
+        metadata={
+            "description": """Minimum Member Level allowed to invite new members to group
+Always Allowed: Founder, Acting Founder
+True means admins have this power, false means they don't
+Default is false for clans, true for groups."""
+        }
+    )
+    join_level: "RuntimeGroupMemberType" = dt.field(
+        metadata={
+            "description": """Level to join a member at when accepting an invite, application, or joining an open clan
+Default is Beginner."""
+        }
+    )
     maximum_members: int
-    maximum_memberships_of_group_type: int  # Maximum number of groups of this type a typical membership may join. For example, a user may join about 50 General groups with their Bungie.net account. They may join one clan per Destiny membership.
+    maximum_memberships_of_group_type: int = dt.field(
+        metadata={
+            "description": "Maximum number of groups of this type a typical membership may join. For example, a user may join about 50 General groups with their Bungie.net account. They may join one clan per Destiny membership."
+        }
+    )
     membership_types: t.Sequence["BungieMembershipType"]
-    update_banner_permission_override: bool  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    update_culture_permission_override: bool  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    update_banner_permission_override: bool = dt.field(
+        metadata={
+            "description": """Minimum Member Level allowed to update banner
+Always Allowed: Founder, Acting Founder
+True means admins have this power, false means they don't
+Default is false for clans, true for groups."""
+        }
+    )
+    update_culture_permission_override: bool = dt.field(
+        metadata={
+            "description": """Minimum Member Level allowed to update group culture
+Always Allowed: Founder, Acting Founder
+True means admins have this power, false means they don't
+Default is false for clans, true for groups."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -419,7 +500,14 @@ class GroupSearchResponse:
     replacement_continuation_token: str
     results: t.Sequence["GroupV2Card"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -556,21 +644,49 @@ class GroupEditAction:
 
 @dt.dataclass(frozen=True)
 class GroupOptionsEditAction:
-    host_guided_game_permission_override: t.Optional[
-        int
-    ] = None  # Minimum Member Level allowed to host guided games Always Allowed: Founder, Acting Founder, Admin Allowed Overrides: None, Member, Beginner Default is Member for clans, None for groups, although this means nothing for groups.
-    invite_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to invite new members to group Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    join_level: t.Optional[
-        int
-    ] = None  # Level to join a member at when accepting an invite, application, or joining an open clan Default is Beginner.
-    update_banner_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to update banner Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
-    update_culture_permission_override: t.Optional[
-        bool
-    ] = None  # Minimum Member Level allowed to update group culture Always Allowed: Founder, Acting Founder True means admins have this power, false means they don't Default is false for clans, true for groups.
+    host_guided_game_permission_override: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """Minimum Member Level allowed to host guided games
+Always Allowed: Founder, Acting Founder, Admin
+Allowed Overrides: None, Member, Beginner
+Default is Member for clans, None for groups, although this means nothing for groups."""
+        },
+    )
+    invite_permission_override: t.Optional[bool] = dt.field(
+        default=None,
+        metadata={
+            "description": """Minimum Member Level allowed to invite new members to group
+Always Allowed: Founder, Acting Founder
+True means admins have this power, false means they don't
+Default is false for clans, true for groups."""
+        },
+    )
+    join_level: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """Level to join a member at when accepting an invite, application, or joining an open clan
+Default is Beginner."""
+        },
+    )
+    update_banner_permission_override: t.Optional[bool] = dt.field(
+        default=None,
+        metadata={
+            "description": """Minimum Member Level allowed to update banner
+Always Allowed: Founder, Acting Founder
+True means admins have this power, false means they don't
+Default is false for clans, true for groups."""
+        },
+    )
+    update_culture_permission_override: t.Optional[bool] = dt.field(
+        default=None,
+        metadata={
+            "description": """Minimum Member Level allowed to update group culture
+Always Allowed: Founder, Acting Founder
+True means admins have this power, false means they don't
+Default is false for clans, true for groups."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -752,7 +868,14 @@ class GroupMembershipSearchResponse:
     replacement_continuation_token: str
     results: t.Sequence["GroupMembership"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -769,15 +892,25 @@ class GroupMembershipSearchResponse:
 
 @dt.dataclass(frozen=True)
 class GetGroupsForMemberResponse:
-    are_all_memberships_inactive: t.Mapping[
-        str, bool
-    ]  # A convenience property that indicates if every membership this user has that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.  The key is the Group ID for the group being checked, and the value is true if the users' memberships for that group are all inactive.
+    are_all_memberships_inactive: t.Mapping[str, bool] = dt.field(
+        metadata={
+            "description": """A convenience property that indicates if every membership this user has that is a part of this group are part of an account that is considered inactive - for example, overridden accounts in Cross Save.
+ The key is the Group ID for the group being checked, and the value is true if the users' memberships for that group are all inactive."""
+        }
+    )
     has_more: bool
     query: "PagedQuery"
     replacement_continuation_token: str
     results: t.Sequence["GroupMembership"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -812,7 +945,14 @@ class GroupPotentialMembershipSearchResponse:
     replacement_continuation_token: str
     results: t.Sequence["GroupPotentialMembership"]
     total_results: int
-    use_total_results: bool  # If useTotalResults is true, then totalResults represents an accurate count. If False, it does not, and may be estimated/only the size of the current page. Either way, you should probably always only trust hasMore. This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one.
+    use_total_results: bool = dt.field(
+        metadata={
+            "description": """If useTotalResults is true, then totalResults represents an accurate count.
+If False, it does not, and may be estimated/only the size of the current page.
+Either way, you should probably always only trust hasMore.
+This is a long-held historical throwback to when we used to do paging with known total results. Those queries toasted our database, and we were left to hastily alter our endpoints and create backward- compatible shims, of which useTotalResults is one."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

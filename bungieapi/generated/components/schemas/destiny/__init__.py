@@ -17,28 +17,77 @@ class DestinyProgression:
     picture of the Progression.
     """
 
-    current_progress: int  # This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)
-    daily_limit: int  # If this progression has a daily limit, this is that limit.
-    daily_progress: int  # The amount of progress earned today for this progression.
-    level: int  # This is the level of the progression (for instance, the Character Level).
-    level_cap: int  # This is the maximum possible level you can achieve for this progression (for example, the maximum character level obtainable)
-    next_level_at: int  # The total amount of progression (i.e. "Experience") needed in order to reach the next level.
-    progress_to_next_level: int  # The amount of progression (i.e. "Experience") needed to reach the next level of this Progression. Jeez, progression is such an overloaded word.
-    progression_hash: ManifestReference[
-        "DestinyProgressionDefinition"
-    ]  # The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data.
-    reward_item_states: t.Sequence[
-        "DestinyProgressionRewardItemState"
-    ]  # Information about historical rewards for this progression, if there is any data for it.
-    season_resets: t.Sequence[
-        "DestinyProgressionResetEntry"
-    ]  # Information about historical resets of this progression, if there is any data for it.
-    step_index: int  # Progressions define their levels in "steps". Since the last step may be repeatable, the user may be at a higher level than the actual Step achieved in the progression. Not necessarily useful, but potentially interesting for those cruising the API. Relate this to the "steps" property of the DestinyProgression to see which step the user is on, if you care about that. (Note that this is Content Version dependent since it refers to indexes.)
-    weekly_limit: int  # If this progression has a weekly limit, this is that limit.
-    weekly_progress: int  # The amount of progress earned toward this progression in the current week.
-    current_reset_count: t.Optional[
-        int
-    ] = None  # The number of resets of this progression you've executed this season, if applicable to this progression.
+    current_progress: int = dt.field(
+        metadata={
+            "description": "This is the total amount of progress obtained overall for this progression (for instance, the total amount of Character Level experience earned)"
+        }
+    )
+    daily_limit: int = dt.field(
+        metadata={
+            "description": "If this progression has a daily limit, this is that limit."
+        }
+    )
+    daily_progress: int = dt.field(
+        metadata={
+            "description": "The amount of progress earned today for this progression."
+        }
+    )
+    level: int = dt.field(
+        metadata={
+            "description": "This is the level of the progression (for instance, the Character Level)."
+        }
+    )
+    level_cap: int = dt.field(
+        metadata={
+            "description": "This is the maximum possible level you can achieve for this progression (for example, the maximum character level obtainable)"
+        }
+    )
+    next_level_at: int = dt.field(
+        metadata={
+            "description": 'The total amount of progression (i.e. "Experience") needed in order to reach the next level.'
+        }
+    )
+    progress_to_next_level: int = dt.field(
+        metadata={
+            "description": 'The amount of progression (i.e. "Experience") needed to reach the next level of this Progression. Jeez, progression is such an overloaded word.'
+        }
+    )
+    progression_hash: ManifestReference["DestinyProgressionDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the Progression in question. Use it to look up the DestinyProgressionDefinition in static data."
+        }
+    )
+    reward_item_states: t.Sequence["DestinyProgressionRewardItemState"] = dt.field(
+        metadata={
+            "description": "Information about historical rewards for this progression, if there is any data for it."
+        }
+    )
+    season_resets: t.Sequence["DestinyProgressionResetEntry"] = dt.field(
+        metadata={
+            "description": "Information about historical resets of this progression, if there is any data for it."
+        }
+    )
+    step_index: int = dt.field(
+        metadata={
+            "description": 'Progressions define their levels in "steps". Since the last step may be repeatable, the user may be at a higher level than the actual Step achieved in the progression. Not necessarily useful, but potentially interesting for those cruising the API. Relate this to the "steps" property of the DestinyProgression to see which step the user is on, if you care about that. (Note that this is Content Version dependent since it refers to indexes.)'
+        }
+    )
+    weekly_limit: int = dt.field(
+        metadata={
+            "description": "If this progression has a weekly limit, this is that limit."
+        }
+    )
+    weekly_progress: int = dt.field(
+        metadata={
+            "description": "The amount of progress earned toward this progression in the current week."
+        }
+    )
+    current_reset_count: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "The number of resets of this progression you've executed this season, if applicable to this progression."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -120,14 +169,27 @@ class DestinyItemQuantity:
     Can optionally return an itemInstanceId if the item is instanced - in which case, the quantity returned will be 1. If it's not... uh, let me know okay? Thanks.
     """
 
-    has_conditional_visibility: bool  # Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress.
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition.
-    quantity: int  # The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used.
-    item_instance_id: t.Optional[
-        int
-    ] = None  # If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null.
+    has_conditional_visibility: bool = dt.field(
+        metadata={
+            "description": "Indicates that this item quantity may be conditionally shown or hidden, based on various sources of state. For example: server flags, account state, or character progress."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the item in question. Use it to look up the item's DestinyInventoryItemDefinition."
+        }
+    )
+    quantity: int = dt.field(
+        metadata={
+            "description": "The amount of the item needed/available depending on the context of where DestinyItemQuantity is being used."
+        }
+    )
+    item_instance_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If this quantity is referring to a specific instance of an item, this will have the item's instance ID. Normally, this will be null."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -923,31 +985,74 @@ class DestinyActivity:
     picture of the Activity.
     """
 
-    activity_hash: ManifestReference[
-        "DestinyActivityDefinition"
-    ]  # The hash identifier of the Activity. Use this to look up the DestinyActivityDefinition of the activity.
-    boolean_activity_options: t.Mapping[
-        str, bool
-    ]  # The set of activity options for this activity, keyed by an identifier that's unique for this activity (not guaranteed to be unique between or across all activities, though should be unique for every *variant* of a given *conceptual* activity: for instance, the original D2 Raid has many variant DestinyActivityDefinitions. While other activities could potentially have the same option hashes, for any given D2 base Raid variant the hash will be unique). As a concrete example of this data, the hashes you get for Raids will correspond to the currently active "Challenge Mode". We don't have any human readable information for these, but saavy 3rd party app users could manually associate the key (a hash identifier for the "option" that is enabled/disabled) and the value (whether it's enabled or disabled presently) On our side, we don't necessarily even know what these are used for (the game designers know, but we don't), and we have no human readable data for them. In order to use them, you will have to do some experimentation.
-    can_join: bool  # If true, the user is allowed to join with another Fireteam in this activity.
-    can_lead: bool  # If true, the user is allowed to lead a Fireteam into this activity.
+    activity_hash: ManifestReference["DestinyActivityDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the Activity. Use this to look up the DestinyActivityDefinition of the activity."
+        }
+    )
+    boolean_activity_options: t.Mapping[str, bool] = dt.field(
+        metadata={
+            "description": """The set of activity options for this activity, keyed by an identifier that's unique for this activity (not guaranteed to be unique between or across all activities, though should be unique for every *variant* of a given *conceptual* activity: for instance, the original D2 Raid has many variant DestinyActivityDefinitions. While other activities could potentially have the same option hashes, for any given D2 base Raid variant the hash will be unique).
+As a concrete example of this data, the hashes you get for Raids will correspond to the currently active "Challenge Mode".
+We don't have any human readable information for these, but saavy 3rd party app users could manually associate the key (a hash identifier for the "option" that is enabled/disabled) and the value (whether it's enabled or disabled presently)
+On our side, we don't necessarily even know what these are used for (the game designers know, but we don't), and we have no human readable data for them. In order to use them, you will have to do some experimentation."""
+        }
+    )
+    can_join: bool = dt.field(
+        metadata={
+            "description": "If true, the user is allowed to join with another Fireteam in this activity."
+        }
+    )
+    can_lead: bool = dt.field(
+        metadata={
+            "description": "If true, the user is allowed to lead a Fireteam into this activity."
+        }
+    )
     challenges: t.Sequence["DestinyChallengeStatus"]
-    difficulty_tier: "DestinyActivityDifficultyTier"  # A DestinyActivityDifficultyTier enum value indicating the difficulty of the activity.
-    is_completed: bool  # If true, we both have the ability to know that the user has completed this activity and they have completed it. Unfortunately, we can't necessarily know this for all activities. As such, this should probably only be used if you already know in advance which specific activities you wish to check.
-    is_new: bool  # If true, then the activity should have a "new" indicator in the Director UI.
-    is_visible: bool  # If true, the user should be able to see this activity.
-    modifier_hashes: t.Sequence[
-        int
-    ]  # If the activity has modifiers, this will be the list of modifiers that all variants have in common. Perform lookups against DestinyActivityModifierDefinition which defines the modifier being applied to get at the modifier data. Note that, in the DestiyActivityDefinition, you will see many more modifiers than this being referred to: those are all *possible* modifiers for the activity, not the active ones. Use only the active ones to match what's really live.
-    display_level: t.Optional[
-        int
-    ] = None  # The difficulty level of the activity, if applicable.
-    loadout_requirement_index: t.Optional[
-        int
-    ] = None  # If returned, this is the index into the DestinyActivityDefinition's "loadouts" property, indicating the currently active loadout requirements.
-    recommended_light: t.Optional[
-        int
-    ] = None  # The recommended light level for the activity, if applicable.
+    difficulty_tier: "DestinyActivityDifficultyTier" = dt.field(
+        metadata={
+            "description": "A DestinyActivityDifficultyTier enum value indicating the difficulty of the activity."
+        }
+    )
+    is_completed: bool = dt.field(
+        metadata={
+            "description": "If true, we both have the ability to know that the user has completed this activity and they have completed it. Unfortunately, we can't necessarily know this for all activities. As such, this should probably only be used if you already know in advance which specific activities you wish to check."
+        }
+    )
+    is_new: bool = dt.field(
+        metadata={
+            "description": 'If true, then the activity should have a "new" indicator in the Director UI.'
+        }
+    )
+    is_visible: bool = dt.field(
+        metadata={
+            "description": "If true, the user should be able to see this activity."
+        }
+    )
+    modifier_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": """If the activity has modifiers, this will be the list of modifiers that all variants have in common. Perform lookups against DestinyActivityModifierDefinition which defines the modifier being applied to get at the modifier data.
+Note that, in the DestiyActivityDefinition, you will see many more modifiers than this being referred to: those are all *possible* modifiers for the activity, not the active ones. Use only the active ones to match what's really live."""
+        }
+    )
+    display_level: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "The difficulty level of the activity, if applicable."
+        },
+    )
+    loadout_requirement_index: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": 'If returned, this is the index into the DestinyActivityDefinition\'s "loadouts" property, indicating the currently active loadout requirements.'
+        },
+    )
+    recommended_light: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "The recommended light level for the activity, if applicable."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -989,10 +1094,12 @@ class DestinyStat:
     """Represents a stat on an item *or* Character (NOT a Historical Stat, but
     a physical attribute stat like Attack, Defense etc...)"""
 
-    stat_hash: ManifestReference[
-        "DestinyStatDefinition"
-    ]  # The hash identifier for the Stat. Use it to look up the DestinyStatDefinition for static data about the stat.
-    value: int  # The current value of the Stat.
+    stat_hash: ManifestReference["DestinyStatDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the Stat. Use it to look up the DestinyStatDefinition for static data about the stat."
+        }
+    )
+    value: int = dt.field(metadata={"description": "The current value of the Stat."})
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1042,18 +1149,56 @@ class DestinyTalentNode:
     based on talent grid data.
     """
 
-    activation_grid_level: int  # The progression level required on the Talent Grid in order to be able to activate this talent node. Talent Grids have their own Progression - similar to Character Level, but in this case it is experience related to the item itself.
-    hidden: bool  # Whether or not the talent node is actually visible in the game's UI. Whether you want to show it in your own UI is up to you! I'm not gonna tell you who to sock it to.
-    is_activated: bool  # If true, the node is activated: it's current step then provides its benefits.
-    materials_to_upgrade: t.Sequence[
-        "DestinyMaterialRequirement"
-    ]  # If the node has material requirements to be activated, this is the list of those requirements.
-    node_hash: int  # The hash of the Talent Node being referred to (in DestinyTalentGridDefinition.nodes). Deceptively CONTENT VERSION DEPENDENT. We have no guarantee of the hash's immutability between content versions.
-    node_index: int  # The index of the Talent Node being referred to (an index into DestinyTalentGridDefinition.nodes[]). CONTENT VERSION DEPENDENT.
-    node_stats_block: "DestinyTalentNodeStatBlock"  # This property has some history. A talent grid can provide stats on both the item it's related to and the character equipping the item. This returns data about those stat bonuses.
-    progress_percent: float  # If you want to show a progress bar or circle for how close this talent node is to being activate-able, this is the percentage to show. It follows the node's underlying rules about when the progress bar should first show up, and when it should be filled.
-    state: "DestinyTalentNodeState"  # An DestinyTalentNodeState enum value indicating the node's state: whether it can be activated or swapped, and why not if neither can be performed.
-    step_index: int  # The currently relevant Step for the node. It is this step that has rendering data for the node and the benefits that are provided if the node is activated. (the actual rules for benefits provided are extremely complicated in theory, but with how Talent Grids are being used in Destiny 2 you don't have to worry about a lot of those old Destiny 1 rules.) This is an index into: DestinyTalentGridDefinition.nodes[nodeIndex].steps[stepIndex]
+    activation_grid_level: int = dt.field(
+        metadata={
+            "description": "The progression level required on the Talent Grid in order to be able to activate this talent node. Talent Grids have their own Progression - similar to Character Level, but in this case it is experience related to the item itself."
+        }
+    )
+    hidden: bool = dt.field(
+        metadata={
+            "description": "Whether or not the talent node is actually visible in the game's UI. Whether you want to show it in your own UI is up to you! I'm not gonna tell you who to sock it to."
+        }
+    )
+    is_activated: bool = dt.field(
+        metadata={
+            "description": "If true, the node is activated: it's current step then provides its benefits."
+        }
+    )
+    materials_to_upgrade: t.Sequence["DestinyMaterialRequirement"] = dt.field(
+        metadata={
+            "description": "If the node has material requirements to be activated, this is the list of those requirements."
+        }
+    )
+    node_hash: int = dt.field(
+        metadata={
+            "description": "The hash of the Talent Node being referred to (in DestinyTalentGridDefinition.nodes). Deceptively CONTENT VERSION DEPENDENT. We have no guarantee of the hash's immutability between content versions."
+        }
+    )
+    node_index: int = dt.field(
+        metadata={
+            "description": "The index of the Talent Node being referred to (an index into DestinyTalentGridDefinition.nodes[]). CONTENT VERSION DEPENDENT."
+        }
+    )
+    node_stats_block: "DestinyTalentNodeStatBlock" = dt.field(
+        metadata={
+            "description": "This property has some history. A talent grid can provide stats on both the item it's related to and the character equipping the item. This returns data about those stat bonuses."
+        }
+    )
+    progress_percent: float = dt.field(
+        metadata={
+            "description": "If you want to show a progress bar or circle for how close this talent node is to being activate-able, this is the percentage to show. It follows the node's underlying rules about when the progress bar should first show up, and when it should be filled."
+        }
+    )
+    state: "DestinyTalentNodeState" = dt.field(
+        metadata={
+            "description": "An DestinyTalentNodeState enum value indicating the node's state: whether it can be activated or swapped, and why not if neither can be performed."
+        }
+    )
+    step_index: int = dt.field(
+        metadata={
+            "description": "The currently relevant Step for the node. It is this step that has rendering data for the node and the benefits that are provided if the node is activated. (the actual rules for benefits provided are extremely complicated in theory, but with how Talent Grids are being used in Destiny 2 you don't have to worry about a lot of those old Destiny 1 rules.) This is an index into: DestinyTalentGridDefinition.nodes[nodeIndex].steps[stepIndex]"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1096,12 +1241,16 @@ class DestinyTalentNodeStatBlock:
     bonuses.
     """
 
-    current_step_stats: t.Sequence[
-        "DestinyStat"
-    ]  # The stat benefits conferred when this talent node is activated for the current Step that is active on the node.
-    next_step_stats: t.Sequence[
-        "DestinyStat"
-    ]  # This is a holdover from the old days of Destiny 1, when a node could be activated multiple times, conferring multiple steps worth of benefits: you would use this property to show what activating the "next" step on the node would provide vs. what the current step is providing. While Nodes are currently not being used this way, the underlying system for this functionality still exists. I hesitate to remove this property while the ability for designers to make such a talent grid still exists. Whether you want to show it is up to you.
+    current_step_stats: t.Sequence["DestinyStat"] = dt.field(
+        metadata={
+            "description": "The stat benefits conferred when this talent node is activated for the current Step that is active on the node."
+        }
+    )
+    next_step_stats: t.Sequence["DestinyStat"] = dt.field(
+        metadata={
+            "description": 'This is a holdover from the old days of Destiny 1, when a node could be activated multiple times, conferring multiple steps worth of benefits: you would use this property to show what activating the "next" step on the node would provide vs. what the current step is providing. While Nodes are currently not being used this way, the underlying system for this functionality still exists. I hesitate to remove this property while the ability for designers to make such a talent grid still exists. Whether you want to show it is up to you.'
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1144,10 +1293,12 @@ class DestinyUnlockStatus:
     their related DestinyUnlockDefinition.
     """
 
-    is_set: bool  # Whether the unlock flag is set.
-    unlock_hash: ManifestReference[
-        "DestinyUnlockDefinition"
-    ]  # The hash identifier for the Unlock Flag. Use to lookup DestinyUnlockDefinition for static data. Not all unlocks have human readable data - in fact, most don't. But when they do, it can be very useful to show. Even if they don't have human readable data, you might be able to infer the meaning of an unlock flag with a bit of experimentation...
+    is_set: bool = dt.field(metadata={"description": "Whether the unlock flag is set."})
+    unlock_hash: ManifestReference["DestinyUnlockDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier for the Unlock Flag. Use to lookup DestinyUnlockDefinition for static data. Not all unlocks have human readable data - in fact, most don't. But when they do, it can be very useful to show. Even if they don't have human readable data, you might be able to infer the meaning of an unlock flag with a bit of experimentation..."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -1207,8 +1358,16 @@ class DestinyEquipItemResult:
     """The results of an Equipping operation performed through the Destiny
     API."""
 
-    equip_status: "PlatformErrorCodes"  # A PlatformErrorCodes enum indicating whether it succeeded, and if it failed why.
-    item_instance_id: int  # The instance ID of the item in question (all items that can be equipped must, but definition, be Instanced and thus have an Instance ID that you can use to refer to them)
+    equip_status: "PlatformErrorCodes" = dt.field(
+        metadata={
+            "description": "A PlatformErrorCodes enum indicating whether it succeeded, and if it failed why."
+        }
+    )
+    item_instance_id: int = dt.field(
+        metadata={
+            "description": "The instance ID of the item in question (all items that can be equipped must, but definition, be Instanced and thus have an Instance ID that you can use to refer to them)"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

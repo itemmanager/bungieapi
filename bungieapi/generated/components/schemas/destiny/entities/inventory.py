@@ -19,9 +19,11 @@ class DestinyInventoryComponent:
     for more info.
     """
 
-    items: t.Sequence[
-        "DestinyItemComponent"
-    ]  # The items in this inventory. If you care to bucket them, use the item's bucketHash property to group them.
+    items: t.Sequence["DestinyItemComponent"] = dt.field(
+        metadata={
+            "description": "The items in this inventory. If you care to bucket them, use the item's bucketHash property to group them."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
