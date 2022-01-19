@@ -10,7 +10,11 @@ class DestinyChallengeStatus:
     """Represents the status and other related information for a challenge that is - or was - available to a player.
     A challenge is a bonus objective, generally tacked onto Quests or Activities, that provide additional variations on play."""
 
-    objective: "DestinyObjectiveProgress"  # The progress - including completion status - of the active challenge.
+    objective: "DestinyObjectiveProgress" = dt.field(
+        metadata={
+            "description": "The progress - including completion status - of the active challenge."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

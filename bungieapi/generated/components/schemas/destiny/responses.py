@@ -15,13 +15,22 @@ class DestinyLinkedProfilesResponse:
     in this response whose
     """
 
-    bnet_membership: "UserInfoCard"  # If the requested membership had a linked Bungie.Net membership ID, this is the basic information about that BNet account. I know, Tetron; I know this is mixing UserServices concerns with DestinyServices concerns. But it's so damn convenient! https://www.youtube.com/watch?v=X5R-bB-gKVI
-    profiles: t.Sequence[
-        "DestinyProfileUserInfoCard"
-    ]  # Any Destiny account for whom we could successfully pull characters will be returned here, as the Platform-level summary of user data. (no character data, no Destiny account data other than the Membership ID and Type so you can make further queries)
-    profiles_with_errors: t.Sequence[
-        "DestinyErrorProfile"
-    ]  # This is brief summary info for profiles that we believe have valid Destiny info, but who failed to return data for some other reason and thus we know that subsequent calls for their info will also fail.
+    bnet_membership: "UserInfoCard" = dt.field(
+        metadata={
+            "description": """If the requested membership had a linked Bungie.Net membership ID, this is the basic information about that BNet account.
+I know, Tetron; I know this is mixing UserServices concerns with DestinyServices concerns. But it's so damn convenient! https://www.youtube.com/watch?v=X5R-bB-gKVI"""
+        }
+    )
+    profiles: t.Sequence["DestinyProfileUserInfoCard"] = dt.field(
+        metadata={
+            "description": "Any Destiny account for whom we could successfully pull characters will be returned here, as the Platform-level summary of user data. (no character data, no Destiny account data other than the Membership ID and Type so you can make further queries)"
+        }
+    )
+    profiles_with_errors: t.Sequence["DestinyErrorProfile"] = dt.field(
+        metadata={
+            "description": "This is brief summary info for profiles that we believe have valid Destiny info, but who failed to return data for some other reason and thus we know that subsequent calls for their info will also fail."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -33,27 +42,73 @@ class DestinyLinkedProfilesResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyProfileUserInfoCard:
-    applicable_membership_types: t.Sequence[
-        "BungieMembershipType"
-    ]  # The list of Membership Types indicating the platforms on which this Membership can be used.  Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list
-    bungie_global_display_name: str  # The bungie global display name, if set.
-    cross_save_override: "BungieMembershipType"  # If there is a cross save override in effect, this value will tell you the type that is overridding this one.
+    applicable_membership_types: t.Sequence["BungieMembershipType"] = dt.field(
+        metadata={
+            "description": """The list of Membership Types indicating the platforms on which this Membership can be used.
+ Not in Cross Save = its original membership type. Cross Save Primary = Any membership types it is overridding, and its original membership type Cross Save Overridden = Empty list"""
+        }
+    )
+    bungie_global_display_name: str = dt.field(
+        metadata={"description": "The bungie global display name, if set."}
+    )
+    cross_save_override: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "If there is a cross save override in effect, this value will tell you the type that is overridding this one."
+        }
+    )
     date_last_played: str
-    display_name: str  # Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API.
-    icon_path: str  # URL the Icon if available.
-    is_cross_save_primary: bool  # If true, this account is hooked up as the "Primary" cross save account for one or more platforms.
-    is_overridden: bool  # If this profile is being overridden/obscured by Cross Save, this will be set to true. We will still return the profile for display purposes where users need to know the info: it is up to any given area of the app/site to determine if this profile should still be shown.
-    is_public: bool  # If True, this is a public user membership.
-    membership_id: int  # Membership ID as they user is known in the Accounts service
-    membership_type: "BungieMembershipType"  # Type of the membership. Not necessarily the native type.
-    platform_silver: "DestinyPlatformSilverComponent"  # This is the silver available on this Profile across any platforms on which they have purchased silver.  This is only available if you are requesting yourself.
-    supplemental_display_name: str  # A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc.
-    bungie_global_display_name_code: t.Optional[
-        int
-    ] = None  # The bungie global display name code, if set.
-    unpaired_game_versions: t.Optional[
-        int
-    ] = None  # If this profile is not in a cross save pairing, this will return the game versions that we believe this profile has access to.  For the time being, we will not return this information for any membership that is in a cross save pairing. The gist is that, once the pairing occurs, we do not currently have a consistent way to get that information for the profile's original Platform, and thus gameVersions would be too inconsistent (based on the last platform they happened to play on) for the info to be useful.  If we ever can get this data, this field will be deprecated and replaced with data on the DestinyLinkedProfileResponse itself, with game versions per linked Platform. But since we can't get that, we have this as a stop-gap measure for getting the data in the only situation that we currently need it.
+    display_name: str = dt.field(
+        metadata={
+            "description": "Display Name the player has chosen for themselves. The display name is optional when the data type is used as input to a platform API."
+        }
+    )
+    icon_path: str = dt.field(metadata={"description": "URL the Icon if available."})
+    is_cross_save_primary: bool = dt.field(
+        metadata={
+            "description": 'If true, this account is hooked up as the "Primary" cross save account for one or more platforms.'
+        }
+    )
+    is_overridden: bool = dt.field(
+        metadata={
+            "description": "If this profile is being overridden/obscured by Cross Save, this will be set to true. We will still return the profile for display purposes where users need to know the info: it is up to any given area of the app/site to determine if this profile should still be shown."
+        }
+    )
+    is_public: bool = dt.field(
+        metadata={"description": "If True, this is a public user membership."}
+    )
+    membership_id: int = dt.field(
+        metadata={
+            "description": "Membership ID as they user is known in the Accounts service"
+        }
+    )
+    membership_type: "BungieMembershipType" = dt.field(
+        metadata={
+            "description": "Type of the membership. Not necessarily the native type."
+        }
+    )
+    platform_silver: "DestinyPlatformSilverComponent" = dt.field(
+        metadata={
+            "description": """This is the silver available on this Profile across any platforms on which they have purchased silver.
+ This is only available if you are requesting yourself."""
+        }
+    )
+    supplemental_display_name: str = dt.field(
+        metadata={
+            "description": "A platform specific additional display name - ex: psn Real Name, bnet Unique Name, etc."
+        }
+    )
+    bungie_global_display_name_code: t.Optional[int] = dt.field(
+        default=None,
+        metadata={"description": "The bungie global display name code, if set."},
+    )
+    unpaired_game_versions: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": """If this profile is not in a cross save pairing, this will return the game versions that we believe this profile has access to.
+ For the time being, we will not return this information for any membership that is in a cross save pairing. The gist is that, once the pairing occurs, we do not currently have a consistent way to get that information for the profile's original Platform, and thus gameVersions would be too inconsistent (based on the last platform they happened to play on) for the info to be useful.
+ If we ever can get this data, this field will be deprecated and replaced with data on the DestinyLinkedProfileResponse itself, with game versions per linked Platform. But since we can't get that, we have this as a stop-gap measure for getting the data in the only situation that we currently need it."""
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -87,8 +142,16 @@ class DestinyErrorProfile:
     Type and the Membership ID.
     """
 
-    error_code: "PlatformErrorCodes"  # The error that we encountered. You should be able to look up localized text to show to the user for these failures.
-    info_card: "UserInfoCard"  # Basic info about the account that failed. Don't expect anything other than membership ID, Membership Type, and displayName to be populated.
+    error_code: "PlatformErrorCodes" = dt.field(
+        metadata={
+            "description": "The error that we encountered. You should be able to look up localized text to show to the user for these failures."
+        }
+    )
+    info_card: "UserInfoCard" = dt.field(
+        metadata={
+            "description": "Basic info about the account that failed. Don't expect anything other than membership ID, Membership Type, and displayName to be populated."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -102,37 +165,161 @@ class DestinyProfileResponse:
     """The response for GetDestinyProfile, with components for character and
     item-level data."""
 
-    character_activities: "DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent"  # Character activity data - the activities available to this character and its status, keyed by the Character's Id. COMPONENT TYPE: CharacterActivities
-    character_collectibles: "DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent"  # COMPONENT TYPE: Collectibles
-    character_currency_lookups: "DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent"  # A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing. COMPONENT TYPE: CurrencyLookups
-    character_equipment: "DictionaryComponentResponseOfint64AndDestinyInventoryComponent"  # The character's equipped items, keyed by the Character's Id. COMPONENT TYPE: CharacterEquipment
-    character_inventories: "DictionaryComponentResponseOfint64AndDestinyInventoryComponent"  # The character-level non-equipped inventory items, keyed by the Character's Id. COMPONENT TYPE: CharacterInventories
-    character_kiosks: "DictionaryComponentResponseOfint64AndDestinyKiosksComponent"  # Items available from Kiosks that are available to a specific character as opposed to the account as a whole. It must be combined with data from the profileKiosks property to get a full picture of the character's available items to check out of a kiosk. This component returns information about what Kiosk items are available to you on a *Character* level. Usually, kiosk items will be earned for the entire Profile (all characters) at once. To find those, look in the profileKiosks property. COMPONENT TYPE: Kiosks
-    character_plug_sets: "DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent"  # When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states, per character, that are character-scoped. This comes back with ItemSockets, as it is needed for a complete picture of the sockets on requested items. COMPONENT TYPE: ItemSockets
-    character_presentation_nodes: "DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent"  # COMPONENT TYPE: PresentationNodes
-    character_progressions: "DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent"  # Character-level progression data, keyed by the Character's Id. COMPONENT TYPE: CharacterProgressions
-    character_records: "DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent"  # COMPONENT TYPE: Records
-    character_render_data: "DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent"  # Character rendering data - a minimal set of info needed to render a character in 3D - keyed by the Character's Id. COMPONENT TYPE: CharacterRenderData
-    character_string_variables: "DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent"  # COMPONENT TYPE: StringVariables
+    character_activities: "DictionaryComponentResponseOfint64AndDestinyCharacterActivitiesComponent" = dt.field(
+        metadata={
+            "description": """Character activity data - the activities available to this character and its status, keyed by the Character's Id.
+COMPONENT TYPE: CharacterActivities"""
+        }
+    )
+    character_collectibles: "DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Collectibles"}
+    )
+    character_currency_lookups: "DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent" = dt.field(
+        metadata={
+            "description": """A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing.
+COMPONENT TYPE: CurrencyLookups"""
+        }
+    )
+    character_equipment: "DictionaryComponentResponseOfint64AndDestinyInventoryComponent" = dt.field(
+        metadata={
+            "description": """The character's equipped items, keyed by the Character's Id.
+COMPONENT TYPE: CharacterEquipment"""
+        }
+    )
+    character_inventories: "DictionaryComponentResponseOfint64AndDestinyInventoryComponent" = dt.field(
+        metadata={
+            "description": """The character-level non-equipped inventory items, keyed by the Character's Id.
+COMPONENT TYPE: CharacterInventories"""
+        }
+    )
+    character_kiosks: "DictionaryComponentResponseOfint64AndDestinyKiosksComponent" = dt.field(
+        metadata={
+            "description": """Items available from Kiosks that are available to a specific character as opposed to the account as a whole. It must be combined with data from the profileKiosks property to get a full picture of the character's available items to check out of a kiosk.
+This component returns information about what Kiosk items are available to you on a *Character* level. Usually, kiosk items will be earned for the entire Profile (all characters) at once. To find those, look in the profileKiosks property.
+COMPONENT TYPE: Kiosks"""
+        }
+    )
+    character_plug_sets: "DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent" = dt.field(
+        metadata={
+            "description": """When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states, per character, that are character-scoped.
+This comes back with ItemSockets, as it is needed for a complete picture of the sockets on requested items.
+COMPONENT TYPE: ItemSockets"""
+        }
+    )
+    character_presentation_nodes: "DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: PresentationNodes"}
+    )
+    character_progressions: "DictionaryComponentResponseOfint64AndDestinyCharacterProgressionComponent" = dt.field(
+        metadata={
+            "description": """Character-level progression data, keyed by the Character's Id.
+COMPONENT TYPE: CharacterProgressions"""
+        }
+    )
+    character_records: "DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Records"}
+    )
+    character_render_data: "DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent" = dt.field(
+        metadata={
+            "description": """Character rendering data - a minimal set of info needed to render a character in 3D - keyed by the Character's Id.
+COMPONENT TYPE: CharacterRenderData"""
+        }
+    )
+    character_string_variables: "DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: StringVariables"}
+    )
     character_uninstanced_item_components: t.Mapping[
         str, "DestinyBaseItemComponentSetOfuint32"
-    ]  # Do you ever get the feeling that a system was designed *too* flexibly? That it can be used in so many different ways that you end up being unable to provide an easy to use abstraction for the mess that's happening under the surface? Let's talk about character-specific data that might be related to items without instances. These two statements are totally unrelated, I promise. At some point during D2, it was decided that items - such as Bounties - could be given to characters and *not* have instance data, but that *could* display and even use relevant state information on your account and character. Up to now, any item that had meaningful dependencies on character or account state had to be instanced, and thus "itemComponents" was all that you needed: it was keyed by item's instance IDs and provided the stateful information you needed inside. Unfortunately, we don't live in such a magical world anymore. This is information held on a per-character basis about non-instanced items that the characters have in their inventory - or that reference character-specific state information even if it's in Account-level inventory - and the values related to that item's state in relation to the given character. To give a concrete example, look at a Moments of Triumph bounty. They exist in a character's inventory, and show/care about a character's progression toward completing the bounty. But the bounty itself is a non-instanced item, like a mod or a currency. This returns that data for the characters who have the bounty in their inventory. I'm not crying, you're crying Okay we're both crying but it's going to be okay I promise Actually I shouldn't promise that, I don't know if it's going to be okay
-    characters: "DictionaryComponentResponseOfint64AndDestinyCharacterComponent"  # Basic information about each character, keyed by the CharacterId. COMPONENT TYPE: Characters
-    item_components: "DestinyItemComponentSetOfint64"  # Information about instanced items across all returned characters, keyed by the item's instance ID. COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]
-    metrics: "SingleComponentResponseOfDestinyMetricsComponent"  # COMPONENT TYPE: Metrics
-    platform_silver: "SingleComponentResponseOfDestinyPlatformSilverComponent"  # Silver quantities for any platform on which this Profile plays destiny.  COMPONENT TYPE: PlatformSilver
-    profile: "SingleComponentResponseOfDestinyProfileComponent"  # The basic information about the Destiny Profile (formerly "Account"). COMPONENT TYPE: Profiles
-    profile_collectibles: "SingleComponentResponseOfDestinyProfileCollectiblesComponent"  # COMPONENT TYPE: Collectibles
-    profile_currencies: "SingleComponentResponseOfDestinyInventoryComponent"  # The profile-level currencies owned by the Destiny Profile. COMPONENT TYPE: ProfileCurrencies
-    profile_inventory: "SingleComponentResponseOfDestinyInventoryComponent"  # The profile-level inventory of the Destiny Profile. COMPONENT TYPE: ProfileInventories
-    profile_kiosks: "SingleComponentResponseOfDestinyKiosksComponent"  # Items available from Kiosks that are available Profile-wide (i.e. across all characters) This component returns information about what Kiosk items are available to you on a *Profile* level. It is theoretically possible for Kiosks to have items gated by specific Character as well. If you ever have those, you will find them on the characterKiosks property. COMPONENT TYPE: Kiosks
-    profile_plug_sets: "SingleComponentResponseOfDestinyPlugSetsComponent"  # When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states that are profile-scoped. This comes back with ItemSockets, as it is needed for a complete picture of the sockets on requested items. COMPONENT TYPE: ItemSockets
-    profile_presentation_nodes: "SingleComponentResponseOfDestinyPresentationNodesComponent"  # COMPONENT TYPE: PresentationNodes
-    profile_progression: "SingleComponentResponseOfDestinyProfileProgressionComponent"  # When we have progression information - such as Checklists - that may apply profile-wide, it will be returned here rather than in the per-character progression data. COMPONENT TYPE: ProfileProgression
-    profile_records: "SingleComponentResponseOfDestinyProfileRecordsComponent"  # COMPONENT TYPE: Records
-    profile_string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"  # COMPONENT TYPE: StringVariables
-    profile_transitory_data: "SingleComponentResponseOfDestinyProfileTransitoryComponent"  # COMPONENT TYPE: Transitory
-    vendor_receipts: "SingleComponentResponseOfDestinyVendorReceiptsComponent"  # Recent, refundable purchases you have made from vendors. When will you use it? Couldn't say... COMPONENT TYPE: VendorReceipts
+    ] = dt.field(
+        metadata={
+            "description": """Do you ever get the feeling that a system was designed *too* flexibly? That it can be used in so many different ways that you end up being unable to provide an easy to use abstraction for the mess that's happening under the surface?
+Let's talk about character-specific data that might be related to items without instances. These two statements are totally unrelated, I promise.
+At some point during D2, it was decided that items - such as Bounties - could be given to characters and *not* have instance data, but that *could* display and even use relevant state information on your account and character.
+Up to now, any item that had meaningful dependencies on character or account state had to be instanced, and thus "itemComponents" was all that you needed: it was keyed by item's instance IDs and provided the stateful information you needed inside.
+Unfortunately, we don't live in such a magical world anymore. This is information held on a per-character basis about non-instanced items that the characters have in their inventory - or that reference character-specific state information even if it's in Account-level inventory - and the values related to that item's state in relation to the given character.
+To give a concrete example, look at a Moments of Triumph bounty. They exist in a character's inventory, and show/care about a character's progression toward completing the bounty. But the bounty itself is a non-instanced item, like a mod or a currency. This returns that data for the characters who have the bounty in their inventory.
+I'm not crying, you're crying Okay we're both crying but it's going to be okay I promise Actually I shouldn't promise that, I don't know if it's going to be okay"""
+        }
+    )
+    characters: "DictionaryComponentResponseOfint64AndDestinyCharacterComponent" = dt.field(
+        metadata={
+            "description": """Basic information about each character, keyed by the CharacterId.
+COMPONENT TYPE: Characters"""
+        }
+    )
+    item_components: "DestinyItemComponentSetOfint64" = dt.field(
+        metadata={
+            "description": """Information about instanced items across all returned characters, keyed by the item's instance ID.
+COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]"""
+        }
+    )
+    metrics: "SingleComponentResponseOfDestinyMetricsComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Metrics"}
+    )
+    platform_silver: "SingleComponentResponseOfDestinyPlatformSilverComponent" = dt.field(
+        metadata={
+            "description": """Silver quantities for any platform on which this Profile plays destiny.
+ COMPONENT TYPE: PlatformSilver"""
+        }
+    )
+    profile: "SingleComponentResponseOfDestinyProfileComponent" = dt.field(
+        metadata={
+            "description": """The basic information about the Destiny Profile (formerly "Account").
+COMPONENT TYPE: Profiles"""
+        }
+    )
+    profile_collectibles: "SingleComponentResponseOfDestinyProfileCollectiblesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Collectibles"}
+    )
+    profile_currencies: "SingleComponentResponseOfDestinyInventoryComponent" = dt.field(
+        metadata={
+            "description": """The profile-level currencies owned by the Destiny Profile.
+COMPONENT TYPE: ProfileCurrencies"""
+        }
+    )
+    profile_inventory: "SingleComponentResponseOfDestinyInventoryComponent" = dt.field(
+        metadata={
+            "description": """The profile-level inventory of the Destiny Profile.
+COMPONENT TYPE: ProfileInventories"""
+        }
+    )
+    profile_kiosks: "SingleComponentResponseOfDestinyKiosksComponent" = dt.field(
+        metadata={
+            "description": """Items available from Kiosks that are available Profile-wide (i.e. across all characters)
+This component returns information about what Kiosk items are available to you on a *Profile* level. It is theoretically possible for Kiosks to have items gated by specific Character as well. If you ever have those, you will find them on the characterKiosks property.
+COMPONENT TYPE: Kiosks"""
+        }
+    )
+    profile_plug_sets: "SingleComponentResponseOfDestinyPlugSetsComponent" = dt.field(
+        metadata={
+            "description": """When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states that are profile-scoped.
+This comes back with ItemSockets, as it is needed for a complete picture of the sockets on requested items.
+COMPONENT TYPE: ItemSockets"""
+        }
+    )
+    profile_presentation_nodes: "SingleComponentResponseOfDestinyPresentationNodesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: PresentationNodes"}
+    )
+    profile_progression: "SingleComponentResponseOfDestinyProfileProgressionComponent" = dt.field(
+        metadata={
+            "description": """When we have progression information - such as Checklists - that may apply profile-wide, it will be returned here rather than in the per-character progression data.
+COMPONENT TYPE: ProfileProgression"""
+        }
+    )
+    profile_records: "SingleComponentResponseOfDestinyProfileRecordsComponent" = (
+        dt.field(metadata={"description": "COMPONENT TYPE: Records"})
+    )
+    profile_string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: StringVariables"}
+    )
+    profile_transitory_data: "SingleComponentResponseOfDestinyProfileTransitoryComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Transitory"}
+    )
+    vendor_receipts: "SingleComponentResponseOfDestinyVendorReceiptsComponent" = dt.field(
+        metadata={
+            "description": """Recent, refundable purchases you have made from vendors. When will you use it? Couldn't say...
+COMPONENT TYPE: VendorReceipts"""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -175,20 +362,82 @@ class DestinyCharacterResponse:
     """The response contract for GetDestinyCharacter, with components that can
     be returned for character and item-level data."""
 
-    activities: "SingleComponentResponseOfDestinyCharacterActivitiesComponent"  # Activity data - info about current activities available to the player. COMPONENT TYPE: CharacterActivities
-    character: "SingleComponentResponseOfDestinyCharacterComponent"  # Base information about the character in question. COMPONENT TYPE: Characters
-    collectibles: "SingleComponentResponseOfDestinyCollectiblesComponent"  # COMPONENT TYPE: Collectibles
-    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent"  # A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing. COMPONENT TYPE: CurrencyLookups
-    equipment: "SingleComponentResponseOfDestinyInventoryComponent"  # Equipped items on the character. COMPONENT TYPE: CharacterEquipment
-    inventory: "SingleComponentResponseOfDestinyInventoryComponent"  # The character-level non-equipped inventory items. COMPONENT TYPE: CharacterInventories
-    item_components: "DestinyItemComponentSetOfint64"  # The set of components belonging to the player's instanced items. COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]
-    kiosks: "SingleComponentResponseOfDestinyKiosksComponent"  # Items available from Kiosks that are available to this specific character.  COMPONENT TYPE: Kiosks
-    plug_sets: "SingleComponentResponseOfDestinyPlugSetsComponent"  # When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states that are scoped to this character. This comes back with ItemSockets, as it is needed for a complete picture of the sockets on requested items. COMPONENT TYPE: ItemSockets
-    presentation_nodes: "SingleComponentResponseOfDestinyPresentationNodesComponent"  # COMPONENT TYPE: PresentationNodes
-    progressions: "SingleComponentResponseOfDestinyCharacterProgressionComponent"  # Character progression data, including Milestones. COMPONENT TYPE: CharacterProgressions
-    records: "SingleComponentResponseOfDestinyCharacterRecordsComponent"  # COMPONENT TYPE: Records
-    render_data: "SingleComponentResponseOfDestinyCharacterRenderComponent"  # Character rendering data - a minimal set of information about equipment and dyes used for rendering. COMPONENT TYPE: CharacterRenderData
-    uninstanced_item_components: "DestinyBaseItemComponentSetOfuint32"  # The set of components belonging to the player's UNinstanced items. Because apparently now those too can have information relevant to the character's state. COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]
+    activities: "SingleComponentResponseOfDestinyCharacterActivitiesComponent" = dt.field(
+        metadata={
+            "description": """Activity data - info about current activities available to the player.
+COMPONENT TYPE: CharacterActivities"""
+        }
+    )
+    character: "SingleComponentResponseOfDestinyCharacterComponent" = dt.field(
+        metadata={
+            "description": """Base information about the character in question.
+COMPONENT TYPE: Characters"""
+        }
+    )
+    collectibles: "SingleComponentResponseOfDestinyCollectiblesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Collectibles"}
+    )
+    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent" = dt.field(
+        metadata={
+            "description": """A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing.
+COMPONENT TYPE: CurrencyLookups"""
+        }
+    )
+    equipment: "SingleComponentResponseOfDestinyInventoryComponent" = dt.field(
+        metadata={
+            "description": """Equipped items on the character.
+COMPONENT TYPE: CharacterEquipment"""
+        }
+    )
+    inventory: "SingleComponentResponseOfDestinyInventoryComponent" = dt.field(
+        metadata={
+            "description": """The character-level non-equipped inventory items.
+COMPONENT TYPE: CharacterInventories"""
+        }
+    )
+    item_components: "DestinyItemComponentSetOfint64" = dt.field(
+        metadata={
+            "description": """The set of components belonging to the player's instanced items.
+COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]"""
+        }
+    )
+    kiosks: "SingleComponentResponseOfDestinyKiosksComponent" = dt.field(
+        metadata={
+            "description": """Items available from Kiosks that are available to this specific character. 
+COMPONENT TYPE: Kiosks"""
+        }
+    )
+    plug_sets: "SingleComponentResponseOfDestinyPlugSetsComponent" = dt.field(
+        metadata={
+            "description": """When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states that are scoped to this character.
+This comes back with ItemSockets, as it is needed for a complete picture of the sockets on requested items.
+COMPONENT TYPE: ItemSockets"""
+        }
+    )
+    presentation_nodes: "SingleComponentResponseOfDestinyPresentationNodesComponent" = (
+        dt.field(metadata={"description": "COMPONENT TYPE: PresentationNodes"})
+    )
+    progressions: "SingleComponentResponseOfDestinyCharacterProgressionComponent" = dt.field(
+        metadata={
+            "description": """Character progression data, including Milestones.
+COMPONENT TYPE: CharacterProgressions"""
+        }
+    )
+    records: "SingleComponentResponseOfDestinyCharacterRecordsComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Records"}
+    )
+    render_data: "SingleComponentResponseOfDestinyCharacterRenderComponent" = dt.field(
+        metadata={
+            "description": """Character rendering data - a minimal set of information about equipment and dyes used for rendering.
+COMPONENT TYPE: CharacterRenderData"""
+        }
+    )
+    uninstanced_item_components: "DestinyBaseItemComponentSetOfuint32" = dt.field(
+        metadata={
+            "description": """The set of components belonging to the player's UNinstanced items. Because apparently now those too can have information relevant to the character's state.
+COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]"""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -218,19 +467,73 @@ class DestinyItemResponse:
     DestinyInventoryDefinition.
     """
 
-    instance: "SingleComponentResponseOfDestinyItemInstanceComponent"  # Basic instance data for the item. COMPONENT TYPE: ItemInstances
-    item: "SingleComponentResponseOfDestinyItemComponent"  # Common data for the item relevant to its non-instanced properties. COMPONENT TYPE: ItemCommonData
-    objectives: "SingleComponentResponseOfDestinyItemObjectivesComponent"  # Information specifically about the item's objectives. COMPONENT TYPE: ItemObjectives
-    perks: "SingleComponentResponseOfDestinyItemPerksComponent"  # Information specifically about the perks currently active on the item. COMPONENT TYPE: ItemPerks
-    plug_objectives: "SingleComponentResponseOfDestinyItemPlugObjectivesComponent"  # Information about objectives on Plugs for a given item. See the component's documentation for more info. COMPONENT TYPE: ItemPlugObjectives
-    render_data: "SingleComponentResponseOfDestinyItemRenderComponent"  # Information about how to render the item in 3D. COMPONENT TYPE: ItemRenderData
-    reusable_plugs: "SingleComponentResponseOfDestinyItemReusablePlugsComponent"  # Information about the Reusable Plugs for sockets on an item. These are plugs that you can insert into the given socket regardless of if you actually own an instance of that plug: they are logic-driven plugs rather than inventory-driven.  These may need to be combined with Plug Set component data to get a full picture of available plugs on a given socket.  COMPONENT TYPE: ItemReusablePlugs
-    sockets: "SingleComponentResponseOfDestinyItemSocketsComponent"  # Information about the sockets of the item: which are currently active, what potential sockets you could have and the stats/abilities/perks you can gain from them. COMPONENT TYPE: ItemSockets
-    stats: "SingleComponentResponseOfDestinyItemStatsComponent"  # Information about the computed stats of the item: power, defense, etc... COMPONENT TYPE: ItemStats
-    talent_grid: "SingleComponentResponseOfDestinyItemTalentGridComponent"  # Information about the talent grid attached to the item. Talent nodes can provide a variety of benefits and abilities, and in Destiny 2 are used almost exclusively for the character's "Builds". COMPONENT TYPE: ItemTalentGrids
-    character_id: t.Optional[
-        int
-    ] = None  # If the item is on a character, this will return the ID of the character that is holding the item.
+    instance: "SingleComponentResponseOfDestinyItemInstanceComponent" = dt.field(
+        metadata={
+            "description": """Basic instance data for the item.
+COMPONENT TYPE: ItemInstances"""
+        }
+    )
+    item: "SingleComponentResponseOfDestinyItemComponent" = dt.field(
+        metadata={
+            "description": """Common data for the item relevant to its non-instanced properties.
+COMPONENT TYPE: ItemCommonData"""
+        }
+    )
+    objectives: "SingleComponentResponseOfDestinyItemObjectivesComponent" = dt.field(
+        metadata={
+            "description": """Information specifically about the item's objectives.
+COMPONENT TYPE: ItemObjectives"""
+        }
+    )
+    perks: "SingleComponentResponseOfDestinyItemPerksComponent" = dt.field(
+        metadata={
+            "description": """Information specifically about the perks currently active on the item.
+COMPONENT TYPE: ItemPerks"""
+        }
+    )
+    plug_objectives: "SingleComponentResponseOfDestinyItemPlugObjectivesComponent" = dt.field(
+        metadata={
+            "description": """Information about objectives on Plugs for a given item. See the component's documentation for more info.
+COMPONENT TYPE: ItemPlugObjectives"""
+        }
+    )
+    render_data: "SingleComponentResponseOfDestinyItemRenderComponent" = dt.field(
+        metadata={
+            "description": """Information about how to render the item in 3D.
+COMPONENT TYPE: ItemRenderData"""
+        }
+    )
+    reusable_plugs: "SingleComponentResponseOfDestinyItemReusablePlugsComponent" = dt.field(
+        metadata={
+            "description": """Information about the Reusable Plugs for sockets on an item. These are plugs that you can insert into the given socket regardless of if you actually own an instance of that plug: they are logic-driven plugs rather than inventory-driven.
+ These may need to be combined with Plug Set component data to get a full picture of available plugs on a given socket.
+ COMPONENT TYPE: ItemReusablePlugs"""
+        }
+    )
+    sockets: "SingleComponentResponseOfDestinyItemSocketsComponent" = dt.field(
+        metadata={
+            "description": """Information about the sockets of the item: which are currently active, what potential sockets you could have and the stats/abilities/perks you can gain from them.
+COMPONENT TYPE: ItemSockets"""
+        }
+    )
+    stats: "SingleComponentResponseOfDestinyItemStatsComponent" = dt.field(
+        metadata={
+            "description": """Information about the computed stats of the item: power, defense, etc...
+COMPONENT TYPE: ItemStats"""
+        }
+    )
+    talent_grid: "SingleComponentResponseOfDestinyItemTalentGridComponent" = dt.field(
+        metadata={
+            "description": """Information about the talent grid attached to the item. Talent nodes can provide a variety of benefits and abilities, and in Destiny 2 are used almost exclusively for the character's "Builds".
+COMPONENT TYPE: ItemTalentGrids"""
+        }
+    )
+    character_id: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the item is on a character, this will return the ID of the character that is holding the item."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -253,15 +556,49 @@ class DestinyVendorsResponse:
     """A response containing all of the components for all requested
     vendors."""
 
-    categories: "DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent"  # Categories that the vendor has available, and references to the sales therein. These are keyed by the Vendor Hash, so you will get one Categories Component per vendor returned. COMPONENT TYPE: VendorCategories
-    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent"  # A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing. COMPONENT TYPE: CurrencyLookups
-    item_components: t.Mapping[
-        str, "DestinyItemComponentSetOfint32"
-    ]  # The set of item detail components, one set of item components per Vendor. These are keyed by the Vendor Hash, so you will get one Item Component Set per vendor returned. The components contained inside are themselves keyed by the vendorSaleIndex, and will have whatever item-level components you requested (Sockets, Stats, Instance data etc...) per item being sold by the vendor.
-    sales: "DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent"  # Sales, keyed by the vendorItemIndex of the item being sold. These are keyed by the Vendor Hash, so you will get one Sale Item Set Component per vendor returned. Note that within the Sale Item Set component, the sales are themselves keyed by the vendorSaleIndex, so you can relate it to the corrent sale item definition within the Vendor's definition. COMPONENT TYPE: VendorSales
-    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"  # A map of string variable values by hash for this character context. COMPONENT TYPE: StringVariables
-    vendor_groups: "SingleComponentResponseOfDestinyVendorGroupComponent"  # For Vendors being returned, this will give you the information you need to group them and order them in the same way that the Bungie Companion app performs grouping. It will automatically be returned if you request the Vendors component. COMPONENT TYPE: Vendors
-    vendors: "DictionaryComponentResponseOfuint32AndDestinyVendorComponent"  # The base properties of the vendor. These are keyed by the Vendor Hash, so you will get one Vendor Component per vendor returned. COMPONENT TYPE: Vendors
+    categories: "DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent" = dt.field(
+        metadata={
+            "description": """Categories that the vendor has available, and references to the sales therein. These are keyed by the Vendor Hash, so you will get one Categories Component per vendor returned.
+COMPONENT TYPE: VendorCategories"""
+        }
+    )
+    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent" = dt.field(
+        metadata={
+            "description": """A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing.
+COMPONENT TYPE: CurrencyLookups"""
+        }
+    )
+    item_components: t.Mapping[str, "DestinyItemComponentSetOfint32"] = dt.field(
+        metadata={
+            "description": """The set of item detail components, one set of item components per Vendor. These are keyed by the Vendor Hash, so you will get one Item Component Set per vendor returned.
+The components contained inside are themselves keyed by the vendorSaleIndex, and will have whatever item-level components you requested (Sockets, Stats, Instance data etc...) per item being sold by the vendor."""
+        }
+    )
+    sales: "DictionaryComponentResponseOfuint32AndPersonalDestinyVendorSaleItemSetComponent" = dt.field(
+        metadata={
+            "description": """Sales, keyed by the vendorItemIndex of the item being sold. These are keyed by the Vendor Hash, so you will get one Sale Item Set Component per vendor returned.
+Note that within the Sale Item Set component, the sales are themselves keyed by the vendorSaleIndex, so you can relate it to the corrent sale item definition within the Vendor's definition.
+COMPONENT TYPE: VendorSales"""
+        }
+    )
+    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent" = dt.field(
+        metadata={
+            "description": """A map of string variable values by hash for this character context.
+COMPONENT TYPE: StringVariables"""
+        }
+    )
+    vendor_groups: "SingleComponentResponseOfDestinyVendorGroupComponent" = dt.field(
+        metadata={
+            "description": """For Vendors being returned, this will give you the information you need to group them and order them in the same way that the Bungie Companion app performs grouping. It will automatically be returned if you request the Vendors component.
+COMPONENT TYPE: Vendors"""
+        }
+    )
+    vendors: "DictionaryComponentResponseOfuint32AndDestinyVendorComponent" = dt.field(
+        metadata={
+            "description": """The base properties of the vendor. These are keyed by the Vendor Hash, so you will get one Vendor Component per vendor returned.
+COMPONENT TYPE: Vendors"""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -289,12 +626,42 @@ class PersonalDestinyVendorSaleItemSetComponent:
 class DestinyVendorResponse:
     """A response containing all of the components for a vendor."""
 
-    categories: "SingleComponentResponseOfDestinyVendorCategoriesComponent"  # Categories that the vendor has available, and references to the sales therein. COMPONENT TYPE: VendorCategories
-    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent"  # A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing. COMPONENT TYPE: CurrencyLookups
-    item_components: "DestinyItemComponentSetOfint32"  # Item components, keyed by the vendorItemIndex of the active sale items. COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]
-    sales: "DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent"  # Sales, keyed by the vendorItemIndex of the item being sold. COMPONENT TYPE: VendorSales
-    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"  # A map of string variable values by hash for this character context. COMPONENT TYPE: StringVariables
-    vendor: "SingleComponentResponseOfDestinyVendorComponent"  # The base properties of the vendor. COMPONENT TYPE: Vendors
+    categories: "SingleComponentResponseOfDestinyVendorCategoriesComponent" = dt.field(
+        metadata={
+            "description": """Categories that the vendor has available, and references to the sales therein.
+COMPONENT TYPE: VendorCategories"""
+        }
+    )
+    currency_lookups: "SingleComponentResponseOfDestinyCurrenciesComponent" = dt.field(
+        metadata={
+            "description": """A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing.
+COMPONENT TYPE: CurrencyLookups"""
+        }
+    )
+    item_components: "DestinyItemComponentSetOfint32" = dt.field(
+        metadata={
+            "description": """Item components, keyed by the vendorItemIndex of the active sale items.
+COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]"""
+        }
+    )
+    sales: "DictionaryComponentResponseOfint32AndDestinyVendorSaleItemComponent" = dt.field(
+        metadata={
+            "description": """Sales, keyed by the vendorItemIndex of the item being sold.
+COMPONENT TYPE: VendorSales"""
+        }
+    )
+    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent" = dt.field(
+        metadata={
+            "description": """A map of string variable values by hash for this character context.
+COMPONENT TYPE: StringVariables"""
+        }
+    )
+    vendor: "SingleComponentResponseOfDestinyVendorComponent" = dt.field(
+        metadata={
+            "description": """The base properties of the vendor.
+COMPONENT TYPE: Vendors"""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -316,11 +683,37 @@ class DestinyPublicVendorsResponse:
     If you want any of the other data - item details, whether or not you can buy it, etc... you'll have to call in the context of a character. I know, sad but true.
     """
 
-    categories: "DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent"  # Categories that the vendor has available, and references to the sales therein. These are keyed by the Vendor Hash, so you will get one Categories Component per vendor returned. COMPONENT TYPE: VendorCategories
-    sales: "DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent"  # Sales, keyed by the vendorItemIndex of the item being sold. These are keyed by the Vendor Hash, so you will get one Sale Item Set Component per vendor returned. Note that within the Sale Item Set component, the sales are themselves keyed by the vendorSaleIndex, so you can relate it to the corrent sale item definition within the Vendor's definition. COMPONENT TYPE: VendorSales
-    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent"  # A set of string variable values by hash for a public vendors context. COMPONENT TYPE: StringVariables
-    vendor_groups: "SingleComponentResponseOfDestinyVendorGroupComponent"  # For Vendors being returned, this will give you the information you need to group them and order them in the same way that the Bungie Companion app performs grouping. It will automatically be returned if you request the Vendors component. COMPONENT TYPE: Vendors
-    vendors: "DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent"  # The base properties of the vendor. These are keyed by the Vendor Hash, so you will get one Vendor Component per vendor returned. COMPONENT TYPE: Vendors
+    categories: "DictionaryComponentResponseOfuint32AndDestinyVendorCategoriesComponent" = dt.field(
+        metadata={
+            "description": """Categories that the vendor has available, and references to the sales therein. These are keyed by the Vendor Hash, so you will get one Categories Component per vendor returned.
+COMPONENT TYPE: VendorCategories"""
+        }
+    )
+    sales: "DictionaryComponentResponseOfuint32AndPublicDestinyVendorSaleItemSetComponent" = dt.field(
+        metadata={
+            "description": """Sales, keyed by the vendorItemIndex of the item being sold. These are keyed by the Vendor Hash, so you will get one Sale Item Set Component per vendor returned.
+Note that within the Sale Item Set component, the sales are themselves keyed by the vendorSaleIndex, so you can relate it to the corrent sale item definition within the Vendor's definition.
+COMPONENT TYPE: VendorSales"""
+        }
+    )
+    string_variables: "SingleComponentResponseOfDestinyStringVariablesComponent" = dt.field(
+        metadata={
+            "description": """A set of string variable values by hash for a public vendors context.
+COMPONENT TYPE: StringVariables"""
+        }
+    )
+    vendor_groups: "SingleComponentResponseOfDestinyVendorGroupComponent" = dt.field(
+        metadata={
+            "description": """For Vendors being returned, this will give you the information you need to group them and order them in the same way that the Bungie Companion app performs grouping. It will automatically be returned if you request the Vendors component.
+COMPONENT TYPE: Vendors"""
+        }
+    )
+    vendors: "DictionaryComponentResponseOfuint32AndDestinyPublicVendorComponent" = dt.field(
+        metadata={
+            "description": """The base properties of the vendor. These are keyed by the Vendor Hash, so you will get one Vendor Component per vendor returned.
+COMPONENT TYPE: Vendors"""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -347,8 +740,17 @@ class DestinyCollectibleNodeDetailResponse:
     """Returns the detailed information about a Collectible Presentation Node
     and any Collectibles that are direct descendants."""
 
-    collectible_item_components: "DestinyItemComponentSetOfuint32"  # Item components, keyed by the item hash of the items pointed at collectibles found under the requested Presentation Node. NOTE: I had a lot of hemming and hawing about whether these should be keyed by collectible hash or item hash... but ultimately having it be keyed by item hash meant that UI that already uses DestinyItemComponentSet data wouldn't have to have a special override to do the collectible -> item lookup once you delve into an item's details, and it also meant that you didn't have to remember that the Hash being used as the key for plugSets was different from the Hash being used for the other Dictionaries. As a result, using the Item Hash felt like the least crappy solution. We may all come to regret this decision. We will see. COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]
-    collectibles: "SingleComponentResponseOfDestinyCollectiblesComponent"  # COMPONENT TYPE: Collectibles
+    collectible_item_components: "DestinyItemComponentSetOfuint32" = dt.field(
+        metadata={
+            "description": """Item components, keyed by the item hash of the items pointed at collectibles found under the requested Presentation Node.
+NOTE: I had a lot of hemming and hawing about whether these should be keyed by collectible hash or item hash... but ultimately having it be keyed by item hash meant that UI that already uses DestinyItemComponentSet data wouldn't have to have a special override to do the collectible -> item lookup once you delve into an item's details, and it also meant that you didn't have to remember that the Hash being used as the key for plugSets was different from the Hash being used for the other Dictionaries. As a result, using the Item Hash felt like the least crappy solution.
+We may all come to regret this decision. We will see.
+COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component types.]"""
+        }
+    )
+    collectibles: "SingleComponentResponseOfDestinyCollectiblesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Collectibles"}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -362,12 +764,16 @@ class InventoryChangedResponse:
     """A response containing all of the components for all requested
     vendors."""
 
-    added_inventory_items: t.Sequence[
-        "DestinyItemComponent"
-    ]  # Items that appeared in the inventory possibly as a result of an action.
-    removed_inventory_items: t.Sequence[
-        "DestinyItemComponent"
-    ]  # Items that disappeared from the inventory possibly as a result of an action.
+    added_inventory_items: t.Sequence["DestinyItemComponent"] = dt.field(
+        metadata={
+            "description": "Items that appeared in the inventory possibly as a result of an action."
+        }
+    )
+    removed_inventory_items: t.Sequence["DestinyItemComponent"] = dt.field(
+        metadata={
+            "description": "Items that disappeared from the inventory possibly as a result of an action."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -378,13 +784,17 @@ class InventoryChangedResponse:
 
 @dt.dataclass(frozen=True)
 class DestinyItemChangeResponse:
-    added_inventory_items: t.Sequence[
-        "DestinyItemComponent"
-    ]  # Items that appeared in the inventory possibly as a result of an action.
+    added_inventory_items: t.Sequence["DestinyItemComponent"] = dt.field(
+        metadata={
+            "description": "Items that appeared in the inventory possibly as a result of an action."
+        }
+    )
     item: "DestinyItemResponse"
-    removed_inventory_items: t.Sequence[
-        "DestinyItemComponent"
-    ]  # Items that disappeared from the inventory possibly as a result of an action.
+    removed_inventory_items: t.Sequence["DestinyItemComponent"] = dt.field(
+        metadata={
+            "description": "Items that disappeared from the inventory possibly as a result of an action."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

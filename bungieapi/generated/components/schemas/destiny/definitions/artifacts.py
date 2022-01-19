@@ -13,14 +13,37 @@ class DestinyArtifactDefinition:
     We cannot guarantee that artifact definitions will be immutable between seasons - in fact, we've been told that they will be replaced between seasons. But this definition is built both to minimize the amount of lookups for related data that have to occur, and is built in hope that, if this plan changes, we will be able to accommodate it more easily.
     """
 
-    display_properties: "DestinyDisplayPropertiesDefinition"  # Any basic display info we know about the Artifact. Currently sourced from a related inventory item, but the source of this data is subject to change.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
-    tiers: t.Sequence[
-        "DestinyArtifactTierDefinition"
-    ]  # Any Tier/Rank data related to this artifact, listed in display order.  Currently sourced from a Vendor, but this source is subject to change.
-    translation_block: "DestinyItemTranslationBlockDefinition"  # Any Geometry/3D info we know about the Artifact. Currently sourced from a related inventory item's gearset information, but the source of this data is subject to change.
+    display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "Any basic display info we know about the Artifact. Currently sourced from a related inventory item, but the source of this data is subject to change."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    tiers: t.Sequence["DestinyArtifactTierDefinition"] = dt.field(
+        metadata={
+            "description": "Any Tier/Rank data related to this artifact, listed in display order.  Currently sourced from a Vendor, but this source is subject to change."
+        }
+    )
+    translation_block: "DestinyItemTranslationBlockDefinition" = dt.field(
+        metadata={
+            "description": "Any Geometry/3D info we know about the Artifact. Currently sourced from a related inventory item's gearset information, but the source of this data is subject to change."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -35,13 +58,27 @@ class DestinyArtifactDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierDefinition:
-    display_title: str  # The human readable title of this tier, if any.
-    items: t.Sequence[
-        "DestinyArtifactTierItemDefinition"
-    ]  # The items that can be earned within this tier.
-    minimum_unlock_points_used_requirement: int  # The minimum number of "unlock points" that you must have used before you can unlock items from this tier.
-    progress_requirement_message: str  # A string representing the localized minimum requirement text for this Tier, if any.
-    tier_hash: int  # An identifier, unique within the Artifact, for this specific tier.
+    display_title: str = dt.field(
+        metadata={"description": "The human readable title of this tier, if any."}
+    )
+    items: t.Sequence["DestinyArtifactTierItemDefinition"] = dt.field(
+        metadata={"description": "The items that can be earned within this tier."}
+    )
+    minimum_unlock_points_used_requirement: int = dt.field(
+        metadata={
+            "description": 'The minimum number of "unlock points" that you must have used before you can unlock items from this tier.'
+        }
+    )
+    progress_requirement_message: str = dt.field(
+        metadata={
+            "description": "A string representing the localized minimum requirement text for this Tier, if any."
+        }
+    )
+    tier_hash: int = dt.field(
+        metadata={
+            "description": "An identifier, unique within the Artifact, for this specific tier."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -57,9 +94,11 @@ class DestinyArtifactTierDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyArtifactTierItemDefinition:
-    item_hash: ManifestReference[
-        "DestinyInventoryItemDefinition"
-    ]  # The identifier of the Plug Item unlocked by activating this item in the Artifact.
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The identifier of the Plug Item unlocked by activating this item in the Artifact."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

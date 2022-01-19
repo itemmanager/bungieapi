@@ -24,27 +24,56 @@ class DestinyActivityGraphDefinition:
     that content in this definition.
     """
 
-    art_elements: t.Sequence[
-        "DestinyActivityGraphArtElementDefinition"
-    ]  # Represents one-off/special UI elements that appear on the map.
-    connections: t.Sequence[
-        "DestinyActivityGraphConnectionDefinition"
-    ]  # Represents connections between graph nodes. However, it lacks context that we'd need to make good use of it.
+    art_elements: t.Sequence["DestinyActivityGraphArtElementDefinition"] = dt.field(
+        metadata={
+            "description": "Represents one-off/special UI elements that appear on the map."
+        }
+    )
+    connections: t.Sequence["DestinyActivityGraphConnectionDefinition"] = dt.field(
+        metadata={
+            "description": "Represents connections between graph nodes. However, it lacks context that we'd need to make good use of it."
+        }
+    )
     display_objectives: t.Sequence[
         "DestinyActivityGraphDisplayObjectiveDefinition"
-    ]  # Objectives can display on maps, and this is supposedly metadata for that. I have not had the time to analyze the details of what is useful within however: we could be missing important data to make this work. Expect this property to be expanded on later if possible.
+    ] = dt.field(
+        metadata={
+            "description": "Objectives can display on maps, and this is supposedly metadata for that. I have not had the time to analyze the details of what is useful within however: we could be missing important data to make this work. Expect this property to be expanded on later if possible."
+        }
+    )
     display_progressions: t.Sequence[
         "DestinyActivityGraphDisplayProgressionDefinition"
-    ]  # Progressions can also display on maps, but similarly to displayObjectives we appear to lack some required information and context right now. We will have to look into it later and add more data if possible.
-    hash: int  # The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally. When entities refer to each other in Destiny content, it is this hash that they are referring to.
-    index: int  # The index of the entity as it was found in the investment tables.
-    linked_graphs: t.Sequence[
-        "DestinyLinkedGraphDefinition"
-    ]  # Represents links between this Activity Graph and other ones.
-    nodes: t.Sequence[
-        "DestinyActivityGraphNodeDefinition"
-    ]  # These represent the visual "nodes" on the map's view. These are the activities you can click on in the map.
-    redacted: bool  # If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!
+    ] = dt.field(
+        metadata={
+            "description": "Progressions can also display on maps, but similarly to displayObjectives we appear to lack some required information and context right now. We will have to look into it later and add more data if possible."
+        }
+    )
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    linked_graphs: t.Sequence["DestinyLinkedGraphDefinition"] = dt.field(
+        metadata={
+            "description": "Represents links between this Activity Graph and other ones."
+        }
+    )
+    nodes: t.Sequence["DestinyActivityGraphNodeDefinition"] = dt.field(
+        metadata={
+            "description": 'These represent the visual "nodes" on the map\'s view. These are the activities you can click on in the map.'
+        }
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -71,18 +100,36 @@ class DestinyActivityGraphNodeDefinition:
     tooltip and other UI related to the node)
     """
 
-    activities: t.Sequence[
-        "DestinyActivityGraphNodeActivityDefinition"
-    ]  # The node may have various possible activities that could be active for it, however only one may be active at a time. See the DestinyActivityGraphNodeActivityDefinition for details.
+    activities: t.Sequence["DestinyActivityGraphNodeActivityDefinition"] = dt.field(
+        metadata={
+            "description": "The node may have various possible activities that could be active for it, however only one may be active at a time. See the DestinyActivityGraphNodeActivityDefinition for details."
+        }
+    )
     featuring_states: t.Sequence[
         "DestinyActivityGraphNodeFeaturingStateDefinition"
-    ]  # The node may have various visual accents placed on it, or styles applied. These are the list of possible styles that the Node can have. The game iterates through each, looking for the first one that passes a check of the required game/character/account state in order to show that style, and then renders the node in that style.
-    node_id: int  # An identifier for the Activity Graph Node, only guaranteed to be unique within its parent Activity Graph.
-    override_display: "DestinyDisplayPropertiesDefinition"  # The node *may* have display properties that override the active Activity's display properties.
-    position: "DestinyPositionDefinition"  # The position on the map for this node.
-    states: t.Sequence[
-        "DestinyActivityGraphNodeStateEntry"
-    ]  # Represents possible states that the graph node can be in. These are combined with some checking that happens in the game client and server to determine which state is actually active at any given time.
+    ] = dt.field(
+        metadata={
+            "description": "The node may have various visual accents placed on it, or styles applied. These are the list of possible styles that the Node can have. The game iterates through each, looking for the first one that passes a check of the required game/character/account state in order to show that style, and then renders the node in that style."
+        }
+    )
+    node_id: int = dt.field(
+        metadata={
+            "description": "An identifier for the Activity Graph Node, only guaranteed to be unique within its parent Activity Graph."
+        }
+    )
+    override_display: "DestinyDisplayPropertiesDefinition" = dt.field(
+        metadata={
+            "description": "The node *may* have display properties that override the active Activity's display properties."
+        }
+    )
+    position: "DestinyPositionDefinition" = dt.field(
+        metadata={"description": "The position on the map for this node."}
+    )
+    states: t.Sequence["DestinyActivityGraphNodeStateEntry"] = dt.field(
+        metadata={
+            "description": "Represents possible states that the graph node can be in. These are combined with some checking that happens in the game client and server to determine which state is actually active at any given time."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -104,7 +151,11 @@ class DestinyActivityGraphNodeFeaturingStateDefinition:
     whether it should be set.
     """
 
-    highlight_type: "ActivityGraphNodeHighlightType"  # The node can be highlighted in a variety of ways - the game iterates through these and finds the first FeaturingState that is valid at the present moment given the Game, Account, and Character state, and renders the node in that state. See the ActivityGraphNodeHighlightType enum for possible values.
+    highlight_type: "ActivityGraphNodeHighlightType" = dt.field(
+        metadata={
+            "description": "The node can be highlighted in a variety of ways - the game iterates through these and finds the first FeaturingState that is valid at the present moment given the Game, Account, and Character state, and renders the node in that state. See the ActivityGraphNodeHighlightType enum for possible values."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -125,10 +176,16 @@ class DestinyActivityGraphNodeActivityDefinition:
     but only one is active for the week.
     """
 
-    activity_hash: ManifestReference[
-        "DestinyActivityDefinition"
-    ]  # The activity that will be activated if the user clicks on this node. Controls all activity-related information displayed on the node if it is active (the text shown in the tooltip etc)
-    node_activity_id: int  # An identifier for this node activity. It is only guaranteed to be unique within the Activity Graph.
+    activity_hash: ManifestReference["DestinyActivityDefinition"] = dt.field(
+        metadata={
+            "description": "The activity that will be activated if the user clicks on this node. Controls all activity-related information displayed on the node if it is active (the text shown in the tooltip etc)"
+        }
+    )
+    node_activity_id: int = dt.field(
+        metadata={
+            "description": "An identifier for this node activity. It is only guaranteed to be unique within the Activity Graph."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -163,7 +220,9 @@ class DestinyActivityGraphArtElementDefinition:
     pipeline exists (if it ever will)
     """
 
-    position: "DestinyPositionDefinition"  # The position on the map of the art element.
+    position: "DestinyPositionDefinition" = dt.field(
+        metadata={"description": "The position on the map of the art element."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -195,10 +254,14 @@ class DestinyActivityGraphDisplayObjectiveDefinition:
     """When a Graph needs to show active Objectives, this defines those
     objectives as well as an identifier."""
 
-    id: int  # $NOTE $amola 2017-01-19 This field is apparently something that CUI uses to manually wire up objectives to display info. I am unsure how it works.
-    objective_hash: ManifestReference[
-        "DestinyObjectiveDefinition"
-    ]  # The objective being shown on the map.
+    id: int = dt.field(
+        metadata={
+            "description": "$NOTE $amola 2017-01-19 This field is apparently something that CUI uses to manually wire up objectives to display info. I am unsure how it works."
+        }
+    )
+    objective_hash: ManifestReference["DestinyObjectiveDefinition"] = dt.field(
+        metadata={"description": "The objective being shown on the map."}
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

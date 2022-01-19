@@ -7,9 +7,11 @@ from bungieapi.json import to_json
 
 @dt.dataclass(frozen=True)
 class DestinyPlatformSilverComponent:
-    platform_silver: t.Mapping[
-        str, "DestinyItemComponent"
-    ]  # If a Profile is played on multiple platforms, this is the silver they have for each platform, keyed by Membership Type.
+    platform_silver: t.Mapping[str, "DestinyItemComponent"] = dt.field(
+        metadata={
+            "description": "If a Profile is played on multiple platforms, this is the silver they have for each platform, keyed by Membership Type."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -33,9 +35,12 @@ class DestinyCurrenciesComponent:
     GetCharacter/GetProfile calls.
     """
 
-    item_quantities: t.Mapping[
-        str, int
-    ]  # A dictionary - keyed by the item's hash identifier (DestinyInventoryItemDefinition), and whose value is the amount of that item you have across all available inventory buckets for purchasing. This allows you to see whether the requesting character can afford any given purchase/action without having to re-create this list itself.
+    item_quantities: t.Mapping[str, int] = dt.field(
+        metadata={
+            "description": """A dictionary - keyed by the item's hash identifier (DestinyInventoryItemDefinition), and whose value is the amount of that item you have across all available inventory buckets for purchasing.
+This allows you to see whether the requesting character can afford any given purchase/action without having to re-create this list itself."""
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {

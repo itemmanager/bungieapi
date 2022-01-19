@@ -20,9 +20,11 @@ class DestinyPlugSetsComponent:
     reused)
     """
 
-    plugs: t.Mapping[
-        str, t.Sequence["DestinyItemPlug"]
-    ]  # The shared list of plugs for each relevant PlugSet, keyed by the hash identifier of the PlugSet (DestinyPlugSetDefinition).
+    plugs: t.Mapping[str, t.Sequence["DestinyItemPlug"]] = dt.field(
+        metadata={
+            "description": "The shared list of plugs for each relevant PlugSet, keyed by the hash identifier of the PlugSet (DestinyPlugSetDefinition)."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
