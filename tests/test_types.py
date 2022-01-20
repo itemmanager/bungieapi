@@ -2,6 +2,7 @@ import dataclasses as dt
 
 from bungieapi.forge import forge
 from bungieapi.generated.components.schemas.user import OptInFlags
+from bungieapi.types import decompose
 from bungieapi.types import ManifestReference
 
 
@@ -12,8 +13,8 @@ def test_can_create_bitmask():
     ).value == 8 + 64
 
 
-def test_can_decompose_type():
-    assert {OptInFlags.USER_RESEARCH, OptInFlags.PLAY_TESTS} == set(
+def test_can_decompose_flag():
+    assert {OptInFlags.USER_RESEARCH, OptInFlags.PLAY_TESTS} == decompose(
         OptInFlags.USER_RESEARCH | OptInFlags.PLAY_TESTS
     )
 
