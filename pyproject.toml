@@ -14,7 +14,7 @@ aiohttp = "^3.8.1"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 mypy = "^0.931"
-black = "^21.12b0"
+black = "^22.1"
 isort = "^5.10.1"
 docformatter = "^1.4"
 click = "^8.0.3"
