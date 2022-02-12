@@ -2,8 +2,7 @@ import dataclasses as dt
 
 from bungieapi.forge import forge
 from bungieapi.generated.components.schemas.user import OptInFlags
-from bungieapi.types import decompose
-from bungieapi.types import ManifestReference
+from bungieapi.types import ManifestReference, decompose
 
 
 def test_can_create_bitmask():
