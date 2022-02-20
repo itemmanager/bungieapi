@@ -3,6 +3,8 @@ name: Update
 on:
   schedule:
     - cron: "7 18 * * *"
+  workflow_dispatch: {}
+
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
