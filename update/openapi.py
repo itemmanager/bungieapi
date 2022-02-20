@@ -197,8 +197,11 @@ def forge_regerence_or_schema(
     return forge(Schema, data)
 
 
-svarog.register_forge(t.Union[Reference, Schema], forge_regerence_or_schema)  # type: ignore
-svarog.register_forge(t.Union[Reference, Schema, None], forge_regerence_or_schema)  # type: ignore
+def is_reference_or_schema(type_: t.Any) -> bool:
+    return type_ == Reference | Schema or type_ == Reference | Schema | None
+
+
+svarog.register_mold(is_reference_or_schema, forge_regerence_or_schema)
 
 
 def not_allowed():
