@@ -225,6 +225,7 @@ class DestinyPresentationNodeChildrenBlock:
     """
 
     collectibles: t.Sequence["DestinyPresentationNodeCollectibleChildEntry"]
+    craftables: t.Sequence["DestinyPresentationNodeCraftableChildEntry"]
     metrics: t.Sequence["DestinyPresentationNodeMetricChildEntry"]
     presentation_nodes: t.Sequence["DestinyPresentationNodeChildEntry"]
     records: t.Sequence["DestinyPresentationNodeRecordChildEntry"]
@@ -235,26 +236,53 @@ class DestinyPresentationNodeChildrenBlock:
             "collectibles": to_json(self.collectibles),
             "records": to_json(self.records),
             "metrics": to_json(self.metrics),
+            "craftables": to_json(self.craftables),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyPresentationNodeChildEntryBase:
+    node_display_priority: int = dt.field(
+        metadata={
+            "description": "Use this value to sort the presentation node children in ascending order."
+        }
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "nodeDisplayPriority": to_json(self.node_display_priority),
         }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeChildEntry:
+    node_display_priority: int = dt.field(
+        metadata={
+            "description": "Use this value to sort the presentation node children in ascending order."
+        }
+    )
     presentation_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "presentationNodeHash": to_json(self.presentation_node_hash),
+            "nodeDisplayPriority": to_json(self.node_display_priority),
         }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeCollectibleChildEntry:
     collectible_hash: ManifestReference["DestinyCollectibleDefinition"]
+    node_display_priority: int = dt.field(
+        metadata={
+            "description": "Use this value to sort the presentation node children in ascending order."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "collectibleHash": to_json(self.collectible_hash),
+            "nodeDisplayPriority": to_json(self.node_display_priority),
         }
 
 
@@ -298,21 +326,49 @@ class DestinyPresentationChildBlock:
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeRecordChildEntry:
+    node_display_priority: int = dt.field(
+        metadata={
+            "description": "Use this value to sort the presentation node children in ascending order."
+        }
+    )
     record_hash: ManifestReference["DestinyRecordDefinition"]
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "recordHash": to_json(self.record_hash),
+            "nodeDisplayPriority": to_json(self.node_display_priority),
         }
 
 
 @dt.dataclass(frozen=True)
 class DestinyPresentationNodeMetricChildEntry:
     metric_hash: ManifestReference["DestinyMetricDefinition"]
+    node_display_priority: int = dt.field(
+        metadata={
+            "description": "Use this value to sort the presentation node children in ascending order."
+        }
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "metricHash": to_json(self.metric_hash),
+            "nodeDisplayPriority": to_json(self.node_display_priority),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyPresentationNodeCraftableChildEntry:
+    craftable_item_hash: ManifestReference["DestinyInventoryItemDefinition"]
+    node_display_priority: int = dt.field(
+        metadata={
+            "description": "Use this value to sort the presentation node children in ascending order."
+        }
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "craftableItemHash": to_json(self.craftable_item_hash),
+            "nodeDisplayPriority": to_json(self.node_display_priority),
         }
 
 
@@ -324,6 +380,7 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyPresentationScreenStyle,
 )
 from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
     DestinyObjectiveDefinition,
 )
 from bungieapi.generated.components.schemas.destiny.definitions.collectibles import (  # noqa: E402

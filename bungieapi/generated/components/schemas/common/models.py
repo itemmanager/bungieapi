@@ -101,6 +101,7 @@ class Destiny2CoreSettings:
     ammo_type_special_icon: str
     badges_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
     collection_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
+    crafting_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
     current_rank_progression_hashes: t.Sequence[int]
     current_seasonal_artifact_hash: ManifestReference["DestinyVendorDefinition"]
     exotic_catalysts_root_node_hash: ManifestReference[
@@ -141,6 +142,7 @@ class Destiny2CoreSettings:
                 self.exotic_catalysts_root_node_hash
             ),
             "loreRootNodeHash": to_json(self.lore_root_node_hash),
+            "craftingRootNodeHash": to_json(self.crafting_root_node_hash),
             "currentRankProgressionHashes": to_json(
                 self.current_rank_progression_hashes
             ),
