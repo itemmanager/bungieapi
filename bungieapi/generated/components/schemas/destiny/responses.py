@@ -174,6 +174,9 @@ COMPONENT TYPE: CharacterActivities"""
     character_collectibles: "DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent" = dt.field(
         metadata={"description": "COMPONENT TYPE: Collectibles"}
     )
+    character_craftables: "DictionaryComponentResponseOfint64AndDestinyCraftablesComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: Craftables"}
+    )
     character_currency_lookups: "DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent" = dt.field(
         metadata={
             "description": """A "lookup" convenience component that can be used to quickly check if the character has access to items that can be used for purchasing.
@@ -352,6 +355,7 @@ COMPONENT TYPE: VendorReceipts"""
             "characterRecords": to_json(self.character_records),
             "characterCollectibles": to_json(self.character_collectibles),
             "characterStringVariables": to_json(self.character_string_variables),
+            "characterCraftables": to_json(self.character_craftables),
             "itemComponents": to_json(self.item_components),
             "characterCurrencyLookups": to_json(self.character_currency_lookups),
         }
@@ -817,6 +821,7 @@ from bungieapi.generated.components.schemas import (  # noqa: E402
     DictionaryComponentResponseOfint64AndDestinyCharacterRecordsComponent,
     DictionaryComponentResponseOfint64AndDestinyCharacterRenderComponent,
     DictionaryComponentResponseOfint64AndDestinyCollectiblesComponent,
+    DictionaryComponentResponseOfint64AndDestinyCraftablesComponent,
     DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent,
     DictionaryComponentResponseOfint64AndDestinyInventoryComponent,
     DictionaryComponentResponseOfint64AndDestinyKiosksComponent,

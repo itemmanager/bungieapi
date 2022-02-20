@@ -20,10 +20,16 @@ class DestinyPostGameCarnageReportData:
     teams: t.Sequence["DestinyPostGameCarnageReportTeamEntry"] = dt.field(
         metadata={"description": "Collection of stats for the player in this activity."}
     )
+    activity_was_started_from_beginning: t.Optional[bool] = dt.field(
+        default=None,
+        metadata={
+            "description": "True if the activity was started from the beginning, if that information is available."
+        },
+    )
     starting_phase_index: t.Optional[int] = dt.field(
         default=None,
         metadata={
-            "description": 'If this activity has "phases", this is the phase at which the activity was started.'
+            "description": 'OBSOLETE - If this activity has "phases", this is the phase at which the activity was started.'
         },
     )
 
@@ -31,6 +37,9 @@ class DestinyPostGameCarnageReportData:
         return {
             "period": to_json(self.period),
             "startingPhaseIndex": to_json(self.starting_phase_index),
+            "activityWasStartedFromBeginning": to_json(
+                self.activity_was_started_from_beginning
+            ),
             "activityDetails": to_json(self.activity_details),
             "entries": to_json(self.entries),
             "teams": to_json(self.teams),

@@ -270,6 +270,11 @@ class DestinyInventoryItemDefinition:
 If you see a mis-classed item, please inform the developers in the Bungie API forum."""
         }
     )
+    crafting: "DestinyItemCraftingBlockDefinition" = dt.field(
+        metadata={
+            "description": "Recipe items will have relevant crafting information available here."
+        }
+    )
     damage_type_hashes: t.Sequence[int] = dt.field(
         metadata={
             "description": "Theoretically, an item can have many possible damage types. In *practice*, this is not true, but just in case weapons start being made that have multiple (for instance, an item where a socket has reusable plugs for every possible damage type that you can choose from freely), this field will return all of the possible damage types that are available to the weapon by default."
@@ -595,6 +600,7 @@ This happens sometimes when summarizing possible rewards in a tooltip. This is t
             "displaySource": to_json(self.display_source),
             "tooltipStyle": to_json(self.tooltip_style),
             "action": to_json(self.action),
+            "crafting": to_json(self.crafting),
             "inventory": to_json(self.inventory),
             "setData": to_json(self.set_data),
             "stats": to_json(self.stats),
@@ -865,6 +871,134 @@ When entities refer to each other in Destiny content, it is this hash that they 
 
 
 @dt.dataclass(frozen=True)
+class DestinyItemCraftingBlockDefinition:
+    """If an item can have an action performed on it (like "Dismantle"), it
+    will be defined here if you care."""
+
+    bonus_plugs: t.Sequence["DestinyItemCraftingBlockBonusPlugDefinition"] = dt.field(
+        metadata={
+            "description": "A list of 'bonus' socket plugs that may be available if certain requirements are met."
+        }
+    )
+    failed_requirement_strings: t.Sequence[str]
+    output_item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "A reference to the item definition that is created when crafting with this 'recipe' item."
+        }
+    )
+    required_socket_type_hashes: t.Sequence[int] = dt.field(
+        metadata={
+            "description": "A list of socket type hashes that describes which sockets are required for crafting with this recipe."
+        }
+    )
+    base_material_requirements: t.Optional[
+        ManifestReference["DestinyMaterialRequirementSetDefinition"]
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "A reference to the base material requirements for crafting with this recipe."
+        },
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "outputItemHash": to_json(self.output_item_hash),
+            "requiredSocketTypeHashes": to_json(self.required_socket_type_hashes),
+            "failedRequirementStrings": to_json(self.failed_requirement_strings),
+            "baseMaterialRequirements": to_json(self.base_material_requirements),
+            "bonusPlugs": to_json(self.bonus_plugs),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyItemCraftingBlockBonusPlugDefinition:
+    plug_item_hash: ManifestReference["DestinyInventoryItemDefinition"]
+    socket_type_hash: ManifestReference["DestinySocketTypeDefinition"]
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "socketTypeHash": to_json(self.socket_type_hash),
+            "plugItemHash": to_json(self.plug_item_hash),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyMaterialRequirementSetDefinition:
+    """Represent a set of material requirements: Items that either need to be
+    owned or need to be consumed in order to perform an action.
+
+    A variety of other entities refer to these as gatekeepers and
+    payments for actions that can be performed in game.
+    """
+
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    materials: t.Sequence["DestinyMaterialRequirement"] = dt.field(
+        metadata={"description": "The list of all materials that are required."}
+    )
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "materials": to_json(self.materials),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyMaterialRequirement:
+    """Many actions relating to items require you to expend materials: - Activating a talent node - Inserting a plug into a socket The items will refer to material requirements by a materialRequirementsHash in these cases, and this is the definition for those requirements in terms of the item required, how much of it is required and other interesting info. This is one of the rare/strange times where a single contract class is used both in definitions *and* in live data response contracts. I'm not sure yet whether I regret that."""
+
+    count: int = dt.field(
+        metadata={"description": "The amount of the material required."}
+    )
+    count_is_constant: bool = dt.field(
+        metadata={
+            "description": "If true, the material requirement count value is constant. Since The Witch Queen expansion, some material requirement counts can be dynamic and will need to be returned with an API call."
+        }
+    )
+    delete_on_action: bool = dt.field(
+        metadata={
+            "description": "If True, the material will be removed from the character's inventory when the action is performed."
+        }
+    )
+    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
+        metadata={
+            "description": "The hash identifier of the material required. Use it to look up the material's DestinyInventoryItemDefinition."
+        }
+    )
+    omit_from_requirements: bool = dt.field(
+        metadata={
+            "description": "If True, this requirement is \"silent\": don't bother showing it in a material requirements display. I mean, I'm not your mom: I'm not going to tell you you *can't* show it. But we won't show it in our UI."
+        }
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "itemHash": to_json(self.item_hash),
+            "deleteOnAction": to_json(self.delete_on_action),
+            "count": to_json(self.count),
+            "countIsConstant": to_json(self.count_is_constant),
+            "omitFromRequirements": to_json(self.omit_from_requirements),
+        }
+
+
+@dt.dataclass(frozen=True)
 class DestinyItemInventoryBlockDefinition:
     """If the item can exist in an inventory - the overwhelming majority of them can and do - then this is the basic properties regarding the item's relationship with the inventory."""
 
@@ -926,6 +1060,14 @@ class DestinyItemInventoryBlockDefinition:
             "description": "The localized name of the tier type, which is a useful shortcut so you don't have to look up the definition every time. However, it's mostly a holdover from days before we had a DestinyItemTierTypeDefinition to refer to."
         }
     )
+    recipe_item_hash: t.Optional[
+        ManifestReference["DestinyInventoryItemDefinition"]
+    ] = dt.field(
+        default=None,
+        metadata={
+            "description": "A reference to the associated crafting 'recipe' item definition, if this item can be crafted."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
@@ -943,6 +1085,7 @@ class DestinyItemInventoryBlockDefinition:
             "suppressExpirationWhenObjectivesComplete": to_json(
                 self.suppress_expiration_when_objectives_complete
             ),
+            "recipeItemHash": to_json(self.recipe_item_hash),
         }
 
 
@@ -3283,6 +3426,16 @@ If False, completion means having an unlock value greater than or equal to the c
             "description": "If this objective enables modifications on a player's stats intrinsically, the conditions are defined here."
         }
     )
+    ui_label: str = dt.field(
+        metadata={
+            "description": "Objectives can have arbitrary UI-defined identifiers that define the style applied to objectives. For convenience, known UI labels will be defined in the uiStyle enum value."
+        }
+    )
+    ui_style: "DestinyObjectiveUiStyle" = dt.field(
+        metadata={
+            "description": "If the objective has a known UI label value, this property will represent it."
+        }
+    )
     value_style: "DestinyUnlockValueUIStyle" = dt.field(
         metadata={
             "description": "The UI style applied to the objective. It's an enum, take a look at DestinyUnlockValueUIStyle for details of the possible styles. Use this info as you wish to customize your UI."
@@ -3309,6 +3462,8 @@ If False, completion means having an unlock value greater than or equal to the c
             "showValueOnComplete": to_json(self.show_value_on_complete),
             "completedValueStyle": to_json(self.completed_value_style),
             "inProgressValueStyle": to_json(self.in_progress_value_style),
+            "uiLabel": to_json(self.ui_label),
+            "uiStyle": to_json(self.ui_style),
             "hash": to_json(self.hash),
             "index": to_json(self.index),
             "redacted": to_json(self.redacted),
@@ -4764,76 +4919,6 @@ class DestinyItemMetricBlockDefinition:
 
 
 @dt.dataclass(frozen=True)
-class DestinyMaterialRequirementSetDefinition:
-    """Represent a set of material requirements: Items that either need to be
-    owned or need to be consumed in order to perform an action.
-
-    A variety of other entities refer to these as gatekeepers and
-    payments for actions that can be performed in game.
-    """
-
-    hash: int = dt.field(
-        metadata={
-            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
-When entities refer to each other in Destiny content, it is this hash that they are referring to."""
-        }
-    )
-    index: int = dt.field(
-        metadata={
-            "description": "The index of the entity as it was found in the investment tables."
-        }
-    )
-    materials: t.Sequence["DestinyMaterialRequirement"] = dt.field(
-        metadata={"description": "The list of all materials that are required."}
-    )
-    redacted: bool = dt.field(
-        metadata={
-            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
-        }
-    )
-
-    def to_json(self) -> t.Mapping[str, t.Any]:
-        return {
-            "materials": to_json(self.materials),
-            "hash": to_json(self.hash),
-            "index": to_json(self.index),
-            "redacted": to_json(self.redacted),
-        }
-
-
-@dt.dataclass(frozen=True)
-class DestinyMaterialRequirement:
-    """Many actions relating to items require you to expend materials: - Activating a talent node - Inserting a plug into a socket The items will refer to material requirements by a materialRequirementsHash in these cases, and this is the definition for those requirements in terms of the item required, how much of it is required and other interesting info. This is one of the rare/strange times where a single contract class is used both in definitions *and* in live data response contracts. I'm not sure yet whether I regret that."""
-
-    count: int = dt.field(
-        metadata={"description": "The amount of the material required."}
-    )
-    delete_on_action: bool = dt.field(
-        metadata={
-            "description": "If True, the material will be removed from the character's inventory when the action is performed."
-        }
-    )
-    item_hash: ManifestReference["DestinyInventoryItemDefinition"] = dt.field(
-        metadata={
-            "description": "The hash identifier of the material required. Use it to look up the material's DestinyInventoryItemDefinition."
-        }
-    )
-    omit_from_requirements: bool = dt.field(
-        metadata={
-            "description": "If True, this requirement is \"silent\": don't bother showing it in a material requirements display. I mean, I'm not your mom: I'm not going to tell you you *can't* show it. But we won't show it in our UI."
-        }
-    )
-
-    def to_json(self) -> t.Mapping[str, t.Any]:
-        return {
-            "itemHash": to_json(self.item_hash),
-            "deleteOnAction": to_json(self.delete_on_action),
-            "count": to_json(self.count),
-            "omitFromRequirements": to_json(self.omit_from_requirements),
-        }
-
-
-@dt.dataclass(frozen=True)
 class DestinyUnlockValueDefinition:
     """An Unlock Value is an internal integer value, stored on the server and
     used in a variety of ways, most frequently for the gating/requirement
@@ -5060,6 +5145,7 @@ class DestinyItemSocketEntryPlugItemDefinition:
 
 @dt.dataclass(frozen=True)
 class DestinyItemSocketEntryPlugItemRandomizedDefinition:
+    crafting_requirements: "DestinyPlugItemCraftingRequirements"
     currently_can_roll: bool = dt.field(
         metadata={
             "description": "Indicates if the plug can be rolled on the current version of the item. For example, older versions of weapons may have plug rolls that are no longer possible on the current versions."
@@ -5073,8 +5159,31 @@ class DestinyItemSocketEntryPlugItemRandomizedDefinition:
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
+            "craftingRequirements": to_json(self.crafting_requirements),
             "currentlyCanRoll": to_json(self.currently_can_roll),
             "plugItemHash": to_json(self.plug_item_hash),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyPlugItemCraftingRequirements:
+    material_requirement_hashes: t.Sequence[int]
+    unlock_requirements: t.Sequence["DestinyPlugItemCraftingUnlockRequirement"]
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "unlockRequirements": to_json(self.unlock_requirements),
+            "materialRequirementHashes": to_json(self.material_requirement_hashes),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyPlugItemCraftingUnlockRequirement:
+    failure_description: str
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "failureDescription": to_json(self.failure_description),
         }
 
 
@@ -6183,6 +6292,7 @@ from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyItemSortType,
     DestinyItemSubType,
     DestinyObjectiveGrantStyle,
+    DestinyObjectiveUiStyle,
     DestinyProgressionRewardItemAcquisitionBehavior,
     DestinyProgressionScope,
     DestinyProgressionStepDisplayEffect,

@@ -200,6 +200,36 @@ class DestinyItemQuantity:
         }
 
 
+class SocketTypeActionType(Enum):
+    """Indicates the type of actions that can be performed."""
+
+    INSERT_PLUG = 0
+    INFUSE_ITEM = 1
+    REINITIALIZE_SOCKET = 2
+
+
+class DestinySocketVisibility(Enum):
+    VISIBLE = 0
+    HIDDEN = 1
+    HIDDEN_WHEN_EMPTY = 2
+    HIDDEN_IF_NO_PLUGS_AVAILABLE = 3
+
+
+class DestinySocketCategoryStyle(Enum):
+    """Represents the possible and known UI styles used by the game for
+    rendering Socket Categories."""
+
+    UNKNOWN = 0
+    REUSABLE = 1
+    CONSUMABLE = 2
+    UNLOCKABLE = 3
+    INTRINSIC = 4
+    ENERGY_METER = 5
+    LARGE_PERK = 6
+    ABILITIES = 7
+    SUPERS = 8
+
+
 class TierType(Enum):
     UNKNOWN = 0
     CURRENCY = 1
@@ -391,36 +421,6 @@ class DestinyGatingScope(Enum):
     ASSUMED_WORST_CASE = 6
 
 
-class SocketTypeActionType(Enum):
-    """Indicates the type of actions that can be performed."""
-
-    INSERT_PLUG = 0
-    INFUSE_ITEM = 1
-    REINITIALIZE_SOCKET = 2
-
-
-class DestinySocketVisibility(Enum):
-    VISIBLE = 0
-    HIDDEN = 1
-    HIDDEN_WHEN_EMPTY = 2
-    HIDDEN_IF_NO_PLUGS_AVAILABLE = 3
-
-
-class DestinySocketCategoryStyle(Enum):
-    """Represents the possible and known UI styles used by the game for
-    rendering Socket Categories."""
-
-    UNKNOWN = 0
-    REUSABLE = 1
-    CONSUMABLE = 2
-    UNLOCKABLE = 3
-    INTRINSIC = 4
-    ENERGY_METER = 5
-    LARGE_PERK = 6
-    ABILITIES = 7
-    SUPERS = 8
-
-
 class ActivityGraphNodeHighlightType(Enum):
     """The various known UI styles in which an item can be highlighted.
 
@@ -461,6 +461,7 @@ class DestinyUnlockValueUIStyle(Enum):
     RED_PIPS = 11  # Show the value as a series of red pips, like the losses in a Trials of Osiris score card.
     EXPLICIT_PERCENTAGE = 12  # Show the value as a percentage. For example: "51%" - Does no division, only appends '%'
     RAW_FLOAT = 13  # Show the value as a floating-point number. For example: "4.52" NOTE: Passed along from Investment as whole number with last two digits as decimal values (452 -> 4.52)
+    LEVEL_AND_REWARD = 14  # Show the value as a level and a reward.
 
 
 class DestinyObjectiveGrantStyle(Enum):
@@ -483,6 +484,19 @@ class DamageType(Enum):
     VOID = 4
     RAID = 5
     STASIS = 6
+
+
+class DestinyObjectiveUiStyle(Enum):
+    """If the objective has a known UI label, this enumeration will represent
+    it."""
+
+    NONE = 0
+    HIGHLIGHTED = 1
+    CRAFTING_WEAPON_LEVEL = 2
+    CRAFTING_WEAPON_LEVEL_PROGRESS = 3
+    CRAFTING_WEAPON_TIMESTAMP = 4
+    CRAFTING_MEMENTOS = 5
+    CRAFTING_MEMENTO_TITLE = 6
 
 
 class DestinyActivityNavPointType(Enum):
@@ -555,6 +569,7 @@ class DestinyItemSubType(Enum):
     CLASS_ARMOR = 30
     BOW = 31
     DUMMY_REPEATABLE_BOUNTY = 32
+    GLAIVE = 33
 
 
 class DestinyGraphNodeState(Enum):
@@ -573,6 +588,7 @@ class DestinyPresentationNodeType(Enum):
     COLLECTIBLES = 2
     RECORDS = 3
     METRIC = 4
+    CRAFTABLE = 5
 
 
 class DestinyScope(Enum):
@@ -619,6 +635,7 @@ class DestinyRecordToastStyle(Enum):
     MEDAL_COMPLETE = 5
     SEASON_CHALLENGE_COMPLETE = 6
     GILDED_TITLE_COMPLETE = 7
+    CRAFTING_RECIPE_UNLOCKED = 8
 
 
 class DestinyPresentationScreenStyle(Enum):
@@ -808,6 +825,8 @@ class ItemState(Flag):
     LOCKED = 1  # If this bit is set, the item has been "locked" by the user and cannot be deleted. You may want to represent this visually with a "lock" icon.
     TRACKED = 2  # If this bit is set, the item is a quest that's being tracked by the user. You may want a visual indicator to show that this is a tracked quest.
     MASTERWORK = 4  # If this bit is set, the item has a Masterwork plug inserted. This usually coincides with having a special "glowing" effect applied to the item's icon.
+    CRAFTED = 8  # If this bit is set, the item has been 'crafted' by the player. You may want to represent this visually with a "crafted" icon overlay.
+    HIGHLIGHTED_OBJECTIVE = 16  # If this bit is set, the item has a 'highlighted' objective. You may want to represent this with an orange-red icon border color.
 
 
 class DestinyGameVersions(Flag):
@@ -868,6 +887,7 @@ class DestinyComponentType(Enum):
     TRANSITORY = 1000  # Returns information that Bungie considers to be "Transitory": data that may change too frequently or come from a non-authoritative source such that we don't consider the data to be fully trustworthy, but that might prove useful for some limited use cases. We can provide no guarantee of timeliness nor consistency for this data: buyer beware with the Transitory component.
     METRICS = 1100  # Returns summary status information about all "Metrics" (also known in the game as "Stat Trackers").
     STRING_VARIABLES = 1200  # Returns a mapping of localized string variable hashes to values, on a per-account or per-character basis.
+    CRAFTABLES = 1300  # Returns summary status information about all "Craftables" aka crafting recipe items.
 
 
 class DestinyPresentationNodeState(Flag):

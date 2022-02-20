@@ -712,6 +712,22 @@ class DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent:
 
 
 @dt.dataclass(frozen=True)
+class DictionaryComponentResponseOfint64AndDestinyCraftablesComponent:
+    data: t.Mapping[str, "DestinyCraftablesComponent"]
+    privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
+
+
+@dt.dataclass(frozen=True)
 class DestinyBaseItemComponentSetOfint64:
     objectives: "DictionaryComponentResponseOfint64AndDestinyItemObjectivesComponent"
     perks: "DictionaryComponentResponseOfint64AndDestinyItemPerksComponent"
@@ -1858,6 +1874,9 @@ from bungieapi.generated.components.schemas.content import (  # noqa: E402
 from bungieapi.generated.components.schemas.destiny.components.collectibles import (  # noqa: E402
     DestinyCollectiblesComponent,
     DestinyProfileCollectiblesComponent,
+)
+from bungieapi.generated.components.schemas.destiny.components.craftables import (  # noqa: E402
+    DestinyCraftablesComponent,
 )
 from bungieapi.generated.components.schemas.destiny.components.inventory import (  # noqa: E402
     DestinyCurrenciesComponent,

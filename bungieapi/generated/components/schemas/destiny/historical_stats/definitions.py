@@ -93,6 +93,7 @@ class DestinyActivityModeType(Enum):
     SUNDIAL = 83
     TRIALS_OF_OSIRIS = 84
     DARES = 85
+    OFFENSIVE = 86
 
 
 @dt.dataclass(frozen=True)
