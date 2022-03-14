@@ -12,7 +12,7 @@ svarog = "^0.2.2"
 aiohttp = "^3.8.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.0.1"
+pytest = "^7.1.0"
 mypy = "^0.931"
 black = "^22.1"
 isort = "^5.10.1"
