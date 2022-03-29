@@ -775,6 +775,7 @@ class DestinyItemType(Enum):
     WRAPPER = 27
     SEASONAL_ARTIFACT = 28
     FINISHER = 29
+    PATTERN = 30
 
 
 class DestinyBreakerType(Enum):

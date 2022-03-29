@@ -5169,10 +5169,17 @@ class DestinyItemSocketEntryPlugItemRandomizedDefinition:
 class DestinyPlugItemCraftingRequirements:
     material_requirement_hashes: t.Sequence[int]
     unlock_requirements: t.Sequence["DestinyPlugItemCraftingUnlockRequirement"]
+    required_level: t.Optional[int] = dt.field(
+        default=None,
+        metadata={
+            "description": "If the plug has a known level requirement, it'll be available here."
+        },
+    )
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "unlockRequirements": to_json(self.unlock_requirements),
+            "requiredLevel": to_json(self.required_level),
             "materialRequirementHashes": to_json(self.material_requirement_hashes),
         }
 

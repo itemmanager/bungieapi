@@ -9,6 +9,8 @@ from bungieapi.json import to_json
 class DestinyActivityModifierDefinition:
     """Modifiers - in Destiny 1, these were referred to as "Skulls" - are changes that can be applied to an Activity."""
 
+    display_in_activity_selection: bool
+    display_in_nav_mode: bool
     display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int = dt.field(
         metadata={
@@ -30,6 +32,8 @@ When entities refer to each other in Destiny content, it is this hash that they 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "displayProperties": to_json(self.display_properties),
+            "displayInNavMode": to_json(self.display_in_nav_mode),
+            "displayInActivitySelection": to_json(self.display_in_activity_selection),
             "hash": to_json(self.hash),
             "index": to_json(self.index),
             "redacted": to_json(self.redacted),
