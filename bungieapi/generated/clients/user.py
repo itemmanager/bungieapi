@@ -2,6 +2,7 @@
 from bungieapi.base import BaseClient, clean_query_value
 from bungieapi.forge import forge
 from bungieapi.generated.components.responses import (
+    CEDictionaryOfBungieCredentialTypeAndstringClientResponse,
     ListOfGetCredentialTypesForAccountClientResponse,
     ListOfUserThemeClientResponse,
 )
@@ -34,6 +35,24 @@ class Client(BaseClient):
             query=query,
         )
         return forge(GeneralUserClientResponse, result)
+
+    async def get_sanitized_platform_display_names(
+        self,
+        membership_id: int,
+    ) -> CEDictionaryOfBungieCredentialTypeAndstringClientResponse:
+        """Gets a list of all display names linked to this membership id but
+        sanitized (profanity filtered).
+
+        Obeys all visibility rules of calling user and is heavily cached.
+        Parameters:
+            membership_id: The requested membership id to load.
+        """
+        query = None
+        result = await self.get(
+            path=f"/User/GetSanitizedPlatformDisplayNames/{clean_query_value(membership_id)}/",
+            query=query,
+        )
+        return forge(CEDictionaryOfBungieCredentialTypeAndstringClientResponse, result)
 
     async def get_credential_types_for_target_account(
         self,
