@@ -28,6 +28,28 @@ class IEnumerableOfApplicationClientResponse:
 
 
 @dt.dataclass(frozen=True)
+class CEDictionaryOfBungieCredentialTypeAndstringClientResponse:
+    detailed_error_trace: str
+    error_code: "PlatformErrorCodes"
+    error_status: str
+    message: str
+    message_data: t.Mapping[str, str]
+    response: t.Mapping[str, str]
+    throttle_seconds: int
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Response": to_json(self.response),
+            "ErrorCode": to_json(self.error_code),
+            "ThrottleSeconds": to_json(self.throttle_seconds),
+            "ErrorStatus": to_json(self.error_status),
+            "Message": to_json(self.message),
+            "MessageData": to_json(self.message_data),
+            "DetailedErrorTrace": to_json(self.detailed_error_trace),
+        }
+
+
+@dt.dataclass(frozen=True)
 class ListOfGetCredentialTypesForAccountClientResponse:
     detailed_error_trace: str
     error_code: "PlatformErrorCodes"
