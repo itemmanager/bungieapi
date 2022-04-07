@@ -94,6 +94,7 @@ class DestinyActivityModeType(Enum):
     TRIALS_OF_OSIRIS = 84
     DARES = 85
     OFFENSIVE = 86
+    LOST_SECTOR = 87
 
 
 @dt.dataclass(frozen=True)
