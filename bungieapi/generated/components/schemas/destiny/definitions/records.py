@@ -54,6 +54,9 @@ When entities refer to each other in Destiny content, it is this hash that they 
             "description": "Indicates whether this Record's state is determined on a per-character or on an account-wide basis."
         }
     )
+    should_show_large_icons: bool = dt.field(
+        metadata={"description": "A hint to show a large icon for a reward"}
+    )
     state_info: "SchemaRecordStateBlock"
     title_info: "DestinyRecordTitleBlock"
     trait_hashes: t.Sequence[int]
@@ -69,6 +72,7 @@ When entities refer to each other in Destiny content, it is this hash that they 
             "objectiveHashes": to_json(self.objective_hashes),
             "recordValueStyle": to_json(self.record_value_style),
             "forTitleGilding": to_json(self.for_title_gilding),
+            "shouldShowLargeIcons": to_json(self.should_show_large_icons),
             "titleInfo": to_json(self.title_info),
             "completionInfo": to_json(self.completion_info),
             "stateInfo": to_json(self.state_info),

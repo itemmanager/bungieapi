@@ -63,3 +63,102 @@ class PartnerOfferHistoryResponse:
             "QuantityApplied": to_json(self.quantity_applied),
             "ApplyDate": to_json(self.apply_date),
         }
+
+
+@dt.dataclass(frozen=True)
+class BungieRewardDisplay:
+    objective_display_properties: "RewardDisplayProperties"
+    reward_display_properties: "RewardDisplayProperties"
+    user_reward_availability_model: "UserRewardAvailabilityModel"
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "UserRewardAvailabilityModel": to_json(self.user_reward_availability_model),
+            "ObjectiveDisplayProperties": to_json(self.objective_display_properties),
+            "RewardDisplayProperties": to_json(self.reward_display_properties),
+        }
+
+
+@dt.dataclass(frozen=True)
+class UserRewardAvailabilityModel:
+    availability_model: "RewardAvailabilityModel"
+    is_available_for_user: bool
+    is_unlocked_for_user: bool
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "AvailabilityModel": to_json(self.availability_model),
+            "IsAvailableForUser": to_json(self.is_available_for_user),
+            "IsUnlockedForUser": to_json(self.is_unlocked_for_user),
+        }
+
+
+@dt.dataclass(frozen=True)
+class RewardAvailabilityModel:
+    collectible_definitions: t.Sequence["CollectibleDefinitions"]
+    decrypted_token: str
+    game_earn_by_date: str
+    has_existing_code: bool
+    has_offer: bool
+    is_loyalty_reward: bool
+    is_offer: bool
+    offer_applied: bool
+    record_definitions: t.Sequence["DestinyRecordDefinition"]
+    redemption_end_date: str
+    shopify_end_date: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "HasExistingCode": to_json(self.has_existing_code),
+            "RecordDefinitions": to_json(self.record_definitions),
+            "CollectibleDefinitions": to_json(self.collectible_definitions),
+            "IsOffer": to_json(self.is_offer),
+            "HasOffer": to_json(self.has_offer),
+            "OfferApplied": to_json(self.offer_applied),
+            "DecryptedToken": to_json(self.decrypted_token),
+            "IsLoyaltyReward": to_json(self.is_loyalty_reward),
+            "ShopifyEndDate": to_json(self.shopify_end_date),
+            "GameEarnByDate": to_json(self.game_earn_by_date),
+            "RedemptionEndDate": to_json(self.redemption_end_date),
+        }
+
+
+@dt.dataclass(frozen=True)
+class CollectibleDefinitions:
+    collectible_definition: "DestinyCollectibleDefinition"
+    destiny_inventory_item_definition: "DestinyInventoryItemDefinition"
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "CollectibleDefinition": to_json(self.collectible_definition),
+            "DestinyInventoryItemDefinition": to_json(
+                self.destiny_inventory_item_definition
+            ),
+        }
+
+
+@dt.dataclass(frozen=True)
+class RewardDisplayProperties:
+    description: str
+    image_path: str
+    name: str
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Name": to_json(self.name),
+            "Description": to_json(self.description),
+            "ImagePath": to_json(self.image_path),
+        }
+
+
+from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
+    DestinyInventoryItemDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.collectibles import (  # noqa: E402
+    DestinyCollectibleDefinition,
+)
+
+# imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions.records import (  # noqa: E402
+    DestinyRecordDefinition,
+)

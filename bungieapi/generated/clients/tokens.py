@@ -3,8 +3,10 @@ from bungieapi.base import BaseClient, clean_query_value
 from bungieapi.forge import forge
 from bungieapi.generated.components.responses import (
     CEListOfPartnerOfferSkuHistoryClientResponse,
+    DictionaryOfstringAndBungieRewardDisplayClientResponse,
     booleanClientResponse,
 )
+from bungieapi.generated.components.schemas import BungieMembershipType
 from bungieapi.generated.components.schemas.tokens import PartnerOfferClaimRequest
 
 
@@ -57,3 +59,49 @@ class Client(BaseClient):
             query=query,
         )
         return forge(CEListOfPartnerOfferSkuHistoryClientResponse, result)
+
+    async def get_bungie_rewards_for_user(
+        self,
+        membership_id: int,
+    ) -> DictionaryOfstringAndBungieRewardDisplayClientResponse:
+        """Returns the bungie rewards for the targeted user.
+
+        Parameters:
+            membership_id: bungie.net user membershipId for requested user rewards. If not self, elevated permissions are required.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Tokens/Rewards/GetRewardsForUser/{clean_query_value(membership_id)}/",
+            query=query,
+        )
+        return forge(DictionaryOfstringAndBungieRewardDisplayClientResponse, result)
+
+    async def get_bungie_rewards_for_platform_user(
+        self,
+        membership_id: int,
+        membership_type: "BungieMembershipType",
+    ) -> DictionaryOfstringAndBungieRewardDisplayClientResponse:
+        """Returns the bungie rewards for the targeted user when a platform
+        membership Id and Type are used.
+
+        Parameters:
+            membership_id: users platform membershipId for requested user rewards. If not self, elevated permissions are required.
+            membership_type: The target Destiny 2 membership type.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Tokens/Rewards/GetRewardsForPlatformUser/{clean_query_value(membership_id)}/{clean_query_value(membership_type)}/",
+            query=query,
+        )
+        return forge(DictionaryOfstringAndBungieRewardDisplayClientResponse, result)
+
+    async def get_bungie_rewards_list(
+        self,
+    ) -> DictionaryOfstringAndBungieRewardDisplayClientResponse:
+        """Returns a list of the current bungie rewards."""
+        query = None
+        result = await self.get(
+            path="/Tokens/Rewards/BungieRewards/",
+            query=query,
+        )
+        return forge(DictionaryOfstringAndBungieRewardDisplayClientResponse, result)
