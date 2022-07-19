@@ -95,6 +95,9 @@ class DestinyActivityModeType(Enum):
     DARES = 85
     OFFENSIVE = 86
     LOST_SECTOR = 87
+    RIFT = 88
+    ZONE_CONTROL = 89
+    IRON_BANNER_RIFT = 90
 
 
 @dt.dataclass(frozen=True)
