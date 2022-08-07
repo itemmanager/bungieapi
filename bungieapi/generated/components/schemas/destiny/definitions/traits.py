@@ -8,6 +8,11 @@ from bungieapi.types import ManifestReference
 
 @dt.dataclass(frozen=True)
 class DestinyTraitDefinition:
+    display_hint: str = dt.field(
+        metadata={
+            "description": "An identifier for how this trait can be displayed. For example: a 'keyword' hint to show an explanation for certain related terms."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition"
     hash: int = dt.field(
         metadata={
@@ -33,6 +38,7 @@ When entities refer to each other in Destiny content, it is this hash that they 
             "displayProperties": to_json(self.display_properties),
             "traitCategoryId": to_json(self.trait_category_id),
             "traitCategoryHash": to_json(self.trait_category_hash),
+            "displayHint": to_json(self.display_hint),
             "hash": to_json(self.hash),
             "index": to_json(self.index),
             "redacted": to_json(self.redacted),

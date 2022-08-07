@@ -9,6 +9,7 @@ from bungieapi.generated.components.responses import (
 )
 from bungieapi.generated.components.responses.content import (
     ContentItemPublicContractClientResponse,
+    NewsArticleRssClientResponse,
 )
 from bungieapi.generated.components.responses.content.models import (
     ContentTypeDescriptionClientResponse,
@@ -136,3 +137,20 @@ class Client(BaseClient):
         return forge(
             IReadOnlyCollectionOfContentItemPublicContractClientResponse, result
         )
+
+    async def rss_news_articles(
+        self,
+        page_token: str,
+    ) -> NewsArticleRssClientResponse:
+        """Returns a JSON string response that is the RSS feed for news
+        articles.
+
+        Parameters:
+            page_token: Zero-based pagination token for paging through result sets.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Content/Rss/NewsArticles/{clean_query_value(page_token)}/",
+            query=query,
+        )
+        return forge(NewsArticleRssClientResponse, result)
