@@ -22,7 +22,7 @@ def force_none(type_: t.Type, data: t.Mapping) -> t.Mapping:
     no_defaults = {
         f.name
         for f in dt.fields(type_)
-        if f.default is dt.MISSING and f.default_factory is dt.MISSING  # type: ignore
+        if f.default is dt.MISSING and f.default_factory is dt.MISSING
     }
     not_provided = {name: None for name in no_defaults if name not in data}
     return {**not_provided, **data}
