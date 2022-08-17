@@ -1738,7 +1738,7 @@ class DestinyItemTranslationBlockDefinition:
     default_dyes: t.Sequence["DyeReference"]
     has_geometry: bool
     locked_dyes: t.Sequence["DyeReference"]
-    weapon_pattern_hash: int
+    weapon_pattern_hash: ManifestReference["DestinySandboxPatternDefinition"]
     weapon_pattern_identifier: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
@@ -4484,6 +4484,65 @@ class DestinyFactionVendorDefinition:
             "vendorHash": to_json(self.vendor_hash),
             "destinationHash": to_json(self.destination_hash),
             "backgroundImagePath": to_json(self.background_image_path),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinySandboxPatternDefinition:
+    filters: t.Sequence["DestinyArrangementRegionFilterDefinition"]
+    hash: int = dt.field(
+        metadata={
+            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
+When entities refer to each other in Destiny content, it is this hash that they are referring to."""
+        }
+    )
+    index: int = dt.field(
+        metadata={
+            "description": "The index of the entity as it was found in the investment tables."
+        }
+    )
+    pattern_global_tag_id_hash: int
+    pattern_hash: int
+    redacted: bool = dt.field(
+        metadata={
+            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
+        }
+    )
+    weapon_content_group_hash: int
+    weapon_translation_group_hash: int
+    weapon_type: "DestinyItemSubType"
+    weapon_type_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "patternHash": to_json(self.pattern_hash),
+            "patternGlobalTagIdHash": to_json(self.pattern_global_tag_id_hash),
+            "weaponContentGroupHash": to_json(self.weapon_content_group_hash),
+            "weaponTranslationGroupHash": to_json(self.weapon_translation_group_hash),
+            "weaponTypeHash": to_json(self.weapon_type_hash),
+            "weaponType": to_json(self.weapon_type),
+            "filters": to_json(self.filters),
+            "hash": to_json(self.hash),
+            "index": to_json(self.index),
+            "redacted": to_json(self.redacted),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyArrangementRegionFilterDefinition:
+    arrangement_index_by_stat_value: t.Mapping[str, int]
+    art_arrangement_region_hash: int
+    art_arrangement_region_index: int
+    stat_hash: int
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "artArrangementRegionHash": to_json(self.art_arrangement_region_hash),
+            "artArrangementRegionIndex": to_json(self.art_arrangement_region_index),
+            "statHash": to_json(self.stat_hash),
+            "arrangementIndexByStatValue": to_json(
+                self.arrangement_index_by_stat_value
+            ),
         }
 
 
