@@ -1359,6 +1359,7 @@ class DestinyVendorItemState(Flag):
     BEST_DEAL = 32768  # This indicates that the sale item is the best deal among different choices.
     POPULAR = 65536  # This indicates that the sale item is popular.
     FREE = 131072  # This indicates that the sale item is free.
+    LOCKED = 262144  # This indicates that the sale item is locked.
 
 
 @dt.dataclass(frozen=True)

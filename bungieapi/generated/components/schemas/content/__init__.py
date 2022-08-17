@@ -76,5 +76,39 @@ class CommentSummary:
         }
 
 
+@dt.dataclass(frozen=True)
+class NewsArticleRssResponse:
+    current_pagination_token: int
+    news_articles: t.Sequence["NewsArticleRssItem"]
+    result_count_this_page: int
+    next_pagination_token: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "NewsArticles": to_json(self.news_articles),
+            "CurrentPaginationToken": to_json(self.current_pagination_token),
+            "NextPaginationToken": to_json(self.next_pagination_token),
+            "ResultCountThisPage": to_json(self.result_count_this_page),
+        }
+
+
+@dt.dataclass(frozen=True)
+class NewsArticleRssItem:
+    description: str
+    link: str
+    pub_date: str
+    title: str
+    unique_identifier: str
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Title": to_json(self.title),
+            "Link": to_json(self.link),
+            "PubDate": to_json(self.pub_date),
+            "UniqueIdentifier": to_json(self.unique_identifier),
+            "Description": to_json(self.description),
+        }
+
+
 # imported at the end to do not case circular imports for type annotations
 from bungieapi.generated.components.schemas.user import GeneralUser  # noqa: E402
