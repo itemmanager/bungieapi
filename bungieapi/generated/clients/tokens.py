@@ -6,11 +6,25 @@ from bungieapi.generated.components.responses import (
     DictionaryOfstringAndBungieRewardDisplayClientResponse,
     booleanClientResponse,
 )
+from bungieapi.generated.components.responses.tokens import (
+    PartnerRewardHistoryClientResponse,
+)
 from bungieapi.generated.components.schemas import BungieMembershipType
 from bungieapi.generated.components.schemas.tokens import PartnerOfferClaimRequest
 
 
 class Client(BaseClient):
+    async def force_drops_repair(
+        self,
+    ) -> booleanClientResponse:
+        """Twitch Drops self-repair function - scans twitch for drops not marked as fulfilled and resyncs them."""
+        query = None
+        result = await self.post(
+            path="/Tokens/Partner/ForceDropsRepair/",
+            query=query,
+        )
+        return forge(booleanClientResponse, result)
+
     async def claim_partner_offer(
         self,
         request: "PartnerOfferClaimRequest",
@@ -59,6 +73,25 @@ class Client(BaseClient):
             query=query,
         )
         return forge(CEListOfPartnerOfferSkuHistoryClientResponse, result)
+
+    async def get_partner_reward_history(
+        self,
+        partner_application_id: int,
+        target_bnet_membership_id: int,
+    ) -> PartnerRewardHistoryClientResponse:
+        """Returns the partner rewards history of the targeted user, both
+        partner offers and Twitch drops.
+
+        Parameters:
+            partner_application_id: The partner application identifier.
+            target_bnet_membership_id: The bungie.net user to return reward history for.
+        """
+        query = None
+        result = await self.get(
+            path=f"/Tokens/Partner/History/{clean_query_value(target_bnet_membership_id)}/Application/{clean_query_value(partner_application_id)}/",
+            query=query,
+        )
+        return forge(PartnerRewardHistoryClientResponse, result)
 
     async def get_bungie_rewards_for_user(
         self,
