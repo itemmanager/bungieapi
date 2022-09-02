@@ -21,6 +21,7 @@ class FireteamPlatform(Enum):
     BLIZZARD = 3
     STEAM = 4
     STADIA = 5
+    EGS = 6
 
 
 class FireteamPublicSearchOption(Enum):

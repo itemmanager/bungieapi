@@ -15,6 +15,7 @@ class CoreSettingsConfiguration:
     clan_banner_gonfalon_details: t.Sequence["CoreSetting"]
     clan_banner_gonfalons: t.Sequence["CoreSetting"]
     clan_banner_standards: t.Sequence["CoreSetting"]
+    default_group_theme: "CoreSetting"
     destiny2_core_settings: "Destiny2CoreSettings"
     destiny_membership_types: t.Sequence["CoreSetting"]
     email_settings: "EmailSettings"
@@ -37,6 +38,7 @@ class CoreSettingsConfiguration:
             "ignoreReasons": to_json(self.ignore_reasons),
             "forumCategories": to_json(self.forum_categories),
             "groupAvatars": to_json(self.group_avatars),
+            "defaultGroupTheme": to_json(self.default_group_theme),
             "destinyMembershipTypes": to_json(self.destiny_membership_types),
             "recruitmentPlatformTags": to_json(self.recruitment_platform_tags),
             "recruitmentMiscTags": to_json(self.recruitment_misc_tags),

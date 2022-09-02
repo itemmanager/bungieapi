@@ -185,6 +185,7 @@ class GeneralUser:
     cached_bungie_global_display_name: str
     context: "UserToUserContext"
     display_name: str
+    egs_display_name: str
     fb_display_name: str
     is_deleted: bool
     locale: str
@@ -257,6 +258,7 @@ class GeneralUser:
             "cachedBungieGlobalDisplayNameCode": to_json(
                 self.cached_bungie_global_display_name_code
             ),
+            "egsDisplayName": to_json(self.egs_display_name),
         }
 
 

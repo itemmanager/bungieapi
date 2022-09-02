@@ -3438,7 +3438,8 @@ If False, completion means having an unlock value greater than or equal to the c
     )
     value_style: "DestinyUnlockValueUIStyle" = dt.field(
         metadata={
-            "description": "The UI style applied to the objective. It's an enum, take a look at DestinyUnlockValueUIStyle for details of the possible styles. Use this info as you wish to customize your UI."
+            "description": """The UI style applied to the objective. It's an enum, take a look at DestinyUnlockValueUIStyle for details of the possible styles. Use this info as you wish to customize your UI.
+DEPRECATED: This is no longer populated by Destiny 2 game content. Please use inProgressValueStyle and completedValueStyle instead."""
         }
     )
 

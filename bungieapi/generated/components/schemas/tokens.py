@@ -66,6 +66,34 @@ class PartnerOfferHistoryResponse:
 
 
 @dt.dataclass(frozen=True)
+class PartnerRewardHistoryResponse:
+    partner_offers: t.Sequence["PartnerOfferSkuHistoryResponse"]
+    twitch_drops: t.Sequence["TwitchDropHistoryResponse"]
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "PartnerOffers": to_json(self.partner_offers),
+            "TwitchDrops": to_json(self.twitch_drops),
+        }
+
+
+@dt.dataclass(frozen=True)
+class TwitchDropHistoryResponse:
+    description: str
+    title: str
+    claim_state: t.Optional[int] = None
+    created_at: t.Optional[str] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "Title": to_json(self.title),
+            "Description": to_json(self.description),
+            "CreatedAt": to_json(self.created_at),
+            "ClaimState": to_json(self.claim_state),
+        }
+
+
+@dt.dataclass(frozen=True)
 class BungieRewardDisplay:
     objective_display_properties: "RewardDisplayProperties"
     reward_display_properties: "RewardDisplayProperties"

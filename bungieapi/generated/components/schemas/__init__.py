@@ -19,6 +19,7 @@ class BungieMembershipType(Enum):
     TIGER_STEAM = 3
     TIGER_BLIZZARD = 4
     TIGER_STADIA = 5
+    TIGER_EGS = 6
     TIGER_DEMON = 10
     BUNGIE_NEXT = 254
     ALL = (
@@ -46,6 +47,7 @@ class BungieCredentialType(Enum):
     BATTLE_NET_ID = 14
     STADIA_ID = 16
     TWITCH_ID = 18
+    EGS_ID = 20
 
 
 @dt.dataclass(frozen=True)

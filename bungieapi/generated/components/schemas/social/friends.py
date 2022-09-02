@@ -79,6 +79,7 @@ class PlatformFriendType(Enum):
     XBOX = 1
     PSN = 2
     STEAM = 3
+    EGS = 4
 
 
 @dt.dataclass(frozen=True)
