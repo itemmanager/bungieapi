@@ -69,14 +69,15 @@ tests_no_zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy 
 
 [[package]]
 name = "autoflake"
-version = "1.4"
+version = "1.7.3"
 description = "Removes unused imports and unused variables"
 category = "dev"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 
 [package.dependencies]
 pyflakes = ">=1.1.0"
+tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
 
 [[package]]
 name = "babel"
@@ -726,7 +727,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f686c957c25c81ce6f54a592069bfd761f22efd5f26806a37de3ab04d23cc20a"
+content-hash = "d9a09b87c725349be0984439c256a8303131715810c82ea91c7b924505c591c8"
 
 [metadata.files]
 aiohttp = [
@@ -823,7 +824,8 @@ attrs = [
     {file = "attrs-22.1.0.tar.gz", hash = "sha256:29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6"},
 ]
 autoflake = [
-    {file = "autoflake-1.4.tar.gz", hash = "sha256:61a353012cff6ab94ca062823d1fb2f692c4acda51c76ff83a8d77915fba51ea"},
+    {file = "autoflake-1.7.3-py2.py3-none-any.whl", hash = "sha256:f465256141901a364fa60578d6c6d87414316ea9a79f0994792f32cdb044ca9e"},
+    {file = "autoflake-1.7.3.tar.gz", hash = "sha256:cf251adb62f4f0ac7c945a7bd8005358523cf1d295844c2dea3d29b26259a27e"},
 ]
 babel = [
     {file = "Babel-2.10.3-py3-none-any.whl", hash = "sha256:ff56f4892c1c4bf0d814575ea23471c230d544203c7748e8c68f0089478d48eb"},
