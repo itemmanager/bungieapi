@@ -78,6 +78,7 @@ class CommentSummary:
 
 @dt.dataclass(frozen=True)
 class NewsArticleRssResponse:
+    category_filter: str
     current_pagination_token: int
     news_articles: t.Sequence["NewsArticleRssItem"]
     result_count_this_page: int
@@ -89,13 +90,17 @@ class NewsArticleRssResponse:
             "CurrentPaginationToken": to_json(self.current_pagination_token),
             "NextPaginationToken": to_json(self.next_pagination_token),
             "ResultCountThisPage": to_json(self.result_count_this_page),
+            "CategoryFilter": to_json(self.category_filter),
         }
 
 
 @dt.dataclass(frozen=True)
 class NewsArticleRssItem:
     description: str
+    html_content: str
+    image_path: str
     link: str
+    optional_mobile_image_path: str
     pub_date: str
     title: str
     unique_identifier: str
@@ -107,6 +112,9 @@ class NewsArticleRssItem:
             "PubDate": to_json(self.pub_date),
             "UniqueIdentifier": to_json(self.unique_identifier),
             "Description": to_json(self.description),
+            "HtmlContent": to_json(self.html_content),
+            "ImagePath": to_json(self.image_path),
+            "OptionalMobileImagePath": to_json(self.optional_mobile_image_path),
         }
 
 

@@ -484,6 +484,7 @@ class DamageType(Enum):
     VOID = 4
     RAID = 5
     STASIS = 6
+    STRAND = 7
 
 
 class DestinyObjectiveUiStyle(Enum):
@@ -616,6 +617,8 @@ class DestinyPresentationDisplayStyle(Enum):
     MEDALS = 2
     COLLECTIBLE = 3
     RECORD = 4
+    SEASONAL_TRIUMPH = 5
+    GUARDIAN_RANK = 6
 
 
 class DestinyRecordValueStyle(Enum):
@@ -636,6 +639,7 @@ class DestinyRecordToastStyle(Enum):
     SEASON_CHALLENGE_COMPLETE = 6
     GILDED_TITLE_COMPLETE = 7
     CRAFTING_RECIPE_UNLOCKED = 8
+    TOAST_GUARDIAN_RANK_DETAILS = 9
 
 
 class DestinyPresentationScreenStyle(Enum):
@@ -844,6 +848,7 @@ class DestinyGameVersions(Flag):
     BEYOND_LIGHT = 64
     ANNIVERSARY30TH = 128
     THE_WITCH_QUEEN = 256
+    LIGHTFALL = 512
 
 
 class DestinyComponentType(Enum):
@@ -866,6 +871,9 @@ class DestinyComponentType(Enum):
     CHARACTER_RENDER_DATA = 203  # This will get you just enough information to be able to render the character in 3D if you have written a 3D rendering library for Destiny Characters, or "borrowed" ours. It's okay, I won't tell anyone if you're using it. I'm no snitch. (actually, we don't care if you use it - go to town)
     CHARACTER_ACTIVITIES = 204  # This will return info about activities that a user can see and gating on it, if you are the currently authenticated user or the user has elected to allow anonymous viewing of its progression info. Note that the data returned by this can be unfortunately problematic and relatively unreliable in some cases. We'll eventually work on making it more consistently reliable.
     CHARACTER_EQUIPMENT = 205  # This will return info about the equipped items on the character(s). Everyone can see this.
+    CHARACTER_LOADOUTS = (
+        206  # This will return info about the loadouts of the character(s).
+    )
     ITEM_INSTANCES = 300  # This will return basic info about instanced items - whether they can be equipped, their tracked status, and some info commonly needed in many places (current damage type, primary stat value, etc)
     ITEM_OBJECTIVES = 301  # Items can have Objectives (DestinyObjectiveDefinition) bound to them. If they do, this will return info for items that have such bound objectives.
     ITEM_PERKS = 302  # Items can have perks (DestinyPerkDefinition). If they do, this will return info for what perks are active on items.
@@ -889,6 +897,9 @@ class DestinyComponentType(Enum):
     METRICS = 1100  # Returns summary status information about all "Metrics" (also known in the game as "Stat Trackers").
     STRING_VARIABLES = 1200  # Returns a mapping of localized string variable hashes to values, on a per-account or per-character basis.
     CRAFTABLES = 1300  # Returns summary status information about all "Craftables" aka crafting recipe items.
+    SOCIAL_COMMENDATIONS = (
+        1400  # Returns score values for all commendations and commendation nodes.
+    )
 
 
 class DestinyPresentationNodeState(Flag):
@@ -1140,7 +1151,12 @@ class EquipFailureReason(Flag):
     ITEM_UNIQUE_EQUIP_RESTRICTED = 2  # This item is part of a "unique set", and you can't have more than one item of that same set type equipped at once. For instance, if you already have an Exotic Weapon equipped, you can't equip a second one in another weapon slot.
     ITEM_FAILED_UNLOCK_CHECK = 4  # This item has state-based gating that prevents it from being equipped in certain circumstances. For instance, an item might be for Warlocks only and you're a Titan, or it might require you to have beaten some special quest that you haven't beaten yet. Use the additional failure data passed on the item itself to get more information about what the specific failure case was (See DestinyInventoryItemDefinition and DestinyItemInstanceComponent)
     ITEM_FAILED_LEVEL_CHECK = 8  # This item requires you to have reached a specific character level in order to equip it, and you haven't reached that level yet.
-    ITEM_NOT_ON_CHARACTER = 16  # This item can't be equipped on the character requested, because it must be in that character's inventory first. Transfer the item to the character you want to equip it before you attempt to equip it.
+    ITEM_WRAPPED = 16  # This item is 'wrapped' and must be unwrapped before being equipped. NOTE: This value used to be called ItemNotOnCharacter but that is no longer accurate.
+    ITEM_NOT_LOADED = 32  # This item is not yet loaded and cannot be equipped yet.
+    ITEM_EQUIP_BLOCKLISTED = 64  # This item is block-listed and cannot be equipped.
+    ITEM_LOADOUT_REQUIREMENT_NOT_MET = (
+        128  # This item does not meet the loadout requirements for the current activity
+    )
 
 
 @dt.dataclass(frozen=True)
@@ -1360,6 +1376,8 @@ class DestinyVendorItemState(Flag):
     POPULAR = 65536  # This indicates that the sale item is popular.
     FREE = 131072  # This indicates that the sale item is free.
     LOCKED = 262144  # This indicates that the sale item is locked.
+    PARACAUSAL = 524288  # This indicates that the sale item is paracausal.
+    CRYPTARCH = 1048576
 
 
 @dt.dataclass(frozen=True)

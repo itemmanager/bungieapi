@@ -98,6 +98,7 @@ class DestinyActivityModeType(Enum):
     RIFT = 88
     ZONE_CONTROL = 89
     IRON_BANNER_RIFT = 90
+    IRON_BANNER_ZONE_CONTROL = 91
 
 
 @dt.dataclass(frozen=True)

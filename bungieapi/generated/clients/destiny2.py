@@ -77,6 +77,8 @@ from bungieapi.generated.components.schemas.destiny.requests.actions import (
     DestinyItemActionRequest,
     DestinyItemSetActionRequest,
     DestinyItemStateRequest,
+    DestinyLoadoutActionRequest,
+    DestinyLoadoutUpdateActionRequest,
     DestinyPostmasterTransferRequest,
 )
 from bungieapi.generated.components.schemas.user import ExactSearchRequest
@@ -409,6 +411,62 @@ class Client(BaseClient):
             path="/Destiny2/Actions/Items/EquipItems/", query=query, request=request
         )
         return forge(DestinyEquipItemResultsClientResponse, result)
+
+    async def equip_loadout(
+        self,
+        request: "DestinyLoadoutActionRequest",
+    ) -> int32ClientResponse:
+        """Equip a loadout.
+
+        You must have a valid Destiny Account, and either be in a social
+        space, in orbit, or offline.
+        """
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Loadouts/EquipLoadout/",
+            query=query,
+            request=request,
+        )
+        return forge(int32ClientResponse, result)
+
+    async def snapshot_loadout(
+        self,
+        request: "DestinyLoadoutUpdateActionRequest",
+    ) -> int32ClientResponse:
+        """Snapshot a loadout with the currently equipped items."""
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Loadouts/SnapshotLoadout/",
+            query=query,
+            request=request,
+        )
+        return forge(int32ClientResponse, result)
+
+    async def update_loadout_identifiers(
+        self,
+        request: "DestinyLoadoutUpdateActionRequest",
+    ) -> int32ClientResponse:
+        """Update the color, icon, and name of a loadout."""
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Loadouts/UpdateLoadoutIdentifiers/",
+            query=query,
+            request=request,
+        )
+        return forge(int32ClientResponse, result)
+
+    async def clear_loadout(
+        self,
+        request: "DestinyLoadoutActionRequest",
+    ) -> int32ClientResponse:
+        """Clear the identifiers and items of a loadout."""
+        query = None
+        result = await self.post(
+            path="/Destiny2/Actions/Loadouts/ClearLoadout/",
+            query=query,
+            request=request,
+        )
+        return forge(int32ClientResponse, result)
 
     async def set_item_lock_state(
         self,

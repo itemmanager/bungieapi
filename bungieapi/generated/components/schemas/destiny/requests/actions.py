@@ -80,6 +80,44 @@ class DestinyItemSetActionRequest:
 
 
 @dt.dataclass(frozen=True)
+class DestinyLoadoutActionRequest:
+    character_id: int
+    loadout_index: int = dt.field(
+        metadata={"description": "The index of the loadout for this action request."}
+    )
+    membership_type: "BungieMembershipType"
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "loadoutIndex": to_json(self.loadout_index),
+            "characterId": to_json(self.character_id),
+            "membershipType": to_json(self.membership_type),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DestinyLoadoutUpdateActionRequest:
+    character_id: int
+    loadout_index: int = dt.field(
+        metadata={"description": "The index of the loadout for this action request."}
+    )
+    membership_type: "BungieMembershipType"
+    color_hash: t.Optional[int] = None
+    icon_hash: t.Optional[int] = None
+    name_hash: t.Optional[int] = None
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "colorHash": to_json(self.color_hash),
+            "iconHash": to_json(self.icon_hash),
+            "nameHash": to_json(self.name_hash),
+            "loadoutIndex": to_json(self.loadout_index),
+            "characterId": to_json(self.character_id),
+            "membershipType": to_json(self.membership_type),
+        }
+
+
+@dt.dataclass(frozen=True)
 class DestinyItemStateRequest:
     character_id: int
     item_id: int = dt.field(

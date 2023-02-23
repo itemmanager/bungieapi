@@ -141,14 +141,18 @@ class Client(BaseClient):
     async def rss_news_articles(
         self,
         page_token: str,
+        categoryfilter: t.Optional[str] = None,
+        includebody: t.Optional[bool] = None,
     ) -> NewsArticleRssClientResponse:
         """Returns a JSON string response that is the RSS feed for news
         articles.
 
         Parameters:
+            categoryfilter: Optionally filter response to only include news items in a certain category.
+            includebody: Optionally include full content body for each news item.
             page_token: Zero-based pagination token for paging through result sets.
         """
-        query = None
+        query = {"categoryfilter": categoryfilter, "includebody": includebody}
         result = await self.get(
             path=f"/Content/Rss/NewsArticles/{clean_query_value(page_token)}/",
             query=query,
