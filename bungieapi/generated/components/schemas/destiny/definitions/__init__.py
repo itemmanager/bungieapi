@@ -3667,6 +3667,11 @@ class DestinyDamageTypeDefinition:
     """All damage types that are possible in the game are defined here, along
     with localized info and icons as needed."""
 
+    color: "DestinyColor" = dt.field(
+        metadata={
+            "description": "A color associated with the damage type. The displayProperties icon is tinted with a color close to this."
+        }
+    )
     display_properties: "DestinyDisplayPropertiesDefinition" = dt.field(
         metadata={"description": "The description of the damage type, icon etc..."}
     )
@@ -3708,6 +3713,7 @@ When entities refer to each other in Destiny content, it is this hash that they 
             "transparentIconPath": to_json(self.transparent_icon_path),
             "showIcon": to_json(self.show_icon),
             "enumValue": to_json(self.enum_value),
+            "color": to_json(self.color),
             "hash": to_json(self.hash),
             "index": to_json(self.index),
             "redacted": to_json(self.redacted),

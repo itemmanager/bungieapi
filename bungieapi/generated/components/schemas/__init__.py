@@ -494,6 +494,22 @@ class SingleComponentResponseOfDestinyStringVariablesComponent:
 
 
 @dt.dataclass(frozen=True)
+class SingleComponentResponseOfDestinySocialCommendationsComponent:
+    data: "DestinySocialCommendationsComponent"
+    privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
+
+
+@dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
     data: t.Mapping[str, "DestinyCharacterComponent"]
     privacy: "ComponentPrivacySetting"
@@ -512,6 +528,22 @@ class DictionaryComponentResponseOfint64AndDestinyCharacterComponent:
 @dt.dataclass(frozen=True)
 class DictionaryComponentResponseOfint64AndDestinyInventoryComponent:
     data: t.Mapping[str, "DestinyInventoryComponent"]
+    privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
+
+
+@dt.dataclass(frozen=True)
+class DictionaryComponentResponseOfint64AndDestinyLoadoutsComponent:
+    data: t.Mapping[str, "DestinyLoadoutsComponent"]
     privacy: "ComponentPrivacySetting"
     disabled: t.Optional[bool] = dt.field(
         default=None, metadata={"description": "If true, this component is disabled."}
@@ -996,6 +1028,22 @@ class SingleComponentResponseOfDestinyCharacterRenderComponent:
 @dt.dataclass(frozen=True)
 class SingleComponentResponseOfDestinyCharacterActivitiesComponent:
     data: "DestinyCharacterActivitiesComponent"
+    privacy: "ComponentPrivacySetting"
+    disabled: t.Optional[bool] = dt.field(
+        default=None, metadata={"description": "If true, this component is disabled."}
+    )
+
+    def to_json(self) -> t.Mapping[str, t.Any]:
+        return {
+            "data": to_json(self.data),
+            "privacy": to_json(self.privacy),
+            "disabled": to_json(self.disabled),
+        }
+
+
+@dt.dataclass(frozen=True)
+class SingleComponentResponseOfDestinyLoadoutsComponent:
+    data: "DestinyLoadoutsComponent"
     privacy: "ComponentPrivacySetting"
     disabled: t.Optional[bool] = dt.field(
         default=None, metadata={"description": "If true, this component is disabled."}
@@ -1892,6 +1940,9 @@ from bungieapi.generated.components.schemas.destiny.components.items import (  #
 from bungieapi.generated.components.schemas.destiny.components.kiosks import (  # noqa: E402
     DestinyKiosksComponent,
 )
+from bungieapi.generated.components.schemas.destiny.components.loadouts import (  # noqa: E402
+    DestinyLoadoutsComponent,
+)
 from bungieapi.generated.components.schemas.destiny.components.metrics import (  # noqa: E402
     DestinyMetricsComponent,
 )
@@ -1908,6 +1959,9 @@ from bungieapi.generated.components.schemas.destiny.components.profiles import (
 from bungieapi.generated.components.schemas.destiny.components.records import (  # noqa: E402
     DestinyCharacterRecordsComponent,
     DestinyProfileRecordsComponent,
+)
+from bungieapi.generated.components.schemas.destiny.components.social import (  # noqa: E402
+    DestinySocialCommendationsComponent,
 )
 from bungieapi.generated.components.schemas.destiny.components.string_variables import (  # noqa: E402
     DestinyStringVariablesComponent,

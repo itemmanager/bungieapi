@@ -3,7 +3,6 @@ import dataclasses as dt
 import typing as t
 
 from bungieapi.json import to_json
-from bungieapi.types import ManifestReference
 
 
 @dt.dataclass(frozen=True)
@@ -30,48 +29,11 @@ When entities refer to each other in Destiny content, it is this hash that they 
             "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
         }
     )
-    trait_category_hash: ManifestReference["DestinyTraitCategoryDefinition"]
-    trait_category_id: str
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
             "displayProperties": to_json(self.display_properties),
-            "traitCategoryId": to_json(self.trait_category_id),
-            "traitCategoryHash": to_json(self.trait_category_hash),
             "displayHint": to_json(self.display_hint),
-            "hash": to_json(self.hash),
-            "index": to_json(self.index),
-            "redacted": to_json(self.redacted),
-        }
-
-
-@dt.dataclass(frozen=True)
-class DestinyTraitCategoryDefinition:
-    hash: int = dt.field(
-        metadata={
-            "description": """The unique identifier for this entity. Guaranteed to be unique for the type of entity, but not globally.
-When entities refer to each other in Destiny content, it is this hash that they are referring to."""
-        }
-    )
-    index: int = dt.field(
-        metadata={
-            "description": "The index of the entity as it was found in the investment tables."
-        }
-    )
-    redacted: bool = dt.field(
-        metadata={
-            "description": "If this is true, then there is an entity with this identifier/type combination, but BNet is not yet allowed to show it. Sorry!"
-        }
-    )
-    trait_category_id: str
-    trait_hashes: t.Sequence[int]
-    trait_ids: t.Sequence[str]
-
-    def to_json(self) -> t.Mapping[str, t.Any]:
-        return {
-            "traitCategoryId": to_json(self.trait_category_id),
-            "traitHashes": to_json(self.trait_hashes),
-            "traitIds": to_json(self.trait_ids),
             "hash": to_json(self.hash),
             "index": to_json(self.index),
             "redacted": to_json(self.redacted),

@@ -37,6 +37,13 @@ class DestinyProfileComponent:
             "description": "A list of the character IDs, for further querying on your part."
         }
     )
+    current_guardian_rank: ManifestReference[
+        "DestinyGuardianRankDefinition"
+    ] = dt.field(
+        metadata={
+            "description": "The 'current' Guardian Rank value, which starts at rank 1."
+        }
+    )
     date_last_played: str = dt.field(
         metadata={
             "description": "The last time the user played with any character on this Profile."
@@ -45,6 +52,13 @@ class DestinyProfileComponent:
     event_card_hashes_owned: t.Sequence[int] = dt.field(
         metadata={
             "description": "A list of hashes for event cards that a profile owns. Unlike most values in versionsOwned, these stay with the profile across all platforms."
+        }
+    )
+    lifetime_highest_guardian_rank: ManifestReference[
+        "DestinyGuardianRankDefinition"
+    ] = dt.field(
+        metadata={
+            "description": "The 'lifetime highest' Guardian Rank value, which starts at rank 1."
         }
     )
     season_hashes: t.Sequence[int] = dt.field(
@@ -101,11 +115,16 @@ class DestinyProfileComponent:
                 self.current_season_reward_power_cap
             ),
             "activeEventCardHash": to_json(self.active_event_card_hash),
+            "currentGuardianRank": to_json(self.current_guardian_rank),
+            "lifetimeHighestGuardianRank": to_json(self.lifetime_highest_guardian_rank),
         }
 
 
 from bungieapi.generated.components.schemas.destiny import (  # noqa: E402
     DestinyGameVersions,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.guardian_ranks import (  # noqa: E402
+    DestinyGuardianRankDefinition,
 )
 from bungieapi.generated.components.schemas.destiny.definitions.seasons import (  # noqa: E402
     DestinyEventCardDefinition,

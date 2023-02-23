@@ -202,6 +202,12 @@ This component returns information about what Kiosk items are available to you o
 COMPONENT TYPE: Kiosks"""
         }
     )
+    character_loadouts: "DictionaryComponentResponseOfint64AndDestinyLoadoutsComponent" = dt.field(
+        metadata={
+            "description": """The character loadouts, keyed by the Character's Id.
+COMPONENT TYPE: CharacterLoadouts"""
+        }
+    )
     character_plug_sets: "DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent" = dt.field(
         metadata={
             "description": """When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states, per character, that are character-scoped.
@@ -273,6 +279,9 @@ COMPONENT TYPE: Profiles"""
     profile_collectibles: "SingleComponentResponseOfDestinyProfileCollectiblesComponent" = dt.field(
         metadata={"description": "COMPONENT TYPE: Collectibles"}
     )
+    profile_commendations: "SingleComponentResponseOfDestinySocialCommendationsComponent" = dt.field(
+        metadata={"description": "COMPONENT TYPE: SocialCommendations"}
+    )
     profile_currencies: "SingleComponentResponseOfDestinyInventoryComponent" = dt.field(
         metadata={
             "description": """The profile-level currencies owned by the Destiny Profile.
@@ -317,6 +326,18 @@ COMPONENT TYPE: ProfileProgression"""
     profile_transitory_data: "SingleComponentResponseOfDestinyProfileTransitoryComponent" = dt.field(
         metadata={"description": "COMPONENT TYPE: Transitory"}
     )
+    response_minted_timestamp: str = dt.field(
+        metadata={
+            "description": "Records the timestamp of when most components were last generated from the world server source. Unless the component type is specified in the documentation for secondaryComponentsMintedTimestamp, this value is sufficient to do data freshness."
+        }
+    )
+    secondary_components_minted_timestamp: str = dt.field(
+        metadata={
+            "description": """Some secondary components are not tracked in the primary response timestamp and have their timestamp tracked here. If your component is any of the following, this field is where you will find your timestamp value:
+ PresentationNodes, Records, Collectibles, Metrics, StringVariables, Craftables, Transitory
+ All other component types may use the primary timestamp property."""
+        }
+    )
     vendor_receipts: "SingleComponentResponseOfDestinyVendorReceiptsComponent" = dt.field(
         metadata={
             "description": """Recent, refundable purchases you have made from vendors. When will you use it? Couldn't say...
@@ -326,6 +347,10 @@ COMPONENT TYPE: VendorReceipts"""
 
     def to_json(self) -> t.Mapping[str, t.Any]:
         return {
+            "responseMintedTimestamp": to_json(self.response_minted_timestamp),
+            "secondaryComponentsMintedTimestamp": to_json(
+                self.secondary_components_minted_timestamp
+            ),
             "vendorReceipts": to_json(self.vendor_receipts),
             "profileInventory": to_json(self.profile_inventory),
             "profileCurrencies": to_json(self.profile_currencies),
@@ -340,8 +365,10 @@ COMPONENT TYPE: VendorReceipts"""
             "profileTransitoryData": to_json(self.profile_transitory_data),
             "metrics": to_json(self.metrics),
             "profileStringVariables": to_json(self.profile_string_variables),
+            "profileCommendations": to_json(self.profile_commendations),
             "characters": to_json(self.characters),
             "characterInventories": to_json(self.character_inventories),
+            "characterLoadouts": to_json(self.character_loadouts),
             "characterProgressions": to_json(self.character_progressions),
             "characterRenderData": to_json(self.character_render_data),
             "characterActivities": to_json(self.character_activities),
@@ -411,6 +438,12 @@ COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component t
 COMPONENT TYPE: Kiosks"""
         }
     )
+    loadouts: "SingleComponentResponseOfDestinyLoadoutsComponent" = dt.field(
+        metadata={
+            "description": """The loadouts available to the character.
+COMPONENT TYPE: CharacterLoadouts"""
+        }
+    )
     plug_sets: "SingleComponentResponseOfDestinyPlugSetsComponent" = dt.field(
         metadata={
             "description": """When sockets refer to reusable Plug Sets (see DestinyPlugSetDefinition for more info), this is the set of plugs and their states that are scoped to this character.
@@ -451,6 +484,7 @@ COMPONENT TYPE: [See inside the DestinyItemComponentSet contract for component t
             "renderData": to_json(self.render_data),
             "activities": to_json(self.activities),
             "equipment": to_json(self.equipment),
+            "loadouts": to_json(self.loadouts),
             "kiosks": to_json(self.kiosks),
             "plugSets": to_json(self.plug_sets),
             "presentationNodes": to_json(self.presentation_nodes),
@@ -825,6 +859,7 @@ from bungieapi.generated.components.schemas import (  # noqa: E402
     DictionaryComponentResponseOfint64AndDestinyCurrenciesComponent,
     DictionaryComponentResponseOfint64AndDestinyInventoryComponent,
     DictionaryComponentResponseOfint64AndDestinyKiosksComponent,
+    DictionaryComponentResponseOfint64AndDestinyLoadoutsComponent,
     DictionaryComponentResponseOfint64AndDestinyPlugSetsComponent,
     DictionaryComponentResponseOfint64AndDestinyPresentationNodesComponent,
     DictionaryComponentResponseOfint64AndDestinyStringVariablesComponent,
@@ -852,6 +887,7 @@ from bungieapi.generated.components.schemas import (  # noqa: E402
     SingleComponentResponseOfDestinyItemStatsComponent,
     SingleComponentResponseOfDestinyItemTalentGridComponent,
     SingleComponentResponseOfDestinyKiosksComponent,
+    SingleComponentResponseOfDestinyLoadoutsComponent,
     SingleComponentResponseOfDestinyMetricsComponent,
     SingleComponentResponseOfDestinyPlatformSilverComponent,
     SingleComponentResponseOfDestinyPlugSetsComponent,
@@ -861,6 +897,7 @@ from bungieapi.generated.components.schemas import (  # noqa: E402
     SingleComponentResponseOfDestinyProfileProgressionComponent,
     SingleComponentResponseOfDestinyProfileRecordsComponent,
     SingleComponentResponseOfDestinyProfileTransitoryComponent,
+    SingleComponentResponseOfDestinySocialCommendationsComponent,
     SingleComponentResponseOfDestinyStringVariablesComponent,
     SingleComponentResponseOfDestinyVendorCategoriesComponent,
     SingleComponentResponseOfDestinyVendorComponent,

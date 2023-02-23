@@ -4,6 +4,7 @@ import typing as t
 from enum import Enum
 
 from bungieapi.json import to_json
+from bungieapi.types import ManifestReference
 
 
 class FireteamDateRange(Enum):
@@ -49,7 +50,14 @@ class FireteamSummary:
     is_public: bool
     is_valid: bool
     locale: str
+    owner_current_guardian_rank_snapshot: ManifestReference[
+        "DestinyGuardianRankDefinition"
+    ]
+    owner_highest_lifetime_guardian_rank_snapshot: ManifestReference[
+        "DestinyGuardianRankDefinition"
+    ]
     owner_membership_id: int
+    owner_total_commendation_score_snapshot: int
     platform: "FireteamPlatform"
     player_slot_count: int
     title: str
@@ -79,6 +87,15 @@ class FireteamSummary:
             "isValid": to_json(self.is_valid),
             "datePlayerModified": to_json(self.date_player_modified),
             "titleBeforeModeration": to_json(self.title_before_moderation),
+            "ownerCurrentGuardianRankSnapshot": to_json(
+                self.owner_current_guardian_rank_snapshot
+            ),
+            "ownerHighestLifetimeGuardianRankSnapshot": to_json(
+                self.owner_highest_lifetime_guardian_rank_snapshot
+            ),
+            "ownerTotalCommendationScoreSnapshot": to_json(
+                self.owner_total_commendation_score_snapshot
+            ),
         }
 
 
@@ -199,4 +216,7 @@ class FireteamPlatformInviteResult(Enum):
 from bungieapi.generated.components.schemas import BungieMembershipType  # noqa: E402
 
 # imported at the end to do not case circular imports for type annotations
+from bungieapi.generated.components.schemas.destiny.definitions.guardian_ranks import (  # noqa: E402
+    DestinyGuardianRankDefinition,
+)
 from bungieapi.generated.components.schemas.user import UserInfoCard  # noqa: E402

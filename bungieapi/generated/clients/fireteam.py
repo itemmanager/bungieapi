@@ -45,6 +45,7 @@ class Client(BaseClient):
         platform: "FireteamPlatform",
         public_only: "FireteamPublicSearchOption",
         slot_filter: "FireteamSlotSearch",
+        exclude_immediate: t.Optional[bool] = None,
         lang_filter: t.Optional[str] = None,
     ) -> SearchResultOfFireteamSummaryClientResponse:
         """Gets a listing of all of this clan's fireteams that are have
@@ -54,6 +55,7 @@ class Client(BaseClient):
         Parameters:
             activity_type: The activity type to filter by.
             date_range: The date range to grab available fireteams.
+            exclude_immediate: If you wish the result to exclude immediate fireteams, set this to true. Immediate-only can be forced using the dateRange enum.
             group_id: The group id of the clan.
             lang_filter: An optional language filter.
             page: Zero based page
@@ -61,7 +63,7 @@ class Client(BaseClient):
             public_only: Determines public/private filtering.
             slot_filter: Filters based on available slots
         """
-        query = {"langFilter": lang_filter}
+        query = {"excludeImmediate": exclude_immediate, "langFilter": lang_filter}
         result = await self.get(
             path=f"/Fireteam/Clan/{clean_query_value(group_id)}/Available/{clean_query_value(platform)}/{clean_query_value(activity_type)}/{clean_query_value(date_range)}/{clean_query_value(slot_filter)}/{clean_query_value(public_only)}/{clean_query_value(page)}/",
             query=query,
@@ -75,6 +77,7 @@ class Client(BaseClient):
         page: int,
         platform: "FireteamPlatform",
         slot_filter: "FireteamSlotSearch",
+        exclude_immediate: t.Optional[bool] = None,
         lang_filter: t.Optional[str] = None,
     ) -> SearchResultOfFireteamSummaryClientResponse:
         """Gets a listing of all public fireteams starting now with open slots.
@@ -83,12 +86,13 @@ class Client(BaseClient):
         Parameters:
             activity_type: The activity type to filter by.
             date_range: The date range to grab available fireteams.
+            exclude_immediate: If you wish the result to exclude immediate fireteams, set this to true. Immediate-only can be forced using the dateRange enum.
             lang_filter: An optional language filter.
             page: Zero based page
             platform: The platform filter.
             slot_filter: Filters based on available slots
         """
-        query = {"langFilter": lang_filter}
+        query = {"excludeImmediate": exclude_immediate, "langFilter": lang_filter}
         result = await self.get(
             path=f"/Fireteam/Search/Available/{clean_query_value(platform)}/{clean_query_value(activity_type)}/{clean_query_value(date_range)}/{clean_query_value(slot_filter)}/{clean_query_value(page)}/",
             query=query,

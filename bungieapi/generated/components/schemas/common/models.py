@@ -110,12 +110,19 @@ class Destiny2CoreSettings:
         "DestinyPresentationNodeDefinition"
     ]
     future_season_hashes: t.Sequence[int]
+    guardian_rank_constants_hash: ManifestReference[
+        "DestinyGuardianRankConstantsDefinition"
+    ]
+    guardian_ranks_root_node_hash: ManifestReference[
+        "DestinyPresentationNodeDefinition"
+    ]
     insert_plug_free_blocked_socket_type_hashes: t.Sequence[int]
     insert_plug_free_protected_plug_item_hashes: t.Sequence[int]
     legacy_seals_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
     legacy_triumphs_root_node_hash: ManifestReference[
         "DestinyPresentationNodeDefinition"
     ]
+    loadout_constants_hash: ManifestReference["DestinyLoadoutConstantsDefinition"]
     lore_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
     medals_root_node: ManifestReference["DestinyPresentationNodeDefinition"]
     medals_root_node_hash: ManifestReference["DestinyPresentationNodeDefinition"]
@@ -145,6 +152,9 @@ class Destiny2CoreSettings:
             ),
             "loreRootNodeHash": to_json(self.lore_root_node_hash),
             "craftingRootNodeHash": to_json(self.crafting_root_node_hash),
+            "loadoutConstantsHash": to_json(self.loadout_constants_hash),
+            "guardianRankConstantsHash": to_json(self.guardian_rank_constants_hash),
+            "guardianRanksRootNodeHash": to_json(self.guardian_ranks_root_node_hash),
             "currentRankProgressionHashes": to_json(
                 self.current_rank_progression_hashes
             ),
@@ -172,6 +182,12 @@ class Destiny2CoreSettings:
 
 from bungieapi.generated.components.schemas.destiny.definitions import (  # noqa: E402
     DestinyVendorDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.guardian_ranks import (  # noqa: E402
+    DestinyGuardianRankConstantsDefinition,
+)
+from bungieapi.generated.components.schemas.destiny.definitions.loadouts import (  # noqa: E402
+    DestinyLoadoutConstantsDefinition,
 )
 from bungieapi.generated.components.schemas.destiny.definitions.presentation import (  # noqa: E402
     DestinyPresentationNodeDefinition,
